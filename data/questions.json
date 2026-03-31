@@ -23,7 +23,7 @@
       "rule": "Voertuigreglement Art. 5.5.7 — a working bell is compulsory.",
       "tip": "No bell = fine. Make sure yours actually rings."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql6",
@@ -57,7 +57,7 @@
       "rule": "RVV 1990 Art. 35 — active lights required. €55 fine per light.",
       "tip": "€55 front, €55 rear. Both active, not just reflectors."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql7",
@@ -83,7 +83,7 @@
       "rule": "RVV 1990 Art. 61a — two earbuds prohibited. €160 fine.",
       "tip": "One ear in, one ear out. Two ears = €160."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql8",
@@ -113,7 +113,7 @@
       "rule": "RVV 1990 — two cyclists abreast is permitted on all roads.",
       "tip": "Two abreast: legal. Three abreast: not allowed."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql9",
@@ -139,7 +139,7 @@
       "rule": "RVV 1990 — voetpad is for pedestrians only. Cyclists excluded unless signed.",
       "tip": "Voetpad = walking only. No bike unless a sign says otherwise."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql10",
@@ -173,7 +173,7 @@
       "rule": "Voertuigreglement — passenger bikes must have proper seating, footrests, and handholds.",
       "tip": "Footrests + something to hold = legal. Rack-perching = not legal."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql11",
@@ -207,7 +207,7 @@
       "rule": "RVV 1990 Art. 68 — red lights are mandatory at all times. €160 fine.",
       "tip": "Red means stop. Always. €160 doesn't care what time it is."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql12",
@@ -235,9 +235,9 @@
       "title": "Correct",
       "body": "Holding another bike's handlebar while cycling is illegal because you cannot control your own bike properly. You need both hands to steer and brake safely. The broken bike needs to be fixed or transported another way.",
       "rule": "RVV 1990 — cyclists must maintain full control. Both hands required.",
-      "tip": "Both hands on your own bars. No handbar-to-handlebar towing."
+      "tip": "Both hands on your own bars. No handlebar-to-handlebar towing."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql13",
@@ -271,7 +271,7 @@
       "rule": "Voertuigreglement — reflectors required at all times. Lights required additionally at night.",
       "tip": "Reflectors = always. Lights = additionally at night."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "ql14",
@@ -297,7 +297,7 @@
       "rule": "WVW Art. 8 — 0.5‰ for adults, 0.2‰ for younger/inexperienced road users.",
       "tip": "Under 24 and less experienced? Your limit is 0.2‰, not 0.5‰."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv6",
@@ -331,7 +331,7 @@
       "rule": "RVV 1990 Art. 16 — voorrangsweg = priority road.",
       "tip": "Yellow diamond on your road = you have priority. Look for the end sign."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv7",
@@ -365,7 +365,7 @@
       "rule": "Vocabulary: pas = step/watch, op = up/on. Pas op = watch out.",
       "tip": "Pas op = pay attention. Something needs your focus ahead."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv8",
@@ -373,7 +373,7 @@
     "skill": "Dutch Words",
     "difficulty": "easy",
     "type": "multiple_choice",
-    "prompt": "You see a sign reading 'Fietsers oversteken'. You're driving a car. What does this warn you about?",
+    "prompt": "A sign at a junction reads 'Fietsers oversteken'. What does it mean?",
     "options": [
       {
         "id": "a",
@@ -395,11 +395,11 @@
     "correct": "b",
     "feedback": {
       "title": "Correct",
-      "body": "'Fietsers oversteken' means cyclists crossing. It warns drivers that a cycle path crosses the road ahead. As a cyclist, knowing this sign tells you cars are being warned about you.",
+      "body": "'Fietsers oversteken' means cyclists crossing. It appears where a cycle path crosses a road, warning approaching traffic. Knowing this sign helps you understand where cars are being alerted to expect you.",
       "rule": "Vocabulary: fietsers = cyclists, oversteken = to cross.",
       "tip": "Oversteken = crossing. Fietsers oversteken = cyclists crossing here."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv9",
@@ -433,7 +433,7 @@
       "rule": "Vocabulary: doorrijden = to drive through, verboden = forbidden.",
       "tip": "Verboden = forbidden. Doorrijden verboden = don't block the box."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv10",
@@ -467,7 +467,7 @@
       "rule": "Vocabulary: voetgangers = pedestrians, oversteekplaats = crossing place.",
       "tip": "Voetgangers = walkers. Oversteekplaats = crossing. Big word, simple rule: yield."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv11",
@@ -501,7 +501,7 @@
       "rule": "Vocabulary: inhalen = to overtake, verboden = forbidden. Applies to all vehicles.",
       "tip": "Inhalen verboden applies to bikes too. No overtaking means no overtaking."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qv12",
@@ -535,7 +535,7 @@
       "rule": "Vocabulary: bestemming = destination, verkeer = traffic. Bestemmingsverkeer = access for residents and deliveries.",
       "tip": "Bestemmingsverkeer = you live here, you may enter. Destination traffic."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qr6",
@@ -565,7 +565,7 @@
       "rule": "RVV 1990 Art. 11 — trams have priority at all times, all locations.",
       "tip": "Tram = always wins. Right-before-left doesn't apply to trams."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qr7",
@@ -625,7 +625,7 @@
       "rule": "Tram passengers disembarking must be given safe passage — they are pedestrians.",
       "tip": "Tram stopped + doors open = pedestrians emerging. Yield."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qr9",
@@ -651,7 +651,7 @@
       "rule": "RVV 1990 Art. 49a — all road users yield to pedestrians on a zebra crossing.",
       "tip": "Zebra crossing = pedestrian priority. Cycle path doesn't change that."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qr10",
@@ -681,7 +681,7 @@
       "rule": "Pedestrians only have legal priority at designated crossings. Cyclists must still avoid collisions everywhere.",
       "tip": "No crossing = no legal priority for them. But you still can't hit them."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qr11",
@@ -745,7 +745,7 @@
       "rule": "Without a cycle ring, cyclists are regular traffic in the roundabout.",
       "tip": "No cycle ring = you're a car in the roundabout. Same rules apply."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi7",
@@ -779,7 +779,7 @@
       "rule": "RVV 1990 — signal right when leaving a roundabout, before your exit.",
       "tip": "Pass the prior exit, then signal. One exit's worth of warning."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi8",
@@ -809,7 +809,7 @@
       "rule": "Ring priority applies to vehicles. Pedestrians on crossings still have priority over cyclists.",
       "tip": "Ring priority = over cars. Pedestrians are a different story."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi9",
@@ -835,7 +835,7 @@
       "rule": "Bus lanes are accessible to cyclists unless a sign explicitly excludes them.",
       "tip": "Bus lane = cyclists welcome unless a sign says otherwise."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi10",
@@ -865,7 +865,7 @@
       "rule": "Voetgangersgebied = pedestrians only. Cyclists need explicit permission to enter.",
       "tip": "Pedestrian zone = look for the exception sign. No sign = no cycling."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi11",
@@ -895,7 +895,7 @@
       "rule": "Parking on a cycle path is illegal. The person creating the obstruction bears liability for resulting incidents.",
       "tip": "Illegal obstruction = liability for what follows. Document it."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qi12",
@@ -903,7 +903,7 @@
     "skill": "Roundabouts",
     "difficulty": "hard",
     "type": "scenario_decision",
-    "prompt": "You're on a roundabout cycle ring. You see shark teeth on the road facing the car entry point ahead of you. A car is already in the roundabout approaching that entry. Who has priority at the entry crossing?",
+    "prompt": "You're on a roundabout cycle ring. Shark teeth face a car approaching the entry ahead. The car is about to cross your path. Who has priority?",
     "options": [
       {
         "id": "a",
@@ -921,11 +921,11 @@
     "correct": "b",
     "feedback": {
       "title": "Correct",
-      "body": "Shark teeth facing the car at the entry point confirm that the car must yield to you. The car being 'in the roundabout' refers to the road before the entry, not inside the ring. Your priority on the cycle ring is confirmed by the markings.",
+      "body": "Shark teeth facing the car confirm it must yield to you on the cycle ring. The markings override any assumption the car might have from being in the roundabout approach lane. Your ring priority is confirmed.",
       "rule": "Shark teeth facing cars at entry/exit = cyclist ring priority confirmed.",
       "tip": "Shark teeth face the yielder. Facing the car = you have priority."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix1",
@@ -985,7 +985,7 @@
       "rule": "RVV 1990 Art. 16 — voorrangsweg overrides right-before-left.",
       "tip": "Yellow diamond = your road wins. Right-before-left doesn't apply here."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix3",
@@ -1015,7 +1015,7 @@
       "rule": "RVV 1990 Art. 11 — tram priority overrides all signals.",
       "tip": "Green for you ≠ tram stopped. Scan for trams before every crossing."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix4",
@@ -1045,7 +1045,7 @@
       "rule": "A red cyclist light prevents entry — the turning-yields rule only applies when you have right of movement.",
       "tip": "Turning yields — but only when YOU have legal right to be there. Red = stop."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix5",
@@ -1075,7 +1075,7 @@
       "rule": "Ring priority = shark teeth at car crossings. No markings = no priority.",
       "tip": "No teeth, no priority. Scan the road before assuming."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix6",
@@ -1105,7 +1105,7 @@
       "rule": "Fietsstraat rules govern speed and overtaking — not junction priority.",
       "tip": "Fietsstraat ≠ priority at junctions. Right-before-left still applies."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix7",
@@ -1113,29 +1113,29 @@
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
     "type": "scenario_decision",
-    "prompt": "You're overtaking a slower cyclist on a fietspad. Simultaneously, a car starts overtaking you both. What is the car doing wrong?",
+    "prompt": "You're overtaking a slower cyclist on a fietspad. A car pulls up behind you both and starts overtaking. What should you do?",
     "options": [
       {
         "id": "a",
-        "label": "Nothing — the car is allowed to overtake on any road"
+        "label": "Move aside — give the car room to pass safely"
       },
       {
         "id": "b",
-        "label": "The car is overtaking on a fietspad, which cars are not permitted to use"
+        "label": "Hold your line — the car is not permitted on the fietspad at all"
       },
       {
         "id": "c",
-        "label": "The car should wait for you to complete your overtake first"
+        "label": "Stop and wait until the car has passed"
       }
     ],
     "correct": "b",
     "feedback": {
       "title": "Correct",
-      "body": "A fietspad is a mandatory cycle path — cars are prohibited from using it entirely. If a car is overtaking you on a fietspad, it has left the road and entered a cycle-only space, which is illegal. This is not an overtaking question — it's a road access question.",
+      "body": "A fietspad is a mandatory cycle path — cars are prohibited from using it at all. The car overtaking you isn't just being impatient; it's in the wrong space entirely. You hold your line because you have every right to be there and the car does not.",
       "rule": "G11/G13 — fietspad is mandatory for cyclists. Motor vehicles prohibited.",
       "tip": "If a car is on the fietspad, it's in the wrong place entirely."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qmix8",
@@ -1165,7 +1165,7 @@
       "rule": "Voorrangsweg applies to vehicle junctions. Zebra crossings override it for pedestrians.",
       "tip": "Priority road = beats other vehicles. Never beats a pedestrian on a zebra."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp9",
@@ -1195,7 +1195,7 @@
       "rule": "RVV 1990 Art. 15 — right-before-left applies at T-junctions too.",
       "tip": "T-junction, crossroads, any junction — right-before-left applies the same way."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp10",
@@ -1225,7 +1225,7 @@
       "rule": "RVV 1990 — vehicles exiting private properties yield to all road users.",
       "tip": "Exiting a driveway = you yield to everything. Every time."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp11",
@@ -1255,7 +1255,7 @@
       "rule": "Voorrangsweg signs apply at vehicle junctions only. Pedestrian rules apply everywhere.",
       "tip": "Priority road = beats cars at junctions. Never beats a pedestrian."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp12",
@@ -1289,7 +1289,7 @@
       "rule": "Yield sign = slow and give way if needed. STOP sign = mandatory full stop.",
       "tip": "Inverted triangle = yield if needed. Red octagon = full stop always."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp13",
@@ -1319,7 +1319,7 @@
       "rule": "RVV 1990 Art. 15 — right-before-left applies to relative positions, not angles.",
       "tip": "Not sure who's right of whom? Track your direction, then look right."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "qp14",
@@ -1327,7 +1327,7 @@
     "skill": "Priority Hierarchy",
     "difficulty": "hard",
     "type": "multiple_choice",
-    "prompt": "At a junction, who has the highest priority in the Dutch hierarchy?",
+    "prompt": "Which of the following correctly describes the Dutch junction priority hierarchy, from highest to lowest?",
     "options": [
       {
         "id": "a",
@@ -1353,6 +1353,6 @@
       "rule": "Priority hierarchy: emergency vehicles > trams > priority road > right-before-left.",
       "tip": "Blue lights > trams > yellow diamond > right-before-left. In that order."
     },
-    "status": "draft"
+    "status": "active"
   }
 ]

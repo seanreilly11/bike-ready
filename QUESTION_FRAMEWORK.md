@@ -10,12 +10,22 @@ Every question in BikeReady should do one thing: build real cycling instinct. No
 
 ## Voice
 
-**Always second person.** Every question puts the user in the moment.
+**Default to second person.** Most questions should put the user in the moment.
 
 ✓ "You are cycling toward a crossing. Shark teeth are on your side."
 ✗ "A cyclist approaches a crossing with shark teeth on their side."
 
 The user should feel like they're making a real decision, not answering a quiz about someone else.
+
+**Exceptions — factual T/F and vocabulary-in-context prompts do not need second person.**
+
+Some question types are naturally declarative or observational, and forcing second person makes them awkward:
+
+- `true_false` propositions that state a rule directly: `"It is a legal requirement to have a bell on your bicycle in the Netherlands."` — this is a factual assertion, not a cycling moment, and reads better as a statement to evaluate.
+- Vocabulary-in-context prompts where the user identifies a sign or word they have encountered: `"A sign at roadworks reads 'Pas op'. What does this mean?"` — the framing is naturally third-person because the sign is the subject.
+- Fine/penalty knowledge questions: `"What is the fine for cycling at night without lights?"` — these are knowledge questions, not decisions.
+
+For these types, clarity and natural phrasing take priority over strict second-person voice. Scenario and decision questions must still be second person.
 
 ---
 
@@ -165,7 +175,7 @@ Priority road sign (yellow diamond), T-junctions vs crossroads, traffic lights (
 
 Before finalising any question, check:
 
-- [ ] Prompt is second person
+- [ ] Prompt is second person (or is a factual T/F, vocabulary-in-context, or fine/knowledge question — see Voice exceptions)
 - [ ] Prompt is under 3 sentences
 - [ ] Decision moment is clear — there's one specific thing the user has to decide
 - [ ] Every wrong option is plausible (would a reasonable expat choose it?)
