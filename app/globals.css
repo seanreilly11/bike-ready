@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  /* Primary accent */
+  --color-orange:       #E8500A;
+  --color-orange-light: #FDF0E8;
+  --color-orange-mid:   #FAD5B8;
+
+  /* Page backgrounds and surfaces */
+  --color-stone-50:  #FAFAF8;
+  --color-stone-100: #F4F2EE;
+  --color-stone-200: #E8E4DC;
+  --color-stone-400: #A89D8C;
+  --color-stone-600: #6B6055;
+  --color-stone-900: #1C1915;
+
+  /* Correct states */
+  --color-green:       #4ade80;
+  --color-green-light: #f0fdf4;
+  --color-green-mid:   #bbf7d0;
+  --color-green-dark:  #166534;
+
+  /* Incorrect / needs-work states */
+  --color-red:       #f87171;
+  --color-red-light: #fef2f2;
+  --color-red-mid:   #fecaca;
+  --color-red-dark:  #991b1b;
+
+  /* Badge states */
+  --color-yellow:       #fde68a;
+  --color-yellow-light: #fef9c3;
+  --color-yellow-dark:  #854d0e;
+
+  /* Animations */
+  --animate-fade-up: fadeUp 0.25s ease-out both;
+  --animate-pop:     pop 0.3s ease-out both;
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pop {
+    0%   { transform: scale(0.94); opacity: 0; }
+    60%  { transform: scale(1.03); }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+}
+
+/* Base styles */
+body {
+  overflow-x: hidden;
+  background-color: var(--color-stone-50);
+  color: var(--color-stone-900);
+  font-family: var(--font-display);
+}
+
+/* Focus ring utility */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2;
+}

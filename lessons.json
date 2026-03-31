@@ -1,0 +1,199 @@
+{
+  "meta": {
+    "description": "Skill lessons for BikeReady. One entry per skill, three difficulty variants. Keyed by the skill display name, which must exactly match the 'skill' field on Question objects. The variant is selected by matching the question's 'difficulty' field.",
+    "schema": {
+      "key": "skill display name — must exactly match Question.skill",
+      "easy": "LessonVariant — full rule explanation, no hedging",
+      "medium": "LessonVariant — rule plus edge cases and interactions with other rules",
+      "hard": "LessonVariant — most complete content of any variant. Full rules, edge cases, all relevant detail. Never vague."
+    },
+    "LessonVariant": {
+      "title": "string — short heading shown in the accordion button",
+      "body": "string — 2-4 sentences of lesson content"
+    }
+  },
+  "lessons": {
+    "Right Before Left": {
+      "easy": {
+        "title": "Right before left",
+        "body": "At unmarked intersections in the Netherlands, traffic from your right has priority. This is called rechts heeft voorrang. It applies to all road users — cyclists, cars, everyone — unless signs or markings say otherwise."
+      },
+      "medium": {
+        "title": "Right before left",
+        "body": "The right-before-left rule applies at unmarked intersections between equal roads. It does not apply when signs, road markings, or a priority road (yellow diamond) override it. Apply it per vehicle — check each conflict separately."
+      },
+      "hard": {
+        "title": "Right before left — edge cases",
+        "body": "Right-before-left applies at unmarked intersections between equal roads — but it can be overridden by signs, road markings, or a priority road (yellow diamond). When two rules apply at once, markings and signs always beat the default. Apply the rule per vehicle: for each conflict, ask yourself whether that specific road user is to your right or left."
+      }
+    },
+    "Shark Teeth": {
+      "easy": {
+        "title": "Shark teeth (haaientanden)",
+        "body": "White triangles painted on the road are called shark teeth. They always point toward the road user who must yield. If they point at you, you must give way to crossing traffic — regardless of where the other road user is coming from."
+      },
+      "medium": {
+        "title": "Shark teeth override defaults",
+        "body": "Shark teeth are a road marking, and road markings take precedence over default priority rules like right-before-left. Always check for markings before applying the default. The direction the teeth point tells you who yields."
+      },
+      "hard": {
+        "title": "Shark teeth and the rules they override",
+        "body": "Shark teeth override the right-before-left default — the marking takes precedence, full stop. The key is identifying which road has the teeth. Teeth on your side mean you yield, even if the other road user is also coming from your right. Teeth on the other road mean they yield to you. When shark teeth and another rule both apply, the teeth win."
+      }
+    },
+    "Turning Traffic": {
+      "easy": {
+        "title": "Turning traffic yields",
+        "body": "Any vehicle making a turn must give way to traffic going straight — including cyclists on an adjacent cycle path. The turning vehicle crosses the straight-going traffic's path, so it must yield."
+      },
+      "medium": {
+        "title": "Turning traffic in practice",
+        "body": "Turning traffic must yield to straight-going traffic. This applies even when a car has a green light for turning — if a cyclist is going straight on an adjacent path, the car must wait. Having legal priority doesn't mean assuming the driver has seen you."
+      },
+      "hard": {
+        "title": "Turning traffic — the limits of the rule",
+        "body": "Turning traffic must yield to straight-going traffic — but this rule has limits. It doesn't apply if the straight-going cyclist has a red light, because they have no legal right to be in that space. It also doesn't override tram priority. And having legal priority near a large vehicle doesn't mean the driver has seen you — legal right of way and physical safety are separate things."
+      }
+    },
+    "Priority Hierarchy": {
+      "easy": {
+        "title": "Priority hierarchy",
+        "body": "Not all road users are equal at junctions. Emergency vehicles with lights and sirens have highest priority, then trams, then traffic on a priority road (yellow diamond), then the default right-before-left rule."
+      },
+      "medium": {
+        "title": "When rules stack",
+        "body": "Priority road signs, road markings, and default rules can all apply at once — but they have a clear order. Signs and markings override defaults. Trams override signs. Emergency vehicles override everything."
+      },
+      "hard": {
+        "title": "The full priority hierarchy",
+        "body": "The order in the Netherlands is: emergency vehicles (blue lights + siren) first, then trams always, then traffic on a voorrangsweg (yellow diamond sign), then right-before-left as the default. Each level overrides everything below it. Priority road signs apply to vehicle junctions — they don't override pedestrian rights at zebra crossings, and they don't override trams under any circumstances."
+      }
+    },
+    "Mixed Scenarios": {
+      "easy": {
+        "title": "Combining rules",
+        "body": "Real cycling decisions often involve more than one rule at once. When you're in a situation, identify each relevant rule separately, then work out which one takes precedence."
+      },
+      "medium": {
+        "title": "When rules interact",
+        "body": "This question involves more than one Dutch cycling rule. Identify all the rules in play — road markings, priority signs, special road users — and apply them in order of precedence."
+      },
+      "hard": {
+        "title": "How to approach combined rules",
+        "body": "When more than one rule applies, work through them in order: first check for trams (always win), then road markings (shark teeth, priority road signs), then default rules (right-before-left). The common mistake is applying the default rule when a marking or sign has already resolved the situation. Also watch for rules that apply to vehicles but not pedestrians, or signals that apply to cars but not cyclists."
+      }
+    },
+    "Signs": {
+      "easy": {
+        "title": "Reading Dutch cycling signs",
+        "body": "Round blue signs are mandatory — you must follow them. Round signs with a red border are prohibitions — you must not do what they show. 'Uitgezonderd' below a sign means the restriction has an exception."
+      },
+      "medium": {
+        "title": "Signs in context",
+        "body": "Dutch signs always work together — a main sign sets the rule, a sub-sign below it adds an exception or condition. Always read both. The colour and shape of the main sign tells you whether it's mandatory (blue circle) or a prohibition (red border)."
+      },
+      "hard": {
+        "title": "Signs — shape, colour, and sub-signs",
+        "body": "Round blue = mandatory (you must). Round with red border = prohibition (you must not). Yellow diamond = priority road. Inverted triangle = yield. The same symbol (e.g. a bicycle) means different things on different sign types. 'Uitgezonderd' below a sign creates an exception for what's pictured. 'Verboden' always means forbidden. Sub-signs modify the main sign — always read both together."
+      }
+    },
+    "Intersections": {
+      "easy": {
+        "title": "Cyclist traffic lights",
+        "body": "The small traffic light at handlebar height with a bicycle symbol is your signal — not the large car light. Cyclist lights are legally binding. Running a red cyclist light carries a €160 fine."
+      },
+      "medium": {
+        "title": "Junctions and signals",
+        "body": "At signalled junctions, follow the light directed at you. Your priority road sign (yellow diamond) gives you right of way at junctions without signals, overriding the right-before-left default for crossing traffic."
+      },
+      "hard": {
+        "title": "Junctions — signals, signs, and priority",
+        "body": "Follow the signal directed at you — the small bike light, not the car light. A priority road sign (yellow diamond) gives you right of way over crossing traffic at unsignalled junctions, overriding right-before-left. But priority road signs don't override trams, and a green cyclist light doesn't override a tram either. At complex junctions, tram priority sits above all signals."
+      }
+    },
+    "Tram": {
+      "easy": {
+        "title": "Trams always have priority",
+        "body": "Trams run on fixed tracks and cannot swerve or stop quickly. Because of this, trams always have right of way over cyclists and cars — at all times, at all junctions, with or without signs."
+      },
+      "medium": {
+        "title": "Trams in the city",
+        "body": "Tram priority is absolute — it overrides traffic lights, right-before-left, and priority road signs. Cross tram tracks at 90° to avoid your wheel slipping into the groove. When a tram stops, yield to passengers stepping into the road."
+      },
+      "hard": {
+        "title": "Trams — absolute priority, no exceptions",
+        "body": "Tram priority overrides everything: right-before-left, priority road signs, and traffic lights. Even if you have a green cyclist light, a tram on its own phase has right of way. Even at an unmarked intersection where right-before-left would normally apply, a tram approaching from any direction takes priority. Passengers disembarking from a stopped tram are pedestrians stepping into the road — yield to them too."
+      }
+    },
+    "Pedestrians": {
+      "easy": {
+        "title": "Pedestrians at crossings",
+        "body": "Cyclists must yield to pedestrians on a zebra crossing (voetgangersoversteekplaats) — even when riding on a dedicated cycle path. On shared paths, both road users have equal right to be there — pass safely and politely."
+      },
+      "medium": {
+        "title": "Pedestrians and cyclists",
+        "body": "Zebra crossings require cyclists to yield regardless of what road or path they're on. Outside designated crossings, pedestrians don't have automatic legal priority — but you still cannot hit them. Adapt your speed and give space."
+      },
+      "hard": {
+        "title": "Pedestrians — crossings vs open road",
+        "body": "At a zebra crossing, cyclists must yield to pedestrians regardless of what road or path they're on — even a cycle path crossing a zebra. Outside designated crossings, pedestrians don't have automatic legal priority, but you're still obligated to avoid hitting them. Priority road signs apply to vehicles only — they don't give you priority over a pedestrian at a zebra. If in doubt, slow down."
+      }
+    },
+    "Roundabouts": {
+      "easy": {
+        "title": "Dutch roundabouts",
+        "body": "At most Dutch roundabouts, cyclists on the outer ring path have priority over cars entering and exiting. This priority is confirmed by shark teeth painted on the road facing the car entry and exit points. Without shark teeth, there is no assumed cyclist priority."
+      },
+      "medium": {
+        "title": "Roundabout priority in practice",
+        "body": "Cyclist ring priority only applies where shark teeth face the cars — it is not automatic at every roundabout. Without a separate cycle ring, cyclists join the main traffic flow and follow the same rules as cars. Signal right as you pass the exit before the one you want."
+      },
+      "hard": {
+        "title": "Roundabouts — when priority applies and when it doesn't",
+        "body": "Cyclist priority on a roundabout ring is established by shark teeth facing the cars at entry and exit points — it's not automatic. Without a separate cycle ring, cyclists join the main flow as regular traffic. Without shark teeth, normal right-before-left applies. Cyclist ring priority applies to cars — not to pedestrians crossing the ring path. Signal right as you pass the exit before the one you want."
+      }
+    },
+    "City Cycling": {
+      "easy": {
+        "title": "Urban cycling safety",
+        "body": "Keep at least 1 metre from parked cars to stay out of the door zone — a suddenly opening door can be fatal. Cyclists may generally use bus lanes unless a sign excludes them. On a fietsstraat, cars are guests and may not overtake you."
+      },
+      "medium": {
+        "title": "Navigating Dutch cities",
+        "body": "The door zone extends about 1 metre from any parked car. Bus lanes are accessible to cyclists unless signed otherwise. One-way streets may have contraflow cycle lanes — look for the sign or painted marking. Pedestrian zones require an explicit permission sign for cyclists to enter."
+      },
+      "hard": {
+        "title": "City cycling — access, liability, and positioning",
+        "body": "Stay at least 1 metre from parked cars to avoid the door zone. Bus lanes are open to cyclists unless a sign excludes them. On a fietsstraat, cars cannot overtake you — but right-before-left still applies at unmarked junctions. A vehicle parked illegally on your cycle path is liable for the consequences of forcing you into traffic. Voetgangersgebied requires explicit cyclist permission to enter."
+      }
+    },
+    "Legal": {
+      "easy": {
+        "title": "Dutch cycling law — basics",
+        "body": "You need active front and rear lights after dark (reflectors alone are not enough). A working bell is compulsory. Using a handheld phone while cycling is illegal at any speed — €160 fine. The blood alcohol limit is 0.5‰, the same as for drivers."
+      },
+      "medium": {
+        "title": "Dutch cycling law — specifics",
+        "body": "Cycling two abreast is legal on all roads. Both earbuds in is illegal — one ear is allowed. Cycling on the pavement (voetpad) is illegal unless a sign permits it. Reflectors are required at all times; lights are additionally required after dark."
+      },
+      "hard": {
+        "title": "Dutch cycling law — the specific rules",
+        "body": "Active front and rear lights are required after dark (not just reflectors). A bell is compulsory. Both earbuds in is illegal — one ear is allowed. Cycling on the pavement is illegal unless signed. Two abreast is permitted, three is not. The blood alcohol limit is 0.5‰ (0.2‰ under 24 with less than 5 years' experience). Handheld phone use carries a €160 fine. Running a red light is €160. No lights is €55 per light."
+      }
+    },
+    "Dutch Words": {
+      "easy": {
+        "title": "Key Dutch cycling terms",
+        "body": "'Voorrang verlenen' means give way. 'Haaientanden' are shark teeth markings. 'Fietsstraat' is a bike street where cars are guests. 'Uitgezonderd' means except — so 'uitgezonderd fietsers' means cyclists are exempt from the restriction above."
+      },
+      "medium": {
+        "title": "Reading Dutch signs",
+        "body": "'Verboden' means forbidden. 'Voorrangsweg' is a priority road (yellow diamond). 'Voetgangersoversteekplaats' is a pedestrian crossing. 'Inhalen verboden' means no overtaking. 'Doorrijden verboden' means do not block the junction."
+      },
+      "hard": {
+        "title": "Dutch cycling vocabulary — the full set",
+        "body": "'Verboden' = forbidden. 'Voorrang verlenen' = give way. 'Haaientanden' = shark teeth. 'Voorrangsweg' = priority road (yellow diamond). 'Uitgezonderd' = except/exempt. 'Fietsstraat' = bike street. 'Voetgangersoversteekplaats' = zebra crossing. 'Inhalen verboden' = no overtaking. 'Doorrijden verboden' = don't block the junction. 'Bestemmingsverkeer' = destination traffic (residents/deliveries). 'Pas op' = watch out."
+      }
+    }
+  }
+}
