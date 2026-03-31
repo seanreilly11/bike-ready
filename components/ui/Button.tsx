@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
   size?:    Size
   full?:    boolean
+  loading?: boolean
 }
 
 const variantClasses: Record<Variant, string> = {
@@ -24,18 +25,22 @@ const sizeClasses: Record<Size, string> = {
 }
 
 export default function Button({
-  variant = 'primary',
-  size    = 'md',
-  full    = false,
+  variant   = 'primary',
+  size      = 'md',
+  full      = false,
+  loading   = false,
   className = '',
   children,
   disabled,
   ...props
 }: ButtonProps) {
+  const isDisabled = disabled || loading
+
   return (
     <button
-      disabled={disabled}
-      aria-disabled={disabled}
+      disabled={isDisabled}
+      aria-disabled={isDisabled}
+      aria-busy={loading}
       className={[
         'inline-flex items-center justify-center gap-2',
         'rounded-xl font-display font-bold',
@@ -45,7 +50,7 @@ export default function Button({
         variantClasses[variant],
         sizeClasses[size],
         full ? 'w-full' : '',
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+        isDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
         className,
       ].join(' ')}
       {...props}
