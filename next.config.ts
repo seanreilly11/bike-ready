@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next'
+import { validateEnv } from './lib/validateEnv'
 
-const nextConfig: NextConfig = {
-  // No extra config needed — App Router defaults are correct
-}
+validateEnv()
+
+const nextConfig: NextConfig = {}
 
 export default nextConfig

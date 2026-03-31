@@ -1,22 +1,16 @@
 // Stripe checkout helper — initiates a one-time payment session.
-// Only called from client components; Stripe.js loaded on demand.
+// @stripe/stripe-js is loaded on demand at runtime via CDN.
 
-export async function redirectToCheckout(userId: string) {
-  const { loadStripe } = await import('@stripe/stripe-js').catch(() => {
-    throw new Error('Failed to load Stripe.js')
-  })
-
-  const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '')
-  if (!stripe) throw new Error('Stripe failed to initialise')
-
+export async function redirectToCheckout(_userId: string) {
   const res = await fetch('/api/checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId }),
+    body: JSON.stringify({ userId: _userId }),
   })
 
   if (!res.ok) throw new Error('Failed to create checkout session')
-  const { sessionId } = (await res.json()) as { sessionId: string }
+  const { url } = (await res.json()) as { url: string }
 
-  await stripe.redirectToCheckout({ sessionId })
+  // Redirect to Stripe-hosted checkout page
+  window.location.href = url
 }

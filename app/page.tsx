@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
+import Nav from '@/components/layout/Nav'
 import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
 import modules from '@/data/modules'
 
@@ -38,6 +39,7 @@ export default function LandingPage() {
 
   return (
     <>
+      <Nav currentRoute="/" wrongCount={0} isPremium={false} onSignIn={() => {}} logoOnly />
       <main className="min-h-screen bg-stone-50 overflow-x-hidden">
 
         {/* Hero */}
