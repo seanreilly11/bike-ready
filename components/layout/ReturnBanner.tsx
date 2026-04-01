@@ -15,7 +15,7 @@ export default function ReturnBanner({ totalSeen, onSignIn, onDismiss }: ReturnB
         Welcome back —{' '}
         <button
           onClick={onSignIn}
-          className="font-bold text-orange underline underline-offset-2 hover:no-underline focus-visible:outline-none"
+          className="font-bold text-orange underline underline-offset-2 hover:no-underline focus-visible:outline-none cursor-pointer"
         >
           sign in
         </button>{' '}
@@ -23,7 +23,7 @@ export default function ReturnBanner({ totalSeen, onSignIn, onDismiss }: ReturnB
       </p>
       <button
         onClick={onDismiss}
-        className="shrink-0 text-stone-400 hover:text-stone-900 transition-colors p-1 -m-1 focus-visible:outline-none"
+        className="shrink-0 text-stone-400 hover:text-stone-900 transition-colors p-1 -m-1 focus-visible:outline-none cursor-pointer"
         aria-label="Dismiss banner"
       >
         ✕

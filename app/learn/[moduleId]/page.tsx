@@ -63,7 +63,7 @@ export default function ModuleSessionPage() {
         );
     }
 
-    async function handleAnswer(optionId: string, correct: boolean) {
+    async function handleAnswer(_optionId: string, correct: boolean) {
         if (!currentQuestion) return;
         await progress.recordAnswer(currentQuestion.id, correct);
         await badges.checkModuleBadge(moduleId, progress.progress);
@@ -111,7 +111,7 @@ export default function ModuleSessionPage() {
                     <div className="flex items-center gap-3 mb-2">
                         <button
                             onClick={() => router.push("/learn")}
-                            className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none"
+                            className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none cursor-pointer"
                             aria-label="Back to modules"
                         >
                             ←

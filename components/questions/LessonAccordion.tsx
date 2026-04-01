@@ -25,12 +25,13 @@ export default function LessonAccordion({ skill, difficulty }: LessonAccordionPr
       <button
         onClick={() => setOpen(o => !o)}
         className={[
-          'w-full flex items-center justify-between gap-2',
-          'rounded-xl border border-stone-200 px-4 py-2.5',
-          'text-left text-sm font-display font-medium text-stone-600',
-          'hover:border-stone-400 transition-colors duration-150',
+          'w-full flex items-center justify-between gap-2 cursor-pointer',
+          'rounded-xl border border-orange px-4 py-2.5',
+          'text-left text-sm font-display font-medium',
+          'transition-colors duration-150',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2',
-          open ? 'bg-orange-light border-orange text-stone-900' : 'bg-white',
+          open ? 'bg-orange-light' : 'bg-white',
+          'text-orange',
         ].join(' ')}
         aria-expanded={open}
       >

@@ -42,7 +42,7 @@ export default function Nav({
                             key={item.href}
                             href={item.href}
                             className={[
-                                "relative px-3 py-2 rounded-lg text-sm font-display font-medium transition-colors duration-150",
+                                "relative px-3 py-2 rounded-lg text-sm font-display font-medium transition-colors duration-150 cursor-pointer",
                                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                                 currentRoute.startsWith(item.href)
                                     ? "text-orange"
