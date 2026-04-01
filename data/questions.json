@@ -1354,5 +1354,147 @@
       "tip": "Blue lights > trams > yellow diamond > right-before-left. In that order."
     },
     "status": "active"
+  },
+  {
+    "id": "qr12",
+    "module": "roadusers",
+    "skill": "Tram",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You need to cross tram tracks that run diagonally across your path. What is the safest way to cross?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Speed up to minimise the time your wheel is on the rail"
+      },
+      {
+        "id": "b",
+        "label": "Cross at your natural travel angle — it's only a short contact point"
+      },
+      {
+        "id": "c",
+        "label": "Steer to cross the tracks as close to perpendicular as possible"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "Crossing tram tracks at an angle allows your front wheel to slip into the groove and throw you off — it's one of the most common cycling crashes in Dutch cities. Steering to cross at 90° keeps your wheel rolling straight across the gap. Even a short detour to find a more perpendicular crossing is worth taking.",
+      "rule": "Cross tram tracks as close to 90° as possible. Diagonal crossings allow wheels to catch in the rail groove.",
+      "tip": "Square up to the tracks. Diagonal = wheel trap."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "qr13",
+    "module": "roadusers",
+    "skill": "City Cycling",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're at a red light alongside a large truck. The truck is indicating right and you plan to go straight. The light turns green. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Hold back and let the truck complete its turn before you move"
+      },
+      {
+        "id": "b",
+        "label": "Move forward — you're going straight, so you have priority over the turning truck"
+      },
+      {
+        "id": "c",
+        "label": "Accelerate past the front of the truck before it starts turning"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "A truck turning right cannot see you alongside or behind the cab — the blind spot covers the entire side of the vehicle. Even if you have priority going straight, being legally right doesn't help if the driver doesn't see you. Hold back, let it go, then move.",
+      "rule": "Never position yourself alongside a large vehicle that is indicating to turn. Their blind spot covers the full vehicle length.",
+      "tip": "Truck + indicator = danger zone. Hold back, let it go, then move."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "qr14",
+    "module": "roadusers",
+    "skill": "Pedestrians",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're on a shared path used by both cyclists and pedestrians. Walkers ahead don't move after you ring your bell. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Slow down and pass at a safe distance — they have equal right to use the path"
+      },
+      {
+        "id": "b",
+        "label": "Continue at speed — ringing your bell gives you the right to pass"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "On a shared path, pedestrians and cyclists have equal rights to the space. Ringing your bell is a courtesy warning, not a legal instruction for pedestrians to move. You must reduce your speed and pass at a distance that is safe for them.",
+      "rule": "On shared paths, cyclists must adapt to pedestrians — not the other way around.",
+      "tip": "Bell = warning, not an order. Shared path means shared space."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "qr15",
+    "module": "roadusers",
+    "skill": "Pedestrians",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're turning right. As you enter the turn, a pedestrian steps onto a zebra crossing on your intended path. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Continue — you were already mid-turn when they stepped out"
+      },
+      {
+        "id": "b",
+        "label": "Ring your bell and proceed slowly"
+      },
+      {
+        "id": "c",
+        "label": "Stop and yield — turning traffic must give way to pedestrians on a crossing"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "Pedestrians on a zebra crossing have priority, and all turning traffic — including cyclists — must yield to them. Being mid-turn does not change this. The pedestrian stepped out legally; you must stop.",
+      "rule": "RVV 1990 Art. 49a — all turning road users must yield to pedestrians on a zebra crossing.",
+      "tip": "Turning + zebra crossing = pedestrian goes first. Always."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "qr16",
+    "module": "roadusers",
+    "skill": "City Cycling",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're cycling past a row of parked cars. Where should you position yourself?",
+    "options": [
+      {
+        "id": "a",
+        "label": "As close to the cars as possible to stay out of the traffic lane"
+      },
+      {
+        "id": "b",
+        "label": "At least 1 metre from the cars to stay outside the door zone"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A car door swings roughly 1 metre when fully opened. Riding closer than that puts you directly in its path with no reaction time. Riding 1 metre out feels exposed, but it is the correct — and safe — position.",
+      "rule": "Cycle at least 1 metre from parked cars. The door zone is a common cause of serious cycling injuries.",
+      "tip": "1 metre from parked cars. Door zone = danger zone."
+    },
+    "status": "draft"
   }
 ]
