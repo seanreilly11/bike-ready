@@ -12,6 +12,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import Nav from "@/components/layout/Nav";
 import ReturnBanner from "@/components/layout/ReturnBanner";
 import AuthModal from "@/components/layout/AuthModal";
+import UpsellBanner from "@/components/layout/UpsellBanner";
 import DotMap from "@/components/modules/DotMap";
 import QuestionCard from "@/components/questions/QuestionCard";
 import BadgeToast from "@/components/badges/BadgeToast";
@@ -202,14 +203,14 @@ export default function ModuleSessionPage() {
                         </div>
                     ) : hitGate ? (
                         /* End of free preview */
-                        <div className="animate-fade-up">
-                            <p className="text-stone-500 text-sm mb-4">
-                                That&apos;s the free preview for {mod.title}.
+                        <div className="animate-fade-up text-center">
+                            <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-6">
+                                Free preview complete
                             </p>
 
                             {nextModule && (
                                 <Button
-                                    variant="primary"
+                                    variant="secondary"
                                     size="lg"
                                     full
                                     onClick={() =>
@@ -221,17 +222,12 @@ export default function ModuleSessionPage() {
                                 </Button>
                             )}
 
-                            <div className="mt-6 pt-5 border-t border-stone-200">
-                                <p className="text-stone-500 text-sm mb-2">
-                                    Want to finish {mod.title} and unlock all{" "}
-                                    {moduleQuestions.length} questions?
-                                </p>
-                                <button
-                                    onClick={() => router.push("/api/checkout")}
-                                    className="text-sm text-orange font-medium hover:underline focus-visible:outline-none"
-                                >
-                                    Unlock the full course for €4.99 →
-                                </button>
+                            <div className="mt-6">
+                                <UpsellBanner
+                                    moduleName={mod.title}
+                                    moduleQuestionCount={moduleQuestions.length}
+                                    onUnlock={() => router.push("/api/checkout")}
+                                />
                             </div>
                         </div>
                     ) : (
