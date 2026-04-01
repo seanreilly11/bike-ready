@@ -9,9 +9,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import Nav from "@/components/layout/Nav";
+import { useAuthModal } from "@/hooks/useAuthModal";
+import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
-import AuthModal from "@/components/layout/AuthModal";
 import UpsellBanner from "@/components/layout/UpsellBanner";
 import DotMap from "@/components/modules/DotMap";
 import QuestionCard from "@/components/questions/QuestionCard";
@@ -28,14 +28,14 @@ export default function ModuleSessionPage() {
 
     const mod = modules.find((m) => m.id === moduleId);
 
-    const { user, isPremium, sendMagicLink } = useAuth();
+    const { user, isPremium } = useAuth();
+    const openAuth = useAuthModal();
     const progress = useProgress(user);
     const badges = useBadges(user);
     const { track } = useAnalytics();
     const { questionsByModule } = useQuestions();
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showAuth, setShowAuth] = useState(false);
     const [bannerDismissed, setBannerDismissed] = useState(false);
 
     const moduleQuestions = useMemo(
@@ -89,18 +89,10 @@ export default function ModuleSessionPage() {
             : 0;
 
     return (
-        <>
-            <Nav
-                currentRoute={`/learn/${moduleId}`}
-                wrongCount={progress.getReviewQueue().length}
-                isPremium={isPremium}
-                onSignIn={() => setShowAuth(true)}
-            />
-
+        <AppShell wrongCount={progress.getReviewQueue().length}>
             {!user && !bannerDismissed && (
                 <ReturnBanner
                     totalSeen={totalSeen}
-                    onSignIn={() => setShowAuth(true)}
                     onDismiss={() => setBannerDismissed(true)}
                 />
             )}
@@ -168,7 +160,7 @@ export default function ModuleSessionPage() {
                                     Sign in so you don&apos;t lose what
                                     you&apos;ve done.{" "}
                                     <button
-                                        onClick={() => setShowAuth(true)}
+                                        onClick={openAuth}
                                         className="font-bold text-orange underline underline-offset-2"
                                     >
                                         Sign in
@@ -265,12 +257,6 @@ export default function ModuleSessionPage() {
                 </div>
             </main>
 
-            {showAuth && (
-                <AuthModal
-                    onClose={() => setShowAuth(false)}
-                    sendMagicLink={sendMagicLink}
-                />
-            )}
-        </>
+        </AppShell>
     );
 }

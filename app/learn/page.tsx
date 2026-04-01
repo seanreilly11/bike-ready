@@ -7,9 +7,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useQuestions } from "@/hooks/useQuestions";
-import Nav from "@/components/layout/Nav";
+import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
-import AuthModal from "@/components/layout/AuthModal";
 import ModuleCard from "@/components/modules/ModuleCard";
 import BadgeGrid from "@/components/badges/BadgeGrid";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -98,11 +97,10 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 
 export default function LearnIndexPage() {
     const router = useRouter();
-    const { user, isPremium, sendMagicLink } = useAuth();
+    const { user, isPremium } = useAuth();
     const progress = useProgress(user);
     const { earnedIds } = useBadges(user);
     const { questionsByModule } = useQuestions();
-    const [showAuth, setShowAuth] = useState(false);
     const [bannerDismissed, setBannerDismissed] = useState(false);
 
     const totalSeen = progress.getTotalSeen();
@@ -116,18 +114,10 @@ export default function LearnIndexPage() {
     }
 
     return (
-        <>
-            <Nav
-                currentRoute="/learn"
-                wrongCount={progress.getReviewQueue().length}
-                isPremium={isPremium}
-                onSignIn={() => setShowAuth(true)}
-            />
-
+        <AppShell wrongCount={progress.getReviewQueue().length}>
             {!user && !bannerDismissed && (
                 <ReturnBanner
                     totalSeen={totalSeen}
-                    onSignIn={() => setShowAuth(true)}
                     onDismiss={() => setBannerDismissed(true)}
                 />
             )}
@@ -165,12 +155,6 @@ export default function LearnIndexPage() {
                 )}
             </main>
 
-            {showAuth && (
-                <AuthModal
-                    onClose={() => setShowAuth(false)}
-                    sendMagicLink={sendMagicLink}
-                />
-            )}
-        </>
+        </AppShell>
     );
 }

@@ -6,24 +6,21 @@ import type { Question } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useProgress } from '@/hooks/useProgress'
 import { useAnalytics } from '@/hooks/useAnalytics'
-import Nav from '@/components/layout/Nav'
-import AuthModal from '@/components/layout/AuthModal'
+import AppShell from '@/components/layout/AppShell'
 import QuestionCard from '@/components/questions/QuestionCard'
 import Button from '@/components/ui/Button'
 import modules from '@/data/modules'
 
 export default function ReviewPage() {
   const router = useRouter()
-  const { user, isPremium, sendMagicLink } = useAuth()
+  const { user, isPremium } = useAuth()
   const progress  = useProgress(user)
   const { track } = useAnalytics()
-  const [showAuth,  setShowAuth]  = useState(false)
   const [activeId,  setActiveId]  = useState<string | null>(null)
 
   if (!isPremium) {
     return (
-      <>
-        <Nav currentRoute="/review" wrongCount={0} isPremium={false} onSignIn={() => setShowAuth(true)} />
+      <AppShell wrongCount={0}>
         <main className="min-h-screen bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-16 text-center">
             <div className="text-4xl mb-3">🔒</div>
@@ -34,8 +31,7 @@ export default function ReviewPage() {
             </Button>
           </div>
         </main>
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} sendMagicLink={sendMagicLink} />}
-      </>
+      </AppShell>
     )
   }
 
@@ -56,8 +52,7 @@ export default function ReviewPage() {
 
   if (queue.length === 0) {
     return (
-      <>
-        <Nav currentRoute="/review" wrongCount={0} isPremium={isPremium} onSignIn={() => setShowAuth(true)} />
+      <AppShell wrongCount={0}>
         <main className="min-h-screen bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-16 text-center">
             <div className="text-4xl mb-3">✅</div>
@@ -68,7 +63,7 @@ export default function ReviewPage() {
             </Button>
           </div>
         </main>
-      </>
+      </AppShell>
     )
   }
 
@@ -79,14 +74,7 @@ export default function ReviewPage() {
   })).filter(g => g.questions.length > 0)
 
   return (
-    <>
-      <Nav
-        currentRoute="/review"
-        wrongCount={queue.length}
-        isPremium={isPremium}
-        onSignIn={() => setShowAuth(true)}
-      />
-
+    <AppShell wrongCount={queue.length}>
       <main className="min-h-screen bg-stone-50">
         <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
           <div className="flex items-center justify-between mb-6">
@@ -148,7 +136,6 @@ export default function ReviewPage() {
         </div>
       </main>
 
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} sendMagicLink={sendMagicLink} />}
-    </>
+    </AppShell>
   )
 }

@@ -1,12 +1,14 @@
 'use client'
 
+import { useAuthModal } from '@/hooks/useAuthModal'
+
 interface ReturnBannerProps {
   totalSeen: number
-  onSignIn:  () => void
   onDismiss: () => void
 }
 
-export default function ReturnBanner({ totalSeen, onSignIn, onDismiss }: ReturnBannerProps) {
+export default function ReturnBanner({ totalSeen, onDismiss }: ReturnBannerProps) {
+  const openAuth = useAuthModal()
   if (totalSeen < 3) return null
 
   return (
@@ -14,7 +16,7 @@ export default function ReturnBanner({ totalSeen, onSignIn, onDismiss }: ReturnB
       <p className="text-stone-700">
         Welcome back —{' '}
         <button
-          onClick={onSignIn}
+          onClick={openAuth}
           className="font-bold text-orange underline underline-offset-2 hover:no-underline focus-visible:outline-none cursor-pointer"
         >
           sign in

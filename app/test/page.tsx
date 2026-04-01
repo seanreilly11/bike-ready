@@ -8,8 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import Nav from "@/components/layout/Nav";
-import AuthModal from "@/components/layout/AuthModal";
+import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -27,7 +26,7 @@ interface Answer {
 
 export default function TestPage() {
     const router = useRouter();
-    const { user, isPremium, sendMagicLink } = useAuth();
+    const { user, isPremium } = useAuth();
     const progress = useProgress(user);
     const { checkModuleBadge } = useBadges(user);
     const { track } = useAnalytics();
@@ -36,7 +35,6 @@ export default function TestPage() {
     const [phase, setPhase] = useState<Phase>("intro");
     const [index, setIndex] = useState(0);
     const [answers, setAnswers] = useState<Answer[]>([]);
-    const [showAuth, setShowAuth] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -44,13 +42,7 @@ export default function TestPage() {
 
     if (!isPremium) {
         return (
-            <>
-                <Nav
-                    currentRoute="/test"
-                    wrongCount={0}
-                    isPremium={false}
-                    onSignIn={() => setShowAuth(true)}
-                />
+            <AppShell wrongCount={0}>
                 <main className="min-h-screen bg-stone-50">
                     <div className="max-w-2xl mx-auto px-5 py-16 text-center">
                         <div className="text-4xl mb-3">🔒</div>
@@ -65,13 +57,7 @@ export default function TestPage() {
                         </Button>
                     </div>
                 </main>
-                {showAuth && (
-                    <AuthModal
-                        onClose={() => setShowAuth(false)}
-                        sendMagicLink={sendMagicLink}
-                    />
-                )}
-            </>
+            </AppShell>
         );
     }
 
@@ -82,13 +68,7 @@ export default function TestPage() {
     // -------------------------------------------------------------------------
     if (phase === "intro") {
         return (
-            <>
-                <Nav
-                    currentRoute="/test"
-                    wrongCount={reviewQueue.length}
-                    isPremium={isPremium}
-                    onSignIn={() => setShowAuth(true)}
-                />
+            <AppShell wrongCount={reviewQueue.length}>
                 <main className="min-h-screen bg-stone-50">
                     <div className="max-w-2xl mx-auto px-5 py-10">
                         <div className="text-center mb-8">
@@ -146,13 +126,7 @@ export default function TestPage() {
                         </Button>
                     </div>
                 </main>
-                {showAuth && (
-                    <AuthModal
-                        onClose={() => setShowAuth(false)}
-                        sendMagicLink={sendMagicLink}
-                    />
-                )}
-            </>
+            </AppShell>
         );
     }
 
@@ -211,13 +185,7 @@ export default function TestPage() {
         const pct = Math.round((index / testSet.length) * 100);
 
         return (
-            <>
-                <Nav
-                    currentRoute="/test"
-                    wrongCount={reviewQueue.length}
-                    isPremium={isPremium}
-                    onSignIn={() => setShowAuth(true)}
-                />
+            <AppShell wrongCount={reviewQueue.length}>
                 <main className="min-h-screen bg-stone-50">
                     {/* Progress header */}
                     <div className="sticky top-14 z-30 bg-white border-b border-stone-200 px-5 py-3">
@@ -257,13 +225,7 @@ export default function TestPage() {
                         )}
                     </div>
                 </main>
-                {showAuth && (
-                    <AuthModal
-                        onClose={() => setShowAuth(false)}
-                        sendMagicLink={sendMagicLink}
-                    />
-                )}
-            </>
+            </AppShell>
         );
     }
 
@@ -306,13 +268,7 @@ export default function TestPage() {
     }
 
     return (
-        <>
-            <Nav
-                currentRoute="/test"
-                wrongCount={reviewQueue.length}
-                isPremium={isPremium}
-                onSignIn={() => setShowAuth(true)}
-            />
+        <AppShell wrongCount={reviewQueue.length}>
             <main className="min-h-screen bg-stone-50">
                 <div className="max-w-2xl mx-auto px-5 py-8 lg:py-12">
                     {/* Score hero */}
@@ -477,12 +433,6 @@ export default function TestPage() {
                     </div>
                 </div>
             </main>
-            {showAuth && (
-                <AuthModal
-                    onClose={() => setShowAuth(false)}
-                    sendMagicLink={sendMagicLink}
-                />
-            )}
-        </>
+        </AppShell>
     );
 }
