@@ -1,6 +1,6 @@
 [
   {
-    "id": "ql5",
+    "id": "legal_005",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "easy",
@@ -26,7 +26,7 @@
     "status": "active"
   },
   {
-    "id": "ql6",
+    "id": "legal_006",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "easy",
@@ -60,7 +60,7 @@
     "status": "active"
   },
   {
-    "id": "ql7",
+    "id": "legal_007",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "medium",
@@ -86,7 +86,7 @@
     "status": "active"
   },
   {
-    "id": "ql8",
+    "id": "legal_008",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "medium",
@@ -116,7 +116,7 @@
     "status": "active"
   },
   {
-    "id": "ql9",
+    "id": "legal_009",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "medium",
@@ -142,7 +142,7 @@
     "status": "active"
   },
   {
-    "id": "ql10",
+    "id": "legal_010",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "medium",
@@ -176,7 +176,7 @@
     "status": "active"
   },
   {
-    "id": "ql11",
+    "id": "legal_011",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "hard",
@@ -210,7 +210,7 @@
     "status": "active"
   },
   {
-    "id": "ql12",
+    "id": "legal_012",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "hard",
@@ -240,7 +240,7 @@
     "status": "active"
   },
   {
-    "id": "ql13",
+    "id": "legal_013",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "easy",
@@ -274,7 +274,7 @@
     "status": "active"
   },
   {
-    "id": "ql14",
+    "id": "legal_014",
     "module": "legal",
     "skill": "Legal",
     "difficulty": "hard",
@@ -300,7 +300,7 @@
     "status": "active"
   },
   {
-    "id": "qv6",
+    "id": "vocabulary_006",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "medium",
@@ -334,7 +334,7 @@
     "status": "active"
   },
   {
-    "id": "qv7",
+    "id": "vocabulary_007",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "easy",
@@ -368,7 +368,7 @@
     "status": "active"
   },
   {
-    "id": "qv8",
+    "id": "vocabulary_008",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "easy",
@@ -402,7 +402,7 @@
     "status": "active"
   },
   {
-    "id": "qv9",
+    "id": "vocabulary_009",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "medium",
@@ -436,7 +436,7 @@
     "status": "active"
   },
   {
-    "id": "qv10",
+    "id": "vocabulary_010",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "medium",
@@ -470,7 +470,7 @@
     "status": "active"
   },
   {
-    "id": "qv11",
+    "id": "vocabulary_011",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "medium",
@@ -504,7 +504,7 @@
     "status": "active"
   },
   {
-    "id": "qv12",
+    "id": "vocabulary_012",
     "module": "vocabulary",
     "skill": "Dutch Words",
     "difficulty": "hard",
@@ -538,7 +538,7 @@
     "status": "active"
   },
   {
-    "id": "qr6",
+    "id": "roadusers_006",
     "module": "roadusers",
     "skill": "Tram",
     "difficulty": "medium",
@@ -568,7 +568,7 @@
     "status": "active"
   },
   {
-    "id": "qr7",
+    "id": "roadusers_007",
     "module": "roadusers",
     "skill": "Tram",
     "difficulty": "hard",
@@ -598,7 +598,7 @@
     "status": "draft"
   },
   {
-    "id": "qr8",
+    "id": "roadusers_008",
     "module": "roadusers",
     "skill": "Tram",
     "difficulty": "medium",
@@ -628,7 +628,7 @@
     "status": "active"
   },
   {
-    "id": "qr9",
+    "id": "roadusers_009",
     "module": "roadusers",
     "skill": "Pedestrians",
     "difficulty": "medium",
@@ -654,7 +654,7 @@
     "status": "active"
   },
   {
-    "id": "qr10",
+    "id": "roadusers_010",
     "module": "roadusers",
     "skill": "Pedestrians",
     "difficulty": "hard",
@@ -684,7 +684,7 @@
     "status": "active"
   },
   {
-    "id": "qr11",
+    "id": "roadusers_011",
     "module": "roadusers",
     "skill": "Pedestrians",
     "difficulty": "medium",
@@ -718,7 +718,7 @@
     "status": "draft"
   },
   {
-    "id": "qi6",
+    "id": "infrastructure_006",
     "module": "infrastructure",
     "skill": "Roundabouts",
     "difficulty": "hard",
@@ -748,7 +748,7 @@
     "status": "active"
   },
   {
-    "id": "qi7",
+    "id": "infrastructure_007",
     "module": "infrastructure",
     "skill": "Roundabouts",
     "difficulty": "medium",
@@ -782,7 +782,7 @@
     "status": "active"
   },
   {
-    "id": "qi8",
+    "id": "infrastructure_008",
     "module": "infrastructure",
     "skill": "Roundabouts",
     "difficulty": "medium",
@@ -812,7 +812,7 @@
     "status": "active"
   },
   {
-    "id": "qi9",
+    "id": "infrastructure_009",
     "module": "infrastructure",
     "skill": "City Cycling",
     "difficulty": "medium",
@@ -838,7 +838,7 @@
     "status": "active"
   },
   {
-    "id": "qi10",
+    "id": "infrastructure_010",
     "module": "infrastructure",
     "skill": "City Cycling",
     "difficulty": "hard",
@@ -868,7 +868,7 @@
     "status": "active"
   },
   {
-    "id": "qi11",
+    "id": "infrastructure_011",
     "module": "infrastructure",
     "skill": "City Cycling",
     "difficulty": "hard",
@@ -898,7 +898,7 @@
     "status": "active"
   },
   {
-    "id": "qi12",
+    "id": "infrastructure_012",
     "module": "infrastructure",
     "skill": "Roundabouts",
     "difficulty": "hard",
@@ -928,7 +928,7 @@
     "status": "active"
   },
   {
-    "id": "qmix1",
+    "id": "mixed_001",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -958,7 +958,7 @@
     "status": "draft"
   },
   {
-    "id": "qmix2",
+    "id": "mixed_002",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -988,7 +988,7 @@
     "status": "active"
   },
   {
-    "id": "qmix3",
+    "id": "mixed_003",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1018,7 +1018,7 @@
     "status": "active"
   },
   {
-    "id": "qmix4",
+    "id": "mixed_004",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1048,7 +1048,7 @@
     "status": "active"
   },
   {
-    "id": "qmix5",
+    "id": "mixed_005",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1078,7 +1078,7 @@
     "status": "active"
   },
   {
-    "id": "qmix6",
+    "id": "mixed_006",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1108,7 +1108,7 @@
     "status": "active"
   },
   {
-    "id": "qmix7",
+    "id": "mixed_007",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1138,7 +1138,7 @@
     "status": "active"
   },
   {
-    "id": "qmix8",
+    "id": "mixed_008",
     "module": "priority",
     "skill": "Mixed Scenarios",
     "difficulty": "hard",
@@ -1168,7 +1168,7 @@
     "status": "active"
   },
   {
-    "id": "qp9",
+    "id": "priority_009",
     "module": "priority",
     "skill": "Right Before Left",
     "difficulty": "medium",
@@ -1198,7 +1198,7 @@
     "status": "active"
   },
   {
-    "id": "qp10",
+    "id": "priority_010",
     "module": "priority",
     "skill": "Right Before Left",
     "difficulty": "easy",
@@ -1228,7 +1228,7 @@
     "status": "active"
   },
   {
-    "id": "qp11",
+    "id": "priority_011",
     "module": "priority",
     "skill": "Priority Hierarchy",
     "difficulty": "hard",
@@ -1258,7 +1258,7 @@
     "status": "active"
   },
   {
-    "id": "qp12",
+    "id": "priority_012",
     "module": "priority",
     "skill": "Right Before Left",
     "difficulty": "medium",
@@ -1292,7 +1292,7 @@
     "status": "active"
   },
   {
-    "id": "qp13",
+    "id": "priority_013",
     "module": "priority",
     "skill": "Right Before Left",
     "difficulty": "hard",
@@ -1322,7 +1322,7 @@
     "status": "active"
   },
   {
-    "id": "qp14",
+    "id": "priority_014",
     "module": "priority",
     "skill": "Priority Hierarchy",
     "difficulty": "hard",
@@ -1356,7 +1356,7 @@
     "status": "active"
   },
   {
-    "id": "qr12",
+    "id": "roadusers_012",
     "module": "roadusers",
     "skill": "Tram",
     "difficulty": "medium",
@@ -1386,7 +1386,7 @@
     "status": "draft"
   },
   {
-    "id": "qr13",
+    "id": "roadusers_013",
     "module": "roadusers",
     "skill": "City Cycling",
     "difficulty": "medium",
@@ -1416,7 +1416,7 @@
     "status": "draft"
   },
   {
-    "id": "qr14",
+    "id": "roadusers_014",
     "module": "roadusers",
     "skill": "Pedestrians",
     "difficulty": "easy",
@@ -1442,7 +1442,7 @@
     "status": "draft"
   },
   {
-    "id": "qr15",
+    "id": "roadusers_015",
     "module": "roadusers",
     "skill": "Pedestrians",
     "difficulty": "medium",
@@ -1472,7 +1472,7 @@
     "status": "draft"
   },
   {
-    "id": "qr16",
+    "id": "roadusers_016",
     "module": "roadusers",
     "skill": "City Cycling",
     "difficulty": "easy",

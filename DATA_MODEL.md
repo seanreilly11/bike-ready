@@ -87,23 +87,25 @@ type SignId =
   | "shark_teeth"       // road marking — three white triangles
 ```
 
-#### ID prefix conventions
+#### ID format
 
-| Module | Prefix | Examples |
-|---|---|---|
-| priority | qp | qp1, qp9, qp14 |
-| signs | qs | qs1, qs6 |
-| roadusers | qr | qr1, qr6, qr11 |
-| infrastructure | qi | qi1, qi6, qi12 |
-| legal | ql | ql1, ql5, ql14 |
-| vocabulary | qv | qv1, qv6, qv12 |
-| mixed scenarios (lives in priority module) | qmix | qmix1, qmix8 |
+`[module]_[number]` — number is zero-padded to three digits.
+
+| Module | Example IDs |
+|---|---|
+| priority | priority_001, priority_009, priority_014 |
+| signs | signs_001, signs_006 |
+| roadusers | roadusers_001, roadusers_006, roadusers_011 |
+| infrastructure | infrastructure_001, infrastructure_006, infrastructure_012 |
+| legal | legal_005, legal_010, legal_014 |
+| vocabulary | vocabulary_006, vocabulary_010, vocabulary_012 |
+| mixed scenarios (lives in priority module) | mixed_001, mixed_008 |
 
 #### Full example
 
 ```json
 {
-  "id": "qp3",
+  "id": "priority_003",
   "module": "priority",
   "skill": "Shark Teeth",
   "difficulty": "medium",

@@ -192,7 +192,7 @@ Before finalising any question, check:
 
 ```ts
 {
-  id: "q[skill_prefix]_[nn]",          // e.g. "ql5", "qv6", "qmix4"
+  id: "[module]_[nnn]",                 // e.g. "legal_005", "vocabulary_006", "mixed_004"
   m: "[moduleId]",                      // e.g. "legal", "vocabulary", "priority"
   sk: "[Skill Name]",                   // display name e.g. "Legal", "Dutch Words"
   d: "easy" | "medium" | "hard",
@@ -218,16 +218,18 @@ Before finalising any question, check:
 
 ---
 
-## ID conventions
+## ID format
 
-| Module | Prefix | Example |
-|---|---|---|
-| priority | qp | qp9, qp10 |
-| signs | qs | qs7, qs8 |
-| roadusers | qr | qr6, qr7 |
-| infrastructure | qi | qi6, qi7 |
-| legal | ql | ql5, ql6 |
-| vocabulary | qv | qv6, qv7 |
-| mixed scenarios | qmix | qmix1, qmix2 |
+`[module]_[number]` — number is zero-padded to three digits.
 
-Mixed scenarios lives in the `priority` module (`m: "priority"`) since that's where combined-rule questions fit best. Use the `qmix` prefix for IDs.
+| Module | Example IDs |
+|---|---|
+| priority | priority_009, priority_010 |
+| signs | signs_007, signs_008 |
+| roadusers | roadusers_006, roadusers_007 |
+| infrastructure | infrastructure_006, infrastructure_007 |
+| legal | legal_005, legal_006 |
+| vocabulary | vocabulary_006, vocabulary_007 |
+| mixed scenarios | mixed_001, mixed_002 |
+
+Mixed scenarios lives in the `priority` module (`module: "priority"`) since that's where combined-rule questions fit best. Use the `mixed` prefix for IDs.

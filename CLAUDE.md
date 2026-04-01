@@ -134,7 +134,7 @@ The full question bank. Imported at build time. Never fetched at runtime. 77 que
 
 ```json
 {
-  "id": "qp1",
+  "id": "priority_001",
   "module": "priority",
   "skill": "Right Before Left",
   "difficulty": "easy",
@@ -164,17 +164,17 @@ The full question bank. Imported at build time. Never fetched at runtime. 77 que
 
 See `DATA_MODEL.md` for the full type definitions and all enums.
 
-**ID prefix conventions:**
+**ID format:** `[module]_[number]` where number is zero-padded to three digits.
 
-| Module | Prefix | Example |
-|---|---|---|
-| priority | qp | qp9, qp10 |
-| signs | qs | qs7, qs8 |
-| roadusers | qr | qr6, qr7 |
-| infrastructure | qi | qi6, qi7 |
-| legal | ql | ql5, ql6 |
-| vocabulary | qv | qv6, qv7 |
-| mixed scenarios | qmix | qmix1, qmix2 |
+| Module | Example IDs |
+|---|---|
+| priority | priority_009, priority_010 |
+| signs | signs_001, signs_006 |
+| roadusers | roadusers_006, roadusers_007 |
+| infrastructure | infrastructure_006, infrastructure_007 |
+| legal | legal_005, legal_006 |
+| vocabulary | vocabulary_006, vocabulary_007 |
+| mixed scenarios | mixed_001, mixed_002 |
 
 ### `data/lessons.json`
 

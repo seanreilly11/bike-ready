@@ -90,7 +90,7 @@ Questions with a `sign` field show an SVG illustration of the actual Dutch sign 
 
 ```ts
 interface Question {
-  id:         string          // e.g. "qp1", "qmix3"
+  id:         string          // e.g. "priority_001", "mixed_003"
   module:     ModuleId        // module the question belongs to
   skill:      string          // skill display name, e.g. "Shark Teeth"
   difficulty: Difficulty      // "easy" | "medium" | "hard"
