@@ -1496,5 +1496,171 @@
       "tip": "1 metre from parked cars. Door zone = danger zone."
     },
     "status": "draft"
+  },
+  {
+    "id": "vocabulary_013",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "A triangular give-way sign reads 'Voorrang verlenen'. What does this require you to do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Give way to traffic on the crossing road"
+      },
+      {
+        "id": "b",
+        "label": "Stop completely and wait for a clear gap"
+      },
+      {
+        "id": "c",
+        "label": "Sound your bell before entering the junction"
+      },
+      {
+        "id": "d",
+        "label": "You have priority — other traffic must yield to you"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Voorrang verlenen' means give way — you must yield to traffic on the crossing road. A full stop is not always required, but you must wait until it is safe to proceed. 'Verlenen' means to grant, so you are granting priority to others.",
+      "rule": "Vocabulary: voorrang = priority, verlenen = to grant. Voorrang verlenen = give way.",
+      "tip": "Verlenen = to give. Voorrang verlenen = grant priority to others."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "vocabulary_014",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "A Dutch cyclist warns you to watch for 'haaientanden' at the junction ahead. What should you look for?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A yellow diamond sign indicating a priority road"
+      },
+      {
+        "id": "b",
+        "label": "A red and white triangular give-way sign"
+      },
+      {
+        "id": "c",
+        "label": "White triangles painted on the road marking a yield obligation"
+      },
+      {
+        "id": "d",
+        "label": "Raised speed bumps across the cycle path"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Haaientanden' literally means shark teeth — the white triangles painted on the road surface. They always point toward the road user who must yield. If they point at you, you must give way to crossing traffic.",
+      "rule": "Vocabulary: haaien = sharks, tanden = teeth. Haaientanden = white yield triangles painted on the road.",
+      "tip": "Haaientanden = shark teeth. Pointing at you = you yield."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "vocabulary_015",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're cycling on a red road surface with 'FIETSSTRAAT' painted on it. A car behind you wants to pass. You're cycling at a comfortable pace. What applies?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Speed up to avoid slowing the car down"
+      },
+      {
+        "id": "b",
+        "label": "Hold your position — on a fietsstraat, cars are guests and may not overtake cyclists"
+      },
+      {
+        "id": "c",
+        "label": "Move aside — motor vehicles have priority to pass on any road"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A fietsstraat is a cycle street where cyclists have full priority and cars are guests. Motor vehicles may use the road to access properties but must not overtake cyclists or cause them to change speed or direction. You set the pace.",
+      "rule": "On a fietsstraat, motor vehicles may not overtake cyclists. Cyclists have full use of the road width.",
+      "tip": "Fietsstraat = your street. Cars follow you, not the other way around."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "vocabulary_016",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "A car is emerging from a driveway marked 'Uitrit'. You are cycling past on the adjacent cycle path. Who has priority?",
+    "options": [
+      {
+        "id": "a",
+        "label": "The car — it is a vehicle using a recognised exit point"
+      },
+      {
+        "id": "b",
+        "label": "Neither — you must both slow and negotiate"
+      },
+      {
+        "id": "c",
+        "label": "Whoever reaches the conflict point first"
+      },
+      {
+        "id": "d",
+        "label": "You — vehicles leaving a uitrit must yield to all road and cycle path users"
+      }
+    ],
+    "correct": "d",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Uitrit' means driveway exit. Vehicles leaving a uitrit must yield to all traffic on the public road or cycle path — including cyclists. This applies even if the car is already partially across the cycle path when you arrive.",
+      "rule": "Vocabulary: uit = out, rit = drive. Uitrit = driveway exit. Exiting vehicles always yield to passing traffic.",
+      "tip": "Uitrit = their exit, your priority. They yield, always."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "vocabulary_017",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "hard",
+    "type": "multiple_choice",
+    "prompt": "An older sign at a path entrance reads 'Rijwielpad'. What kind of path is this, and who may use it?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A mandatory cycle path — cyclists must use it, motor vehicles prohibited"
+      },
+      {
+        "id": "b",
+        "label": "A shared path — pedestrians and cyclists both welcome"
+      },
+      {
+        "id": "c",
+        "label": "An advisory cycle route — you may use the road instead"
+      },
+      {
+        "id": "d",
+        "label": "A path for all non-motorised vehicles including mopeds"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Rijwielpad' is an older Dutch term for a mandatory cycle path — now more commonly called a fietspad. 'Rijwiel' is a formal word for bicycle, 'pad' means path. As a cyclist you must use it; motor vehicles are prohibited. You will still encounter this sign on older infrastructure.",
+      "rule": "Vocabulary: rijwiel = bicycle (formal), pad = path. Rijwielpad = mandatory cycle path, same rules as fietspad.",
+      "tip": "Rijwielpad = old word for fietspad. Mandatory for you, forbidden for cars."
+    },
+    "status": "draft"
   }
 ]
