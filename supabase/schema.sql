@@ -7,9 +7,12 @@
 -- ---------------------------------------------------------------------------
 
 create table if not exists profiles (
-  id         uuid primary key references auth.users(id) on delete cascade,
-  is_premium boolean      not null default false,
-  created_at timestamptz  not null default now()
+  id                  uuid        primary key references auth.users(id) on delete cascade,
+  is_premium          boolean     not null default false,
+  premium_since       timestamptz,
+  stripe_customer_id  text,
+  stripe_payment_id   text,
+  created_at          timestamptz not null default now()
 );
 
 alter table profiles enable row level security;

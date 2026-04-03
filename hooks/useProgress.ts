@@ -110,6 +110,18 @@ export function useProgress(user: User | null) {
         [supabase],
     );
 
+    // Migrate localStorage progress to Supabase on sign-in
+    useEffect(() => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+                if (event === "SIGNED_IN" && session?.user) {
+                    await migrateLocalProgress(session.user.id);
+                }
+            }
+        );
+        return () => subscription.unsubscribe();
+    }, [migrateLocalProgress, supabase.auth]);
+
     // ---------------------------------------------------------------------------
     // Derived helpers
     // ---------------------------------------------------------------------------

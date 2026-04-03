@@ -60,7 +60,7 @@ export function useAuth(): UseAuthReturn {
   const sendMagicLink = useCallback(async (email: string) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/learn` },
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     })
     if (error) throw error
   }, [supabase.auth])
