@@ -32,6 +32,17 @@ export function useAuth(): UseAuthReturn {
     return data?.is_premium ?? false
   }, [supabase])
 
+  // If the user is signed in but not premium, verify against Stripe in case
+  // the webhook failed to fire. Silently recovers missed payments.
+  const verifyPremium = useCallback(async () => {
+    const res = await fetch('/api/premium/verify')
+    if (!res.ok) return
+    const { is_premium } = (await res.json()) as { is_premium: boolean }
+    if (is_premium) {
+      setState(prev => ({ ...prev, isPremium: true }))
+    }
+  }, [])
+
   useEffect(() => {
     let mounted = true
 
@@ -43,11 +54,14 @@ export function useAuth(): UseAuthReturn {
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         if (!mounted) return
         const user = session?.user ?? null
         const isPremium = user ? await fetchProfile(user.id) : false
         setState({ user, isPremium, isLoading: false })
+        if (event === 'SIGNED_IN' && user && !isPremium) {
+          verifyPremium()
+        }
       }
     )
 
