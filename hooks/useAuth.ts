@@ -1,87 +1,93 @@
-'use client'
+"use client";
 
-import { useEffect, useState, useCallback } from 'react'
-import type { User } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase'
+import { useEffect, useState, useCallback } from "react";
+import type { User } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase";
 
 interface AuthState {
-  user:        User | null
-  isPremium:   boolean
-  isLoading:   boolean
+  user: User | null;
+  isPremium: boolean;
+  isLoading: boolean;
 }
 
 interface UseAuthReturn extends AuthState {
-  sendMagicLink: (email: string) => Promise<void>
-  signOut:       () => Promise<void>
+  sendMagicLink: (email: string) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 export function useAuth(): UseAuthReturn {
-  const supabase = createClient()
+  const supabase = createClient();
   const [state, setState] = useState<AuthState>({
-    user:      null,
+    user: null,
     isPremium: false,
     isLoading: true,
-  })
+  });
 
-  const fetchProfile = useCallback(async (userId: string) => {
-    const { data } = await supabase
-      .from('profiles')
-      .select('is_premium')
-      .eq('id', userId)
-      .single()
-    return data?.is_premium ?? false
-  }, [supabase])
+  const fetchProfile = useCallback(
+    async (userId: string) => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("is_premium")
+        .eq("id", userId)
+        .single();
+      return data?.is_premium ?? false;
+    },
+    [supabase],
+  );
 
   // If the user is signed in but not premium, verify against Stripe in case
   // the webhook failed to fire. Silently recovers missed payments.
   const verifyPremium = useCallback(async () => {
-    const res = await fetch('/api/premium/verify')
-    if (!res.ok) return
-    const { is_premium } = (await res.json()) as { is_premium: boolean }
+    const res = await fetch("/api/premium/verify");
+    if (!res.ok) return;
+    const { is_premium } = (await res.json()) as { is_premium: boolean };
     if (is_premium) {
-      setState(prev => ({ ...prev, isPremium: true }))
+      setState((prev) => ({ ...prev, isPremium: true }));
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    let mounted = true
+    let mounted = true;
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!mounted) return
-      const user = session?.user ?? null
-      const isPremium = user ? await fetchProfile(user.id) : false
-      setState({ user, isPremium, isLoading: false })
-    })
+      if (!mounted) return;
+      const user = session?.user ?? null;
+      const isPremium = user ? await fetchProfile(user.id) : false;
+      setState({ user, isPremium, isLoading: false });
+    });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!mounted) return
-        const user = session?.user ?? null
-        const isPremium = user ? await fetchProfile(user.id) : false
-        setState({ user, isPremium, isLoading: false })
-        if (event === 'SIGNED_IN' && user && !isPremium) {
-          verifyPremium()
-        }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!mounted) return;
+      const user = session?.user ?? null;
+      const isPremium = user ? await fetchProfile(user.id) : false;
+      setState({ user, isPremium, isLoading: false });
+      if (event === "SIGNED_IN" && user && !isPremium) {
+        verifyPremium();
       }
-    )
+    });
 
     return () => {
-      mounted = false
-      subscription.unsubscribe()
-    }
-  }, [fetchProfile, supabase.auth])
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [fetchProfile, supabase.auth]);
 
-  const sendMagicLink = useCallback(async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-    })
-    if (error) throw error
-  }, [supabase.auth])
+  const sendMagicLink = useCallback(
+    async (email: string) => {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) throw error;
+    },
+    [supabase.auth],
+  );
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut()
-  }, [supabase.auth])
+    await supabase.auth.signOut();
+  }, [supabase.auth]);
 
-  return { ...state, sendMagicLink, signOut }
+  return { ...state, sendMagicLink, signOut };
 }

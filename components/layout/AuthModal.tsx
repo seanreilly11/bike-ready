@@ -1,30 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Button from '@/components/ui/Button'
+import { useState } from "react";
+import Button from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AuthModalProps {
-  onClose:       () => void
-  sendMagicLink: (email: string) => Promise<void>
+  onClose: () => void;
 }
 
-export default function AuthModal({ onClose, sendMagicLink }: AuthModalProps) {
-  const [email,   setEmail]   = useState('')
-  const [sent,    setSent]    = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error,   setError]   = useState<string | null>(null)
+export default function AuthModal({ onClose }: AuthModalProps) {
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { sendMagicLink } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
     try {
-      await sendMagicLink(email)
-      setSent(true)
+      await sendMagicLink(email);
+      setSent(true);
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -54,7 +55,8 @@ export default function AuthModal({ onClose, sendMagicLink }: AuthModalProps) {
               Check your email
             </h2>
             <p className="text-stone-600 text-sm">
-              We sent a magic link to <strong>{email}</strong>. Click it to sign in.
+              We sent a magic link to <strong>{email}</strong>. Click it to sign
+              in.
             </p>
           </div>
         ) : (
@@ -71,18 +73,23 @@ export default function AuthModal({ onClose, sendMagicLink }: AuthModalProps) {
                 type="email"
                 required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 className={[
-                  'w-full rounded-xl border px-4 py-3 text-sm font-display text-stone-900',
-                  'placeholder:text-stone-400',
-                  'border-stone-200 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/30',
-                  'transition-colors duration-150',
-                ].join(' ')}
+                  "w-full rounded-xl border px-4 py-3 text-sm font-display text-stone-900",
+                  "placeholder:text-stone-400",
+                  "border-stone-200 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/30",
+                  "transition-colors duration-150",
+                ].join(" ")}
               />
               {error && <p className="text-red-dark text-xs">{error}</p>}
-              <Button type="submit" full loading={loading} disabled={loading || !email}>
-                {loading ? 'Sending…' : 'Send magic link'}
+              <Button
+                type="submit"
+                full
+                loading={loading}
+                disabled={loading || !email}
+              >
+                {loading ? "Sending…" : "Send magic link"}
               </Button>
             </form>
 
@@ -93,5 +100,5 @@ export default function AuthModal({ onClose, sendMagicLink }: AuthModalProps) {
         )}
       </div>
     </div>
-  )
+  );
 }
