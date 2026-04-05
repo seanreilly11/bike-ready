@@ -3,9 +3,8 @@ import Stripe from "stripe";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { headers } from "next/headers";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(request: NextRequest) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const body = await request.text();
   const headersList = await headers();
   const signature = headersList.get("stripe-signature");
