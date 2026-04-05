@@ -12,6 +12,8 @@ import { FREE_PER_MODULE } from "@/types";
 import { createClient } from "@/lib/supabase";
 import { activeQuestions, useQuestions } from "@/hooks/useQuestions";
 import { useAuth } from "./useAuth";
+import fetchProgress from "@/lib/queries/fetchProgress";
+import updateProgress from "@/lib/mutations/updateProgress";
 
 const STORAGE_KEY = "bikeready_progress";
 
@@ -41,10 +43,7 @@ export function useProgress() {
   useEffect(() => {
     async function load() {
       if (user) {
-        const { data } = await supabase
-          .from("question_progress")
-          .select("question_id, seen, correct")
-          .eq("user_id", user.id);
+        const data = await fetchProgress();
 
         if (data) {
           const merged: LocalProgress = {};
@@ -81,11 +80,7 @@ export function useProgress() {
       });
 
       if (user) {
-        await supabase.rpc("upsert_question_progress", {
-          p_user_id: user.id,
-          p_question_id: questionId,
-          p_correct: correct,
-        });
+        await updateProgress(questionId, correct);
       }
     },
     [user, supabase],
@@ -100,11 +95,7 @@ export function useProgress() {
 
       await Promise.all(
         entries.map(([questionId, { correct }]) =>
-          supabase.rpc("upsert_question_progress", {
-            p_user_id: userId,
-            p_question_id: questionId,
-            p_correct: correct,
-          }),
+          updateProgress(questionId, correct, userId),
         ),
       );
 
