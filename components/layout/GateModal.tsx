@@ -1,23 +1,24 @@
-'use client'
+"use client";
 
-import type { Module } from '@/types'
-import Button from '@/components/ui/Button'
+import type { Module } from "@/types";
+import Button from "@/components/ui/Button";
+import { APP_PRICE } from "@/data/constants";
 
 interface GateModalProps {
-  moduleName:   string
-  nextModule:   Module | null
-  onUnlock:     () => void
-  onNextModule: (id: string) => void
-  onDismiss:    () => void
+  moduleName: string;
+  nextModule: Module | null;
+  onUnlock: () => void;
+  onNextModule: (id: string) => void;
+  onDismiss: () => void;
 }
 
 const features = [
-  'All questions in every module',
-  'Shrinking Review queue',
-  'Timed Test with results breakdown',
-  'Module completion badges',
-  'Progress saved across devices',
-]
+  "All questions in every module",
+  "Shrinking Review queue",
+  "Timed Test with results breakdown",
+  "Module completion badges",
+  "Progress saved across devices",
+];
 
 export default function GateModal({
   moduleName,
@@ -37,7 +38,6 @@ export default function GateModal({
 
       {/* Modal */}
       <div className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up">
-
         {/* Social proof */}
         <div className="flex justify-center mb-4">
           <span className="font-mono text-xs uppercase tracking-wide bg-orange-light text-orange border border-orange-mid rounded-full px-3 py-1">
@@ -54,8 +54,11 @@ export default function GateModal({
 
         {/* Feature list */}
         <ul className="space-y-2 mb-6">
-          {features.map(f => (
-            <li key={f} className="flex items-center gap-2 text-sm text-stone-700">
+          {features.map((f) => (
+            <li
+              key={f}
+              className="flex items-center gap-2 text-sm text-stone-700"
+            >
               <span className="text-green font-bold">✓</span>
               {f}
             </li>
@@ -83,7 +86,7 @@ export default function GateModal({
         )}
 
         <Button variant="primary" size="lg" full onClick={onUnlock}>
-          Unlock for €4.99
+          Unlock for {APP_PRICE}
         </Button>
         <p className="text-center text-xs text-stone-400 mt-2">
           Less than the fine for running a red light
@@ -96,5 +99,5 @@ export default function GateModal({
         </div>
       </div>
     </div>
-  )
+  );
 }

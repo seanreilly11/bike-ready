@@ -55,10 +55,8 @@ export default function ModuleCard({
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xl">{module.emoji}</span>
-          <h3 className="font-display font-bold text-stone-900">
-            {module.title}
-          </h3>
+          {/* <span className="text-xl">{module.emoji}</span> */}
+          <h3 className="font-display font-bold text-orange">{module.title}</h3>
         </div>
         <Badge variant={variant} label={label} />
       </div>

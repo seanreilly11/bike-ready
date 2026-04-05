@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import Nav from "@/components/layout/Nav";
 import OnboardingOverlay from "@/components/layout/OnboardingOverlay";
 import modules from "@/data/modules";
+import { APP_PRICE } from "@/data/constants";
 
 const ONBOARDING_KEY = "bikeready_onboarding_done";
 
@@ -133,7 +134,7 @@ export default function LandingPage() {
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                 ].join(" ")}
               >
-                <span className="text-2xl block mb-1">{mod.emoji}</span>
+                {/* <span className="text-2xl block mb-1">{mod.emoji}</span> */}
                 <p className="font-display font-bold text-sm text-stone-900">
                   {mod.title}
                 </p>
@@ -168,7 +169,7 @@ export default function LandingPage() {
             Start learning →
           </Button>
           <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">
-            Full course €4.99 one-time · No subscription
+            Full course {APP_PRICE} one-time · No subscription
           </p>
         </section>
       </main>

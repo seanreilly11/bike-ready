@@ -15,6 +15,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
+import { APP_PRICE } from "@/data/constants";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
@@ -40,7 +41,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
           <ProgressBar value={pct} color="orange" height={6} />
         </div>
         <Button variant="primary" size="lg" full onClick={onUnlock}>
-          Unlock full course — €4.99
+          Unlock full course — {APP_PRICE}
         </Button>
         <p className="text-stone-500 text-xs mt-2">
           One-time payment. No subscription.
@@ -86,7 +87,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
       {/* Second CTA */}
       <div className="px-5 pb-16 max-w-sm mx-auto text-center">
         <Button variant="primary" size="lg" full onClick={onUnlock}>
-          Unlock full course — €4.99
+          Unlock full course — {APP_PRICE}
         </Button>
       </div>
     </div>
