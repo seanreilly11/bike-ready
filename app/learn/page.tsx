@@ -97,7 +97,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 export default function LearnIndexPage() {
   const router = useRouter();
   const { user, isPremium } = useAuth();
-  const progress = useProgress(user);
+  const progress = useProgress();
   const { earnedIds } = useBadges(user);
   const { questionsByModule } = useQuestions();
   const [bannerDismissed, setBannerDismissed] = useState(false);

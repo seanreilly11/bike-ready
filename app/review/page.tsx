@@ -14,8 +14,8 @@ import PremiumLocked from "@/components/layout/PremiumLocked";
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { user, isPremium } = useAuth();
-  const progress = useProgress(user);
+  const { isPremium } = useAuth();
+  const progress = useProgress();
   const { track } = useAnalytics();
   const [activeId, setActiveId] = useState<string | null>(null);
 

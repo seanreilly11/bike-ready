@@ -28,7 +28,7 @@ interface Answer {
 export default function TestPage() {
   const router = useRouter();
   const { user, isPremium } = useAuth();
-  const progress = useProgress(user);
+  const progress = useProgress();
   const { checkModuleBadge } = useBadges(user);
   const { track } = useAnalytics();
   const { buildTestSet } = useQuestions();

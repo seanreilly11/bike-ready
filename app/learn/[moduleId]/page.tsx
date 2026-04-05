@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { ModuleId } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
@@ -30,7 +30,7 @@ export default function ModuleSessionPage() {
 
   const { user, isPremium } = useAuth();
   const openAuth = useAuthModal();
-  const progress = useProgress(user);
+  const progress = useProgress();
   const badges = useBadges(user);
   const { track } = useAnalytics();
   const { questionsByModule } = useQuestions();
@@ -42,6 +42,11 @@ export default function ModuleSessionPage() {
     () => questionsByModule(moduleId),
     [moduleId],
   );
+
+  useEffect(() => {
+    const index = progress.getCurrentQuestionIndex(moduleId);
+    setCurrentIndex(index);
+  }, [moduleId, progress, user]);
 
   const currentQuestion = moduleQuestions[currentIndex];
   const totalSeen = progress.getTotalSeen();
@@ -208,6 +213,10 @@ export default function ModuleSessionPage() {
                   onUnlock={() => router.push("/api/checkout")}
                 />
               </div>
+            </div>
+          ) : user && !progress.isLoaded ? (
+            <div className="min-h-screen flex items-center justify-center">
+              <p className="text-stone-400">Loading...</p>
             </div>
           ) : (
             /* Active question */
