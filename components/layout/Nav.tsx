@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface NavProps {
   currentRoute: string;
@@ -24,6 +25,7 @@ export default function Nav({
   logoOnly = false,
 }: NavProps) {
   const { user, isPremium, isLoading } = useAuth();
+  const router = useRouter();
 
   return (
     <nav className="sticky top-0 z-40 bg-white border-b border-stone-200">
@@ -69,9 +71,9 @@ export default function Nav({
                   ⭐ Premium
                 </span>
               ) : user?.email ? (
-                <span className="text-xs tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
-                  8 {user.email.split("@")[0]}
-                </span>
+                <Button size="sm" onClick={() => router.push("/api/checkout")}>
+                  Go Premium
+                </Button>
               ) : (
                 <Button variant="secondary" size="sm" onClick={onSignIn}>
                   Sign in
