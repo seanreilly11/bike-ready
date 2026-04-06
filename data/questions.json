@@ -2046,5 +2046,143 @@
       "tip": "Teeth facing them = they stop for you. Teeth facing you = you stop for them."
     },
     "status": "active"
+  },
+  {
+    "id": "infrastructure_013",
+    "module": "infrastructure",
+    "skill": "Roundabouts",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're cycling on a roundabout's dedicated cycle ring. A car at an entry point crosses your ring path to join the roundabout. Who has priority?",
+    "options": [
+      {
+        "id": "a",
+        "label": "The car — it is entering the roundabout and has momentum"
+      },
+      {
+        "id": "b",
+        "label": "You — cyclists on a dedicated ring have priority over entering and exiting cars"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A dedicated cycle ring gives cyclists priority over cars both entering and leaving the roundabout. This is confirmed by shark teeth facing the car at each crossing point. The key distinction: with a cycle ring, you have priority; without one, you are equal traffic.",
+      "rule": "Cyclists on a dedicated roundabout cycle ring have priority over cars at all crossing points.",
+      "tip": "Cycle ring = priority over all cars. No ring = no assumed priority."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "infrastructure_014",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're at a red light and a large truck has stopped to your right. The light turns green. What should you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Set off immediately — green means it's your turn"
+      },
+      {
+        "id": "b",
+        "label": "Let the truck move first, then proceed"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "Large vehicles have wide blind spots on the right side. If the truck turns and the driver hasn't seen you, the consequences can be fatal. Waiting a moment for the truck to move and clear is the safer practice, even though you have the legal right to go.",
+      "rule": "Cyclists should avoid positioning themselves in the blind spot of large vehicles and should let them clear before proceeding.",
+      "tip": "Truck to your right? Let it go first. Always."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "infrastructure_015",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're cycling in a marked cycle lane. A car is double-parked ahead, blocking your lane entirely. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Stop and wait — the cycle lane is your space and you have priority"
+      },
+      {
+        "id": "b",
+        "label": "Check over your shoulder, signal, and merge into the main road to pass"
+      },
+      {
+        "id": "c",
+        "label": "Sound your bell repeatedly until the driver moves"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "You cannot legally force a parked car to move, and waiting indefinitely is not an option. Check for traffic behind you, signal your intention to move left, and carefully pass the obstruction in the main road before returning to the cycle lane. The car is in the wrong, but the practical response is to pass safely.",
+      "rule": "When a cycle lane is blocked, cyclists may temporarily use the main carriageway to pass the obstruction.",
+      "tip": "Blocked lane? Check, signal, merge, pass, return. Same as overtaking."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "infrastructure_016",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "medium",
+    "type": "true_false",
+    "prompt": "A road is one-way for motor vehicles. The cycle path running alongside it is signed with mandatory cycle path signs facing both directions. Cyclists may use this path in both directions.",
+    "options": [
+      {
+        "id": "a",
+        "label": "True"
+      },
+      {
+        "id": "b",
+        "label": "False — one-way rules apply to all road users"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "One-way restrictions apply to the road, not to cycle paths alongside it. It is common in Dutch cities for a cycle path to carry two-way cycling traffic next to a one-way car road. The mandatory cycle path signs facing both directions confirm this is permitted.",
+      "rule": "One-way restrictions apply to motor vehicles on the road. Cycle paths alongside may permit two-way cycling if signed accordingly.",
+      "tip": "One-way for cars ≠ one-way for you on the cycle path. Check the signs on the path itself."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "infrastructure_017",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "hard",
+    "type": "scenario_decision",
+    "prompt": "You approach a red light. Ahead of the car stop line there is a white rectangular box on the road marked with a bicycle symbol — an advanced stop box. Where should you stop?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Behind the car stop line with the other traffic"
+      },
+      {
+        "id": "b",
+        "label": "In the advanced stop box, ahead of the cars"
+      },
+      {
+        "id": "c",
+        "label": "As far forward as possible, even past the box"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "The advanced stop box (fietsopstelstrook) is designed specifically for cyclists — it lets you stop ahead of cars so you are visible and can set off before them. Stop within the box at red. Moving beyond the box and into the junction is still running a red light.",
+      "rule": "The fietsopstelstrook is for cyclists waiting at red lights. Stop in the box, not behind cars and not in the junction.",
+      "tip": "See the box ahead of the car line? That is your space at a red light. Use it."
+    },
+    "status": "draft"
   }
 ]
