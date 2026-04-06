@@ -2184,5 +2184,57 @@
       "tip": "See the box ahead of the car line? That is your space at a red light. Use it."
     },
     "status": "active"
+  },
+  {
+    "id": "infrastructure_018",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "A cyclist is riding straight toward you on a two-way cycle path. Which way do you move to let each other pass?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Left — get out of each other's way by moving to the left"
+      },
+      {
+        "id": "b",
+        "label": "Right — you both keep to the right of your own direction of travel"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "The Netherlands is a right-hand traffic country. On a two-way cycle path, each cyclist keeps to the right of their own direction of travel — the same principle as cars on a road. If you come from the UK, Ireland, or another left-hand traffic country, the instinct to move left feels natural but is wrong here.",
+      "rule": "Keep to the right in the Netherlands — on roads, cycle paths, and anywhere traffic flows in two directions.",
+      "tip": "From a left-hand country? Flip it. Always move right."
+    },
+    "status": "active"
+  },
+  {
+    "id": "infrastructure_019",
+    "module": "infrastructure",
+    "skill": "City Cycling",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're cycling on a quiet Dutch road with no cycle path. You want to ride facing oncoming traffic so you can see cars coming. Is this permitted?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Yes — riding toward traffic is safer because you can see and react to vehicles"
+      },
+      {
+        "id": "b",
+        "label": "No — cyclists must travel in the same direction as traffic, keeping to the right"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "Cyclists are traffic in the Netherlands and must follow the flow of traffic, keeping to the right. Riding against traffic is illegal and significantly increases collision risk — closing speeds are much higher and drivers don't expect a cyclist coming at them. The logic of 'I can see them coming' does not apply when you are on a bicycle.",
+      "rule": "Cyclists must travel in the direction of traffic flow and keep to the right. Riding against traffic is prohibited except in designated contraflow lanes.",
+      "tip": "You are traffic. Go with the flow, keep right."
+    },
+    "status": "active"
   }
 ]
