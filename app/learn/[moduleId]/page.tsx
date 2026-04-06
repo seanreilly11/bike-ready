@@ -31,7 +31,7 @@ export default function ModuleSessionPage() {
   const { user, isPremium } = useAuth();
   const openAuth = useAuthModal();
   const progress = useProgress();
-  const badges = useBadges(user);
+  const badges = useBadges();
   const { track } = useAnalytics();
   const { questionsByModule } = useQuestions();
 
@@ -49,7 +49,6 @@ export default function ModuleSessionPage() {
   }, [moduleId, progress, user]);
 
   const currentQuestion = moduleQuestions[currentIndex];
-  const totalSeen = progress.getTotalSeen();
   const seenInModule = progress.getModuleSeen(moduleId);
   const allDone = seenInModule === moduleQuestions.length;
 
@@ -96,10 +95,7 @@ export default function ModuleSessionPage() {
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
       {!user && !bannerDismissed && (
-        <ReturnBanner
-          totalSeen={totalSeen}
-          onDismiss={() => setBannerDismissed(true)}
-        />
+        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 
       {/* Sticky sub-header */}
@@ -132,7 +128,6 @@ export default function ModuleSessionPage() {
               questions={moduleQuestions}
               progress={progress.progress}
               currentId={currentQuestion?.id ?? ""}
-              isPremium={isPremium}
               onDotClick={setCurrentIndex}
             />
           </div>

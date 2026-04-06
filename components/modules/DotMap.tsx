@@ -3,12 +3,12 @@
 import type { Question, LocalProgress, DotState } from '@/types'
 import { FREE_PER_MODULE } from '@/types'
 import MasteryDot from '@/components/ui/MasteryDot'
+import { useAuth } from '@/hooks/useAuth'
 
 interface DotMapProps {
   questions:   Question[]
   progress:    LocalProgress
   currentId:   string
-  isPremium:   boolean
   onDotClick:  (index: number) => void
 }
 
@@ -24,9 +24,9 @@ export default function DotMap({
   questions,
   progress,
   currentId,
-  isPremium,
   onDotClick,
 }: DotMapProps) {
+  const { isPremium } = useAuth()
   return (
     <div className="flex flex-wrap gap-1.5">
       {questions.map((q, index) => {

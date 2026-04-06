@@ -27,7 +27,6 @@ export default function AppShell({
       <Nav
         currentRoute={pathname}
         wrongCount={wrongCount}
-        onSignIn={openAuth}
         logoOnly={logoOnly}
       />
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}

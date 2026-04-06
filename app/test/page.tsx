@@ -29,7 +29,7 @@ export default function TestPage() {
   const router = useRouter();
   const { user, isPremium } = useAuth();
   const progress = useProgress();
-  const { checkModuleBadge } = useBadges(user);
+  const { checkModuleBadge } = useBadges();
   const { track } = useAnalytics();
   const { buildTestSet } = useQuestions();
 

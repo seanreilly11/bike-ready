@@ -52,7 +52,7 @@ export default function LandingPage() {
 
   return (
     <>
-      <Nav currentRoute="/" wrongCount={0} onSignIn={() => {}} logoOnly />
+      <Nav currentRoute="/" wrongCount={0} logoOnly />
       <main className="min-h-screen bg-stone-50 overflow-x-hidden">
         {/* Hero */}
         <section className="bg-orange px-5 pt-12 pb-14 md:pt-20 md:pb-20">

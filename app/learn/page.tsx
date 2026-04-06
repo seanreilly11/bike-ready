@@ -98,11 +98,8 @@ export default function LearnIndexPage() {
   const router = useRouter();
   const { user, isPremium } = useAuth();
   const progress = useProgress();
-  const { earnedIds } = useBadges(user);
-  const { questionsByModule } = useQuestions();
+  const { earnedIds } = useBadges();
   const [bannerDismissed, setBannerDismissed] = useState(false);
-
-  const totalSeen = progress.getTotalSeen();
 
   if (progress.isPreviewComplete(isPremium)) {
     return (
@@ -113,10 +110,7 @@ export default function LearnIndexPage() {
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
       {!user && !bannerDismissed && (
-        <ReturnBanner
-          totalSeen={totalSeen}
-          onDismiss={() => setBannerDismissed(true)}
-        />
+        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 
       <main className="min-h-screen bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
@@ -126,20 +120,13 @@ export default function LearnIndexPage() {
 
         {/* Module cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-          {modules.map((mod) => {
-            const qs = questionsByModule(mod.id as ModuleId);
-            const status = progress.getModuleStatus(mod.id, isPremium);
-            return (
-              <ModuleCard
-                key={mod.id}
-                module={mod}
-                questions={qs}
-                progress={progress.progress}
-                status={status}
-                onClick={() => router.push(`/learn/${mod.id}`)}
-              />
-            );
-          })}
+          {modules.map((mod) => (
+            <ModuleCard
+              key={mod.id}
+              module={mod}
+              onClick={() => router.push(`/learn/${mod.id}`)}
+            />
+          ))}
         </div>
 
         {/* Badge grid — shown only when user is premium or has earned at least one */}

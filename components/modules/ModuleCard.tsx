@@ -5,12 +5,11 @@ import { FREE_PER_MODULE } from "@/types";
 import Badge from "@/components/ui/Badge";
 import MasteryDot from "@/components/ui/MasteryDot";
 import { useAuth } from "@/hooks/useAuth";
+import { useProgress } from "@/hooks/useProgress";
+import { useQuestions } from "@/hooks/useQuestions";
 
 interface ModuleCardProps {
   module: Module;
-  questions: Question[];
-  progress: LocalProgress;
-  status: ModuleStatus;
   onClick: () => void;
 }
 
@@ -31,16 +30,14 @@ function getDotState(q: Question, progress: LocalProgress) {
   return "seen";
 }
 
-export default function ModuleCard({
-  module,
-  questions,
-  progress,
-  status,
-  onClick,
-}: ModuleCardProps) {
+export default function ModuleCard({ module, onClick }: ModuleCardProps) {
+  const { isPremium } = useAuth();
+  const { progress, getModuleStatus } = useProgress();
+  const { questionsByModule } = useQuestions();
+  const questions = questionsByModule(module.id);
+  const status = getModuleStatus(module.id, isPremium);
   const seen = questions.filter((q) => progress[q.id]?.seen).length;
   const { label, variant } = statusBadge[status];
-  const { isPremium } = useAuth();
 
   return (
     <button

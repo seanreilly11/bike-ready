@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import type { User } from "@supabase/supabase-js";
 import type { Badge, LocalProgress, ModuleId } from "@/types";
 import { createClient } from "@/lib/supabase";
 import badgeDefinitions from "@/data/badges";
 import { activeQuestions } from "@/hooks/useQuestions";
+import { useAuth } from "@/hooks/useAuth";
 
-export function useBadges(user: User | null) {
+export function useBadges() {
+    const { user } = useAuth();
     const supabase = createClient();
     const [earnedIds, setEarnedIds] = useState<Set<string>>(new Set());
     const [newBadge, setNewBadge] = useState<Badge | null>(null);

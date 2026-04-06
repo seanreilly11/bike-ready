@@ -3,12 +3,12 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthModal } from "@/hooks/useAuthModal";
 import { useRouter } from "next/navigation";
 
 interface NavProps {
   currentRoute: string;
   wrongCount: number;
-  onSignIn: () => void;
   logoOnly?: boolean;
 }
 
@@ -21,10 +21,10 @@ const navItems = [
 export default function Nav({
   currentRoute,
   wrongCount,
-  onSignIn,
   logoOnly = false,
 }: NavProps) {
   const { user, isPremium, isLoading } = useAuth();
+  const openAuth = useAuthModal();
   const router = useRouter();
 
   return (
@@ -75,7 +75,7 @@ export default function Nav({
                   Go Premium
                 </Button>
               ) : (
-                <Button variant="secondary" size="sm" onClick={onSignIn}>
+                <Button variant="secondary" size="sm" onClick={openAuth}>
                   Sign in
                 </Button>
               )}
