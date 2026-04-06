@@ -2071,7 +2071,7 @@
       "rule": "Cyclists on a dedicated roundabout cycle ring have priority over cars at all crossing points.",
       "tip": "Cycle ring = priority over all cars. No ring = no assumed priority."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "infrastructure_014",
@@ -2097,7 +2097,7 @@
       "rule": "Cyclists should avoid positioning themselves in the blind spot of large vehicles and should let them clear before proceeding.",
       "tip": "Truck to your right? Let it go first. Always."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "infrastructure_015",
@@ -2127,7 +2127,7 @@
       "rule": "When a cycle lane is blocked, cyclists may temporarily use the main carriageway to pass the obstruction.",
       "tip": "Blocked lane? Check, signal, merge, pass, return. Same as overtaking."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "infrastructure_016",
@@ -2153,13 +2153,13 @@
       "rule": "One-way restrictions apply to motor vehicles on the road. Cycle paths alongside may permit two-way cycling if signed accordingly.",
       "tip": "One-way for cars ≠ one-way for you on the cycle path. Check the signs on the path itself."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "infrastructure_017",
     "module": "infrastructure",
     "skill": "City Cycling",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "type": "scenario_decision",
     "prompt": "You approach a red light. Ahead of the car stop line there is a white rectangular box on the road marked with a bicycle symbol — an advanced stop box. Where should you stop?",
     "options": [
@@ -2183,6 +2183,6 @@
       "rule": "The fietsopstelstrook is for cyclists waiting at red lights. Stop in the box, not behind cars and not in the junction.",
       "tip": "See the box ahead of the car line? That is your space at a red light. Use it."
     },
-    "status": "draft"
+    "status": "active"
   }
 ]
