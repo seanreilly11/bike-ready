@@ -162,6 +162,6 @@ export interface AnalyticsEvents {
 // Constants
 // ---------------------------------------------------------------------------
 
-export const FREE_PER_MODULE   = 2
+export const FREE_PER_MODULE   = 3
 export const TEST_PASS_PCT     = 80
 export const RETURN_BANNER_MIN = 3

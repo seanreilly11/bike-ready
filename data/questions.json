@@ -334,40 +334,6 @@
     "status": "active"
   },
   {
-    "id": "vocabulary_007",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "easy",
-    "type": "multiple_choice",
-    "prompt": "A sign at roadworks reads 'Pas op'. What does this mean?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Road closed"
-      },
-      {
-        "id": "b",
-        "label": "No entry"
-      },
-      {
-        "id": "c",
-        "label": "Watch out / caution"
-      },
-      {
-        "id": "d",
-        "label": "Slow down to 10km/h"
-      }
-    ],
-    "correct": "c",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Pas op' means watch out or caution. It's a general warning. You'll see it at roadworks, near schools, and wherever attention is needed — not a specific legal obligation, but a signal to be alert.",
-      "rule": "Vocabulary: pas = step/watch, op = up/on. Pas op = watch out.",
-      "tip": "Pas op = pay attention. Something needs your focus ahead."
-    },
-    "status": "active"
-  },
-  {
     "id": "vocabulary_008",
     "module": "vocabulary",
     "skill": "Dutch Words",
@@ -398,6 +364,74 @@
       "body": "'Fietsers oversteken' means cyclists crossing. It appears where a cycle path crosses a road, warning approaching traffic. Knowing this sign helps you understand where cars are being alerted to expect you.",
       "rule": "Vocabulary: fietsers = cyclists, oversteken = to cross.",
       "tip": "Oversteken = crossing. Fietsers oversteken = cyclists crossing here."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_011",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "You see a road sign with 'Inhalen verboden' below a no-overtaking symbol. You're on your bike. Does this apply to you?",
+    "options": [
+      {
+        "id": "a",
+        "label": "No — overtaking rules don't apply to cyclists"
+      },
+      {
+        "id": "b",
+        "label": "Yes — 'inhalen verboden' applies to all road users including cyclists"
+      },
+      {
+        "id": "c",
+        "label": "Only if you're overtaking a motor vehicle"
+      },
+      {
+        "id": "d",
+        "label": "Only on roads without a cycle lane"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Inhalen verboden' means no overtaking and it applies to cyclists too unless an exception sign is shown. You cannot overtake any vehicle in the same direction, including other cyclists.",
+      "rule": "Vocabulary: inhalen = to overtake, verboden = forbidden. Applies to all vehicles.",
+      "tip": "Inhalen verboden applies to bikes too. No overtaking means no overtaking."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_007",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "A sign at roadworks reads 'Pas op'. What does this mean?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Road closed"
+      },
+      {
+        "id": "b",
+        "label": "No entry"
+      },
+      {
+        "id": "c",
+        "label": "Watch out / caution"
+      },
+      {
+        "id": "d",
+        "label": "Slow down to 10km/h"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Pas op' means watch out or caution. It's a general warning. You'll see it at roadworks, near schools, and wherever attention is needed — not a specific legal obligation, but a signal to be alert.",
+      "rule": "Vocabulary: pas = step/watch, op = up/on. Pas op = watch out.",
+      "tip": "Pas op = pay attention. Something needs your focus ahead."
     },
     "status": "active"
   },
@@ -470,40 +504,6 @@
     "status": "active"
   },
   {
-    "id": "vocabulary_011",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "medium",
-    "type": "multiple_choice",
-    "prompt": "You see a road sign with 'Inhalen verboden' below a no-overtaking symbol. You're on your bike. Does this apply to you?",
-    "options": [
-      {
-        "id": "a",
-        "label": "No — overtaking rules don't apply to cyclists"
-      },
-      {
-        "id": "b",
-        "label": "Yes — 'inhalen verboden' applies to all road users including cyclists"
-      },
-      {
-        "id": "c",
-        "label": "Only if you're overtaking a motor vehicle"
-      },
-      {
-        "id": "d",
-        "label": "Only on roads without a cycle lane"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Inhalen verboden' means no overtaking and it applies to cyclists too unless an exception sign is shown. You cannot overtake any vehicle in the same direction, including other cyclists.",
-      "rule": "Vocabulary: inhalen = to overtake, verboden = forbidden. Applies to all vehicles.",
-      "tip": "Inhalen verboden applies to bikes too. No overtaking means no overtaking."
-    },
-    "status": "active"
-  },
-  {
     "id": "vocabulary_012",
     "module": "vocabulary",
     "skill": "Dutch Words",
@@ -534,6 +534,172 @@
       "body": "'Bestemmingsverkeer' means destination traffic — people going to an address on that street. If you live there, you are bestemmingsverkeer and may enter despite the no-entry sign.",
       "rule": "Vocabulary: bestemming = destination, verkeer = traffic. Bestemmingsverkeer = access for residents and deliveries.",
       "tip": "Bestemmingsverkeer = you live here, you may enter. Destination traffic."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_013",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "A triangular give-way sign reads 'Voorrang verlenen'. What does this require you to do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Give way to traffic on the crossing road"
+      },
+      {
+        "id": "b",
+        "label": "Stop completely and wait for a clear gap"
+      },
+      {
+        "id": "c",
+        "label": "Sound your bell before entering the junction"
+      },
+      {
+        "id": "d",
+        "label": "You have priority — other traffic must yield to you"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Voorrang verlenen' means give way — you must yield to traffic on the crossing road. A full stop is not always required, but you must wait until it is safe to proceed. 'Verlenen' means to grant, so you are granting priority to others.",
+      "rule": "Vocabulary: voorrang = priority, verlenen = to grant. Voorrang verlenen = give way.",
+      "tip": "Verlenen = to give. Voorrang verlenen = grant priority to others."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_014",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "A Dutch cyclist warns you to watch for 'haaientanden' at the junction ahead. What should you look for?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A yellow diamond sign indicating a priority road"
+      },
+      {
+        "id": "b",
+        "label": "A red and white triangular give-way sign"
+      },
+      {
+        "id": "c",
+        "label": "White triangles painted on the road marking a yield obligation"
+      },
+      {
+        "id": "d",
+        "label": "Raised speed bumps across the cycle path"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Haaientanden' literally means shark teeth — the white triangles painted on the road surface. They always point toward the road user who must yield. If they point at you, you must give way to crossing traffic.",
+      "rule": "Vocabulary: haaien = sharks, tanden = teeth. Haaientanden = white yield triangles painted on the road.",
+      "tip": "Haaientanden = shark teeth. Pointing at you = you yield."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_015",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're cycling on a red road surface with 'FIETSSTRAAT' painted on it. A car behind you wants to pass. You're cycling at a comfortable pace. What applies?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Speed up to avoid slowing the car down"
+      },
+      {
+        "id": "b",
+        "label": "Hold your position — on a fietsstraat, cars are guests and may not overtake cyclists"
+      },
+      {
+        "id": "c",
+        "label": "Move aside — motor vehicles have priority to pass on any road"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A fietsstraat is a cycle street where cyclists have full priority and cars are guests. Motor vehicles may use the road to access properties but must not overtake cyclists or cause them to change speed or direction. You set the pace.",
+      "rule": "On a fietsstraat, motor vehicles may not overtake cyclists. Cyclists have full use of the road width.",
+      "tip": "Fietsstraat = your street. Cars follow you, not the other way around."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_016",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "A car is emerging from a driveway marked 'Uitrit'. You are cycling past on the adjacent cycle path. Who has priority?",
+    "options": [
+      {
+        "id": "a",
+        "label": "The car — it is a vehicle using a recognised exit point"
+      },
+      {
+        "id": "b",
+        "label": "Neither — you must both slow and negotiate"
+      },
+      {
+        "id": "c",
+        "label": "Whoever reaches the conflict point first"
+      },
+      {
+        "id": "d",
+        "label": "You — vehicles leaving a uitrit must yield to all road and cycle path users"
+      }
+    ],
+    "correct": "d",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Uitrit' means driveway exit. Vehicles leaving a uitrit must yield to all traffic on the public road or cycle path — including cyclists. This applies even if the car is already partially across the cycle path when you arrive.",
+      "rule": "Vocabulary: uit = out, rit = drive. Uitrit = driveway exit. Exiting vehicles always yield to passing traffic.",
+      "tip": "Uitrit = their exit, your priority. They yield, always."
+    },
+    "status": "active"
+  },
+  {
+    "id": "vocabulary_017",
+    "module": "vocabulary",
+    "skill": "Dutch Words",
+    "difficulty": "hard",
+    "type": "multiple_choice",
+    "prompt": "An older sign at a path entrance reads 'Rijwielpad'. What kind of path is this, and who may use it?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A mandatory cycle path — cyclists must use it, motor vehicles prohibited"
+      },
+      {
+        "id": "b",
+        "label": "A shared path — pedestrians and cyclists both welcome"
+      },
+      {
+        "id": "c",
+        "label": "An advisory cycle route — you may use the road instead"
+      },
+      {
+        "id": "d",
+        "label": "A path for all non-motorised vehicles including mopeds"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "'Rijwielpad' is an older Dutch term for a mandatory cycle path — now more commonly called a fietspad. 'Rijwiel' is a formal word for bicycle, 'pad' means path. As a cyclist you must use it; motor vehicles are prohibited. You will still encounter this sign on older infrastructure.",
+      "rule": "Vocabulary: rijwiel = bicycle (formal), pad = path. Rijwielpad = mandatory cycle path, same rules as fietspad.",
+      "tip": "Rijwielpad = old word for fietspad. Mandatory for you, forbidden for cars."
     },
     "status": "active"
   },
@@ -714,6 +880,148 @@
       "body": "When pedestrians are legally using a shared road space, you must adapt your speed and behaviour to pass them safely. You don't have to dismount, but you do need to slow down and give them space. Continuous bell-ringing is not a solution.",
       "rule": "Cyclists must not endanger other road users. Adapt speed to conditions.",
       "tip": "Shared space = shared respect. Slow down, pass safely."
+    },
+    "status": "active"
+  },
+  {
+    "id": "roadusers_012",
+    "module": "roadusers",
+    "skill": "Tram",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You need to cross tram tracks that run diagonally across your path. What is the safest way to cross?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Speed up to minimise the time your wheel is on the rail"
+      },
+      {
+        "id": "b",
+        "label": "Cross at your natural travel angle — it's only a short contact point"
+      },
+      {
+        "id": "c",
+        "label": "Steer to cross the tracks as close to perpendicular as possible"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "Crossing tram tracks at an angle allows your front wheel to slip into the groove and throw you off — it's one of the most common cycling crashes in Dutch cities. Steering to cross at 90° keeps your wheel rolling straight across the gap. Even a short detour to find a more perpendicular crossing is worth taking.",
+      "rule": "Cross tram tracks as close to 90° as possible. Diagonal crossings allow wheels to catch in the rail groove.",
+      "tip": "Square up to the tracks. Diagonal = wheel trap."
+    },
+    "status": "active"
+  },
+  {
+    "id": "roadusers_013",
+    "module": "roadusers",
+    "skill": "City Cycling",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're at a red light alongside a large truck. The truck is indicating right and you plan to go straight. The light turns green. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Hold back and let the truck complete its turn before you move"
+      },
+      {
+        "id": "b",
+        "label": "Move forward — you're going straight, so you have priority over the turning truck"
+      },
+      {
+        "id": "c",
+        "label": "Accelerate past the front of the truck before it starts turning"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "A truck turning right cannot see you alongside or behind the cab — the blind spot covers the entire side of the vehicle. Even if you have priority going straight, being legally right doesn't help if the driver doesn't see you. Hold back, let it go, then move.",
+      "rule": "Never position yourself alongside a large vehicle that is indicating to turn. Their blind spot covers the full vehicle length.",
+      "tip": "Truck + indicator = danger zone. Hold back, let it go, then move."
+    },
+    "status": "active"
+  },
+  {
+    "id": "roadusers_014",
+    "module": "roadusers",
+    "skill": "Pedestrians",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're on a shared path used by both cyclists and pedestrians. Walkers ahead don't move after you ring your bell. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Slow down and pass at a safe distance — they have equal right to use the path"
+      },
+      {
+        "id": "b",
+        "label": "Continue at speed — ringing your bell gives you the right to pass"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "title": "Correct",
+      "body": "On a shared path, pedestrians and cyclists have equal rights to the space. Ringing your bell is a courtesy warning, not a legal instruction for pedestrians to move. You must reduce your speed and pass at a distance that is safe for them.",
+      "rule": "On shared paths, cyclists must adapt to pedestrians — not the other way around.",
+      "tip": "Bell = warning, not an order. Shared path means shared space."
+    },
+    "status": "active"
+  },
+  {
+    "id": "roadusers_015",
+    "module": "roadusers",
+    "skill": "Pedestrians",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're turning right. As you enter the turn, a pedestrian steps onto a zebra crossing on your intended path. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Continue — you were already mid-turn when they stepped out"
+      },
+      {
+        "id": "b",
+        "label": "Ring your bell and proceed slowly"
+      },
+      {
+        "id": "c",
+        "label": "Stop and yield — turning traffic must give way to pedestrians on a crossing"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "title": "Correct",
+      "body": "Pedestrians on a zebra crossing have priority, and all turning traffic — including cyclists — must yield to them. Being mid-turn does not change this. The pedestrian stepped out legally; you must stop.",
+      "rule": "RVV 1990 Art. 49a — all turning road users must yield to pedestrians on a zebra crossing.",
+      "tip": "Turning + zebra crossing = pedestrian goes first. Always."
+    },
+    "status": "active"
+  },
+  {
+    "id": "roadusers_016",
+    "module": "roadusers",
+    "skill": "City Cycling",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "You're cycling past a row of parked cars. Where should you position yourself?",
+    "options": [
+      {
+        "id": "a",
+        "label": "As close to the cars as possible to stay out of the traffic lane"
+      },
+      {
+        "id": "b",
+        "label": "At least 1 metre from the cars to stay outside the door zone"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A car door swings roughly 1 metre when fully opened. Riding closer than that puts you directly in its path with no reaction time. Riding 1 metre out feels exposed, but it is the correct — and safe — position.",
+      "rule": "Cycle at least 1 metre from parked cars. The door zone is a common cause of serious cycling injuries.",
+      "tip": "1 metre from parked cars. Door zone = danger zone."
     },
     "status": "active"
   },
@@ -928,6 +1236,66 @@
     "status": "active"
   },
   {
+    "id": "priority_009",
+    "module": "priority",
+    "skill": "Right Before Left",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You're cycling on the horizontal bar of a T-junction. A car comes from the road joining from the right. Who has priority?",
+    "options": [
+      {
+        "id": "a",
+        "label": "You — you're on the main through road"
+      },
+      {
+        "id": "b",
+        "label": "The car — it comes from the right"
+      },
+      {
+        "id": "c",
+        "label": "It depends on which road is wider"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "At a T-junction without signs, right-before-left applies just as at a crossroads. The car joining from the right has priority over you even though you're on the 'main' road. Road width and apparent importance don't override the rule.",
+      "rule": "RVV 1990 Art. 15 — right-before-left applies at T-junctions too.",
+      "tip": "T-junction, crossroads, any junction — right-before-left applies the same way."
+    },
+    "status": "active"
+  },
+  {
+    "id": "priority_010",
+    "module": "priority",
+    "skill": "Right Before Left",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "prompt": "A car is reversing out of a private driveway and crosses your cycle path. Who has priority?",
+    "options": [
+      {
+        "id": "a",
+        "label": "The car — it was there first"
+      },
+      {
+        "id": "b",
+        "label": "You — vehicles exiting driveways must yield to cycle path traffic"
+      },
+      {
+        "id": "c",
+        "label": "Neither — you should both stop"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "Any vehicle exiting a private driveway, garage, or car park must yield to all traffic on the road or cycle path it is joining. They are entering the traffic flow — not the other way around.",
+      "rule": "RVV 1990 — vehicles exiting private properties yield to all road users.",
+      "tip": "Exiting a driveway = you yield to everything. Every time."
+    },
+    "status": "active"
+  },
+  {
     "id": "mixed_001",
     "module": "priority",
     "skill": "Mixed Scenarios",
@@ -954,6 +1322,134 @@
       "body": "The shark teeth on your side override the right-before-left rule. Even though the other cyclist is on your right — which would normally give them priority anyway — the shark teeth are the deciding factor. Markings always take precedence over default rules.",
       "rule": "Road markings override all default priority rules.",
       "tip": "Markings first, defaults second. Shark teeth = yield, regardless of direction."
+    },
+    "status": "active"
+  },
+  {
+    "id": "priority_011",
+    "module": "priority",
+    "skill": "Priority Hierarchy",
+    "difficulty": "hard",
+    "type": "scenario_decision",
+    "prompt": "You're on a priority road (yellow diamond). A pedestrian steps off the pavement onto the road ahead of you. Does your priority sign protect you?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Yes — you are on a priority road"
+      },
+      {
+        "id": "b",
+        "label": "No — priority road signs apply to vehicle junctions, not pedestrians"
+      },
+      {
+        "id": "c",
+        "label": "Only if the pedestrian is not at a crossing"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "Priority road signs govern right of way between vehicles at junctions. They have no effect on your obligation toward pedestrians. You must always avoid hitting a pedestrian, regardless of what road you're on.",
+      "rule": "Voorrangsweg signs apply at vehicle junctions only. Pedestrian rules apply everywhere.",
+      "tip": "Priority road = beats cars at junctions. Never beats a pedestrian."
+    },
+    "status": "active"
+  },
+  {
+    "id": "priority_012",
+    "module": "priority",
+    "skill": "Right Before Left",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "You approach a red inverted triangle sign (yield sign) at a junction. What are you required to do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Come to a complete stop, then proceed when safe"
+      },
+      {
+        "id": "b",
+        "label": "Slow down and yield if traffic is present — no mandatory stop"
+      },
+      {
+        "id": "c",
+        "label": "Stop and wait for a green light"
+      },
+      {
+        "id": "d",
+        "label": "Flash your lights and proceed with caution"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "A yield sign (inverted triangle) means slow down and give way if necessary — but you don't have to stop if the road is clear. A STOP sign (red octagon) requires you to come to a complete standstill regardless. These are different obligations.",
+      "rule": "Yield sign = slow and give way if needed. STOP sign = mandatory full stop.",
+      "tip": "Inverted triangle = yield if needed. Red octagon = full stop always."
+    },
+    "status": "active"
+  },
+  {
+    "id": "priority_013",
+    "module": "priority",
+    "skill": "Right Before Left",
+    "difficulty": "hard",
+    "type": "scenario_decision",
+    "prompt": "You and another cyclist approach an unmarked crossing from exactly diagonal directions — neither is directly to the right of the other. What applies?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Both stop and whoever moves first goes"
+      },
+      {
+        "id": "b",
+        "label": "Right-before-left still applies — assess each other's relative position"
+      },
+      {
+        "id": "c",
+        "label": "Diagonal approaches are always a tie — both yield"
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "Right-before-left applies regardless of the angle. You need to assess whether the other cyclist is to your right or your left based on your direction of travel — not the abstract geometry of the crossing. The one whose relative right has the other approaching must yield.",
+      "rule": "RVV 1990 Art. 15 — right-before-left applies to relative positions, not angles.",
+      "tip": "Not sure who's right of whom? Track your direction, then look right."
+    },
+    "status": "active"
+  },
+  {
+    "id": "priority_014",
+    "module": "priority",
+    "skill": "Priority Hierarchy",
+    "difficulty": "hard",
+    "type": "multiple_choice",
+    "prompt": "Which of the following correctly describes the Dutch junction priority hierarchy, from highest to lowest?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Emergency vehicles with lights and sirens"
+      },
+      {
+        "id": "b",
+        "label": "Trams"
+      },
+      {
+        "id": "c",
+        "label": "Vehicles on a priority road (yellow diamond)"
+      },
+      {
+        "id": "d",
+        "label": "Emergency vehicles, then trams, then priority road vehicles"
+      }
+    ],
+    "correct": "d",
+    "feedback": {
+      "title": "Correct",
+      "body": "The Dutch priority hierarchy runs: emergency vehicles (lights and sirens) first, then trams, then traffic on a priority road, then right-before-left as the default. Each level overrides the one below it.",
+      "rule": "Priority hierarchy: emergency vehicles > trams > priority road > right-before-left.",
+      "tip": "Blue lights > trams > yellow diamond > right-before-left. In that order."
     },
     "status": "active"
   },
@@ -1168,502 +1664,6 @@
     "status": "active"
   },
   {
-    "id": "priority_009",
-    "module": "priority",
-    "skill": "Right Before Left",
-    "difficulty": "medium",
-    "type": "scenario_decision",
-    "prompt": "You're cycling on the horizontal bar of a T-junction. A car comes from the road joining from the right. Who has priority?",
-    "options": [
-      {
-        "id": "a",
-        "label": "You — you're on the main through road"
-      },
-      {
-        "id": "b",
-        "label": "The car — it comes from the right"
-      },
-      {
-        "id": "c",
-        "label": "It depends on which road is wider"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "At a T-junction without signs, right-before-left applies just as at a crossroads. The car joining from the right has priority over you even though you're on the 'main' road. Road width and apparent importance don't override the rule.",
-      "rule": "RVV 1990 Art. 15 — right-before-left applies at T-junctions too.",
-      "tip": "T-junction, crossroads, any junction — right-before-left applies the same way."
-    },
-    "status": "active"
-  },
-  {
-    "id": "priority_010",
-    "module": "priority",
-    "skill": "Right Before Left",
-    "difficulty": "easy",
-    "type": "scenario_decision",
-    "prompt": "A car is reversing out of a private driveway and crosses your cycle path. Who has priority?",
-    "options": [
-      {
-        "id": "a",
-        "label": "The car — it was there first"
-      },
-      {
-        "id": "b",
-        "label": "You — vehicles exiting driveways must yield to cycle path traffic"
-      },
-      {
-        "id": "c",
-        "label": "Neither — you should both stop"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "Any vehicle exiting a private driveway, garage, or car park must yield to all traffic on the road or cycle path it is joining. They are entering the traffic flow — not the other way around.",
-      "rule": "RVV 1990 — vehicles exiting private properties yield to all road users.",
-      "tip": "Exiting a driveway = you yield to everything. Every time."
-    },
-    "status": "active"
-  },
-  {
-    "id": "priority_011",
-    "module": "priority",
-    "skill": "Priority Hierarchy",
-    "difficulty": "hard",
-    "type": "scenario_decision",
-    "prompt": "You're on a priority road (yellow diamond). A pedestrian steps off the pavement onto the road ahead of you. Does your priority sign protect you?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Yes — you are on a priority road"
-      },
-      {
-        "id": "b",
-        "label": "No — priority road signs apply to vehicle junctions, not pedestrians"
-      },
-      {
-        "id": "c",
-        "label": "Only if the pedestrian is not at a crossing"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "Priority road signs govern right of way between vehicles at junctions. They have no effect on your obligation toward pedestrians. You must always avoid hitting a pedestrian, regardless of what road you're on.",
-      "rule": "Voorrangsweg signs apply at vehicle junctions only. Pedestrian rules apply everywhere.",
-      "tip": "Priority road = beats cars at junctions. Never beats a pedestrian."
-    },
-    "status": "active"
-  },
-  {
-    "id": "priority_012",
-    "module": "priority",
-    "skill": "Right Before Left",
-    "difficulty": "medium",
-    "type": "multiple_choice",
-    "prompt": "You approach a red inverted triangle sign (yield sign) at a junction. What are you required to do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Come to a complete stop, then proceed when safe"
-      },
-      {
-        "id": "b",
-        "label": "Slow down and yield if traffic is present — no mandatory stop"
-      },
-      {
-        "id": "c",
-        "label": "Stop and wait for a green light"
-      },
-      {
-        "id": "d",
-        "label": "Flash your lights and proceed with caution"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "A yield sign (inverted triangle) means slow down and give way if necessary — but you don't have to stop if the road is clear. A STOP sign (red octagon) requires you to come to a complete standstill regardless. These are different obligations.",
-      "rule": "Yield sign = slow and give way if needed. STOP sign = mandatory full stop.",
-      "tip": "Inverted triangle = yield if needed. Red octagon = full stop always."
-    },
-    "status": "active"
-  },
-  {
-    "id": "priority_013",
-    "module": "priority",
-    "skill": "Right Before Left",
-    "difficulty": "hard",
-    "type": "scenario_decision",
-    "prompt": "You and another cyclist approach an unmarked crossing from exactly diagonal directions — neither is directly to the right of the other. What applies?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Both stop and whoever moves first goes"
-      },
-      {
-        "id": "b",
-        "label": "Right-before-left still applies — assess each other's relative position"
-      },
-      {
-        "id": "c",
-        "label": "Diagonal approaches are always a tie — both yield"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "Right-before-left applies regardless of the angle. You need to assess whether the other cyclist is to your right or your left based on your direction of travel — not the abstract geometry of the crossing. The one whose relative right has the other approaching must yield.",
-      "rule": "RVV 1990 Art. 15 — right-before-left applies to relative positions, not angles.",
-      "tip": "Not sure who's right of whom? Track your direction, then look right."
-    },
-    "status": "active"
-  },
-  {
-    "id": "priority_014",
-    "module": "priority",
-    "skill": "Priority Hierarchy",
-    "difficulty": "hard",
-    "type": "multiple_choice",
-    "prompt": "Which of the following correctly describes the Dutch junction priority hierarchy, from highest to lowest?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Emergency vehicles with lights and sirens"
-      },
-      {
-        "id": "b",
-        "label": "Trams"
-      },
-      {
-        "id": "c",
-        "label": "Vehicles on a priority road (yellow diamond)"
-      },
-      {
-        "id": "d",
-        "label": "Emergency vehicles, then trams, then priority road vehicles"
-      }
-    ],
-    "correct": "d",
-    "feedback": {
-      "title": "Correct",
-      "body": "The Dutch priority hierarchy runs: emergency vehicles (lights and sirens) first, then trams, then traffic on a priority road, then right-before-left as the default. Each level overrides the one below it.",
-      "rule": "Priority hierarchy: emergency vehicles > trams > priority road > right-before-left.",
-      "tip": "Blue lights > trams > yellow diamond > right-before-left. In that order."
-    },
-    "status": "active"
-  },
-  {
-    "id": "roadusers_012",
-    "module": "roadusers",
-    "skill": "Tram",
-    "difficulty": "medium",
-    "type": "scenario_decision",
-    "prompt": "You need to cross tram tracks that run diagonally across your path. What is the safest way to cross?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Speed up to minimise the time your wheel is on the rail"
-      },
-      {
-        "id": "b",
-        "label": "Cross at your natural travel angle — it's only a short contact point"
-      },
-      {
-        "id": "c",
-        "label": "Steer to cross the tracks as close to perpendicular as possible"
-      }
-    ],
-    "correct": "c",
-    "feedback": {
-      "title": "Correct",
-      "body": "Crossing tram tracks at an angle allows your front wheel to slip into the groove and throw you off — it's one of the most common cycling crashes in Dutch cities. Steering to cross at 90° keeps your wheel rolling straight across the gap. Even a short detour to find a more perpendicular crossing is worth taking.",
-      "rule": "Cross tram tracks as close to 90° as possible. Diagonal crossings allow wheels to catch in the rail groove.",
-      "tip": "Square up to the tracks. Diagonal = wheel trap."
-    },
-    "status": "active"
-  },
-  {
-    "id": "roadusers_013",
-    "module": "roadusers",
-    "skill": "City Cycling",
-    "difficulty": "medium",
-    "type": "scenario_decision",
-    "prompt": "You're at a red light alongside a large truck. The truck is indicating right and you plan to go straight. The light turns green. What do you do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Hold back and let the truck complete its turn before you move"
-      },
-      {
-        "id": "b",
-        "label": "Move forward — you're going straight, so you have priority over the turning truck"
-      },
-      {
-        "id": "c",
-        "label": "Accelerate past the front of the truck before it starts turning"
-      }
-    ],
-    "correct": "a",
-    "feedback": {
-      "title": "Correct",
-      "body": "A truck turning right cannot see you alongside or behind the cab — the blind spot covers the entire side of the vehicle. Even if you have priority going straight, being legally right doesn't help if the driver doesn't see you. Hold back, let it go, then move.",
-      "rule": "Never position yourself alongside a large vehicle that is indicating to turn. Their blind spot covers the full vehicle length.",
-      "tip": "Truck + indicator = danger zone. Hold back, let it go, then move."
-    },
-    "status": "active"
-  },
-  {
-    "id": "roadusers_014",
-    "module": "roadusers",
-    "skill": "Pedestrians",
-    "difficulty": "easy",
-    "type": "scenario_decision",
-    "prompt": "You're on a shared path used by both cyclists and pedestrians. Walkers ahead don't move after you ring your bell. What do you do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Slow down and pass at a safe distance — they have equal right to use the path"
-      },
-      {
-        "id": "b",
-        "label": "Continue at speed — ringing your bell gives you the right to pass"
-      }
-    ],
-    "correct": "a",
-    "feedback": {
-      "title": "Correct",
-      "body": "On a shared path, pedestrians and cyclists have equal rights to the space. Ringing your bell is a courtesy warning, not a legal instruction for pedestrians to move. You must reduce your speed and pass at a distance that is safe for them.",
-      "rule": "On shared paths, cyclists must adapt to pedestrians — not the other way around.",
-      "tip": "Bell = warning, not an order. Shared path means shared space."
-    },
-    "status": "active"
-  },
-  {
-    "id": "roadusers_015",
-    "module": "roadusers",
-    "skill": "Pedestrians",
-    "difficulty": "medium",
-    "type": "scenario_decision",
-    "prompt": "You're turning right. As you enter the turn, a pedestrian steps onto a zebra crossing on your intended path. What do you do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Continue — you were already mid-turn when they stepped out"
-      },
-      {
-        "id": "b",
-        "label": "Ring your bell and proceed slowly"
-      },
-      {
-        "id": "c",
-        "label": "Stop and yield — turning traffic must give way to pedestrians on a crossing"
-      }
-    ],
-    "correct": "c",
-    "feedback": {
-      "title": "Correct",
-      "body": "Pedestrians on a zebra crossing have priority, and all turning traffic — including cyclists — must yield to them. Being mid-turn does not change this. The pedestrian stepped out legally; you must stop.",
-      "rule": "RVV 1990 Art. 49a — all turning road users must yield to pedestrians on a zebra crossing.",
-      "tip": "Turning + zebra crossing = pedestrian goes first. Always."
-    },
-    "status": "active"
-  },
-  {
-    "id": "roadusers_016",
-    "module": "roadusers",
-    "skill": "City Cycling",
-    "difficulty": "easy",
-    "type": "scenario_decision",
-    "prompt": "You're cycling past a row of parked cars. Where should you position yourself?",
-    "options": [
-      {
-        "id": "a",
-        "label": "As close to the cars as possible to stay out of the traffic lane"
-      },
-      {
-        "id": "b",
-        "label": "At least 1 metre from the cars to stay outside the door zone"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "A car door swings roughly 1 metre when fully opened. Riding closer than that puts you directly in its path with no reaction time. Riding 1 metre out feels exposed, but it is the correct — and safe — position.",
-      "rule": "Cycle at least 1 metre from parked cars. The door zone is a common cause of serious cycling injuries.",
-      "tip": "1 metre from parked cars. Door zone = danger zone."
-    },
-    "status": "active"
-  },
-  {
-    "id": "vocabulary_013",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "easy",
-    "type": "multiple_choice",
-    "prompt": "A triangular give-way sign reads 'Voorrang verlenen'. What does this require you to do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Give way to traffic on the crossing road"
-      },
-      {
-        "id": "b",
-        "label": "Stop completely and wait for a clear gap"
-      },
-      {
-        "id": "c",
-        "label": "Sound your bell before entering the junction"
-      },
-      {
-        "id": "d",
-        "label": "You have priority — other traffic must yield to you"
-      }
-    ],
-    "correct": "a",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Voorrang verlenen' means give way — you must yield to traffic on the crossing road. A full stop is not always required, but you must wait until it is safe to proceed. 'Verlenen' means to grant, so you are granting priority to others.",
-      "rule": "Vocabulary: voorrang = priority, verlenen = to grant. Voorrang verlenen = give way.",
-      "tip": "Verlenen = to give. Voorrang verlenen = grant priority to others."
-    },
-    "status": "active"
-  },
-  {
-    "id": "vocabulary_014",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "easy",
-    "type": "multiple_choice",
-    "prompt": "A Dutch cyclist warns you to watch for 'haaientanden' at the junction ahead. What should you look for?",
-    "options": [
-      {
-        "id": "a",
-        "label": "A yellow diamond sign indicating a priority road"
-      },
-      {
-        "id": "b",
-        "label": "A red and white triangular give-way sign"
-      },
-      {
-        "id": "c",
-        "label": "White triangles painted on the road marking a yield obligation"
-      },
-      {
-        "id": "d",
-        "label": "Raised speed bumps across the cycle path"
-      }
-    ],
-    "correct": "c",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Haaientanden' literally means shark teeth — the white triangles painted on the road surface. They always point toward the road user who must yield. If they point at you, you must give way to crossing traffic.",
-      "rule": "Vocabulary: haaien = sharks, tanden = teeth. Haaientanden = white yield triangles painted on the road.",
-      "tip": "Haaientanden = shark teeth. Pointing at you = you yield."
-    },
-    "status": "active"
-  },
-  {
-    "id": "vocabulary_015",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "medium",
-    "type": "scenario_decision",
-    "prompt": "You're cycling on a red road surface with 'FIETSSTRAAT' painted on it. A car behind you wants to pass. You're cycling at a comfortable pace. What applies?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Speed up to avoid slowing the car down"
-      },
-      {
-        "id": "b",
-        "label": "Hold your position — on a fietsstraat, cars are guests and may not overtake cyclists"
-      },
-      {
-        "id": "c",
-        "label": "Move aside — motor vehicles have priority to pass on any road"
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "A fietsstraat is a cycle street where cyclists have full priority and cars are guests. Motor vehicles may use the road to access properties but must not overtake cyclists or cause them to change speed or direction. You set the pace.",
-      "rule": "On a fietsstraat, motor vehicles may not overtake cyclists. Cyclists have full use of the road width.",
-      "tip": "Fietsstraat = your street. Cars follow you, not the other way around."
-    },
-    "status": "active"
-  },
-  {
-    "id": "vocabulary_016",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "medium",
-    "type": "multiple_choice",
-    "prompt": "A car is emerging from a driveway marked 'Uitrit'. You are cycling past on the adjacent cycle path. Who has priority?",
-    "options": [
-      {
-        "id": "a",
-        "label": "The car — it is a vehicle using a recognised exit point"
-      },
-      {
-        "id": "b",
-        "label": "Neither — you must both slow and negotiate"
-      },
-      {
-        "id": "c",
-        "label": "Whoever reaches the conflict point first"
-      },
-      {
-        "id": "d",
-        "label": "You — vehicles leaving a uitrit must yield to all road and cycle path users"
-      }
-    ],
-    "correct": "d",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Uitrit' means driveway exit. Vehicles leaving a uitrit must yield to all traffic on the public road or cycle path — including cyclists. This applies even if the car is already partially across the cycle path when you arrive.",
-      "rule": "Vocabulary: uit = out, rit = drive. Uitrit = driveway exit. Exiting vehicles always yield to passing traffic.",
-      "tip": "Uitrit = their exit, your priority. They yield, always."
-    },
-    "status": "active"
-  },
-  {
-    "id": "vocabulary_017",
-    "module": "vocabulary",
-    "skill": "Dutch Words",
-    "difficulty": "hard",
-    "type": "multiple_choice",
-    "prompt": "An older sign at a path entrance reads 'Rijwielpad'. What kind of path is this, and who may use it?",
-    "options": [
-      {
-        "id": "a",
-        "label": "A mandatory cycle path — cyclists must use it, motor vehicles prohibited"
-      },
-      {
-        "id": "b",
-        "label": "A shared path — pedestrians and cyclists both welcome"
-      },
-      {
-        "id": "c",
-        "label": "An advisory cycle route — you may use the road instead"
-      },
-      {
-        "id": "d",
-        "label": "A path for all non-motorised vehicles including mopeds"
-      }
-    ],
-    "correct": "a",
-    "feedback": {
-      "title": "Correct",
-      "body": "'Rijwielpad' is an older Dutch term for a mandatory cycle path — now more commonly called a fietspad. 'Rijwiel' is a formal word for bicycle, 'pad' means path. As a cyclist you must use it; motor vehicles are prohibited. You will still encounter this sign on older infrastructure.",
-      "rule": "Vocabulary: rijwiel = bicycle (formal), pad = path. Rijwielpad = mandatory cycle path, same rules as fietspad.",
-      "tip": "Rijwielpad = old word for fietspad. Mandatory for you, forbidden for cars."
-    },
-    "status": "active"
-  },
-  {
     "id": "signs_001",
     "module": "signs",
     "skill": "Signs",
@@ -1695,6 +1695,33 @@
       "body": "The round blue sign with a white bicycle is the mandatory cycle path sign (G11). When it is present, you must use the cycle path — riding on the road alongside it is prohibited. You will see this sign constantly in Dutch cities.",
       "rule": "G11 (verplicht fietspad) — use of the designated cycle path is compulsory when this sign is displayed.",
       "tip": "Round blue + white bike = you must be on that path."
+    },
+    "status": "active"
+  },
+  {
+    "id": "signs_004",
+    "module": "signs",
+    "skill": "Intersections",
+    "difficulty": "easy",
+    "type": "scenario_decision",
+    "sign": "cyclist_light",
+    "prompt": "You reach a junction. The cyclist traffic light is showing red. The main car light nearby is green. What do you do?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Proceed — the green car light covers all road users"
+      },
+      {
+        "id": "b",
+        "label": "Wait — your cyclist light is red. The car light does not apply to you."
+      }
+    ],
+    "correct": "b",
+    "feedback": {
+      "title": "Correct",
+      "body": "The small cyclist traffic light is your signal — not the car light. A green car light does not give you permission to proceed. Always follow the light that applies to you specifically. Running a red cyclist light carries the same fine as any other red light.",
+      "rule": "Cyclists obey the cyclist traffic light (verkeerslicht voor fietsers), not the car light.",
+      "tip": "Your light, your rules. Ignore what the cars are doing."
     },
     "status": "active"
   },
@@ -1753,33 +1780,6 @@
       "body": "On a fietsstraat, cyclists have priority and cars are guests. Cars must not overtake cyclists — they must follow at a safe distance until the road ends. You do not need to move aside.",
       "rule": "Fietsstraat — cars are permitted but must not overtake cyclists and must adapt their speed to cycling traffic.",
       "tip": "Fietsstraat: you own the road. Cars follow you, not the other way around."
-    },
-    "status": "active"
-  },
-  {
-    "id": "signs_004",
-    "module": "signs",
-    "skill": "Intersections",
-    "difficulty": "easy",
-    "type": "scenario_decision",
-    "sign": "cyclist_light",
-    "prompt": "You reach a junction. The cyclist traffic light is showing red. The main car light nearby is green. What do you do?",
-    "options": [
-      {
-        "id": "a",
-        "label": "Proceed — the green car light covers all road users"
-      },
-      {
-        "id": "b",
-        "label": "Wait — your cyclist light is red. The car light does not apply to you."
-      }
-    ],
-    "correct": "b",
-    "feedback": {
-      "title": "Correct",
-      "body": "The small cyclist traffic light is your signal — not the car light. A green car light does not give you permission to proceed. Always follow the light that applies to you specifically. Running a red cyclist light carries the same fine as any other red light.",
-      "rule": "Cyclists obey the cyclist traffic light (verkeerslicht voor fietsers), not the car light.",
-      "tip": "Your light, your rules. Ignore what the cars are doing."
     },
     "status": "active"
   },
