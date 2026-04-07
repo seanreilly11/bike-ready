@@ -96,12 +96,34 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
+function ModuleCardSkeleton() {
+  return (
+    <div className="w-full bg-white border border-stone-200 rounded-xl p-4 animate-pulse">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="h-5 w-32 bg-stone-200 rounded" />
+        <div className="h-5 w-20 bg-stone-200 rounded-full" />
+      </div>
+      <div className="space-y-1.5 mb-3">
+        <div className="h-3.5 w-full bg-stone-200 rounded" />
+        <div className="h-3.5 w-4/5 bg-stone-200 rounded" />
+      </div>
+      <div className="flex flex-wrap gap-1.5 mb-2">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="w-2.5 h-2.5 rounded-full bg-stone-200" />
+        ))}
+      </div>
+      <div className="h-3 w-16 bg-stone-200 rounded" />
+    </div>
+  );
+}
+
 export default function LearnIndexPage() {
   const router = useRouter();
-  const { user, isPremium } = useAuth();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
   const { earnedIds } = useBadges();
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const isLoadingProgress = isAuthLoading || (user !== null && !progress.isLoaded);
 
   if (progress.isPreviewComplete(isPremium)) {
     return (
@@ -122,13 +144,15 @@ export default function LearnIndexPage() {
 
         {/* Module cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-          {modules.map((mod) => (
-            <ModuleCard
-              key={mod.id}
-              module={mod}
-              onClick={() => router.push(`/learn/${mod.id}`)}
-            />
-          ))}
+          {isLoadingProgress
+            ? modules.map((mod) => <ModuleCardSkeleton key={mod.id} />)
+            : modules.map((mod) => (
+                <ModuleCard
+                  key={mod.id}
+                  module={mod}
+                  onClick={() => router.push(`/learn/${mod.id}`)}
+                />
+              ))}
         </div>
 
         {/* Badge grid — shown only when user is premium or has earned at least one */}

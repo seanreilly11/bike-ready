@@ -42,6 +42,7 @@ export function useProgress() {
 
   // Load on mount: Supabase if authenticated, localStorage otherwise
   useEffect(() => {
+    setIsLoaded(false);
     async function load() {
       if (user) {
         const data = await fetchProgress();
