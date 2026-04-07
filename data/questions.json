@@ -3291,21 +3291,21 @@
     "options": [
       {
         "id": "a",
-        "label": "True"
+        "label": "False"
       },
       {
         "id": "b",
-        "label": "False"
+        "label": "True"
       }
     ],
-    "correct": "a",
+    "correct": "b",
     "feedback": {
       "title": "Correct",
       "body": "Cyclists in the Netherlands must keep to the right, just like all other traffic. You ride on the right side of the cycle path or road and pass oncoming cyclists on your left.",
       "rule": "Rechts rijden — keep right. This applies on roads, cycle paths, and cycle lanes.",
       "tip": "Think of it as a road: traffic flows on the right, and you overtake on the left."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_002",
@@ -3331,7 +3331,7 @@
       "rule": "Mandatory cycle path (verplicht fietspad) — identified by the round blue sign with a white bicycle (G11). Use of the cycle path is compulsory.",
       "tip": "Blue sign = must use. You do not get to choose the road instead."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_003",
@@ -3357,7 +3357,7 @@
       "rule": "No helmet law for standard cyclists. Speed pedelec riders must wear an approved helmet.",
       "tip": "Common misconception from countries that mandate helmets — not a rule here."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_004",
@@ -3369,29 +3369,29 @@
     "options": [
       {
         "id": "a",
-        "label": "Stick your right arm out to signal"
-      },
-      {
-        "id": "b",
         "label": "Just slow down and turn — no signal needed"
       },
       {
-        "id": "c",
+        "id": "b",
         "label": "Ring your bell twice"
+      },
+      {
+        "id": "c",
+        "label": "Stick your right arm out to signal"
       },
       {
         "id": "d",
         "label": "Make eye contact with other road users"
       }
     ],
-    "correct": "a",
+    "correct": "c",
     "feedback": {
       "title": "Correct",
       "body": "Cyclists must signal turns using hand signals. Extend your right arm horizontally to indicate a right turn. Signal before you slow down so others behind you know your intention in advance.",
       "rule": "Hand signals are legally required before turning. Right turn = right arm out. Left turn = left arm out.",
       "tip": "Signal early — before you brake, not after."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_005",
@@ -3417,7 +3417,7 @@
       "rule": "All traffic signals apply to cyclists. Running a red light is a violation.",
       "tip": "The small cyclist light at the post near the stop line is the one that applies to you."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_006",
@@ -3429,21 +3429,21 @@
     "options": [
       {
         "id": "a",
-        "label": "True"
+        "label": "False"
       },
       {
         "id": "b",
-        "label": "False"
+        "label": "True"
       }
     ],
-    "correct": "a",
+    "correct": "b",
     "feedback": {
       "title": "Correct",
       "body": "Since 2019, holding or using a mobile phone while cycling has been illegal in the Netherlands. The fine is 95 euros. Earphones in both ears are also not permitted.",
       "rule": "Mobile phone use while cycling is prohibited. Fine: 95 euros. This includes holding the phone for any purpose.",
       "tip": "Mount your phone on your handlebars before you set off — do not hold it while riding."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_007",
@@ -3455,29 +3455,29 @@
     "options": [
       {
         "id": "a",
-        "label": "A white or yellow front light and a red rear light"
-      },
-      {
-        "id": "b",
         "label": "Reflectors are enough — no active lights required"
       },
       {
-        "id": "c",
+        "id": "b",
         "label": "A white front light only"
       },
       {
-        "id": "d",
+        "id": "c",
         "label": "Any colour light front and rear"
+      },
+      {
+        "id": "d",
+        "label": "A white or yellow front light and a red rear light"
       }
     ],
-    "correct": "a",
+    "correct": "d",
     "feedback": {
       "title": "Correct",
       "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night — active lights are required.",
       "rule": "Lighting requirements: white/yellow front, red rear. Required from sunset to sunrise and in poor visibility. Fine for no lights: around 55 euros.",
       "tip": "Dynamo lights built into the bike automatically meet this requirement."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_008",
@@ -3489,35 +3489,35 @@
     "options": [
       {
         "id": "a",
-        "label": "The cyclist in the cycle lane"
-      },
-      {
-        "id": "b",
         "label": "The car, because it is larger"
       },
       {
+        "id": "b",
+        "label": "The car, because it is joining the road"
+      },
+      {
         "id": "c",
-        "label": "Whoever reaches the spot first"
+        "label": "The cyclist in the cycle lane"
       },
       {
         "id": "d",
-        "label": "The car, because it is joining the road"
+        "label": "Whoever reaches the spot first"
       }
     ],
-    "correct": "a",
+    "correct": "c",
     "feedback": {
       "title": "Correct",
       "body": "A vehicle leaving a parking space must yield to all traffic already on the road, including cyclists in the cycle lane. The car is crossing the path of through traffic and must wait until it is safe.",
       "rule": "Leaving a parking space requires yielding to all through traffic including cyclists.",
       "tip": "Watch for reverse lights and spinning wheels — a car about to pull out will often do so without checking for cyclists."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "fundamentals_009",
     "module": "fundamentals",
     "skill": "Fundamentals",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "type": "multiple_choice",
     "prompt": "You are on a shared path marked with signs showing both a pedestrian and a bicycle. Who has priority?",
     "options": [
@@ -3535,7 +3535,7 @@
       },
       {
         "id": "d",
-        "label": "Whoever is going straight has priority"
+        "label": "The faster user has priority"
       }
     ],
     "correct": "c",
