@@ -1,60 +1,57 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import type { Badge, LocalProgress, ModuleId } from "@/types";
+import { useCallback } from "react";
+import type { ModuleId } from "@/types";
 import { createClient } from "@/lib/supabase";
 import badgeDefinitions from "@/data/badges";
 import { activeQuestions } from "@/hooks/useQuestions";
-import { useAuth } from "@/hooks/useAuth";
+import { useAppStore } from "@/stores/appStore";
+import { useUIStore } from "@/stores/uiStore";
 
 export function useBadges() {
-    const { user } = useAuth();
-    const supabase = createClient();
-    const [earnedIds, setEarnedIds] = useState<Set<string>>(new Set());
-    const [newBadge, setNewBadge] = useState<Badge | null>(null);
+  const supabase = createClient();
+  const user = useAppStore((s) => s.user);
+  const earned = useAppStore((s) => s.earned);
+  const newBadgeId = useUIStore((s) => s.newBadgeId);
 
-    // Load earned badges from Supabase
-    useEffect(() => {
-        if (!user) return;
-        supabase
-            .from("badges")
-            .select("badge_id")
-            .eq("user_id", user.id)
-            .then(({ data }) => {
-                if (data) setEarnedIds(new Set(data.map((r) => r.badge_id)));
-            });
-    }, [user, supabase]);
+  const checkModuleBadge = useCallback(
+    async (moduleId: ModuleId) => {
+      const badge = badgeDefinitions.find((b) => b.moduleId === moduleId);
+      if (!badge || earned.includes(badge.id)) return;
 
-    // Check whether a module badge should be awarded after an answer
-    const checkModuleBadge = useCallback(
-        async (moduleId: ModuleId, progress: LocalProgress) => {
-            if (!user) return;
+      const progress = useAppStore.getState().progress;
+      const moduleQuestions = activeQuestions.filter(
+        (q) => q.module === moduleId,
+      );
+      const allSeen = moduleQuestions.every((q) => progress[q.id]?.seen);
+      if (!allSeen) return;
 
-            const badge = badgeDefinitions.find((b) => b.moduleId === moduleId);
-            if (!badge || earnedIds.has(badge.id)) return;
+      // Award badge locally
+      useAppStore.getState().earnBadge(badge.id);
+      useUIStore.getState().showBadge(badge.id);
 
-            const moduleQuestions = activeQuestions.filter(
-                (q) => q.module === moduleId,
-            );
-            const allSeen = moduleQuestions.every((q) => progress[q.id]?.seen);
-            if (!allSeen) return;
+      // Persist to Supabase if authenticated
+      if (user) {
+        await supabase
+          .from("badges")
+          .insert({ user_id: user.id, badge_id: badge.id })
+          .select()
+          .single();
+      }
+    },
+    [user, earned, supabase],
+  );
 
-            // Award badge
-            const { error } = await supabase
-                .from("badges")
-                .insert({ user_id: user.id, badge_id: badge.id })
-                .select()
-                .single();
+  const dismissNewBadge = useCallback(() => {
+    useUIStore.getState().clearBadge();
+  }, []);
 
-            if (!error) {
-                setEarnedIds((prev) => new Set([...prev, badge.id]));
-                setNewBadge(badge);
-            }
-        },
-        [user, earnedIds, supabase],
-    );
+  const newBadge = badgeDefinitions.find((b) => b.id === newBadgeId) ?? null;
 
-    const dismissNewBadge = useCallback(() => setNewBadge(null), []);
-
-    return { earnedIds, newBadge, checkModuleBadge, dismissNewBadge };
+  return {
+    earnedIds: new Set(earned),
+    newBadge,
+    checkModuleBadge,
+    dismissNewBadge,
+  };
 }

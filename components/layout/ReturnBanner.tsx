@@ -1,20 +1,20 @@
 'use client'
 
-import { useAuthModal } from '@/hooks/useAuthModal'
+import { useUIStore } from '@/stores/uiStore'
 
 interface ReturnBannerProps {
   onDismiss: () => void
 }
 
 export default function ReturnBanner({ onDismiss }: ReturnBannerProps) {
-  const openAuth = useAuthModal()
+  const openAuth = useUIStore((s) => s.openAuth)
 
   return (
     <div className="bg-orange-light border-b border-orange-mid px-5 py-2.5 flex items-center justify-between gap-3 text-sm">
       <p className="text-stone-700">
         Welcome back —{' '}
         <button
-          onClick={() => openAuth({ reason: 'save_progress' })}
+          onClick={() => openAuth('save_progress')}
           className="font-bold text-orange underline underline-offset-2 hover:no-underline focus-visible:outline-none cursor-pointer"
         >
           sign in

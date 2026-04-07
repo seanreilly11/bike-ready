@@ -1,16 +1,15 @@
 "use client";
 
-import type { Module, LocalProgress, ModuleStatus, Question } from "@/types";
+import type { Module, ModuleStatus } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
 import Badge from "@/components/ui/Badge";
 import MasteryDot from "@/components/ui/MasteryDot";
-import { useAuth } from "@/hooks/useAuth";
-import { useProgress } from "@/hooks/useProgress";
+import { useAppStore } from "@/stores/appStore";
 import { useQuestions } from "@/hooks/useQuestions";
+import { useProgress } from "@/hooks/useProgress";
 
 interface ModuleCardProps {
   module: Module;
-  useProgress: ReturnType<typeof useProgress>;
   onClick: () => void;
 }
 
@@ -24,16 +23,10 @@ const statusBadge: Record<
   preview_done: { label: "Preview done", variant: "hard" },
 };
 
-function getDotState(q: Question, progress: LocalProgress) {
-  const p = progress[q.id];
-  if (!p) return "unseen";
-  if (p.correct) return "correct";
-  return "seen";
-}
-
-export default function ModuleCard({ module, useProgress: progressHook, onClick }: ModuleCardProps) {
-  const { isPremium } = useAuth();
-  const { progress, getModuleStatus } = progressHook;
+export default function ModuleCard({ module, onClick }: ModuleCardProps) {
+  const progress = useAppStore((s) => s.progress);
+  const isPremium = useAppStore((s) => s.isPremium);
+  const { getModuleStatus } = useProgress();
   const { questionsByModule } = useQuestions();
   const questions = questionsByModule(module.id);
   const status = getModuleStatus(module.id, isPremium);
@@ -56,7 +49,6 @@ export default function ModuleCard({ module, useProgress: progressHook, onClick 
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          {/* <span className="text-xl">{module.emoji}</span> */}
           <h3 className="font-display font-bold text-orange">{module.title}</h3>
         </div>
         <Badge variant={variant} label={label} />
@@ -70,9 +62,11 @@ export default function ModuleCard({ module, useProgress: progressHook, onClick 
         {questions.map((q, i) => {
           const isGated =
             !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;
+          const p = progress[q.id];
+          const state = p?.correct ? "correct" : p?.seen ? "seen" : "unseen";
           return (
             <div key={q.id} style={{ opacity: isGated ? 0.35 : 1 }}>
-              <MasteryDot state={getDotState(q, progress)} />
+              <MasteryDot state={state} />
             </div>
           );
         })}

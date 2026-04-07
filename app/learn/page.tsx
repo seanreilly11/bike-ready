@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
@@ -18,6 +18,8 @@ import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
+import { useUIStore } from "@/stores/uiStore";
+import { useState } from "react";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
@@ -95,27 +97,6 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
-function ModuleCardSkeleton() {
-  return (
-    <div className="w-full bg-white border border-stone-200 rounded-xl p-4 animate-pulse">
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="h-5 w-32 bg-stone-200 rounded" />
-        <div className="h-5 w-20 bg-stone-200 rounded-full" />
-      </div>
-      <div className="space-y-1.5 mb-3">
-        <div className="h-3.5 w-full bg-stone-200 rounded" />
-        <div className="h-3.5 w-4/5 bg-stone-200 rounded" />
-      </div>
-      <div className="flex flex-wrap gap-1.5 mb-2">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="w-2.5 h-2.5 rounded-full bg-stone-200" />
-        ))}
-      </div>
-      <div className="h-3 w-16 bg-stone-200 rounded" />
-    </div>
-  );
-}
-
 export default function LearnIndexPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -124,20 +105,21 @@ export default function LearnIndexPage() {
   const { earnedIds } = useBadges();
   const handleUnlock = useUnlock();
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const [showUpgradeToast, setShowUpgradeToast] = useState(false);
-  const isLoadingProgress = isAuthLoading || (user !== null && !progress.isLoaded);
+  const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
+  const setUpgradeToast = useUIStore((s) => s.setUpgradeToast);
 
   useEffect(() => {
     if (searchParams.get("upgraded") === "true") {
-      setShowUpgradeToast(true);
+      setUpgradeToast(true);
       router.replace("/learn");
       refreshPremiumStatus();
-      const timer = setTimeout(() => setShowUpgradeToast(false), 5000);
+      const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);
     }
-  }, [searchParams, router, refreshPremiumStatus]);
+  }, [searchParams, router, refreshPremiumStatus, setUpgradeToast]);
 
-  if (progress.isPreviewComplete(isPremium)) {
+  // Don't show preview-complete screen while auth is still resolving
+  if (!isAuthLoading && progress.isPreviewComplete(isPremium)) {
     return (
       <PreviewCompleteScreen onUnlock={handleUnlock} />
     );
@@ -162,18 +144,15 @@ export default function LearnIndexPage() {
           Learn
         </h1>
 
-        {/* Module cards */}
+        {/* Module cards — progress is synchronous from store, no skeleton needed */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-          {isLoadingProgress
-            ? modules.map((mod) => <ModuleCardSkeleton key={mod.id} />)
-            : modules.map((mod) => (
-                <ModuleCard
-                  key={mod.id}
-                  module={mod}
-                  useProgress={progress}
-                  onClick={() => router.push(`/learn/${mod.id}`)}
-                />
-              ))}
+          {modules.map((mod) => (
+            <ModuleCard
+              key={mod.id}
+              module={mod}
+              onClick={() => router.push(`/learn/${mod.id}`)}
+            />
+          ))}
         </div>
 
         {/* Badge grid — shown only when user is premium or has earned at least one */}

@@ -2,12 +2,12 @@
 
 import { useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { useAuthModal } from '@/hooks/useAuthModal'
+import { useUIStore } from '@/stores/uiStore'
 import { createClient } from '@/lib/supabase'
 
 export function useUnlock(onClose?: () => void) {
   const { refreshPremiumStatus } = useAuth()
-  const openAuth = useAuthModal()
+  const openAuth = useUIStore((s) => s.openAuth)
 
   return useCallback(async () => {
     const supabase = createClient()
@@ -24,7 +24,7 @@ export function useUnlock(onClose?: () => void) {
       window.location.href = data.url!
     } else {
       onClose?.()
-      openAuth({ reason: 'upgrade' })
+      openAuth('upgrade')
     }
   }, [refreshPremiumStatus, openAuth, onClose])
 }

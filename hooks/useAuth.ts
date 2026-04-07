@@ -3,26 +3,47 @@
 import { useEffect, useState, useCallback } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
+import { useAppStore } from "@/stores/appStore";
+import fetchProgress from "@/lib/queries/fetchProgress";
+import updateProgress from "@/lib/mutations/updateProgress";
+import type { LocalProgress } from "@/types";
 
-interface AuthState {
+const LEGACY_STORAGE_KEY = "bikeready_progress";
+
+function loadLegacyProgress(): LocalProgress {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as unknown;
+    // Legacy format is a flat Record<string, { seen, correct }>
+    // Only treat it as legacy if it doesn't have the Zustand wrapper shape
+    if (
+      parsed !== null &&
+      typeof parsed === "object" &&
+      !("state" in (parsed as object))
+    ) {
+      return parsed as LocalProgress;
+    }
+    return {};
+  } catch {
+    return {};
+  }
+}
+
+export function useAuth(): {
   user: User | null;
   isPremium: boolean;
   isLoading: boolean;
-}
-
-interface UseAuthReturn extends AuthState {
-  sendMagicLink: (email: string, reason: 'save_progress' | 'upgrade') => Promise<void>;
+  sendMagicLink: (email: string, reason: "save_progress" | "upgrade") => Promise<void>;
   signOut: () => Promise<void>;
   refreshPremiumStatus: () => Promise<void>;
-}
-
-export function useAuth(): UseAuthReturn {
+} {
   const supabase = createClient();
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isPremium: false,
-    isLoading: true,
-  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  const user = useAppStore((s) => s.user);
+  const isPremium = useAppStore((s) => s.isPremium);
 
   const fetchProfile = useCallback(
     async (userId: string) => {
@@ -36,14 +57,12 @@ export function useAuth(): UseAuthReturn {
     [supabase],
   );
 
-  // If the user is signed in but not premium, verify against Stripe in case
-  // the webhook failed to fire. Silently recovers missed payments.
   const verifyPremium = useCallback(async () => {
     const res = await fetch("/api/premium/verify");
     if (!res.ok) return;
     const { is_premium } = (await res.json()) as { is_premium: boolean };
     if (is_premium) {
-      setState((prev) => ({ ...prev, isPremium: true }));
+      useAppStore.getState().setPremium(true);
     }
   }, []);
 
@@ -52,20 +71,74 @@ export function useAuth(): UseAuthReturn {
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!mounted) return;
-      const user = session?.user ?? null;
-      const isPremium = user ? await fetchProfile(user.id) : false;
-      setState({ user, isPremium, isLoading: false });
+      const sessionUser = session?.user ?? null;
+      const premium = sessionUser ? await fetchProfile(sessionUser.id) : false;
+      useAppStore.getState().setUser(sessionUser);
+      useAppStore.getState().setPremium(premium);
+      if (sessionUser) {
+        // Fetch Supabase progress and hydrate store
+        try {
+          const data = await fetchProgress();
+          if (data) {
+            const merged: LocalProgress = {};
+            for (const row of data) {
+              merged[row.question_id] = { seen: row.seen, correct: row.correct };
+            }
+            useAppStore.getState().hydrateProgress(merged);
+          }
+        } catch {
+          // Non-fatal: store keeps whatever is in localStorage
+        }
+      }
+      if (mounted) setIsLoading(false);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return;
-      const user = session?.user ?? null;
-      const isPremium = user ? await fetchProfile(user.id) : false;
-      setState({ user, isPremium, isLoading: false });
-      if (event === "SIGNED_IN" && user && !isPremium) {
-        verifyPremium();
+      const sessionUser = session?.user ?? null;
+
+      if (event === "SIGNED_IN" && sessionUser) {
+        const premium = await fetchProfile(sessionUser.id);
+        useAppStore.getState().setUser(sessionUser);
+        useAppStore.getState().setPremium(premium);
+
+        // Migrate legacy localStorage progress to Supabase
+        const legacy = loadLegacyProgress();
+        const legacyEntries = Object.entries(legacy);
+        if (legacyEntries.length > 0) {
+          await Promise.all(
+            legacyEntries.map(([questionId, { correct }]) =>
+              updateProgress(questionId, correct, sessionUser.id),
+            ),
+          );
+          localStorage.removeItem(LEGACY_STORAGE_KEY);
+        }
+
+        // Fetch Supabase progress and hydrate store
+        try {
+          const data = await fetchProgress();
+          if (data) {
+            const merged: LocalProgress = {};
+            for (const row of data) {
+              merged[row.question_id] = { seen: row.seen, correct: row.correct };
+            }
+            useAppStore.getState().hydrateProgress(merged);
+          }
+        } catch {
+          // Non-fatal
+        }
+
+        if (!premium) verifyPremium();
+        if (mounted) setIsLoading(false);
+      } else if (event === "SIGNED_OUT") {
+        useAppStore.getState().setUser(null);
+        useAppStore.getState().setPremium(false);
+        useAppStore.getState().resetProgress();
+        if (mounted) setIsLoading(false);
+      } else if (event === "INITIAL_SESSION") {
+        if (mounted) setIsLoading(false);
       }
     });
 
@@ -73,21 +146,25 @@ export function useAuth(): UseAuthReturn {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile, supabase.auth]);
+  }, [fetchProfile, supabase.auth, verifyPremium]);
 
   const refreshPremiumStatus = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    const isPremium = await fetchProfile(user.id);
-    setState((prev) => ({ ...prev, isPremium }));
+    const {
+      data: { user: currentUser },
+    } = await supabase.auth.getUser();
+    if (!currentUser) return;
+    const premium = await fetchProfile(currentUser.id);
+    useAppStore.getState().setPremium(premium);
   }, [supabase, fetchProfile]);
 
   const sendMagicLink = useCallback(
-    async (email: string, reason: 'save_progress' | 'upgrade') => {
-      const next = reason === 'upgrade' ? '/checkout' : '/learn';
+    async (email: string, reason: "save_progress" | "upgrade") => {
+      const next = reason === "upgrade" ? "/checkout" : "/learn";
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}` },
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}`,
+        },
       });
       if (error) throw error;
     },
@@ -98,5 +175,5 @@ export function useAuth(): UseAuthReturn {
     await supabase.auth.signOut();
   }, [supabase.auth]);
 
-  return { ...state, sendMagicLink, signOut, refreshPremiumStatus };
+  return { user, isPremium, isLoading, sendMagicLink, signOut, refreshPremiumStatus };
 }

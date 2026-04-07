@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
-import type { AuthModalReason } from "@/hooks/useAuthModal";
+import type { AuthModalReason } from "@/stores/uiStore";
 
 interface AuthModalProps {
   reason: AuthModalReason;

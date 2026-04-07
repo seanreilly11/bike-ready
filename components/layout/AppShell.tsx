@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "@/components/layout/Nav";
 import AuthModal from "@/components/layout/AuthModal";
-import { useAuth } from "@/hooks/useAuth";
-import { AuthModalContext, type AuthModalReason } from "@/hooks/useAuthModal";
+import { useUIStore } from "@/stores/uiStore";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -19,22 +17,21 @@ export default function AppShell({
   logoOnly,
 }: AppShellProps) {
   const pathname = usePathname();
-  const [showAuth, setShowAuth] = useState(false);
-  const [authReason, setAuthReason] = useState<AuthModalReason>('save_progress');
-  const openAuth = (opts?: { reason?: AuthModalReason }) => {
-    setAuthReason(opts?.reason ?? 'save_progress');
-    setShowAuth(true);
-  };
+  const showAuth = useUIStore((s) => s.showAuth);
+  const authReason = useUIStore((s) => s.authReason);
+  const closeAuth = useUIStore((s) => s.closeAuth);
 
   return (
-    <AuthModalContext.Provider value={openAuth}>
+    <>
       <Nav
         currentRoute={pathname}
         wrongCount={wrongCount}
         logoOnly={logoOnly}
       />
-      {showAuth && <AuthModal reason={authReason} onClose={() => setShowAuth(false)} />}
+      {showAuth && authReason && (
+        <AuthModal reason={authReason} onClose={closeAuth} />
+      )}
       {children}
-    </AuthModalContext.Provider>
+    </>
   );
 }

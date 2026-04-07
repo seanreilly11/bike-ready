@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { useAuthModal } from "@/hooks/useAuthModal";
+import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
@@ -30,7 +30,7 @@ export default function ModuleSessionPage() {
   const mod = modules.find((m) => m.id === moduleId);
 
   const { user, isPremium } = useAuth();
-  const openAuth = useAuthModal();
+  const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
   const progress = useProgress();
   const badges = useBadges();
@@ -72,7 +72,7 @@ export default function ModuleSessionPage() {
   async function handleAnswer(_optionId: string, correct: boolean) {
     if (!currentQuestion) return;
     await progress.recordAnswer(currentQuestion.id, correct);
-    await badges.checkModuleBadge(moduleId, progress.progress);
+    await badges.checkModuleBadge(moduleId);
 
     await track("question_answered", {
       question_id: currentQuestion.id,
@@ -157,7 +157,7 @@ export default function ModuleSessionPage() {
                 <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
                   Sign in so you don&apos;t lose what you&apos;ve done.{" "}
                   <button
-                    onClick={() => openAuth({ reason: 'save_progress' })}
+                    onClick={() => openAuth('save_progress')}
                     className="font-bold text-orange underline underline-offset-2"
                   >
                     Sign in
@@ -210,10 +210,6 @@ export default function ModuleSessionPage() {
                   onUnlock={handleUnlock}
                 />
               </div>
-            </div>
-          ) : user && !progress.isLoaded ? (
-            <div className="min-h-screen flex items-center justify-center">
-              <p className="text-stone-400">Loading...</p>
             </div>
           ) : (
             /* Active question */

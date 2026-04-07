@@ -138,7 +138,7 @@ export default function TestPage() {
       difficulty: currentQ.difficulty,
       correct,
     });
-    await checkModuleBadge(currentQ.module, progress.progress);
+    await checkModuleBadge(currentQ.module);
 
     if (index + 1 >= testSet.length) {
       // Last question — go to results

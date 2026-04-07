@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuthModal } from "@/hooks/useAuthModal";
+import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
-import { useRouter } from "next/navigation";
 
 interface NavProps {
   currentRoute: string;
@@ -25,9 +24,8 @@ export default function Nav({
   logoOnly = false,
 }: NavProps) {
   const { user, isPremium, isLoading } = useAuth();
-  const openAuth = useAuthModal();
+  const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
-  const router = useRouter();
 
   return (
     <nav className="sticky top-0 z-40 bg-white border-b border-stone-200">
@@ -77,7 +75,11 @@ export default function Nav({
                   Go Premium
                 </Button>
               ) : (
-                <Button variant="secondary" size="sm" onClick={() => openAuth({ reason: 'save_progress' })}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => openAuth("save_progress")}
+                >
                   Sign in
                 </Button>
               )}
