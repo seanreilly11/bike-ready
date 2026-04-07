@@ -2,6 +2,13 @@ import type { Badge } from '@/types'
 
 const badges: Badge[] = [
   {
+    id:          'badge_fundamentals',
+    name:        'Ready to Ride',
+    emoji:       '🚲',
+    description: 'Completed Fundamentals',
+    moduleId:    'fundamentals',
+  },
+  {
     id:          'badge_priority',
     name:        'Priority Pro',
     emoji:       '⚡',

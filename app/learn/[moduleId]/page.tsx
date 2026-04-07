@@ -52,8 +52,8 @@ export default function ModuleSessionPage() {
   const seenInModule = progress.getModuleSeen(moduleId);
   const allDone = seenInModule === moduleQuestions.length;
 
-  // Gate: free users after question 2
-  const hitGate = !isPremium && currentIndex >= FREE_PER_MODULE;
+  // Gate: free users after FREE_PER_MODULE questions, unless module is always free
+  const hitGate = !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
 
   const nextModuleIndex = modules.findIndex((m) => m.id === moduleId) + 1;
   const nextModule =

@@ -11,6 +11,7 @@ import type {
 import { FREE_PER_MODULE } from "@/types";
 import { createClient } from "@/lib/supabase";
 import { activeQuestions, useQuestions } from "@/hooks/useQuestions";
+import modules from "@/data/modules";
 import { useAuth } from "./useAuth";
 import fetchProgress from "@/lib/queries/fetchProgress";
 import updateProgress from "@/lib/mutations/updateProgress";
@@ -136,10 +137,11 @@ export function useProgress() {
       (q) => q.module === moduleId,
     );
     const seen = moduleQuestions.filter((q) => progress[q.id]?.seen);
+    const mod = modules.find((m) => m.id === moduleId);
 
     if (seen.length === 0) return "not_started";
     if (seen.length === moduleQuestions.length) return "complete";
-    if (!isPremium && seen.length >= FREE_PER_MODULE) return "preview_done";
+    if (!isPremium && !mod?.alwaysFree && seen.length >= FREE_PER_MODULE) return "preview_done";
     return "in_progress";
   }
 
@@ -162,15 +164,10 @@ export function useProgress() {
 
   function isPreviewComplete(isPremium: boolean): boolean {
     if (isPremium) return false;
-    const moduleIds: ModuleId[] = [
-      "priority",
-      "signs",
-      "roadusers",
-      "infrastructure",
-      "legal",
-      "vocabulary",
-    ];
-    return moduleIds.every((id) => getModuleSeen(id) >= FREE_PER_MODULE);
+    const gatedModuleIds = modules
+      .filter((m) => !m.alwaysFree)
+      .map((m) => m.id);
+    return gatedModuleIds.every((id) => getModuleSeen(id) >= FREE_PER_MODULE);
   }
 
   function getCurrentQuestionIndex(moduleId: ModuleId): number {

@@ -16,10 +16,12 @@ import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
+import { FREE_PER_MODULE } from "@/types";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
-  const totalFree = modules.length * 2;
+  const gatedModules = modules.filter((m) => !m.alwaysFree);
+  const totalFree = gatedModules.length * FREE_PER_MODULE;
   const totalAll = allQuestions.length;
   const pct = Math.round((totalFree / totalAll) * 100);
 
@@ -51,7 +53,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
       {/* Incomplete module cards */}
       <div className="px-5 pb-12 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {modules.map((mod) => {
+          {gatedModules.map((mod) => {
             const qs = questionsByModule(mod.id as ModuleId);
             return (
               <div

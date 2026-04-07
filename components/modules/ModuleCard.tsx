@@ -64,7 +64,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       {/* Dot map */}
       <div className="flex flex-wrap gap-1.5 mb-2">
         {questions.map((q, i) => {
-          const isGated = !isPremium && i >= FREE_PER_MODULE;
+          const isGated = !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;
           return (
             <div key={q.id} style={{ opacity: isGated ? 0.35 : 1 }}>
               <MasteryDot state={getDotState(q, progress)} />

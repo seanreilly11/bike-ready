@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------------
 
 export type ModuleId =
+  | 'fundamentals'
   | 'priority'
   | 'signs'
   | 'roadusers'
@@ -85,6 +86,7 @@ export interface Module {
   description: string
   badgeId:     string
   badgeName:   string
+  alwaysFree:  boolean
 }
 
 export interface Badge {

@@ -13,6 +13,20 @@
     }
   },
   "lessons": {
+    "Fundamentals": {
+      "easy": {
+        "title": "Essential cycling rules",
+        "body": "In the Netherlands, cyclists ride on the right, must use marked cycle paths (fietspad) when present, obey all traffic lights, and signal turns with hand signals. Helmets are not legally required for regular cyclists."
+      },
+      "medium": {
+        "title": "Rules and equipment",
+        "body": "Beyond the basics: active front and rear lights are required after dark (reflectors alone are not enough), using a mobile phone while cycling is illegal (fine: 95 euros), and a car pulling out of a parking space must yield to cyclists already on the road."
+      },
+      "hard": {
+        "title": "Fundamentals — full picture",
+        "body": "Cyclists must ride on the right, use mandatory cycle paths, obey traffic lights (including cyclist-specific signals), and signal turns by hand. After dark: white/yellow front light and red rear light required. Mobile phone use while cycling is prohibited (95 euro fine). On shared pedestrian/cycle paths, no fixed priority applies — cyclists must give way to pedestrians in practice. Speed pedelec riders must wear an approved helmet; regular cyclists do not."
+      }
+    },
     "Right Before Left": {
       "easy": {
         "title": "Right before left",

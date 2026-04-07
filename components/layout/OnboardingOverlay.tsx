@@ -19,9 +19,9 @@ const screens = [
     body: 'You\'re dropped into a real cycling moment. Make a call based on instinct. The feedback confirms or corrects your mental model. The question is the lesson.',
   },
   {
-    emoji: '⚡',
-    title: 'Where to start',
-    body: 'Start with Priority Rules — right-before-left and shark teeth are the most common causes of near-misses. Then follow whichever module matches your next cycling challenge.',
+    emoji: '🚲',
+    title: 'Start here first',
+    body: 'Begin with Fundamentals — it\'s free and covers the essential rules every cyclist needs before anything else. Then work through the other modules at your own pace.',
   },
 ]
 
