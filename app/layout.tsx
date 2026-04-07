@@ -1,15 +1,17 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'BikeReady — Cycle safely in the Netherlands',
-  description: 'A short preparation course for expats learning to cycle safely in Dutch cities.',
-}
+  title: "BikeReady — Cycle safely in the Netherlands",
+  description:
+    "A short preparation course for expats learning to cycle safely in Dutch cities.",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -19,7 +21,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
-  )
+  );
 }
