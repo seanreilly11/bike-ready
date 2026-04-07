@@ -10,6 +10,7 @@ import { useQuestions } from "@/hooks/useQuestions";
 
 interface ModuleCardProps {
   module: Module;
+  useProgress: ReturnType<typeof useProgress>;
   onClick: () => void;
 }
 
@@ -30,9 +31,13 @@ function getDotState(q: Question, progress: LocalProgress) {
   return "seen";
 }
 
-export default function ModuleCard({ module, onClick }: ModuleCardProps) {
+export default function ModuleCard({
+  module,
+  useProgress,
+  onClick,
+}: ModuleCardProps) {
   const { isPremium } = useAuth();
-  const { progress, getModuleStatus } = useProgress();
+  const { progress, getModuleStatus } = useProgress;
   const { questionsByModule } = useQuestions();
   const questions = questionsByModule(module.id);
   const status = getModuleStatus(module.id, isPremium);

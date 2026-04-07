@@ -36,8 +36,8 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
           Don&apos;t leave it unfinished
         </h1>
         <p className="text-stone-400 text-sm mb-6">
-          You&apos;ve seen all {gatedModules.length} previews. The full course has {totalAll}{" "}
-          questions.
+          You&apos;ve seen all {gatedModules.length} previews. The full course
+          has {totalAll} questions.
         </p>
         <div className="mb-6">
           <ProgressBar value={pct} color="orange" height={6} />
@@ -123,7 +123,8 @@ export default function LearnIndexPage() {
   const progress = useProgress();
   const { earnedIds } = useBadges();
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const isLoadingProgress = isAuthLoading || (user !== null && !progress.isLoaded);
+  const isLoadingProgress =
+    isAuthLoading || (user !== null && !progress.isLoaded);
 
   if (progress.isPreviewComplete(isPremium)) {
     return (
@@ -149,6 +150,7 @@ export default function LearnIndexPage() {
             : modules.map((mod) => (
                 <ModuleCard
                   key={mod.id}
+                  useProgress={progress}
                   module={mod}
                   onClick={() => router.push(`/learn/${mod.id}`)}
                 />
