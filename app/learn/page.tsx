@@ -36,7 +36,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
           Don&apos;t leave it unfinished
         </h1>
         <p className="text-stone-400 text-sm mb-6">
-          You&apos;ve seen all 6 previews. The full course has {totalAll}{" "}
+          You&apos;ve seen all {gatedModules.length} previews. The full course has {totalAll}{" "}
           questions.
         </p>
         <div className="mb-6">

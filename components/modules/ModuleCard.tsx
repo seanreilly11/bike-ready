@@ -47,6 +47,9 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
         "hover:border-stone-400 hover:shadow-md transition-all duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
         "active:scale-[0.99]",
+        module.alwaysFree
+          ? "border-l-4 border-l-green hover:border-l-green"
+          : "",
       ].join(" ")}
     >
       {/* Header */}
@@ -64,7 +67,8 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       {/* Dot map */}
       <div className="flex flex-wrap gap-1.5 mb-2">
         {questions.map((q, i) => {
-          const isGated = !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;
+          const isGated =
+            !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;
           return (
             <div key={q.id} style={{ opacity: isGated ? 0.35 : 1 }}>
               <MasteryDot state={getDotState(q, progress)} />

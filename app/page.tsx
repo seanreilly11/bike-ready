@@ -7,6 +7,7 @@ import Nav from "@/components/layout/Nav";
 import OnboardingOverlay from "@/components/layout/OnboardingOverlay";
 import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
+import { FREE_PER_MODULE } from "@/types";
 
 const ONBOARDING_KEY = "bikeready_onboarding_done";
 
@@ -88,7 +89,7 @@ export default function LandingPage() {
               </Button>
             </div>
             <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
-              2 free questions per module — no account needed
+              {FREE_PER_MODULE} free questions per module — no account needed
             </p>
           </div>
         </section>
@@ -138,9 +139,15 @@ export default function LandingPage() {
                 <p className="font-display font-bold text-sm text-stone-900">
                   {mod.title}
                 </p>
-                <p className="text-xs text-stone-400 mt-0.5 font-mono uppercase tracking-wide">
-                  2 free questions
-                </p>
+                {mod.alwaysFree ? (
+                  <p className="text-xs text-green mt-0.5 font-mono uppercase tracking-wide">
+                    Always free
+                  </p>
+                ) : (
+                  <p className="text-xs text-stone-400 mt-0.5 font-mono uppercase tracking-wide">
+                    {FREE_PER_MODULE} free questions
+                  </p>
+                )}
               </Link>
             ))}
           </div>
