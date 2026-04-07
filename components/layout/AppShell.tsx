@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Nav from "@/components/layout/Nav";
 import AuthModal from "@/components/layout/AuthModal";
 import { useAuth } from "@/hooks/useAuth";
-import { AuthModalContext } from "@/hooks/useAuthModal";
+import { AuthModalContext, type AuthModalReason } from "@/hooks/useAuthModal";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -20,7 +20,11 @@ export default function AppShell({
 }: AppShellProps) {
   const pathname = usePathname();
   const [showAuth, setShowAuth] = useState(false);
-  const openAuth = () => setShowAuth(true);
+  const [authReason, setAuthReason] = useState<AuthModalReason>('save_progress');
+  const openAuth = (opts?: { reason?: AuthModalReason }) => {
+    setAuthReason(opts?.reason ?? 'save_progress');
+    setShowAuth(true);
+  };
 
   return (
     <AuthModalContext.Provider value={openAuth}>
@@ -29,7 +33,7 @@ export default function AppShell({
         wrongCount={wrongCount}
         logoOnly={logoOnly}
       />
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      {showAuth && <AuthModal reason={authReason} onClose={() => setShowAuth(false)} />}
       {children}
     </AuthModalContext.Provider>
   );

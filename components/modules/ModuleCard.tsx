@@ -31,13 +31,9 @@ function getDotState(q: Question, progress: LocalProgress) {
   return "seen";
 }
 
-export default function ModuleCard({
-  module,
-  useProgress,
-  onClick,
-}: ModuleCardProps) {
+export default function ModuleCard({ module, useProgress: progressHook, onClick }: ModuleCardProps) {
   const { isPremium } = useAuth();
-  const { progress, getModuleStatus } = useProgress;
+  const { progress, getModuleStatus } = progressHook;
   const { questionsByModule } = useQuestions();
   const questions = questionsByModule(module.id);
   const status = getModuleStatus(module.id, isPremium);

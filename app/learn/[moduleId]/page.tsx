@@ -10,6 +10,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useAuthModal } from "@/hooks/useAuthModal";
+import { useUnlock } from "@/hooks/useUnlock";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
 import UpsellBanner from "@/components/layout/UpsellBanner";
@@ -30,6 +31,7 @@ export default function ModuleSessionPage() {
 
   const { user, isPremium } = useAuth();
   const openAuth = useAuthModal();
+  const handleUnlock = useUnlock();
   const progress = useProgress();
   const badges = useBadges();
   const { track } = useAnalytics();
@@ -155,7 +157,7 @@ export default function ModuleSessionPage() {
                 <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
                   Sign in so you don&apos;t lose what you&apos;ve done.{" "}
                   <button
-                    onClick={openAuth}
+                    onClick={() => openAuth({ reason: 'save_progress' })}
                     className="font-bold text-orange underline underline-offset-2"
                   >
                     Sign in
@@ -205,7 +207,7 @@ export default function ModuleSessionPage() {
                 <UpsellBanner
                   moduleName={mod.title}
                   moduleQuestionCount={moduleQuestions.length}
-                  onUnlock={() => router.push("/api/checkout")}
+                  onUnlock={handleUnlock}
                 />
               </div>
             </div>

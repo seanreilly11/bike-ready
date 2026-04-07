@@ -14,7 +14,7 @@ export default function ReturnBanner({ onDismiss }: ReturnBannerProps) {
       <p className="text-stone-700">
         Welcome back —{' '}
         <button
-          onClick={openAuth}
+          onClick={() => openAuth({ reason: 'save_progress' })}
           className="font-bold text-orange underline underline-offset-2 hover:no-underline focus-visible:outline-none cursor-pointer"
         >
           sign in

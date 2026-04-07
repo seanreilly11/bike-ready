@@ -4,6 +4,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthModal } from "@/hooks/useAuthModal";
+import { useUnlock } from "@/hooks/useUnlock";
 import { useRouter } from "next/navigation";
 
 interface NavProps {
@@ -25,6 +26,7 @@ export default function Nav({
 }: NavProps) {
   const { user, isPremium, isLoading } = useAuth();
   const openAuth = useAuthModal();
+  const handleUnlock = useUnlock();
   const router = useRouter();
 
   return (
@@ -71,11 +73,11 @@ export default function Nav({
                   ⭐ Premium
                 </span>
               ) : user?.email ? (
-                <Button size="sm" onClick={() => router.push("/api/checkout")}>
+                <Button size="sm" onClick={handleUnlock}>
                   Go Premium
                 </Button>
               ) : (
-                <Button variant="secondary" size="sm" onClick={openAuth}>
+                <Button variant="secondary" size="sm" onClick={() => openAuth({ reason: 'save_progress' })}>
                   Sign in
                 </Button>
               )}

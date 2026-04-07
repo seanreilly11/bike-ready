@@ -3,24 +3,39 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import type { AuthModalReason } from "@/hooks/useAuthModal";
 
 interface AuthModalProps {
+  reason: AuthModalReason;
   onClose: () => void;
 }
 
-export default function AuthModal({ onClose }: AuthModalProps) {
+const copy: Record<AuthModalReason, { title: string; body: string; note?: string }> = {
+  save_progress: {
+    title: "Save your progress",
+    body: "Enter your email and we'll send a magic link. No password needed.",
+  },
+  upgrade: {
+    title: "Create a free account to unlock",
+    body: "We need your email to complete your purchase. Takes 30 seconds.",
+    note: "Use the same email you've been using on this device.",
+  },
+};
+
+export default function AuthModal({ reason, onClose }: AuthModalProps) {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { sendMagicLink } = useAuth();
+  const { title, body, note } = copy[reason];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
-      await sendMagicLink(email);
+      await sendMagicLink(email, reason);
       setSent(true);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -62,11 +77,9 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         ) : (
           <>
             <h2 className="font-display font-bold text-xl text-stone-900 mb-1">
-              Sign in to BikeReady
+              {title}
             </h2>
-            <p className="text-stone-600 text-sm mb-5">
-              Save your progress and unlock the full course.
-            </p>
+            <p className="text-stone-600 text-sm mb-5">{body}</p>
 
             <form onSubmit={handleSubmit} className="space-y-3">
               <input
@@ -82,6 +95,9 @@ export default function AuthModal({ onClose }: AuthModalProps) {
                   "transition-colors duration-150",
                 ].join(" ")}
               />
+              {note && (
+                <p className="text-xs text-stone-400">{note}</p>
+              )}
               {error && <p className="text-red-dark text-xs">{error}</p>}
               <Button
                 type="submit"

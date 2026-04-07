@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
+import { FREE_PER_MODULE } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useQuestions } from "@/hooks/useQuestions";
+import { useUnlock } from "@/hooks/useUnlock";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
 import ModuleCard from "@/components/modules/ModuleCard";
@@ -16,7 +18,6 @@ import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
-import { FREE_PER_MODULE } from "@/types";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
@@ -72,11 +73,9 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
                       key={q.id}
                       className={[
                         "w-2.5 h-2.5 rounded-full",
-                        i < 2 ? "bg-orange" : "bg-stone-600",
+                        i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
                       ].join(" ")}
-                      style={{
-                        opacity: i >= 2 ? 0.35 : 1,
-                      }}
+                      style={{ opacity: i >= FREE_PER_MODULE ? 0.35 : 1 }}
                     />
                   ))}
                 </div>
@@ -119,21 +118,41 @@ function ModuleCardSkeleton() {
 
 export default function LearnIndexPage() {
   const router = useRouter();
-  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
+  const searchParams = useSearchParams();
+  const { user, isPremium, isLoading: isAuthLoading, refreshPremiumStatus } = useAuth();
   const progress = useProgress();
   const { earnedIds } = useBadges();
+  const handleUnlock = useUnlock();
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const isLoadingProgress =
-    isAuthLoading || (user !== null && !progress.isLoaded);
+  const [showUpgradeToast, setShowUpgradeToast] = useState(false);
+  const isLoadingProgress = isAuthLoading || (user !== null && !progress.isLoaded);
+
+  useEffect(() => {
+    if (searchParams.get("upgraded") === "true") {
+      setShowUpgradeToast(true);
+      router.replace("/learn");
+      refreshPremiumStatus();
+      const timer = setTimeout(() => setShowUpgradeToast(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, router, refreshPremiumStatus]);
 
   if (progress.isPreviewComplete(isPremium)) {
     return (
-      <PreviewCompleteScreen onUnlock={() => router.push("/api/checkout")} />
+      <PreviewCompleteScreen onUnlock={handleUnlock} />
     );
   }
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
+      {/* Upgrade success toast */}
+      {showUpgradeToast && (
+        <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
+          <span>🚲</span>
+          <span className="text-sm font-display font-medium">Welcome to BikeReady Premium</span>
+        </div>
+      )}
+
       {!user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
@@ -150,8 +169,8 @@ export default function LearnIndexPage() {
             : modules.map((mod) => (
                 <ModuleCard
                   key={mod.id}
-                  useProgress={progress}
                   module={mod}
+                  useProgress={progress}
                   onClick={() => router.push(`/learn/${mod.id}`)}
                 />
               ))}

@@ -11,8 +11,9 @@ interface AuthState {
 }
 
 interface UseAuthReturn extends AuthState {
-  sendMagicLink: (email: string) => Promise<void>;
+  sendMagicLink: (email: string, reason: 'save_progress' | 'upgrade') => Promise<void>;
   signOut: () => Promise<void>;
+  refreshPremiumStatus: () => Promise<void>;
 }
 
 export function useAuth(): UseAuthReturn {
@@ -74,11 +75,19 @@ export function useAuth(): UseAuthReturn {
     };
   }, [fetchProfile, supabase.auth]);
 
+  const refreshPremiumStatus = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const isPremium = await fetchProfile(user.id);
+    setState((prev) => ({ ...prev, isPremium }));
+  }, [supabase, fetchProfile]);
+
   const sendMagicLink = useCallback(
-    async (email: string) => {
+    async (email: string, reason: 'save_progress' | 'upgrade') => {
+      const next = reason === 'upgrade' ? '/checkout' : '/learn';
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}` },
       });
       if (error) throw error;
     },
@@ -89,5 +98,5 @@ export function useAuth(): UseAuthReturn {
     await supabase.auth.signOut();
   }, [supabase.auth]);
 
-  return { ...state, sendMagicLink, signOut };
+  return { ...state, sendMagicLink, signOut, refreshPremiumStatus };
 }
