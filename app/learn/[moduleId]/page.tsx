@@ -94,7 +94,7 @@ export default function ModuleSessionPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      {!user && !bannerDismissed && (
+      {!user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 

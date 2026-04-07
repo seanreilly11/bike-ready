@@ -3,13 +3,11 @@
 import { useAuthModal } from '@/hooks/useAuthModal'
 
 interface ReturnBannerProps {
-  totalSeen: number
   onDismiss: () => void
 }
 
-export default function ReturnBanner({ totalSeen, onDismiss }: ReturnBannerProps) {
+export default function ReturnBanner({ onDismiss }: ReturnBannerProps) {
   const openAuth = useAuthModal()
-  if (totalSeen < 3) return null
 
   return (
     <div className="bg-orange-light border-b border-orange-mid px-5 py-2.5 flex items-center justify-between gap-3 text-sm">
