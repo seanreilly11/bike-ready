@@ -29,7 +29,7 @@ export type SignId =
   | 'cyclist_light'    // small traffic light with bicycle symbol, red active
   | 'shark_teeth'      // road marking — three white triangles
 
-export type DotState = 'unseen' | 'seen' | 'correct' | 'active'
+export type DotState = 'unseen' | 'seen' | 'correct' | 'active' | 'locked'
 
 export type ModuleStatus = 'not_started' | 'in_progress' | 'complete' | 'preview_done'
 

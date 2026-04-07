@@ -63,11 +63,15 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
           const isGated =
             !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;
           const p = progress[q.id];
-          const state = p?.correct ? "correct" : p?.seen ? "seen" : "unseen";
+          const state = isGated
+            ? "locked"
+            : p?.correct
+              ? "correct"
+              : p?.seen
+                ? "seen"
+                : "unseen";
           return (
-            <div key={q.id} style={{ opacity: isGated ? 0.35 : 1 }}>
-              <MasteryDot state={state} />
-            </div>
+            <MasteryDot key={q.id} state={state} />
           );
         })}
       </div>

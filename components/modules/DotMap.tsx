@@ -6,10 +6,11 @@ import MasteryDot from '@/components/ui/MasteryDot'
 import { useAuth } from '@/hooks/useAuth'
 
 interface DotMapProps {
-  questions:   Question[]
-  progress:    LocalProgress
-  currentId:   string
-  onDotClick:  (index: number) => void
+  questions:    Question[]
+  progress:     LocalProgress
+  currentId:    string
+  onDotClick:   (index: number) => void
+  alwaysFree?:  boolean
 }
 
 function getDotState(questionId: string, progress: LocalProgress, currentId: string): DotState {
@@ -25,13 +26,16 @@ export default function DotMap({
   progress,
   currentId,
   onDotClick,
+  alwaysFree = false,
 }: DotMapProps) {
   const { isPremium } = useAuth()
   return (
     <div className="flex flex-wrap gap-1.5">
       {questions.map((q, index) => {
-        const isGated = !isPremium && index >= FREE_PER_MODULE
-        const state   = getDotState(q.id, progress, currentId)
+        const isGated = !alwaysFree && !isPremium && index >= FREE_PER_MODULE
+        const state: DotState = isGated
+          ? 'locked'
+          : getDotState(q.id, progress, currentId)
 
         return (
           <button
@@ -44,9 +48,7 @@ export default function DotMap({
               isGated ? 'cursor-default' : 'cursor-pointer',
             ].join(' ')}
           >
-            <div style={{ opacity: isGated ? 0.35 : 1 }}>
-              <MasteryDot state={state} />
-            </div>
+            <MasteryDot state={state} />
           </button>
         )
       })}

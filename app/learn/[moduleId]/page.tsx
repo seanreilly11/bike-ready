@@ -45,10 +45,13 @@ export default function ModuleSessionPage() {
     [moduleId],
   );
 
+  // Set starting position once when the module loads. Reading progress directly
+  // from the store (not as a reactive dep) so that answering questions doesn't
+  // re-run this effect and skip the feedback panel.
   useEffect(() => {
-    const index = progress.getCurrentQuestionIndex(moduleId);
-    setCurrentIndex(index);
-  }, [moduleId, progress, user]);
+    setCurrentIndex(progress.getCurrentQuestionIndex(moduleId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moduleId]);
 
   const currentQuestion = moduleQuestions[currentIndex];
   const seenInModule = progress.getModuleSeen(moduleId);
@@ -131,6 +134,7 @@ export default function ModuleSessionPage() {
               progress={progress.progress}
               currentId={currentQuestion?.id ?? ""}
               onDotClick={setCurrentIndex}
+              alwaysFree={mod.alwaysFree}
             />
           </div>
 
