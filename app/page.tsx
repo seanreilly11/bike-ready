@@ -6,6 +6,24 @@ import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
 
+export const metadata: Metadata = {
+  title: "BikeReady — Cycle safely in the Netherlands",
+  description:
+    "A short preparation course for expats. Real scenarios, real Dutch rules. Know what to do before you ride.",
+  openGraph: {
+    title: "BikeReady — Cycle safely in the Netherlands",
+    description:
+      "Real scenarios, real Dutch rules. Know what to do before you ride.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BikeReady — Cycle safely in the Netherlands",
+    description:
+      "Real scenarios, real Dutch rules. Know what to do before you ride.",
+  },
+};
+
 const howItWorks = [
   {
     step: "1",

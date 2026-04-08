@@ -27,6 +27,8 @@ NEXT_PUBLIC_STRIPE_PRICE_ID=
 
 NEXT_PUBLIC_POSTHOG_KEY=
 NEXT_PUBLIC_POSTHOG_HOST=
+
+NEXT_PUBLIC_SITE_URL=https://bikeready.nl
 ```
 
 ### 3. Set up the database
