@@ -122,15 +122,18 @@ export default function LandingPage() {
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                 ].join(" ")}
               >
-                <p className="font-display font-bold text-sm text-stone-900">
+                <p className="font-display font-bold text-sm text-stone-900 mb-1">
                   {mod.title}
                 </p>
+                <p className="text-xs text-stone-500 leading-relaxed mb-2">
+                  {mod.description}
+                </p>
                 {mod.alwaysFree ? (
-                  <p className="text-xs text-green mt-0.5 font-mono uppercase tracking-wide">
+                  <p className="text-xs text-green font-mono uppercase tracking-wide">
                     Always free
                   </p>
                 ) : (
-                  <p className="text-xs text-stone-400 mt-0.5 font-mono uppercase tracking-wide">
+                  <p className="text-xs text-stone-400 font-mono uppercase tracking-wide">
                     {FREE_PER_MODULE} free questions
                   </p>
                 )}
