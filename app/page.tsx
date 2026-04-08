@@ -1,20 +1,10 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
 import Nav from "@/components/layout/Nav";
-import OnboardingOverlay from "@/components/layout/OnboardingOverlay";
+import LandingButton from "@/components/layout/LandingButton";
 import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
-
-const ONBOARDING_KEY = "bikeready_onboarding_done";
-
-function getOnboardingDone() {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem(ONBOARDING_KEY) === "true";
-}
 
 const howItWorks = [
   {
@@ -35,22 +25,6 @@ const howItWorks = [
 ];
 
 export default function LandingPage() {
-  const [showOnboarding, setShowOnboarding] = useState(false);
-
-  function handleStartLearning() {
-    if (getOnboardingDone()) {
-      window.location.href = "/learn";
-    } else {
-      setShowOnboarding(true);
-    }
-  }
-
-  function handleOnboardingDone() {
-    localStorage.setItem(ONBOARDING_KEY, "true");
-    setShowOnboarding(false);
-    window.location.href = "/learn";
-  }
-
   return (
     <>
       <Nav currentRoute="/" wrongCount={0} logoOnly />
@@ -67,11 +41,10 @@ export default function LandingPage() {
             <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6 max-w-lg">
               A short preparation course for expats. 6 modules. Real scenarios.
               The rules that actually trip people up. Some shit about feeling
-              confident and prepared. Don't say what the product is. Say how
-              it's gonna make them feel or improve.
+              confident and prepared. Don&apos;t say what the product is. Say
+              how it&apos;s gonna make them feel or improve.
             </p>
 
-            {/* Social proof */}
             <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 mb-6">
               <span className="text-white/90 text-sm font-display">
                 2,400+ expats ready to ride
@@ -79,14 +52,10 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={handleStartLearning}
+              <LandingButton
+                variant="hero"
                 className="bg-white! text-orange! hover:bg-white/90!"
-              >
-                Start learning →
-              </Button>
+              />
             </div>
             <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
               {FREE_PER_MODULE} free questions per module — no account needed
@@ -135,7 +104,6 @@ export default function LandingPage() {
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                 ].join(" ")}
               >
-                {/* <span className="text-2xl block mb-1">{mod.emoji}</span> */}
                 <p className="font-display font-bold text-sm text-stone-900">
                   {mod.title}
                 </p>
@@ -159,7 +127,7 @@ export default function LandingPage() {
             Built for foreigners, not Dutch people
           </h2>
           <p className="text-orange/90 text-sm leading-relaxed max-w-lg">
-            Dutch cyclists learn this stuff as kids. You didn't. BikeReady
+            Dutch cyclists learn this stuff as kids. You didn&apos;t. BikeReady
             targets exactly the rules that differ from what you already know —
             so you recalibrate fast and stay safe.
           </p>
@@ -167,21 +135,12 @@ export default function LandingPage() {
 
         {/* Bottom CTA */}
         <section className="px-5 pb-16 max-w-2xl mx-auto text-center">
-          <Button
-            variant="primary"
-            size="lg"
-            full
-            onClick={handleStartLearning}
-          >
-            Start learning →
-          </Button>
+          <LandingButton variant="bottom" />
           <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">
             Full course {APP_PRICE} one-time · No subscription
           </p>
         </section>
       </main>
-
-      {showOnboarding && <OnboardingOverlay onDone={handleOnboardingDone} />}
     </>
   );
 }
