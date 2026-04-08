@@ -48,10 +48,9 @@ export interface Option {
 }
 
 export interface Feedback {
-  title: 'Correct' | 'Not quite'
-  body:  string
-  rule:  string
-  tip:   string
+  body: string
+  rule: string
+  tip:  string
 }
 
 export interface Question {
