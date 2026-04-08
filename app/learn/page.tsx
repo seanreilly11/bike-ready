@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
@@ -97,15 +97,10 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
-export default function LearnIndexPage() {
+function UpgradeHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, isPremium, isLoading: isAuthLoading, refreshPremiumStatus } = useAuth();
-  const progress = useProgress();
-  const { earnedIds } = useBadges();
-  const handleUnlock = useUnlock();
-  const [bannerDismissed, setBannerDismissed] = useState(false);
-  const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
+  const { refreshPremiumStatus } = useAuth();
   const setUpgradeToast = useUIStore((s) => s.setUpgradeToast);
 
   useEffect(() => {
@@ -118,6 +113,18 @@ export default function LearnIndexPage() {
     }
   }, [searchParams, router, refreshPremiumStatus, setUpgradeToast]);
 
+  return null;
+}
+
+export default function LearnIndexPage() {
+  const router = useRouter();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
+  const progress = useProgress();
+  const { earnedIds } = useBadges();
+  const handleUnlock = useUnlock();
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
+
   // Don't show preview-complete screen while auth is still resolving
   if (!isAuthLoading && progress.isPreviewComplete(isPremium)) {
     return (
@@ -127,6 +134,9 @@ export default function LearnIndexPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
+      <Suspense>
+        <UpgradeHandler />
+      </Suspense>
       {/* Upgrade success toast */}
       {showUpgradeToast && (
         <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
