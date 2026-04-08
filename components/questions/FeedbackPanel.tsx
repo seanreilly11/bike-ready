@@ -1,4 +1,5 @@
 import type { Feedback } from '@/types'
+import { AnswerResult } from '@/types'
 
 interface FeedbackPanelProps {
   feedback: Feedback
@@ -19,7 +20,7 @@ export default function FeedbackPanel({ feedback, correct }: FeedbackPanelProps)
         'font-display font-bold text-base mb-1',
         correct ? 'text-green-dark' : 'text-red-dark',
       ].join(' ')}>
-        {feedback.title}
+        {correct ? AnswerResult.Correct : AnswerResult.Wrong}
       </p>
 
       <p className="text-stone-900 text-sm leading-relaxed mb-3">

@@ -31,6 +31,11 @@ export type SignId =
 
 export type DotState = 'unseen' | 'seen' | 'correct' | 'active' | 'locked'
 
+export const AnswerResult = {
+  Correct:  'Correct',
+  Wrong:    'Not quite',
+} as const
+
 export type ModuleStatus = 'not_started' | 'in_progress' | 'complete' | 'preview_done'
 
 // ---------------------------------------------------------------------------
