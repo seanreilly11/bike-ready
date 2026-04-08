@@ -55,7 +55,7 @@ export default function ModuleSessionPage() {
 
   const currentQuestion = moduleQuestions[currentIndex];
   const seenInModule = progress.getModuleSeen(moduleId);
-  const allDone = seenInModule === moduleQuestions.length;
+  const allDone = currentIndex >= moduleQuestions.length;
 
   // Gate: free users after FREE_PER_MODULE questions, unless module is always free
   const hitGate = !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
@@ -87,9 +87,7 @@ export default function ModuleSessionPage() {
   }
 
   function handleNext() {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex >= moduleQuestions.length) return;
-    setCurrentIndex(nextIndex);
+    setCurrentIndex((i) => i + 1);
   }
 
   const progressPct =
@@ -227,19 +225,20 @@ export default function ModuleSessionPage() {
                   selectedId={null}
                   hideCorrect={false}
                 />
-                {progress.progress[currentQuestion.id]?.seen &&
-                  currentIndex < moduleQuestions.length - 1 && (
-                    <div className="mt-4">
-                      <Button
-                        variant="primary"
-                        size="lg"
-                        full
-                        onClick={handleNext}
-                      >
-                        Next question →
-                      </Button>
-                    </div>
-                  )}
+                {progress.progress[currentQuestion.id]?.seen && (
+                  <div className="mt-4">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      full
+                      onClick={handleNext}
+                    >
+                      {currentIndex === moduleQuestions.length - 1
+                        ? "Complete module →"
+                        : "Next question →"}
+                    </Button>
+                  </div>
+                )}
               </div>
             )
           )}
