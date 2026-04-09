@@ -32,6 +32,7 @@ describe('uiStore', () => {
       useUIStore.getState().openAuth('upgrade')
       useUIStore.getState().closeAuth()
       expect(useUIStore.getState().showAuth).toBe(false)
+      expect(useUIStore.getState().authReason).toBe('upgrade')
     })
   })
 
