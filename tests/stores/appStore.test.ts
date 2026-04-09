@@ -114,15 +114,20 @@ describe('appStore', () => {
   })
 
   describe('persist partialize', () => {
-    it('store name is bikeready_store', () => {
-      // Trigger a state change so persist middleware writes to localStorage
+    it('store name is bikeready_store and only persists progress + earned', () => {
+      useAppStore.setState({ isPremium: true })
       useAppStore.getState().answerQuestion('persist_test', true)
-      // The persist middleware should have written a key named 'bikeready_store'
+      useAppStore.getState().earnBadge('badge_priority')
       const raw = localStorage.getItem('bikeready_store')
       expect(raw).not.toBeNull()
-      // Confirm the key is exactly 'bikeready_store' (not a different name)
       const parsed = JSON.parse(raw!)
       expect(parsed).toHaveProperty('state')
+      // partialize should include progress and earned
+      expect(parsed.state).toHaveProperty('progress')
+      expect(parsed.state).toHaveProperty('earned')
+      // partialize should exclude user and isPremium
+      expect(parsed.state).not.toHaveProperty('user')
+      expect(parsed.state).not.toHaveProperty('isPremium')
     })
   })
 })
