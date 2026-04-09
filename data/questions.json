@@ -258,7 +258,7 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "Reflectors are required on your bicycle at all times, not just at night. A red rear reflector, white or yellow pedal reflectors, and white front reflector are all mandatory. Lights are additional requirements after dark.",
+      "body": "Reflectors are a permanent equipment requirement on a bicycle — they must be fitted at all times, day and night. Active lights (front white, rear red) are an additional requirement only after dark. A missing reflector is a legal issue regardless of whether it is light outside.",
       "rule": "Voertuigreglement — reflectors required at all times. Lights required additionally at night.",
       "tip": "Reflectors = always. Lights = additionally at night."
     },
@@ -269,23 +269,31 @@
     "module": "legal",
     "skill": "Legal",
     "difficulty": "hard",
-    "type": "true_false",
-    "prompt": "The 0.5‰ blood alcohol limit for cyclists only applies to riders over 18.",
+    "type": "scenario_decision",
+    "prompt": "You are 22 years old and have held your cycling licence for 2 years. You’ve had a drink. What blood alcohol limit applies to you?",
     "options": [
       {
         "id": "a",
-        "label": "True"
+        "label": "0.5‰ — the standard Dutch limit for all road users"
       },
       {
         "id": "b",
-        "label": "False"
+        "label": "0.8‰ — the limit only tightens for drivers, not cyclists"
+      },
+      {
+        "id": "c",
+        "label": "0.2‰ — a lower limit applies to cyclists under 24 with fewer than 5 years of experience"
+      },
+      {
+        "id": "d",
+        "label": "0.0‰ — zero tolerance for anyone under 24"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
-      "body": "The 0.5‰ limit applies to all cyclists regardless of age. In fact, riders under 24 with less than 5 years' driving experience face a stricter 0.2‰ limit. The rules are strict across the board.",
-      "rule": "WVW Art. 8 — 0.5‰ for adults, 0.2‰ for younger/inexperienced road users.",
-      "tip": "Under 24 and less experienced? Your limit is 0.2‰, not 0.5‰."
+      "body": "In the Netherlands, cyclists under 24 who have held their licence for fewer than 5 years are subject to a 0.2‰ limit rather than the standard 0.5‰. The standard 0.5‰ limit applies to experienced adult cyclists.",
+      "rule": "WVW Art. 8 — 0.2‰ for cyclists under 24 with fewer than 5 years experience. 0.5‰ for all others.",
+      "tip": "Under 24 and relatively new? Your limit is 0.2‰. Less than one standard drink."
     },
     "status": "active"
   },
@@ -318,7 +326,7 @@
     "feedback": {
       "body": "'Voorrangsweg' means priority road. The yellow diamond sign means you have right of way at all junctions until you see an end-of-priority sign (yellow diamond with diagonal bar).",
       "rule": "RVV 1990 Art. 16 — voorrangsweg = priority road.",
-      "tip": "Yellow diamond on your road = you have priority. Look for the end sign."
+      "tip": "Voorrangsweg = priority road. Yellow diamond on your road = you have priority."
     },
     "status": "active"
   },
@@ -384,7 +392,7 @@
     "feedback": {
       "body": "'Inhalen verboden' means no overtaking and it applies to cyclists too unless an exception sign is shown. You cannot overtake any vehicle in the same direction, including other cyclists.",
       "rule": "Vocabulary: inhalen = to overtake, verboden = forbidden. Applies to all vehicles.",
-      "tip": "Inhalen verboden applies to bikes too. No overtaking means no overtaking."
+      "tip": "Inhalen verboden = overtaking forbidden. Applies to cyclists too."
     },
     "status": "active"
   },
@@ -516,7 +524,7 @@
     "feedback": {
       "body": "'Bestemmingsverkeer' means destination traffic — people going to an address on that street. If you live there, you are bestemmingsverkeer and may enter despite the no-entry sign.",
       "rule": "Vocabulary: bestemming = destination, verkeer = traffic. Bestemmingsverkeer = access for residents and deliveries.",
-      "tip": "Bestemmingsverkeer = you live here, you may enter. Destination traffic."
+      "tip": "Verboden in te rijden = no entry. Bestemmingsverkeer = destination traffic (residents, deliveries). Sub-sign overrides the main sign for you."
     },
     "status": "active"
   },
@@ -887,7 +895,7 @@
   {
     "id": "roadusers_013",
     "module": "roadusers",
-    "skill": "City Cycling",
+    "skill": "Large Vehicles",
     "difficulty": "medium",
     "type": "scenario_decision",
     "prompt": "You're at a red light alongside a large truck. The truck is indicating right and you plan to go straight. The light turns green. What do you do?",
@@ -1141,30 +1149,30 @@
     "id": "infrastructure_011",
     "module": "infrastructure",
     "skill": "City Cycling",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "type": "scenario_decision",
-    "prompt": "A delivery van is parked blocking your cycle path. You ride around it into the main road and a car clips you. Who is legally at fault?",
+    "prompt": "A delivery van is parked completely blocking your cycle path. What should you do?",
     "options": [
       {
         "id": "a",
-        "label": "You — you chose to enter the main road"
+        "label": "Stop and wait for the van to move — the cycle path is your right of way"
       },
       {
         "id": "b",
-        "label": "The car driver — they should have been watching"
+        "label": "Ride onto the pavement to get around it"
       },
       {
         "id": "c",
-        "label": "The van driver who blocked the cycle path illegally"
+        "label": "Check for traffic, signal, and carefully merge into the main road to pass, then return to the cycle path"
       }
     ],
     "correct": "c",
     "feedback": {
-      "body": "The illegally parked van created the hazard. By forcing you off the cycle path, the van driver bears legal responsibility for the consequences. This doesn't mean you shouldn't ride carefully — but the primary fault lies with the obstruction.",
-      "rule": "Parking on a cycle path is illegal. The person creating the obstruction bears liability for resulting incidents.",
-      "tip": "Illegal obstruction = liability for what follows. Document it."
+      "body": "When a cycle path is blocked, treat it like a lane obstruction. Check over your shoulder, signal your intention, merge into the main road to pass the obstruction, then return to the cycle path when it is clear ahead.",
+      "rule": "Blocked cycle path = merge and pass, same as any road obstruction.",
+      "tip": "Signal before you merge. Drivers behind you need to know you are moving out."
     },
-    "status": "active"
+    "status": "draft"
   },
   {
     "id": "infrastructure_012",
@@ -1218,7 +1226,7 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "At a T-junction without signs, right-before-left applies just as at a crossroads. The car joining from the right has priority over you even though you're on the 'main' road. Road width and apparent importance don't override the rule.",
+      "body": "Right-before-left applies at this junction regardless of which road looks like the ‘main’ road. The car comes from your right, so it has priority. Road width and apparent importance do not grant priority — only a yellow diamond sign or specific road markings can override right-before-left.",
       "rule": "RVV 1990 Art. 15 — right-before-left applies at T-junctions too.",
       "tip": "T-junction, crossroads, any junction — right-before-left applies the same way."
     },
@@ -1309,7 +1317,7 @@
       "rule": "Voorrangsweg signs apply at vehicle junctions only. Pedestrian rules apply everywhere.",
       "tip": "Priority road = beats cars at junctions. Never beats a pedestrian."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "priority_012",
@@ -1383,19 +1391,19 @@
     "options": [
       {
         "id": "a",
-        "label": "Emergency vehicles with lights and sirens"
+        "label": "Trams, then emergency vehicles, then priority road vehicles, then right-before-left"
       },
       {
         "id": "b",
-        "label": "Trams"
+        "label": "Priority road vehicles, then trams, then emergency vehicles, then right-before-left"
       },
       {
         "id": "c",
-        "label": "Vehicles on a priority road (yellow diamond)"
+        "label": "Right-before-left, then priority road vehicles, then trams, then emergency vehicles"
       },
       {
         "id": "d",
-        "label": "Emergency vehicles, then trams, then priority road vehicles"
+        "label": "Emergency vehicles, then trams, then priority road vehicles, then right-before-left"
       }
     ],
     "correct": "d",
@@ -1416,18 +1424,18 @@
     "options": [
       {
         "id": "a",
-        "label": "The car — it comes from the right"
+        "label": "It depends on who slows down first"
       },
       {
         "id": "b",
-        "label": "You — the priority road sign overrides right-before-left"
+        "label": "The car — it comes from the right"
       },
       {
         "id": "c",
-        "label": "It depends on who slows down first"
+        "label": "You — the priority road sign overrides right-before-left"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "The voorrangsweg (priority road) sign means all crossing and joining traffic must yield to you, regardless of direction. Right-before-left applies at unmarked junctions between equal roads — but you are on a priority road, which overrides that entirely.",
       "rule": "RVV 1990 Art. 16 — voorrangsweg overrides right-before-left.",
@@ -1449,14 +1457,14 @@
       },
       {
         "id": "b",
-        "label": "Stop — trams have priority over all signals"
+        "label": "Speed up to clear the tracks"
       },
       {
         "id": "c",
-        "label": "Speed up to clear the tracks"
+        "label": "Stop — trams have priority over all signals"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "Trams have absolute priority over all traffic signals. Your green light controls the junction for cars and cyclists — it does not govern tram movements. A tram on its own phase has right of way regardless of your signal.",
       "rule": "RVV 1990 Art. 11 — tram priority overrides all signals.",
@@ -1474,18 +1482,18 @@
     "options": [
       {
         "id": "a",
-        "label": "The car must yield to you — turning traffic always yields to straight-going cyclists"
+        "label": "You must stop — you have a red light and the car has green"
       },
       {
         "id": "b",
-        "label": "You must stop — you have a red light, and the car has green"
+        "label": "The car must yield to you — turning traffic always yields to straight-going cyclists"
       },
       {
         "id": "c",
         "label": "You both stop and negotiate"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "Although turning traffic normally yields to straight-going cyclists, you have a red light — meaning you are not permitted to be in that space at all. The car's green overrides the normal turning-yields rule here. Stop and wait for your green.",
       "rule": "A red cyclist light prevents entry — the turning-yields rule only applies when you have right of movement.",
@@ -1507,14 +1515,14 @@
       },
       {
         "id": "b",
-        "label": "The car — without shark teeth, cyclist ring priority is not established"
+        "label": "The car — exiting traffic always has priority"
       },
       {
         "id": "c",
-        "label": "The car — exiting traffic always has priority"
+        "label": "The car — without shark teeth cyclist ring priority is not established"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "Cyclist priority on a roundabout ring is established by shark teeth facing the cars — not assumed. Without that marking, the default right-before-left rules apply. Never assume ring priority without confirming the markings.",
       "rule": "Ring priority = shark teeth at car crossings. No markings = no priority.",
@@ -1532,18 +1540,18 @@
     "options": [
       {
         "id": "a",
-        "label": "You — on a fietsstraat cyclists are always priority"
+        "label": "The car — right-before-left applies even on a fietsstraat"
       },
       {
         "id": "b",
-        "label": "The car — right-before-left applies even on a fietsstraat"
+        "label": "You — on a fietsstraat cyclists are always priority"
       },
       {
         "id": "c",
         "label": "Neither — both stop and negotiate"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "'Auto te gast' means cars are guests and may not overtake cyclists — but it does not override the right-before-left priority rule at junctions. At an unmarked crossing, the standard right-before-left still applies to all road users, including on a fietsstraat.",
       "rule": "Fietsstraat rules govern speed and overtaking — not junction priority.",
@@ -1565,14 +1573,14 @@
       },
       {
         "id": "b",
-        "label": "Hold your line — the car is not permitted on the fietspad at all"
+        "label": "Stop and wait until the car has passed"
       },
       {
         "id": "c",
-        "label": "Stop and wait until the car has passed"
+        "label": "Hold your line — the car is not permitted on the fietspad at all"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "A fietspad is a mandatory cycle path — cars are prohibited from using it at all. The car overtaking you isn't just being impatient; it's in the wrong space entirely. You hold your line because you have every right to be there and the car does not.",
       "rule": "G11/G13 — fietspad is mandatory for cyclists. Motor vehicles prohibited.",
@@ -1590,18 +1598,18 @@
     "options": [
       {
         "id": "a",
-        "label": "Yes — you are on a priority road and have right of way"
+        "label": "No — priority road signs apply to vehicles, not pedestrians. You must yield."
       },
       {
         "id": "b",
-        "label": "No — priority road signs apply to vehicles, not pedestrians. You must yield."
+        "label": "Yes — you are on a priority road and have right of way"
       },
       {
         "id": "c",
         "label": "Only if the pedestrian stepped out without looking"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "Priority road signs (voorrangsweg) govern right of way between vehicles at junctions. They do not apply to pedestrians at zebra crossings. You must always yield to pedestrians on a zebra crossing, regardless of what road you're on.",
       "rule": "Voorrangsweg applies to vehicle junctions. Zebra crossings override it for pedestrians.",
@@ -1667,7 +1675,7 @@
       "rule": "Cyclists obey the cyclist traffic light (verkeerslicht voor fietsers), not the car light.",
       "tip": "Your light, your rules. Ignore what the cars are doing."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "signs_002",
@@ -1693,7 +1701,7 @@
       "rule": "C15 bans cycling (rijden met een fiets). Walking a bicycle is not covered by this sign.",
       "tip": "No cycling = no riding. Walking your bike through is still fine."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "signs_003",
@@ -1825,7 +1833,7 @@
       "rule": "Shark teeth (haaientanden) mark a yield obligation. The road user they point toward must give way.",
       "tip": "Teeth pointing at you = you yield."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "signs_008",
@@ -1851,7 +1859,7 @@
       "rule": "G11 — when a mandatory cycle path exists alongside a road, cyclists must use it.",
       "tip": "See the blue bicycle sign on a path? That is where you belong."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "signs_009",
@@ -1879,7 +1887,7 @@
     "feedback": {
       "body": "The no cycling sign (C15) specifically bans riding a bicycle. Walking a bicycle alongside you is not the same as cycling and is not covered by this sign. This distinction matters on roads where cycling is banned but pedestrian access remains.",
       "rule": "C15 prohibits cycling (rijden met een fiets). Walking a bicycle does not constitute cycling under this sign.",
-      "tip": "Pedalling = cycling. Walking = not cycling. The sign only bans one of them."
+      "tip": "Generally, the sign bans cycling. In most cases walking your bike is still permitted — but follow any additional local signs."
     },
     "status": "active"
   },
@@ -1958,7 +1966,7 @@
     "difficulty": "hard",
     "type": "scenario_decision",
     "sign": "shark_teeth",
-    "prompt": "You approach a crossing. The shark teeth markings are on the other road, pointing toward the traffic crossing in front of you. What does this mean for you?",
+    "prompt": "You approach a crossing. The shark teeth markings are painted on the road of the traffic crossing in front of you — pointing toward them, not toward you. What does this mean for you?",
     "options": [
       {
         "id": "a",
@@ -2029,7 +2037,7 @@
       "rule": "Cyclists should avoid positioning themselves in the blind spot of large vehicles and should let them clear before proceeding.",
       "tip": "Truck to your right? Let it go first. Always."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "infrastructure_015",
@@ -2041,18 +2049,18 @@
     "options": [
       {
         "id": "a",
-        "label": "Stop and wait — the cycle lane is your space and you have priority"
+        "label": "Check over your shoulder, signal, and merge into the main road to pass"
       },
       {
         "id": "b",
-        "label": "Check over your shoulder, signal, and merge into the main road to pass"
+        "label": "Stop and wait — the cycle lane is your space and you have priority"
       },
       {
         "id": "c",
         "label": "Sound your bell repeatedly until the driver moves"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "You cannot legally force a parked car to move, and waiting indefinitely is not an option. Check for traffic behind you, signal your intention to move left, and carefully pass the obstruction in the main road before returning to the cycle lane. The car is in the wrong, but the practical response is to pass safely.",
       "rule": "When a cycle lane is blocked, cyclists may temporarily use the main carriageway to pass the obstruction.",
@@ -2137,7 +2145,7 @@
       "rule": "Keep to the right in the Netherlands — on roads, cycle paths, and anywhere traffic flows in two directions.",
       "tip": "From a left-hand country? Flip it. Always move right."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "infrastructure_019",
@@ -2149,14 +2157,14 @@
     "options": [
       {
         "id": "a",
-        "label": "Yes — riding toward traffic is safer because you can see and react to vehicles"
+        "label": "No — cyclists must travel in the same direction as traffic keeping to the right"
       },
       {
         "id": "b",
-        "label": "No — cyclists must travel in the same direction as traffic, keeping to the right"
+        "label": "Yes — riding toward traffic is safer because you can see and react to vehicles"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "Cyclists are traffic in the Netherlands and must follow the flow of traffic, keeping to the right. Riding against traffic is illegal and significantly increases collision risk — closing speeds are much higher and drivers don't expect a cyclist coming at them. The logic of 'I can see them coming' does not apply when you are on a bicycle.",
       "rule": "Cyclists must travel in the direction of traffic flow and keep to the right. Riding against traffic is prohibited except in designated contraflow lanes.",
@@ -2203,18 +2211,18 @@
       },
       {
         "id": "b",
-        "label": "You must yield to crossing traffic"
+        "label": "Slow down zone ahead"
       },
       {
         "id": "c",
-        "label": "Slow down zone ahead"
+        "label": "You must yield to crossing traffic"
       },
       {
         "id": "d",
         "label": "Pedestrian crossing"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "Shark teeth pointing toward you mean you must yield to crossing traffic. The teeth bite whoever they point at.",
       "rule": "RVV 1990 Art. 80 — yield to traffic on the crossing road.",
@@ -2232,14 +2240,14 @@
     "options": [
       {
         "id": "a",
-        "label": "You — they're not on a main road"
+        "label": "The other cyclist — shark teeth override right-before-left"
       },
       {
         "id": "b",
-        "label": "The other cyclist — shark teeth override right-before-left"
+        "label": "You — they’re not on a main road"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "The shark teeth override the right-before-left rule. Road markings always take precedence over default priority rules.",
       "rule": "Road markings override default priority rules.",
@@ -2488,7 +2496,7 @@
       "rule": "Auto te gast — cars are guests on a fietsstraat. Cyclists are the priority users.",
       "tip": "Do not yield unnecessarily on a fietsstraat. You own the road."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "signs_016",
@@ -2505,18 +2513,18 @@
       },
       {
         "id": "b",
-        "label": "Wait — the cyclist light is your signal"
-      },
-      {
-        "id": "c",
         "label": "Go if no cars are coming"
       },
       {
-        "id": "d",
+        "id": "c",
         "label": "Cyclist lights are advisory only"
+      },
+      {
+        "id": "d",
+        "label": "Wait — the cyclist light is your signal"
       }
     ],
-    "correct": "b",
+    "correct": "d",
     "feedback": {
       "body": "Cyclist traffic lights are legally binding. Your signal is the small bike-symbol light — not the car light. The car light does not apply to you.",
       "rule": "RVV 1990 Art. 68 — follow the traffic light directed at you.",
@@ -2640,7 +2648,7 @@
       "rule": "RVV 1990 Art. 49a — yield to pedestrians on zebra crossings.",
       "tip": "Zebra = always yield to pedestrians. No exceptions."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "roadusers_003",
@@ -2706,7 +2714,7 @@
       "rule": "Practical safety — cross tram and train tracks at 90 degrees to avoid wheel trapping.",
       "tip": "90 degrees = safe. Shallow angle = wheel trap risk."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "roadusers_005",
@@ -2764,7 +2772,7 @@
       "rule": "CROW / RVV — roundabouts with cycle priority are marked with shark teeth facing cars at entry and exit points.",
       "tip": "Look for shark teeth at car entry/exit points to confirm your priority."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "infrastructure_002",
@@ -2900,18 +2908,18 @@
       },
       {
         "id": "b",
-        "label": "White front light and red rear light (both active)"
+        "label": "Any visible light front and rear"
       },
       {
         "id": "c",
-        "label": "Any visible light front and rear"
+        "label": "White front light and red rear light (both active)"
       },
       {
         "id": "d",
         "label": "Reflective clothing is sufficient"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "You need an active white front light and an active red rear light after dark. A reflector alone is not sufficient — it must be an active light. Both lights must be on.",
       "rule": "RVV 1990 Art. 35 — active front and rear lights required between sunset and sunrise.",
@@ -2954,11 +2962,11 @@
     "options": [
       {
         "id": "a",
-        "label": "0.0‰ — zero tolerance for cyclists"
+        "label": "0.5‰"
       },
       {
         "id": "b",
-        "label": "0.5‰"
+        "label": "0.0‰ — zero tolerance for cyclists"
       },
       {
         "id": "c",
@@ -2966,10 +2974,10 @@
       },
       {
         "id": "d",
-        "label": "There is no limit — alcohol rules don't apply to cyclists"
+        "label": "There is no limit — alcohol rules don’t apply to cyclists"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "The limit is 0.5‰ — the same as for car drivers. Drunk cycling is illegal in the Netherlands. Many people assume alcohol rules don't apply to cyclists, but they do.",
       "rule": "WVW Art. 8 — the 0.5‰ blood alcohol limit applies to cyclists as well as drivers.",
@@ -3041,7 +3049,7 @@
       "rule": "Vocabulary — voorrang verlenen = yield / give way.",
       "tip": "Verlenen = to grant. You are granting priority to others."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "vocabulary_002",
@@ -3074,7 +3082,7 @@
       "rule": "Haaientanden = shark teeth = yield marking painted on the road.",
       "tip": "Haai = shark, tand = tooth. Teeth pointing at you = you yield."
     },
-    "status": "draft"
+    "status": "archived"
   },
   {
     "id": "vocabulary_003",
@@ -3086,26 +3094,26 @@
     "options": [
       {
         "id": "a",
-        "label": "Cycle path — no motor vehicles allowed"
-      },
-      {
-        "id": "b",
-        "label": "Bike street — cyclists own the road and cars may not overtake"
-      },
-      {
-        "id": "c",
         "label": "Shared path for cyclists and pedestrians"
       },
       {
-        "id": "d",
+        "id": "b",
+        "label": "Cycle path — no motor vehicles allowed"
+      },
+      {
+        "id": "c",
         "label": "A road where cyclists must dismount at junctions"
+      },
+      {
+        "id": "d",
+        "label": "Bike street — cyclists own the road and cars may not overtake"
       }
     ],
-    "correct": "b",
+    "correct": "d",
     "feedback": {
       "body": "A fietsstraat is a bike street where cyclists have priority and cars are guests. Cars may access it to reach properties but may not overtake cyclists.",
       "rule": "Fietsstraat = bike street. Cars cannot overtake cyclists and must adapt to cycling speed.",
-      "tip": "Auto te gast = cars are guests. You own the road."
+      "tip": "Fietsstraat = bike street. Auto te gast = cars are guests. You own the road."
     },
     "status": "draft"
   },
@@ -3136,9 +3144,9 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "Both words mean cycle path. Rijwiel is an older Dutch word for bicycle. You will see rijwielpad on older signage but it means exactly the same as fietspad.",
+      "body": "Rijwiel is an older Dutch word for bicycle — rijwielpad and fietspad both refer to a cycle path. In everyday usage they mean the same thing. In some older or rural signage you may still encounter rijwielpad, but treat it the same as a fietspad in terms of your obligations.",
       "rule": "Rijwiel = fiets = bicycle (rijwiel is the older formal term). Same path, same rules.",
-      "tip": "Same path, different era of Dutch language."
+      "tip": "Rijwiel = old word for fiets. Same path, older name."
     },
     "status": "draft"
   },
@@ -3156,18 +3164,18 @@
       },
       {
         "id": "b",
-        "label": "No entry"
+        "label": "Road closed for maintenance"
       },
       {
         "id": "c",
-        "label": "Road closed for maintenance"
+        "label": "No entry"
       },
       {
         "id": "d",
         "label": "One-way street begins here"
       }
     ],
-    "correct": "b",
+    "correct": "c",
     "feedback": {
       "body": "Verboden in te rijden means no entry. Verboden means forbidden, in te rijden means to ride into. You will see this on one-way streets and restricted roads.",
       "rule": "Vocabulary — verboden = forbidden, in te rijden = to enter by vehicle.",
@@ -3185,14 +3193,14 @@
     "options": [
       {
         "id": "a",
-        "label": "False"
+        "label": "True"
       },
       {
         "id": "b",
-        "label": "True"
+        "label": "False"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "Cyclists in the Netherlands must keep to the right, just like all other traffic. You ride on the right side of the cycle path or road and pass oncoming cyclists on your left.",
       "rule": "Rechts rijden — keep right. This applies on roads, cycle paths, and cycle lanes.",
@@ -3318,14 +3326,14 @@
     "options": [
       {
         "id": "a",
-        "label": "False"
+        "label": "True"
       },
       {
         "id": "b",
-        "label": "True"
+        "label": "False"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
       "body": "Since 2019, holding or using a mobile phone while cycling has been illegal in the Netherlands. The fine is 95 euros. Earphones in both ears are also not permitted.",
       "rule": "Mobile phone use while cycling is prohibited. Fine: 95 euros. This includes holding the phone for any purpose.",
@@ -3338,31 +3346,31 @@
     "module": "fundamentals",
     "skill": "Fundamentals",
     "difficulty": "medium",
-    "type": "multiple_choice",
-    "prompt": "Between sunset and sunrise, what lights must a bicycle have?",
+    "type": "scenario_decision",
+    "prompt": "You’re cycling home after dark. Your front light has run out of battery. You still have a working rear light. Are you legal to continue riding?",
     "options": [
       {
         "id": "a",
-        "label": "Reflectors are enough — no active lights required"
+        "label": "Yes — one working light is sufficient at night"
       },
       {
         "id": "b",
-        "label": "A white front light only"
+        "label": "Yes — as long as you have reflectors on the bike"
       },
       {
         "id": "c",
-        "label": "Any colour light front and rear"
+        "label": "No — both a front and a rear active light are required after dark"
       },
       {
         "id": "d",
-        "label": "A white or yellow front light and a red rear light"
+        "label": "Only if you are on a lit cycle path"
       }
     ],
-    "correct": "d",
+    "correct": "c",
     "feedback": {
       "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night — active lights are required.",
       "rule": "Lighting requirements: white/yellow front, red rear. Required from sunset to sunrise and in poor visibility. Fine for no lights: around 55 euros.",
-      "tip": "Dynamo lights built into the bike automatically meet this requirement."
+      "tip": "No front light = illegal, even with a working rear. Both are required."
     },
     "status": "active"
   },
