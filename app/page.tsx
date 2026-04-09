@@ -54,13 +54,12 @@ export default function LandingPage() {
               For expats cycling in the Netherlands
             </p>
             <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              Cycle safely in Dutch cities
+              Go from uncertain to confident cycling on Dutch roads.
             </h1>
             <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6 max-w-lg">
-              A short preparation course for expats. 6 modules. Real scenarios.
-              The rules that actually trip people up. Some shit about feeling
-              confident and prepared. Don&apos;t say what the product is. Say
-              how it&apos;s gonna make them feel or improve.
+              Dutch cycling is one of life's great joys — once you know how it
+              works. BikeReady teaches you the rules before the road does, so
+              every ride feels safe, natural, and yours.
             </p>
 
             <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 mb-6">
