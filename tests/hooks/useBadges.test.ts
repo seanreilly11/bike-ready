@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useBadges } from '@/hooks/useBadges'
 import { useAppStore } from '@/stores/appStore'

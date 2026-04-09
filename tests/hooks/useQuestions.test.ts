@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { useQuestions, activeQuestions } from '@/hooks/useQuestions'
 import modules from '@/data/modules'
+import type { ModuleId } from '@/types'
 
 describe('activeQuestions', () => {
   it('contains only questions with status "active"', () => {
@@ -25,7 +26,7 @@ describe('useQuestions', () => {
     it('returns a non-empty array for each defined module', () => {
       const { result } = renderHook(() => useQuestions())
       for (const mod of modules) {
-        const qs = result.current.questionsByModule(mod.id as any)
+        const qs = result.current.questionsByModule(mod.id as ModuleId)
         expect(qs.length, `${mod.id} should have active questions`).toBeGreaterThan(0)
       }
     })
