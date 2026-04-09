@@ -2,11 +2,6 @@ import '@testing-library/jest-dom'
 import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 
-// Auto-cleanup after each test
-afterEach(() => {
-  cleanup()
-})
-
 // Mock next/navigation — used by hooks that call useRouter/useParams
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
@@ -34,7 +29,9 @@ vi.mock('@/lib/supabase', () => ({
   }),
 }))
 
-// Mock localStorage with a real in-memory implementation
+// Mock localStorage with a real in-memory implementation that resets each test.
+// Zustand persist middleware writes to localStorage; clearing it prevents state
+// bleed between tests.
 const localStorageMock = (() => {
   let store: Record<string, string> = {}
   return {
@@ -45,3 +42,9 @@ const localStorageMock = (() => {
   }
 })()
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+
+// Auto-cleanup RTL DOM and reset localStorage after each test
+afterEach(() => {
+  cleanup()
+  localStorageMock.clear()
+})
