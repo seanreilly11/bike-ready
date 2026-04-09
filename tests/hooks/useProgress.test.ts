@@ -113,10 +113,10 @@ describe('useProgress', () => {
       expect(result.current.getModuleStatus('priority', true)).toBe('in_progress')
     })
 
-    it('never returns "preview_done" for fundamentals (alwaysFree)', () => {
+    it('returns "in_progress" (not "preview_done") for fundamentals (alwaysFree)', () => {
       markSeen(fundamentalsQuestions.slice(0, FREE_PER_MODULE).map((q) => q.id))
       const { result } = renderHook(() => useProgress())
-      expect(result.current.getModuleStatus('fundamentals', false)).not.toBe('preview_done')
+      expect(result.current.getModuleStatus('fundamentals', false)).toBe('in_progress')
     })
   })
 
