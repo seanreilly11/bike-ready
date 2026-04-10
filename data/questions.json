@@ -790,7 +790,7 @@
       },
       {
         "id": "b",
-        "label": "False — cyclists on a cycle path have priority"
+        "label": "False"
       }
     ],
     "correct": "a",
@@ -1105,7 +1105,7 @@
       },
       {
         "id": "b",
-        "label": "False — bus lanes are for buses only"
+        "label": "False"
       }
     ],
     "correct": "a",
@@ -2082,7 +2082,7 @@
       },
       {
         "id": "b",
-        "label": "False — one-way rules apply to all road users"
+        "label": "False"
       }
     ],
     "correct": "a",
