@@ -49,6 +49,13 @@ describe('QuestionCard', () => {
     }
   })
 
+  it('does not render the question type label', () => {
+    renderCard()
+    expect(screen.queryByText(/multiple.choice/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/true.false/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/scenario/i)).not.toBeInTheDocument()
+  })
+
   it('calls onAnswer with correct optionId and correct=true when correct option is clicked', () => {
     const onAnswer = vi.fn()
     renderCard(onAnswer)

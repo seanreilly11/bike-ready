@@ -18,11 +18,6 @@ interface QuestionCardProps {
   hideCorrect: boolean   // true in Test mode
 }
 
-const typeLabels: Record<string, string> = {
-  multiple_choice:   'Multiple choice',
-  true_false:        'True / False',
-  scenario_decision: 'Scenario',
-}
 
 export default function QuestionCard({
   question,
@@ -64,9 +59,6 @@ export default function QuestionCard({
           {question.skill}
         </span>
         <Badge variant={question.difficulty} label={question.difficulty} />
-        <span className="font-mono text-xs uppercase tracking-wide text-stone-400">
-          {typeLabels[question.type]}
-        </span>
       </div>
 
       {/* Lesson accordion */}
