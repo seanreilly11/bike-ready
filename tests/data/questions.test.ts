@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import questionsData from '@/data/questions.json'
+import modules from '@/data/modules'
 import type { Question } from '@/types'
 
 const allQuestions = questionsData as Question[]
@@ -56,6 +57,19 @@ describe('questions.json data integrity', () => {
         expect((q.feedback as any).title, `${q.id} still has deprecated feedback.title`).toBeUndefined()
       }
     })
+
+    it('every question has a skill', () => {
+      for (const q of allQuestions) {
+        expect(q.skill, `${q.id} missing skill`).toBeTruthy()
+      }
+    })
+
+    it('every question has a valid type', () => {
+      const validTypes = ['multiple_choice', 'true_false', 'scenario_decision']
+      for (const q of allQuestions) {
+        expect(validTypes, `${q.id} has invalid type "${q.type}"`).toContain(q.type)
+      }
+    })
   })
 
   describe('correct option reference', () => {
@@ -81,7 +95,8 @@ describe('questions.json data integrity', () => {
   })
 
   describe('module membership', () => {
-    const validModules = ['fundamentals', 'priority', 'signs', 'roadusers', 'infrastructure', 'legal', 'vocabulary']
+    // Derived from modules data so this test stays correct if a module is added/renamed
+    const validModules = modules.map((m) => m.id)
 
     it('all questions reference a valid module', () => {
       for (const q of allQuestions) {

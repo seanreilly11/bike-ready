@@ -29,6 +29,18 @@ describe('modules data', () => {
     }
   })
 
+  it('every module has a non-empty description', () => {
+    for (const mod of modules) {
+      expect(mod.description, `${mod.id} missing description`).toBeTruthy()
+    }
+  })
+
+  it('every module has an emoji', () => {
+    for (const mod of modules) {
+      expect(mod.emoji, `${mod.id} missing emoji`).toBeTruthy()
+    }
+  })
+
   it('all module ids are unique', () => {
     const ids = modules.map((m) => m.id)
     expect(new Set(ids).size).toBe(ids.length)
