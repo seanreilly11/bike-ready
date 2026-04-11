@@ -118,18 +118,21 @@ export default function LandingPage() {
                 className={[
                   "bg-white border border-stone-200 rounded-xl p-4",
                   "hover:border-stone-400 hover:shadow-md transition-all duration-200",
+                  "flex flex-col justify-between",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                 ].join(" ")}
               >
-                <p className="font-display font-bold text-sm text-stone-900 mb-1">
-                  {mod.title}
-                </p>
-                <p className="text-xs text-stone-500 leading-relaxed mb-2">
-                  {mod.description}
-                </p>
+                <div>
+                  <p className="font-display font-bold text-sm text-orange mb-1">
+                    {mod.title}
+                  </p>
+                  <p className="text-xs text-stone-500 leading-relaxed mb-2">
+                    {mod.description}
+                  </p>
+                </div>
                 {mod.alwaysFree ? (
                   <p className="text-xs text-green font-mono uppercase tracking-wide">
-                    Always free
+                    Entire module free
                   </p>
                 ) : (
                   <p className="text-xs text-stone-400 font-mono uppercase tracking-wide">
