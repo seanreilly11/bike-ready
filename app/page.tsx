@@ -108,7 +108,7 @@ export default function LandingPage() {
         {/* Module grid */}
         <section className="px-5 pb-12 max-w-5xl mx-auto">
           <h2 className="font-display font-bold text-xl text-stone-900 mb-4 lg:text-2xl">
-            6 modules
+            {modules.length} modules
           </h2>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
             {modules.map((mod) => (
