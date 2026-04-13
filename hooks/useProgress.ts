@@ -48,6 +48,12 @@ export function useProgress() {
     const mod = modules.find((m) => m.id === moduleId);
 
     if (seen.length === 0) return "not_started";
+    // Mastered: every question correct — takes priority over complete
+    if (
+      moduleQuestions.length > 0 &&
+      moduleQuestions.every((q) => progress[q.id]?.correct === true)
+    )
+      return "mastered";
     if (seen.length === moduleQuestions.length) return "complete";
     if (!isPremium && !mod?.alwaysFree && seen.length >= FREE_PER_MODULE)
       return "preview_done";

@@ -18,6 +18,7 @@ import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
+import { isMastered } from "@/lib/utils/progress";
 import { useUIStore } from "@/stores/uiStore";
 import { useState } from "react";
 
@@ -121,6 +122,7 @@ export default function LearnIndexPage() {
   const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
   const { earnedIds } = useBadges();
+  const { allQuestions } = useQuestions();
   const handleUnlock = useUnlock();
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
@@ -167,7 +169,15 @@ export default function LearnIndexPage() {
 
         {/* Badge grid — shown only when user is premium or has earned at least one */}
         {(isPremium || earnedIds.size > 0) && (
-          <BadgeGrid badges={badges} earnedIds={earnedIds} />
+          <BadgeGrid
+            badges={badges}
+            earnedIds={earnedIds}
+            masteredIds={new Set(
+              modules
+                .filter((mod) => isMastered(mod.id, progress.progress, allQuestions))
+                .map((mod) => mod.badgeId)
+            )}
+          />
         )}
       </main>
     </AppShell>

@@ -20,7 +20,8 @@ import BadgeToast from "@/components/badges/BadgeToast";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
-import { useQuestions } from "@/hooks/useQuestions";
+import { useQuestions, activeQuestions } from "@/hooks/useQuestions";
+import { isMastered } from "@/lib/utils/progress";
 
 export default function ModuleSessionPage() {
   const params = useParams();
@@ -56,6 +57,7 @@ export default function ModuleSessionPage() {
   const currentQuestion = moduleQuestions[currentIndex];
   const seenInModule = progress.getModuleSeen(moduleId);
   const allDone = currentIndex >= moduleQuestions.length;
+  const moduleStatus = progress.getModuleStatus(moduleId, isPremium);
 
   // Gate: free users after FREE_PER_MODULE questions, unless module is always free
   const hitGate = !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
@@ -133,6 +135,7 @@ export default function ModuleSessionPage() {
               currentId={currentQuestion?.id ?? ""}
               onDotClick={setCurrentIndex}
               alwaysFree={mod.alwaysFree}
+              moduleStatus={moduleStatus}
             />
           </div>
 
@@ -140,6 +143,11 @@ export default function ModuleSessionPage() {
           {badges.newBadge && (
             <BadgeToast
               badge={badges.newBadge}
+              mastered={isMastered(
+                badges.newBadge.moduleId ?? '',
+                progress.progress,
+                activeQuestions,
+              )}
               onDismiss={badges.dismissNewBadge}
             />
           )}

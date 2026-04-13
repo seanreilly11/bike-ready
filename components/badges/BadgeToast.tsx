@@ -2,13 +2,15 @@
 
 import { useEffect } from 'react'
 import type { Badge } from '@/types'
+import BadgeItem from './BadgeItem'
 
 interface BadgeToastProps {
-  badge:      Badge
-  onDismiss:  () => void
+  badge:     Badge
+  mastered:  boolean
+  onDismiss: () => void
 }
 
-export default function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
+export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastProps) {
   useEffect(() => {
     const timer = setTimeout(onDismiss, 4000)
     return () => clearTimeout(timer)
@@ -27,7 +29,7 @@ export default function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
         'z-50',
       ].join(' ')}
     >
-      <span className="text-2xl">{badge.emoji}</span>
+      <BadgeItem badge={badge} earned={true} mastered={mastered} size="sm" />
       <div className="flex-1 min-w-0">
         <p className="font-mono text-xs uppercase tracking-wide text-yellow-dark mb-0.5">
           Badge earned

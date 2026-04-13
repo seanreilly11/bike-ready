@@ -36,7 +36,7 @@ export const AnswerResult = {
   Wrong:    'Not quite',
 } as const
 
-export type ModuleStatus = 'not_started' | 'in_progress' | 'complete' | 'preview_done'
+export type ModuleStatus = 'not_started' | 'in_progress' | 'complete' | 'preview_done' | 'mastered'
 
 // ---------------------------------------------------------------------------
 // Static content types

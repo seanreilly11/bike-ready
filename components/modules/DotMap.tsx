@@ -1,16 +1,17 @@
 'use client'
 
-import type { Question, LocalProgress, DotState } from '@/types'
+import type { Question, LocalProgress, DotState, ModuleStatus } from '@/types'
 import { FREE_PER_MODULE } from '@/types'
 import MasteryDot from '@/components/ui/MasteryDot'
 import { useAuth } from '@/hooks/useAuth'
 
 interface DotMapProps {
-  questions:    Question[]
-  progress:     LocalProgress
-  currentId:    string
-  onDotClick:   (index: number) => void
-  alwaysFree?:  boolean
+  questions:     Question[]
+  progress:      LocalProgress
+  currentId:     string
+  onDotClick:    (index: number) => void
+  alwaysFree?:   boolean
+  moduleStatus?: ModuleStatus
 }
 
 function getDotState(questionId: string, progress: LocalProgress, currentId: string): DotState {
@@ -27,8 +28,11 @@ export default function DotMap({
   currentId,
   onDotClick,
   alwaysFree = false,
+  moduleStatus,
 }: DotMapProps) {
   const { isPremium } = useAuth()
+  const isMasteredModule = moduleStatus === 'mastered'
+
   return (
     <div className="flex flex-wrap gap-1.5">
       {questions.map((q, index) => {
@@ -48,7 +52,10 @@ export default function DotMap({
               isGated ? 'cursor-default' : 'cursor-pointer',
             ].join(' ')}
           >
-            <MasteryDot state={state} />
+            <MasteryDot
+              state={state}
+              color={isMasteredModule && !isGated ? '#f5a623' : undefined}
+            />
           </button>
         )
       })}
