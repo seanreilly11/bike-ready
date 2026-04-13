@@ -5,6 +5,7 @@ import LandingButton from "@/components/layout/LandingButton";
 import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "BikeReady — Cycle safely in the Netherlands",
@@ -74,9 +75,11 @@ export default function LandingPage() {
                 className="bg-white! text-orange! hover:bg-white/90!"
               />
             </div>
-            <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
-              {FREE_PER_MODULE} free questions per module — no account needed
-            </p>
+            {PREMIUM_ENABLED && (
+              <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
+                {FREE_PER_MODULE} free questions per module — no account needed
+              </p>
+            )}
           </div>
         </section>
 
@@ -130,14 +133,16 @@ export default function LandingPage() {
                     {mod.description}
                   </p>
                 </div>
-                {mod.alwaysFree ? (
-                  <p className="text-xs text-green font-mono uppercase tracking-wide">
-                    Entire module free
-                  </p>
-                ) : (
-                  <p className="text-xs text-stone-400 font-mono uppercase tracking-wide">
-                    {FREE_PER_MODULE} free questions
-                  </p>
+                {PREMIUM_ENABLED && (
+                  mod.alwaysFree ? (
+                    <p className="text-xs text-green font-mono uppercase tracking-wide">
+                      Entire module free
+                    </p>
+                  ) : (
+                    <p className="text-xs text-stone-400 font-mono uppercase tracking-wide">
+                      {FREE_PER_MODULE} free questions
+                    </p>
+                  )
                 )}
               </Link>
             ))}
@@ -159,9 +164,11 @@ export default function LandingPage() {
         {/* Bottom CTA */}
         <section className="px-5 pb-16 max-w-2xl mx-auto text-center">
           <LandingButton variant="bottom" />
-          <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">
-            Full course {APP_PRICE} one-time · No subscription
-          </p>
+          {PREMIUM_ENABLED && (
+            <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">
+              Full course {APP_PRICE} one-time · No subscription
+            </p>
+          )}
         </section>
       </main>
     </>

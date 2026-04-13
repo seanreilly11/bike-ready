@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 interface NavProps {
   currentRoute: string;
@@ -66,15 +67,15 @@ export default function Nav({
             <div className="ml-2">
               {isLoading ? (
                 <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-600 rounded-full animate-spin" />
-              ) : user && isPremium ? (
+              ) : PREMIUM_ENABLED && user && isPremium ? (
                 <span className="font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
                   ⭐ Premium
                 </span>
-              ) : user?.email ? (
+              ) : PREMIUM_ENABLED && user?.email ? (
                 <Button size="sm" onClick={handleUnlock}>
                   Go Premium
                 </Button>
-              ) : (
+              ) : !user ? (
                 <Button
                   variant="secondary"
                   size="sm"
@@ -82,7 +83,7 @@ export default function Nav({
                 >
                   Sign in
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
         )}
