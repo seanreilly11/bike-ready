@@ -1,34 +1,35 @@
-import type { Difficulty } from '@/types'
+import type { Difficulty } from "@/types";
 
-type BadgeVariant = Difficulty | 'earned' | 'locked'
+type BadgeVariant = Difficulty | "earned" | "locked" | "mastered";
 
 interface BadgeProps {
-  variant: BadgeVariant
-  label?:  string
-  emoji?:  string
+  variant: BadgeVariant;
+  label?: string;
+  emoji?: string;
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  easy:   'bg-green-light text-green-dark border-green-mid',
-  medium: 'bg-yellow-light text-yellow-dark border-yellow',
-  hard:   'bg-red-light text-red-dark border-red-mid',
-  earned: 'bg-yellow-light text-yellow-dark border-yellow',
-  locked: 'bg-stone-100 text-stone-400 border-stone-200',
-}
+  easy: "bg-green-light text-green-dark border-green-mid",
+  medium: "bg-yellow-light text-yellow-dark border-yellow",
+  hard: "bg-red-light text-red-dark border-red-mid",
+  earned: "bg-yellow-light text-yellow-dark border-yellow",
+  locked: "bg-stone-100 text-stone-400 border-stone-200",
+  mastered: "bg-orange-light text-orange border-orange",
+};
 
 export default function Badge({ variant, label, emoji }: BadgeProps) {
   return (
     <span
       className={[
-        'inline-flex items-center gap-1',
-        'font-mono text-xs uppercase tracking-wide',
-        'rounded-full px-2 py-0.5',
-        'border',
+        "inline-flex items-center gap-1",
+        "font-mono text-xs uppercase tracking-wide",
+        "rounded-full px-2 py-0.5",
+        "border",
         variantClasses[variant],
-      ].join(' ')}
+      ].join(" ")}
     >
       {emoji && <span>{emoji}</span>}
       {label}
     </span>
-  )
+  );
 }

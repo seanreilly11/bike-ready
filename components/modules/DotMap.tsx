@@ -31,7 +31,6 @@ export default function DotMap({
   moduleStatus,
 }: DotMapProps) {
   const { isPremium } = useAuth()
-  const isMasteredModule = moduleStatus === 'mastered'
 
   return (
     <div className="flex flex-wrap gap-1.5">
@@ -52,10 +51,7 @@ export default function DotMap({
               isGated ? 'cursor-default' : 'cursor-pointer',
             ].join(' ')}
           >
-            <MasteryDot
-              state={state}
-              color={isMasteredModule && !isGated ? '#f5a623' : undefined}
-            />
+            <MasteryDot state={state} />
           </button>
         )
       })}

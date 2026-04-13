@@ -2,7 +2,6 @@ import type { DotState } from '@/types'
 
 interface MasteryDotProps {
   state: DotState
-  color?: string
 }
 
 const stateClasses: Record<DotState, string> = {
@@ -13,14 +12,13 @@ const stateClasses: Record<DotState, string> = {
   locked:  'bg-stone-300',
 }
 
-export default function MasteryDot({ state, color }: MasteryDotProps) {
+export default function MasteryDot({ state }: MasteryDotProps) {
   return (
     <div
       className={[
         'w-2.5 h-2.5 rounded-full transition-colors duration-200',
         stateClasses[state],
       ].join(' ')}
-      style={color ? { backgroundColor: color } : undefined}
     />
   )
 }

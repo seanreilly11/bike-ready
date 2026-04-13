@@ -14,16 +14,23 @@ interface ModuleCardProps {
   onClick: () => void;
 }
 
-type BadgeVariant = "easy" | "medium" | "hard" | "earned" | "locked";
+type BadgeVariant =
+  | "easy"
+  | "medium"
+  | "hard"
+  | "earned"
+  | "locked"
+  | "mastered";
 
 const statusBadge: Record<
-  Exclude<ModuleStatus, "mastered">,
+  ModuleStatus,
   { label: string; variant: BadgeVariant }
 > = {
   not_started: { label: "Not started", variant: "locked" },
   in_progress: { label: "In progress", variant: "medium" },
-  complete:    { label: "Complete",    variant: "easy" },
-  preview_done:{ label: "Preview done",variant: "hard" },
+  complete: { label: "Complete", variant: "easy" },
+  preview_done: { label: "Preview done", variant: "hard" },
+  mastered: { label: "Mastered", variant: "mastered" },
 };
 
 export default function ModuleCard({ module, onClick }: ModuleCardProps) {
@@ -48,8 +55,6 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
 
   const bg = status === "mastered" ? "#fffdf0" : "white";
 
-  const dotOverrideColor = status === "mastered" ? "#f5a623" : undefined;
-
   return (
     <button
       onClick={onClick}
@@ -64,7 +69,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <h3 className="font-display font-bold text-orange">{module.title}</h3>
-        {status === "mastered" ? (
+        {/* {status === "mastered" ? (
           <span
             style={{
               background:    "#fef3c7",
@@ -91,12 +96,12 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
             </svg>
             Mastered
           </span>
-        ) : (
-          <Badge
-            variant={statusBadge[status].variant}
-            label={statusBadge[status].label}
-          />
-        )}
+        ) : ( */}
+        <Badge
+          variant={statusBadge[status].variant}
+          label={statusBadge[status].label}
+        />
+        {/* )} */}
       </div>
 
       {/* Description */}
@@ -115,13 +120,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
               : p?.seen
                 ? "seen"
                 : "unseen";
-          return (
-            <MasteryDot
-              key={q.id}
-              state={state}
-              color={isGated ? undefined : dotOverrideColor}
-            />
-          );
+          return <MasteryDot key={q.id} state={state} />;
         })}
       </div>
 

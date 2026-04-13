@@ -28,6 +28,7 @@ export default function BadgeItem({ badge, earned, mastered, size = 'md' }: Badg
         style={{
           width:          px,
           height:         px,
+          boxSizing:      'content-box',
           borderRadius:   '50%',
           background:     bg,
           border:         `${borderWidth}px solid ${borderColor}`,
