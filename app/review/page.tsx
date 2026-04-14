@@ -18,6 +18,8 @@ export default function ReviewPage() {
   const progress = useProgress();
   const { track } = useAnalytics();
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [answeredQ, setAnsweredQ] = useState<Question | null>(null);
 
   if (!isPremium) {
     return (
@@ -29,9 +31,23 @@ export default function ReviewPage() {
   }
 
   const queue = progress.getReviewQueue();
-  const activeQ = activeId ? queue.find((q) => q.id === activeId) : null;
+  // When answered, the question may have left the queue (correct answer) — use snapshot
+  const activeQ = hasAnswered
+    ? answeredQ
+    : activeId
+      ? (queue.find((q) => q.id === activeId) ?? null)
+      : null;
+
+  function openQuestion(id: string) {
+    setActiveId(id);
+    setHasAnswered(false);
+    setAnsweredQ(null);
+  }
 
   async function handleAnswer(q: Question, optionId: string, correct: boolean) {
+    // Snapshot before any async work so the card stays mounted through re-renders
+    setAnsweredQ(q);
+    setHasAnswered(true);
     await progress.recordAnswer(q.id, correct);
     await track("question_answered", {
       question_id: q.id,
@@ -40,7 +56,6 @@ export default function ReviewPage() {
       difficulty: q.difficulty,
       correct,
     });
-    if (correct) setActiveId(null);
   }
 
   if (queue.length === 0) {
@@ -97,8 +112,12 @@ export default function ReviewPage() {
           {activeQ ? (
             <div>
               <button
-                onClick={() => setActiveId(null)}
-                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none"
+                onClick={() => {
+                  setActiveId(null);
+                  setHasAnswered(false);
+                  setAnsweredQ(null);
+                }}
+                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer"
               >
                 ← Back to list
               </button>
@@ -112,20 +131,53 @@ export default function ReviewPage() {
                 selectedId={null}
                 hideCorrect={false}
               />
+              {hasAnswered &&
+                (() => {
+                  const nextInModule =
+                    queue.find(
+                      (q) => q.module === activeQ.module && q.id !== activeQ.id,
+                    ) ?? null;
+                  return (
+                    <div className="mt-4 flex flex-col gap-3">
+                      {nextInModule && (
+                        <Button
+                          variant="primary"
+                          size="lg"
+                          full
+                          onClick={() => openQuestion(nextInModule.id)}
+                        >
+                          Next question →
+                        </Button>
+                      )}
+                      <Button
+                        variant="secondary"
+                        size="lg"
+                        full
+                        onClick={() => {
+                          setActiveId(null);
+                          setHasAnswered(false);
+                          setAnsweredQ(null);
+                        }}
+                      >
+                        Back to review
+                      </Button>
+                    </div>
+                  );
+                })()}
             </div>
           ) : (
             byModule.map(({ mod, questions }) => (
               <div key={mod.id} className="mb-6">
-                <h2 className="font-display font-bold text-stone-900 mb-2 flex items-center gap-2">
-                  {mod.emoji} {mod.title}
+                <h2 className="font-display font-bold text-orange mb-2 flex items-center gap-2">
+                  {mod.title}
                 </h2>
                 <div className="flex flex-col gap-2">
                   {questions.map((q) => (
                     <button
                       key={q.id}
-                      onClick={() => setActiveId(q.id)}
+                      onClick={() => openQuestion(q.id)}
                       className={[
-                        "w-full text-left bg-white border-l-[3px] border-l-red border border-stone-200 rounded-xl px-4 py-3",
+                        "w-full text-left bg-white border-l-[3px] border-l-red border border-stone-200 rounded-xl px-4 py-3 cursor-pointer",
                         "hover:border-l-red hover:shadow-sm transition-all duration-150",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                       ].join(" ")}
