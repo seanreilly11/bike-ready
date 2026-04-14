@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/layout/Nav";
 import LandingButton from "@/components/layout/LandingButton";
+import HeroSection from "@/components/layout/HeroSection";
 import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
@@ -49,39 +50,7 @@ export default function LandingPage() {
       <Nav currentRoute="/" wrongCount={0} logoOnly />
       <main className="min-h-screen bg-stone-50 overflow-x-hidden">
         {/* Hero */}
-        <section className="bg-orange px-5 pt-12 pb-14 md:pt-20 md:pb-20">
-          <div className="max-w-2xl mx-auto">
-            <p className="font-mono text-xs uppercase tracking-wide text-white/70 mb-3">
-              For expats cycling in the Netherlands
-            </p>
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              Go from uncertain to confident cycling on Dutch roads.
-            </h1>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6 max-w-lg">
-              Dutch cycling is one of life's great joys — once you know how it
-              works. BikeReady teaches you the rules before the road does, so
-              every ride feels safe, natural, and yours.
-            </p>
-
-            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 mb-6">
-              <span className="text-white/90 text-sm font-display">
-                2,400+ expats ready to ride
-              </span>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <LandingButton
-                variant="hero"
-                className="bg-white! text-orange! hover:bg-white/90!"
-              />
-            </div>
-            {PREMIUM_ENABLED && (
-              <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
-                {FREE_PER_MODULE} free questions per module — no account needed
-              </p>
-            )}
-          </div>
-        </section>
+        <HeroSection />
 
         {/* How it works */}
         <section className="px-5 py-12 max-w-5xl mx-auto">
