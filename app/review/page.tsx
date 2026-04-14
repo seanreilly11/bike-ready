@@ -490,7 +490,8 @@ export default function ReviewPage() {
 
           {/* Hint */}
           <div className="bg-orange-light border border-orange-mid rounded-xl p-3 mb-6 text-sm text-stone-700">
-            Get a question right and it disappears from this list.
+            Get a question right and it disappears. Get it wrong again and it
+            stays. Your list shrinks as you fix mistakes.
           </div>
 
           {activeQ ? (
