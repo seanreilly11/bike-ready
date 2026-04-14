@@ -15,7 +15,100 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
-import PremiumLocked from "@/components/layout/PremiumLocked";
+import { useUIStore } from "@/stores/uiStore";
+
+// ─── Free user FOMO screen ────────────────────────────────────────────────────
+
+function FreeTestScreen() {
+  const openGate = useUIStore((s) => s.openGate);
+  const { buildTestSet } = useQuestions();
+  const testSet = useMemo(() => buildTestSet(), []);
+
+  return (
+    <AppShell wrongCount={0}>
+      <main className="min-h-screen bg-stone-50 pb-40">
+        {/* Blurred intro content */}
+        <div
+          aria-hidden="true"
+          style={{
+            filter: "blur(6px)",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          <div className="max-w-2xl mx-auto px-5 py-10">
+            <div className="text-center mb-8">
+              <div className="text-5xl mb-4">🏆</div>
+              <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
+                BikeReady Test
+              </h1>
+              <p className="text-stone-600 text-base leading-relaxed max-w-md mx-auto">
+                {testSet.length} questions across all modules. Feedback is
+                withheld until the results screen. Score ≥{TEST_PASS_PCT}% to
+                earn the BikeReady badge.
+              </p>
+            </div>
+            <div className="grid gap-3 mb-8">
+              {[
+                {
+                  label: "Questions",
+                  value: `${testSet.length} mixed questions`,
+                },
+                { label: "Feedback", value: "Shown after all questions" },
+                { label: "Pass mark", value: `${TEST_PASS_PCT}% or above` },
+                { label: "Badge", value: "BikeReady 🏆 on pass" },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-4 py-3"
+                >
+                  <span className="font-mono text-xs uppercase tracking-wide text-stone-400">
+                    {row.label}
+                  </span>
+                  <span className="font-display text-sm text-stone-900">
+                    {row.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <Button full size="lg" onClick={() => {}}>
+              Start Test →
+            </Button>
+          </div>
+        </div>
+
+        {/* Sticky bottom CTA */}
+        <div
+          className="sticky bottom-0 text-center"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 0%, rgba(250,250,248,0.95) 40%)",
+            paddingTop: 40,
+            paddingBottom: 20,
+            marginTop: -20,
+          }}
+        >
+          <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
+            <span className="text-2xl">🔓</span>
+            <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
+              Unlock to take the BikeReady Test
+            </p>
+            <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
+              Less than the fine for running a red light
+            </p>
+            <button
+              onClick={openGate}
+              aria-label="Unlock for €4.99"
+              className="w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+            >
+              Unlock for €4.99
+            </button>
+          </div>
+        </div>
+      </main>
+    </AppShell>
+  );
+}
 
 type Phase = "intro" | "questions" | "results";
 
@@ -42,12 +135,7 @@ export default function TestPage() {
   const testSet = useMemo(() => buildTestSet(), []);
 
   if (!isPremium) {
-    return (
-      <PremiumLocked
-        title="Test is a premium feature"
-        body="Unlock the full course to take the BikeReady Test."
-      />
-    );
+    return <FreeTestScreen />;
   }
 
   const reviewQueue = progress.getReviewQueue();
