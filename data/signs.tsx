@@ -1,9 +1,10 @@
-import type { SignId } from "@/types";
-
 // ---------------------------------------------------------------------------
 // Individual SVG sign components
 // Each is a zero-prop React component returning a sized SVG.
 // ---------------------------------------------------------------------------
+
+import dynamic from "next/dynamic";
+import Image from "next/image";
 
 function SignMandatoryCycle() {
   return (
@@ -323,16 +324,74 @@ function SignSharkTeeth() {
   );
 }
 
+import mandatoryCycleImage from "../public/assets/signs/mandatory_cycle.png";
+import noCyclingImage from "../public/assets/signs/no_cycling.png";
+import priorityRoadImage from "../public/assets/signs/priority_road.png";
+import uitgezonderdImage from "../public/assets/signs/uitgezonderd.png";
+import fietsstraatImage from "../public/assets/signs/fietsstraat.png";
+const MandatoryCycleSign = () => (
+  <Image
+    src={mandatoryCycleImage}
+    alt="Mandatory cycle path (G11)"
+    width={100}
+    height={100}
+    loading="lazy"
+  />
+);
+const NoCyclingSign = () => (
+  <Image
+    src={noCyclingImage}
+    alt="No cycling sign"
+    width={100}
+    height={100}
+    loading="lazy"
+  />
+);
+const PriorityRoadSign = () => (
+  <Image
+    src={priorityRoadImage}
+    alt="Priority road sign"
+    width={100}
+    height={100}
+    loading="lazy"
+  />
+);
+const UitgezonderdSign = () => (
+  <Image
+    src={uitgezonderdImage}
+    alt="No entry except cyclists sign"
+    width={100}
+    height={100}
+    loading="lazy"
+  />
+);
+const FietsstraatSign = () => (
+  <Image
+    src={fietsstraatImage}
+    alt="Fietsstraat sign"
+    width={100}
+    height={100}
+    loading="lazy"
+  />
+);
+
 // ---------------------------------------------------------------------------
 // Registry — lookup by SignId
 // ---------------------------------------------------------------------------
 
 export const SIGN_REGISTRY = {
-  mandatory_cycle: SignMandatoryCycle, // round blue sign, white bicycle — G11
-  no_cycling: SignNoCycling, // round white, red border, red diagonal
-  priority_road: SignPriorityRoad, // yellow diamond — voorrangsweg
-  uitgezonderd: SignUitgezonderd, // no entry + uitgezonderd fietsers sub-sign
-  fietsstraat: SignFietsstraat, // red rectangular FIETSSTRAAT sign
-  cyclist_light: SignCyclistLight, // remove
-  shark_teeth: SignSharkTeeth, // remove
+  mandatory_cycle: MandatoryCycleSign,
+  no_cycling: NoCyclingSign,
+  priority_road: PriorityRoadSign,
+  uitgezonderd: UitgezonderdSign,
+  fietsstraat: FietsstraatSign,
 };
+// export const SIGN_REGISTRY = {
+//   mandatory_cycle: SignMandatoryCycle, // round blue sign, white bicycle — G11
+//   no_cycling: SignNoCycling, // round white, red border, red diagonal
+//   priority_road: SignPriorityRoad, // yellow diamond — voorrangsweg
+//   uitgezonderd: SignUitgezonderd, // no entry + uitgezonderd fietsers sub-sign
+//   fietsstraat: SignFietsstraat, // red rectangular FIETSSTRAAT sign
+//   cyclist_light: SignCyclistLight, // remove
+//   shark_teeth: SignSharkTeeth, // remove
+// };
