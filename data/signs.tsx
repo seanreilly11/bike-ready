@@ -324,55 +324,47 @@ function SignSharkTeeth() {
   );
 }
 
-import mandatoryCycleImage from "../public/assets/signs/mandatory_cycle.png";
-import noCyclingImage from "../public/assets/signs/no_cycling.png";
-import priorityRoadImage from "../public/assets/signs/priority_road.png";
-import uitgezonderdImage from "../public/assets/signs/uitgezonderd.png";
 import fietsstraatImage from "../public/assets/signs/fietsstraat.png";
+import mandatoryCycleImage from "../public/assets/signs/mandatory_cycle.png";
+import motorizedOnlyImage from "../public/assets/signs/motorized_only.png";
+import noCyclingImage from "../public/assets/signs/no_cycling.png";
+import noParkingImage from "../public/assets/signs/no_parking.png";
+import priorityEndsImage from "../public/assets/signs/priority_end.png";
+import priorityRoadImage from "../public/assets/signs/priority_road.png";
+import uitgezonderdEntryImage from "../public/assets/signs/uitgezonderd_red_sign.png";
+import uitgezonderdImage from "../public/assets/signs/uitgezonderd.png";
+import type { StaticImageData } from "next/image";
+
+const SignImage = ({ src, alt }: { src: StaticImageData; alt: string }) => (
+  <Image src={src} alt={alt} width={100} height={100} loading="lazy" />
+);
+
+const FietsstraatSign = () => (
+  <SignImage src={fietsstraatImage} alt="Fietsstraat sign" />
+);
 const MandatoryCycleSign = () => (
-  <Image
-    src={mandatoryCycleImage}
-    alt="Mandatory cycle path (G11)"
-    width={100}
-    height={100}
-    loading="lazy"
-  />
+  <SignImage src={mandatoryCycleImage} alt="Mandatory cycle path (G11)" />
+);
+const MotorizedOnlySign = () => (
+  <SignImage src={motorizedOnlyImage} alt="Motorized vehicles only sign" />
 );
 const NoCyclingSign = () => (
-  <Image
-    src={noCyclingImage}
-    alt="No cycling sign"
-    width={100}
-    height={100}
-    loading="lazy"
-  />
+  <SignImage src={noCyclingImage} alt="No cycling sign" />
+);
+const NoParkingSign = () => (
+  <SignImage src={noParkingImage} alt="No parking sign" />
+);
+const PriorityEndsSign = () => (
+  <SignImage src={priorityEndsImage} alt="Priority ends sign" />
 );
 const PriorityRoadSign = () => (
-  <Image
-    src={priorityRoadImage}
-    alt="Priority road sign"
-    width={100}
-    height={100}
-    loading="lazy"
-  />
+  <SignImage src={priorityRoadImage} alt="Priority road sign" />
+);
+const UitgezonderdEntrySign = () => (
+  <SignImage src={uitgezonderdEntryImage} alt="No entry except cyclists sign" />
 );
 const UitgezonderdSign = () => (
-  <Image
-    src={uitgezonderdImage}
-    alt="No entry except cyclists sign"
-    width={100}
-    height={100}
-    loading="lazy"
-  />
-);
-const FietsstraatSign = () => (
-  <Image
-    src={fietsstraatImage}
-    alt="Fietsstraat sign"
-    width={100}
-    height={100}
-    loading="lazy"
-  />
+  <SignImage src={uitgezonderdImage} alt="Cyclists excepted sign" />
 );
 
 // ---------------------------------------------------------------------------
@@ -380,11 +372,15 @@ const FietsstraatSign = () => (
 // ---------------------------------------------------------------------------
 
 export const SIGN_REGISTRY = {
-  mandatory_cycle: MandatoryCycleSign,
-  no_cycling: NoCyclingSign,
-  priority_road: PriorityRoadSign,
-  uitgezonderd: UitgezonderdSign,
   fietsstraat: FietsstraatSign,
+  mandatory_cycle: MandatoryCycleSign,
+  motorized_only: MotorizedOnlySign, // TODO: add
+  no_cycling: NoCyclingSign,
+  no_parking: NoParkingSign, // TODO: add
+  priority_ends: PriorityEndsSign,
+  priority_road: PriorityRoadSign,
+  uitgezonderd_entry: UitgezonderdEntrySign,
+  uitgezonderd: UitgezonderdSign, // TODO: add
 };
 // export const SIGN_REGISTRY = {
 //   mandatory_cycle: SignMandatoryCycle, // round blue sign, white bicycle — G11

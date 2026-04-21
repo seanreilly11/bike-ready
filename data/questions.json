@@ -1739,8 +1739,8 @@
     "skill": "Signs",
     "difficulty": "medium",
     "type": "multiple_choice",
-    "sign": "uitgezonderd",
-    "prompt": "You see a no-entry sign with a sub-sign reading 'Uitgezonderd fietsers'. What does this mean for you as a cyclist?",
+    "sign": "uitgezonderd_entry",
+    "prompt": "You see a no-entry sign with a sub-sign reading 'Uitgezonderd' with a cyclist and moped underneath. What does this mean for you as a cyclist?",
     "options": [
       {
         "id": "a",
@@ -1923,7 +1923,7 @@
       "rule": "Cyclists at junctions with a dedicated cyclist signal must follow that signal, not the general car light.",
       "tip": "Find your light. Ignore the rest."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "signs_011",
@@ -1931,7 +1931,7 @@
     "skill": "Signs",
     "difficulty": "medium",
     "type": "multiple_choice",
-    "sign": "priority_road",
+    "sign": "priority_ends",
     "prompt": "You joined a voorrangsweg and have been cycling on it for several streets. How long does your priority last?",
     "options": [
       {
@@ -1987,7 +1987,7 @@
       "rule": "Shark teeth face the road user obliged to yield. Teeth on the other road = other road yields.",
       "tip": "Teeth facing them = they stop for you. Teeth facing you = you stop for them."
     },
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "infrastructure_013",
