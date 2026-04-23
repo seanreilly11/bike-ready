@@ -3436,7 +3436,57 @@
     "feedback": {
       "body": "On a combined pedestrian and cycle path, neither user automatically has priority. Cyclists must adapt their speed and behaviour to pedestrians and give way in practice. It is shared space, not a cycle-only zone.",
       "rule": "Shared paths — cyclists and pedestrians share the space. No fixed priority: cyclists must take care not to endanger pedestrians.",
-      "tip": "Slow down and give pedestrians space — especially the elderly, children, and those with dogs."
+      "tip": "Slow down and give pedestrians space - especially the elderly, children, and those with dogs."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "signs_019",
+    "module": "signs",
+    "skill": "Signs",
+    "difficulty": "medium",
+    "type": "scenario_decision",
+    "prompt": "You see this sign at the entrance of a road you planned to cycle along. What does it mean for you?",
+    "sign": "motorized_only",
+    "options": [
+      {
+        "id": "a",
+        "label": "You may cycle here at low speed, keeping to the right"
+      },
+      {
+        "id": "b",
+        "label": "You may cycle here — cyclists are allowed unless a separate sign bans them"
+      },
+      {
+        "id": "c",
+        "label": "You may not cycle here — this road is for motorized vehicles only"
+      }
+    ],
+    "correct": "c",
+    "feedback": {
+      "body": "This sign designates the road for motorized vehicles only. As a cyclist you are not permitted to enter — you must find an alternative route. In the Netherlands you see this on urban expressways and some dual carriageways.",
+      "rule": "Roads signed for motorized vehicles only (G1, G3) are closed to cyclists, pedestrians, and all non-motorized road users.",
+      "tip": "No bike symbol on the sign = no bike on the road."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "signs_020",
+    "module": "signs",
+    "skill": "Signs",
+    "difficulty": "easy",
+    "type": "true_false",
+    "prompt": "You see this sign on a street. You want to lock your bicycle to a lamp post here for a few hours. The no-parking sign does not apply to bicycles — only to cars.",
+    "sign": "no_parking",
+    "options": [
+      { "id": "a", "label": "True" },
+      { "id": "b", "label": "False" }
+    ],
+    "correct": "b",
+    "feedback": {
+      "body": "The no-parking sign (E1) applies to all vehicles, including bicycles. Locking your bike here for an extended period counts as parking and is not permitted. In city centres, municipalities actively remove bicycles left in no-parking zones.",
+      "rule": "E1 (verboden te parkeren) — applies to all vehicles. A parked bicycle in a no-parking zone may be removed by the municipality.",
+      "tip": "No parking = no bike either. Look for a designated rack nearby."
     },
     "status": "draft"
   }
