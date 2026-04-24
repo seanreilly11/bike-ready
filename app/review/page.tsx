@@ -406,31 +406,27 @@ export default function ReviewPage() {
   const { isPremium } = useAuth();
   const progress = useProgress();
   const { track } = useAnalytics();
+  const { allQuestions } = useQuestions();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
-  const [answeredQ, setAnsweredQ] = useState<Question | null>(null);
 
   if (!isPremium) {
     return <FreeReviewScreen />;
   }
 
   const queue = progress.getReviewQueue();
-  // When answered, the question may have left the queue (correct answer) — use snapshot
-  const activeQ = hasAnswered
-    ? answeredQ
-    : activeId
-      ? (queue.find((q) => q.id === activeId) ?? null)
-      : null;
+  // Look up from allQuestions (not queue) so the card stays mounted after a correct
+  // answer removes the question from the queue before React commits hasAnswered=true.
+  const activeQ = activeId
+    ? (allQuestions.find((q) => q.id === activeId) ?? null)
+    : null;
 
   function openQuestion(id: string) {
     setActiveId(id);
     setHasAnswered(false);
-    setAnsweredQ(null);
   }
 
   async function handleAnswer(q: Question, correct: boolean) {
-    // Snapshot before any async work so the card stays mounted through re-renders
-    setAnsweredQ(q);
     setHasAnswered(true);
     await progress.recordAnswer(q.id, correct);
     await track("question_answered", {
@@ -442,7 +438,7 @@ export default function ReviewPage() {
     });
   }
 
-  if (queue.length === 0) {
+  if (queue.length === 0 && !activeId) {
     return (
       <AppShell wrongCount={0}>
         <main className="min-h-screen bg-stone-50">
@@ -500,7 +496,6 @@ export default function ReviewPage() {
                 onClick={() => {
                   setActiveId(null);
                   setHasAnswered(false);
-                  setAnsweredQ(null);
                 }}
                 className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer"
               >
@@ -541,7 +536,6 @@ export default function ReviewPage() {
                         onClick={() => {
                           setActiveId(null);
                           setHasAnswered(false);
-                          setAnsweredQ(null);
                         }}
                       >
                         Back to review
