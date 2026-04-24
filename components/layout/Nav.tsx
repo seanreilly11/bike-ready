@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import UserMenu from "@/components/layout/UserMenu";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
-import { PREMIUM_ENABLED } from "@/lib/config";
 
 interface NavProps {
   currentRoute: string;
@@ -89,24 +89,14 @@ export default function Nav({
             <div className="ml-2">
               {isLoading ? (
                 <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-600 rounded-full animate-spin" />
-              ) : PREMIUM_ENABLED && user && isPremium ? (
-                <span className="font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
-                  ⭐ Premium
-                </span>
-              ) : PREMIUM_ENABLED && user?.email ? (
-                <Button size="sm" onClick={handleUnlock}>
-                  Go Premium
-                </Button>
-              ) : !PREMIUM_ENABLED && user ? (
-                <>
-                  <span className="font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
-                    Logged In
-                  </span>
-                  <Button size="sm" onClick={signOut}>
-                    Sign out
-                  </Button>
-                </>
-              ) : !user ? (
+              ) : user ? (
+                <UserMenu
+                  user={user}
+                  isPremium={isPremium}
+                  onUnlock={handleUnlock}
+                  onSignOut={signOut}
+                />
+              ) : (
                 <>
                   <button
                     className="sm:hidden p-2 rounded-lg text-stone-600 border border-stone-200 hover:border-stone-400 hover:text-stone-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
@@ -125,7 +115,7 @@ export default function Nav({
                     </Button>
                   </span>
                 </>
-              ) : null}
+              )}
             </div>
           </div>
         )}
