@@ -1,16 +1,20 @@
 interface ProgressBarProps {
-  value:  number        // 0–100
-  color?: 'orange' | 'green'
-  height?: number       // px, default 4
+  value: number; // 0-100
+  color?: "orange" | "green";
+  height?: number; // px, default 4
 }
 
 const colorClasses = {
-  orange: 'bg-orange',
-  green:  'bg-green',
-}
+  orange: "bg-orange",
+  green: "bg-green",
+};
 
-export default function ProgressBar({ value, color = 'orange', height = 4 }: ProgressBarProps) {
-  const clamped = Math.min(100, Math.max(0, value))
+export default function ProgressBar({
+  value,
+  color = "orange",
+  height = 4,
+}: ProgressBarProps) {
+  const clamped = Math.min(100, Math.max(0, value));
 
   return (
     <div
@@ -23,12 +27,12 @@ export default function ProgressBar({ value, color = 'orange', height = 4 }: Pro
     >
       <div
         className={[
-          'h-full rounded-full',
-          'transition-[width] duration-500 ease-out',
+          "h-full rounded-full",
+          "transition-[width] duration-500 ease-out",
           colorClasses[color],
-        ].join(' ')}
+        ].join(" ")}
         style={{ width: `${clamped}%` }}
       />
     </div>
-  )
+  );
 }
