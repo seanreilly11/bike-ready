@@ -1932,30 +1932,30 @@
     "difficulty": "medium",
     "type": "multiple_choice",
     "sign": "priority_ends",
-    "prompt": "You joined a voorrangsweg and have been cycling on it for several streets. How long does your priority last?",
+    "prompt": "You see this sign as you cycle along a road. What does it mean?",
     "options": [
       {
         "id": "a",
-        "label": "Only at the first junction after the sign"
+        "label": "You are on a priority road - side streets must yield to you"
       },
       {
         "id": "b",
-        "label": "Only where the road is marked with a solid yellow line"
+        "label": "Priority road status ends here - right-before-left applies again"
       },
       {
         "id": "c",
-        "label": "For 200 metres from the sign"
+        "label": "Give way at the next junction, then priority resumes"
       },
       {
         "id": "d",
-        "label": "Until you see the end-of-priority-road sign"
+        "label": "Reduce speed - road character changes ahead"
       }
     ],
-    "correct": "d",
+    "correct": "b",
     "feedback": {
-      "body": "Priority road status continues for the entire road until the end-of-priority sign appears. You do not need to look for a new diamond sign at each junction - once on a voorrangsweg, you remain on one until told otherwise. The end-of-priority sign looks like the yellow diamond with a diagonal bar through it.",
-      "rule": "A voorrangsweg (B01) remains in effect until the end-of-priority sign (B02) is displayed.",
-      "tip": "Priority lasts until the crossed-out diamond. Watch for it when roads change character."
+      "body": "The crossed-out yellow diamond (B02) means the priority road has ended. From this point, no sign gives you priority — right-before-left applies at all unmarked junctions again. It is easy to miss because the shape resembles the priority road sign, but the diagonal bar cancels it.",
+      "rule": "B02 (einde voorrangsweg) - priority road status ends at this sign. Default rules resume.",
+      "tip": "Crossed-out diamond = priority crossed out. Watch for it when roads change character."
     },
     "status": "active"
   },
