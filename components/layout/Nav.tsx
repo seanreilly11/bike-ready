@@ -13,6 +13,28 @@ interface NavProps {
   logoOnly?: boolean;
 }
 
+function SignInIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      width={20}
+      height={20}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="7" cy="4.5" r="2" />
+      <path d="M3 13.5c0-2.21 1.79-4 4-4s4 1.79 4 4" />
+      <line x1="10" y1="8" x2="14.5" y2="8" />
+      <polyline points="12.5 6 14.5 8 12.5 10" />
+    </svg>
+  );
+}
+
 const navItems = [
   { href: "/learn", label: "Learn" },
   { href: "/review", label: "Review" },
@@ -24,7 +46,7 @@ export default function Nav({
   wrongCount,
   logoOnly = false,
 }: NavProps) {
-  const { user, isPremium, isLoading } = useAuth();
+  const { user, isPremium, isLoading, signOut } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
 
@@ -75,14 +97,34 @@ export default function Nav({
                 <Button size="sm" onClick={handleUnlock}>
                   Go Premium
                 </Button>
+              ) : !PREMIUM_ENABLED && user ? (
+                <>
+                  <span className="font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
+                    Logged In
+                  </span>
+                  <Button size="sm" onClick={signOut}>
+                    Sign out
+                  </Button>
+                </>
               ) : !user ? (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => openAuth("save_progress")}
-                >
-                  Sign in
-                </Button>
+                <>
+                  <button
+                    className="sm:hidden p-2 rounded-lg text-stone-600 border border-stone-200 hover:border-stone-400 hover:text-stone-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+                    onClick={() => openAuth("save_progress")}
+                    aria-label="Sign in"
+                  >
+                    <SignInIcon />
+                  </button>
+                  <span className="hidden sm:block">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => openAuth("save_progress")}
+                    >
+                      Sign in
+                    </Button>
+                  </span>
+                </>
               ) : null}
             </div>
           </div>
