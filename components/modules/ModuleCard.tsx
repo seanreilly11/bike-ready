@@ -8,6 +8,7 @@ import { useAppStore } from "@/stores/appStore";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useProgress } from "@/hooks/useProgress";
 import { colors } from "@/lib/tokens";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 interface ModuleCardProps {
   module: Module;
@@ -49,7 +50,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
         ? `3px solid ${colors.green}`
         : status === "in_progress"
           ? `3px solid ${colors.orange}`
-          : module.alwaysFree
+          : module.alwaysFree && PREMIUM_ENABLED
             ? `3px solid ${colors.green}`
             : `1px solid ${colors.stone200}`;
 
