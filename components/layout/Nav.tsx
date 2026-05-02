@@ -99,7 +99,7 @@ export default function Nav({
               ) : (
                 <>
                   <button
-                    className="sm:hidden p-2 rounded-lg text-stone-600 border border-stone-200 hover:border-stone-400 hover:text-stone-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+                    className="sm:hidden p-2.5 rounded-lg text-stone-600 border border-stone-200 hover:border-stone-400 hover:text-stone-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
                     onClick={() => openAuth("save_progress")}
                     aria-label="Sign in"
                   >

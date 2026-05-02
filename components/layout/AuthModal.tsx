@@ -57,7 +57,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-fade-up">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-stone-400 hover:text-stone-900 transition-colors p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
+          className="absolute top-3 right-3 text-stone-400 hover:text-stone-900 transition-colors p-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded-lg"
           aria-label="Close"
         >
           ✕

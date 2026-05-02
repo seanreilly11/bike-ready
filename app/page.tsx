@@ -48,7 +48,7 @@ export default function LandingPage() {
   return (
     <>
       <Nav currentRoute="/" wrongCount={0} logoOnly />
-      <main className="min-h-screen bg-stone-50 overflow-x-hidden">
+      <main className="min-h-dvh bg-stone-50 overflow-x-hidden">
         {/* Hero */}
         <HeroSection />
 

@@ -23,7 +23,7 @@ export default function ReturnBanner({ onDismiss }: ReturnBannerProps) {
       </p>
       <button
         onClick={onDismiss}
-        className="shrink-0 text-stone-400 hover:text-stone-900 transition-colors p-1 -m-1 focus-visible:outline-none cursor-pointer"
+        className="shrink-0 text-stone-400 hover:text-stone-900 transition-colors p-2.5 -m-2.5 focus-visible:outline-none cursor-pointer"
         aria-label="Dismiss banner"
       >
         ✕

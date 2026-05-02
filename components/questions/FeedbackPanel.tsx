@@ -23,7 +23,7 @@ export default function FeedbackPanel({ feedback, correct }: FeedbackPanelProps)
         {correct ? AnswerResult.Correct : AnswerResult.Wrong}
       </p>
 
-      <p className="text-stone-900 text-sm leading-relaxed mb-3">
+      <p className="text-stone-900 text-base leading-relaxed mb-3">
         {feedback.body}
       </p>
 

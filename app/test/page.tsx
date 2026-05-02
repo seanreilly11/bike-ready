@@ -26,15 +26,11 @@ function FreeTestScreen() {
 
   return (
     <AppShell wrongCount={0}>
-      <main className="min-h-screen bg-stone-50 pb-40">
+      <main className="min-h-dvh bg-stone-50 pb-40">
         {/* Blurred intro content */}
         <div
           aria-hidden="true"
-          style={{
-            filter: "blur(6px)",
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
+          className="blur-sm pointer-events-none select-none"
         >
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
@@ -78,16 +74,7 @@ function FreeTestScreen() {
         </div>
 
         {/* Sticky bottom CTA */}
-        <div
-          className="sticky bottom-0 text-center"
-          style={{
-            background:
-              "linear-gradient(to bottom, transparent 0%, rgba(250,250,248,0.95) 40%)",
-            paddingTop: 40,
-            paddingBottom: 20,
-            marginTop: -20,
-          }}
-        >
+        <div className="sticky bottom-0 text-center bg-gradient-to-b from-transparent to-[rgba(250,250,248,0.95)] pt-10 -mt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
             <span className="text-2xl">🔓</span>
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
@@ -146,7 +133,7 @@ export default function TestPage() {
   if (phase === "intro") {
     return (
       <AppShell wrongCount={reviewQueue.length}>
-        <main className="min-h-screen bg-stone-50">
+        <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
               <div className="text-5xl mb-4">🏆</div>
@@ -256,7 +243,7 @@ export default function TestPage() {
 
     return (
       <AppShell wrongCount={reviewQueue.length}>
-        <main className="min-h-screen bg-stone-50">
+        <main className="min-h-dvh bg-stone-50">
           {/* Progress header */}
           <div className="sticky top-14 z-30 bg-white border-b border-stone-200 px-5 py-3">
             <div className="max-w-2xl mx-auto">
@@ -331,7 +318,7 @@ export default function TestPage() {
 
   return (
     <AppShell wrongCount={reviewQueue.length}>
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-dvh bg-stone-50">
         <div className="max-w-2xl mx-auto px-5 py-8 lg:py-12">
           {/* Score hero */}
           <div
@@ -343,7 +330,7 @@ export default function TestPage() {
             ].join(" ")}
           >
             <div className="text-5xl mb-3">{passed ? "🏆" : "🔁"}</div>
-            <p className="font-display font-extrabold text-5xl text-stone-900 mb-1">
+            <p className="font-display font-extrabold text-4xl sm:text-5xl text-stone-900 mb-1">
               {scorePct}%
             </p>
             <p

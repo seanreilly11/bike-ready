@@ -40,14 +40,14 @@ function FreeReviewScreen() {
   // ── State 1: no wrong answers yet ──────────────────────────────────────────
   if (total === 0) {
     const skeletonCards = [
-      { w1: "75%", w2: "55%", opacity: 1.0 },
-      { w1: "65%", w2: "45%", opacity: 0.8 },
-      { w1: "80%", w2: "50%", opacity: 0.6 },
+      { w1: "75%", w2: "55%", opacityClass: "opacity-100" },
+      { w1: "65%", w2: "45%", opacityClass: "opacity-80" },
+      { w1: "80%", w2: "50%", opacityClass: "opacity-60" },
     ];
 
     return (
       <AppShell wrongCount={0}>
-        <main className="min-h-screen bg-stone-50">
+        <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
             <div className="flex items-center justify-between mb-6">
               <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
@@ -66,76 +66,26 @@ function FreeReviewScreen() {
                 {skeletonCards.map((card, i) => (
                   <div
                     key={i}
-                    style={{
-                      background: "white",
-                      border: "1.5px solid #fecaca",
-                      borderLeft: "3px solid #f87171",
-                      borderRadius: 12,
-                      padding: "12px 15px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      filter: "blur(5px)",
-                      pointerEvents: "none",
-                      userSelect: "none",
-                      opacity: card.opacity,
-                    }}
+                    className={[
+                      "bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red",
+                      "rounded-xl px-[15px] py-3 flex items-center gap-3",
+                      "blur-sm pointer-events-none select-none",
+                      card.opacityClass,
+                    ].join(" ")}
                   >
-                    <span
-                      style={{
-                        color: "#f87171",
-                        fontWeight: 700,
-                        fontSize: 13,
-                      }}
-                    >
-                      ✗
-                    </span>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 6,
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: 12,
-                          borderRadius: 6,
-                          background: "#e7e5e4",
-                          width: card.w1,
-                        }}
-                      />
-                      <div
-                        style={{
-                          height: 10,
-                          borderRadius: 6,
-                          background: "#e7e5e4",
-                          width: card.w2,
-                        }}
-                      />
+                    <span className="text-red font-bold text-[13px] shrink-0">✗</span>
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <div className="h-3 rounded-full bg-stone-200" style={{ width: card.w1 }} />
+                      <div className="h-2.5 rounded-full bg-stone-200" style={{ width: card.w2 }} />
                     </div>
-                    <span style={{ color: "#a8a29e", fontSize: 16 }}>›</span>
+                    <span className="text-stone-400 text-base shrink-0">›</span>
                   </div>
                 ))}
               </div>
 
               {/* Overlay */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(to bottom, rgba(250,250,248,0.3) 0%, rgba(250,250,248,0.97) 60%)",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  paddingBottom: 16,
-                  gap: 12,
-                }}
-              >
-                <span style={{ fontSize: 28 }}>🔒</span>
+              <div className="absolute inset-0 bg-gradient-to-b from-[rgba(250,250,248,0.3)] to-[rgba(250,250,248,0.97)] flex flex-col items-center justify-end pb-4 gap-3">
+                <span className="text-[28px]">🔒</span>
                 <p className="text-sm text-stone-600 text-center max-w-xs">
                   Answer questions in the modules to build your review list —
                   then unlock to fix them.
@@ -159,7 +109,7 @@ function FreeReviewScreen() {
   // ── State 2: has wrong answers ─────────────────────────────────────────────
   return (
     <AppShell wrongCount={0}>
-      <main className="min-h-screen bg-stone-50 pb-40">
+      <main className="min-h-dvh bg-stone-50 pb-40">
         <div className="max-w-2xl mx-auto px-5 pt-6 pb-0">
           <p className="font-mono text-[11px] font-medium tracking-widest uppercase text-orange mb-1.5">
             Review
@@ -177,68 +127,26 @@ function FreeReviewScreen() {
           </p>
 
           {/* Orange banner */}
-          <div
-            style={{
-              background: "#f97316",
-              borderRadius: 12,
-              padding: "14px 16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 12,
-              marginBottom: 24,
-            }}
-          >
+          <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-between gap-3 mb-6">
             <div>
-              <p
-                style={{
-                  color: "white",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  lineHeight: 1.3,
-                }}
-              >
+              <p className="text-white font-bold text-sm leading-snug">
                 {total} question{total !== 1 ? "s" : ""} waiting for you
               </p>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.65)",
-                  fontFamily: "DM Mono, monospace",
-                  fontSize: 11,
-                  marginTop: 2,
-                }}
-              >
+              <p className="font-mono text-[11px] text-white/65 mt-0.5">
                 Fix these before your next ride
               </p>
             </div>
             <button
               onClick={openGate}
               aria-label="Unlock Review"
-              style={{
-                background: "white",
-                color: "#f97316",
-                fontWeight: 700,
-                fontSize: 13,
-                borderRadius: 99,
-                padding: "6px 14px",
-                border: "none",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-              }}
+              className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
             >
               Unlock →
             </button>
           </div>
 
           {/* Blurred question groups */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-              position: "relative",
-            }}
-          >
+          <div className="flex flex-col gap-4 relative">
             {blurredByModule.map(({ mod, qs }, groupIndex) => {
               const groupOpacity =
                 groupIndex === 0 ? 1 : groupIndex === 1 ? 0.7 : 0.45;
@@ -246,34 +154,17 @@ function FreeReviewScreen() {
               return (
                 <div key={mod.id} style={{ opacity: groupOpacity }}>
                   {/* Module header — NOT blurred */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: 8,
-                    }}
-                  >
-                    <h2 className="font-display font-bold text-orange mb-2 flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="font-display font-bold text-orange flex items-center gap-2">
                       {mod.title}
                     </h2>
-                    <span
-                      style={{
-                        fontFamily: "DM Mono, monospace",
-                        fontSize: 11,
-                        color: "#f97316",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                      }}
-                    >
+                    <span className="font-mono text-[11px] text-orange uppercase tracking-widest">
                       {qs.length} to fix
                     </span>
                   </div>
 
                   {/* Question cards — blurred */}
-                  <div
-                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
-                  >
+                  <div className="flex flex-col gap-2">
                     {qs.map((q, cardIndex) => {
                       const cardOpacity =
                         cardIndex >= 2
@@ -284,61 +175,20 @@ function FreeReviewScreen() {
                         <div
                           key={q.id}
                           aria-hidden="true"
-                          style={{
-                            background: "white",
-                            border: "1.5px solid #fecaca",
-                            borderLeft: "3px solid #f87171",
-                            borderRadius: 12,
-                            padding: "12px 15px",
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: 12,
-                            filter: "blur(4px)",
-                            pointerEvents: "none",
-                            userSelect: "none",
-                            opacity: cardOpacity,
-                          }}
+                          className="bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red rounded-xl px-[15px] py-3 flex items-start gap-3 blur-sm pointer-events-none select-none"
+                          style={{ opacity: cardOpacity }}
                         >
-                          <span
-                            style={{
-                              color: "#f87171",
-                              fontWeight: 700,
-                              fontSize: 13,
-                              paddingTop: 1,
-                            }}
-                          >
+                          <span className="text-red font-bold text-[13px] pt-px shrink-0">
                             ✗
                           </span>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <p
-                              style={{
-                                fontSize: 13,
-                                color: "#1c1917",
-                                fontWeight: 500,
-                                lineHeight: 1.4,
-                                marginBottom: 4,
-                              }}
-                            >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[13px] text-stone-900 font-medium leading-snug mb-1">
                               {q.prompt.length > 82
                                 ? q.prompt.slice(0, 82) + "…"
                                 : q.prompt}
                             </p>
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 6,
-                              }}
-                            >
-                              <span
-                                style={{
-                                  fontFamily: "DM Mono, monospace",
-                                  fontSize: 9,
-                                  color: "#a8a29e",
-                                  textTransform: "uppercase",
-                                  letterSpacing: "0.05em",
-                                }}
-                              >
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono text-[9px] text-stone-400 uppercase tracking-widest">
                                 {q.skill}
                               </span>
                               <Badge
@@ -347,13 +197,7 @@ function FreeReviewScreen() {
                               />
                             </div>
                           </div>
-                          <span
-                            style={{
-                              color: "#a8a29e",
-                              fontSize: 16,
-                              paddingTop: 1,
-                            }}
-                          >
+                          <span className="text-stone-400 text-base pt-px shrink-0">
                             ›
                           </span>
                         </div>
@@ -367,16 +211,7 @@ function FreeReviewScreen() {
         </div>
 
         {/* Sticky bottom CTA */}
-        <div
-          className="sticky bottom-0 text-center"
-          style={{
-            background:
-              "linear-gradient(to bottom, transparent 0%, rgba(250,250,248,0.95) 40%)",
-            paddingTop: 40,
-            paddingBottom: 24,
-            marginTop: -20,
-          }}
-        >
+        <div className="sticky bottom-0 text-center bg-gradient-to-b from-transparent to-[rgba(250,250,248,0.95)] pt-10 -mt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
             <span className="text-2xl">🔓</span>
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
@@ -441,7 +276,7 @@ export default function ReviewPage() {
   if (queue.length === 0 && !activeId) {
     return (
       <AppShell wrongCount={0}>
-        <main className="min-h-screen bg-stone-50">
+        <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-16 text-center">
             <div className="text-4xl mb-3">✅</div>
             <h1 className="font-display font-bold text-xl text-stone-900 mb-2">
@@ -473,7 +308,7 @@ export default function ReviewPage() {
 
   return (
     <AppShell wrongCount={queue.length}>
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-dvh bg-stone-50">
         <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
           <div className="flex items-center justify-between mb-6">
             <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
@@ -497,7 +332,7 @@ export default function ReviewPage() {
                   setActiveId(null);
                   setHasAnswered(false);
                 }}
-                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer"
+                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer py-2 -my-2 inline-block"
               >
                 ← Back to list
               </button>

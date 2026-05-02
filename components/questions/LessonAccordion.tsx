@@ -26,7 +26,7 @@ export default function LessonAccordion({ skill, difficulty }: LessonAccordionPr
         onClick={() => setOpen(o => !o)}
         className={[
           'w-full flex items-center justify-between gap-2 cursor-pointer',
-          'rounded-xl border border-orange px-4 py-2.5',
+          'rounded-xl border border-orange px-4 py-3',
           'text-left text-sm font-display font-medium',
           'transition-colors duration-150',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2',
@@ -46,7 +46,7 @@ export default function LessonAccordion({ skill, difficulty }: LessonAccordionPr
 
       {open && (
         <div className="mt-1.5 bg-orange-light border border-orange-mid rounded-xl px-4 py-3 animate-fade-up">
-          <p className="text-sm text-stone-700 leading-relaxed">{lesson.body}</p>
+          <p className="text-base text-stone-700 leading-relaxed">{lesson.body}</p>
         </div>
       )}
     </div>

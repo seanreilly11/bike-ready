@@ -68,7 +68,7 @@ export default function ModuleSessionPage() {
 
   if (!mod) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-dvh flex items-center justify-center">
         <p className="text-stone-400">Module not found.</p>
       </div>
     );
@@ -109,7 +109,7 @@ export default function ModuleSessionPage() {
           <div className="flex items-center gap-3 mb-2">
             <button
               onClick={() => router.push("/learn")}
-              className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none cursor-pointer"
+              className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none cursor-pointer py-2 -my-2 px-1 -mx-1"
               aria-label="Back to modules"
             >
               ←
@@ -125,7 +125,7 @@ export default function ModuleSessionPage() {
         </div>
       </div>
 
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-dvh bg-stone-50">
         <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
           {/* Dot map */}
           <div className="mb-6">

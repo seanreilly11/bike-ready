@@ -30,7 +30,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const pct = Math.round((totalFree / totalAll) * 100);
 
   return (
-    <div className="min-h-screen bg-stone-900">
+    <div className="min-h-dvh bg-stone-900">
       {/* Dark hero */}
       <div className="px-5 pt-12 pb-10 max-w-2xl mx-auto text-center">
         <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-3">
@@ -56,7 +56,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 
       {/* Incomplete module cards */}
       <div className="px-5 pb-12 max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {gatedModules.map((mod) => {
             const qs = questionsByModule(mod.id as ModuleId);
             return (
@@ -77,8 +77,8 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
                       className={[
                         "w-2.5 h-2.5 rounded-full",
                         i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
+                        i >= FREE_PER_MODULE ? "opacity-35" : "",
                       ].join(" ")}
-                      style={{ opacity: i >= FREE_PER_MODULE ? 0.35 : 1 }}
                     />
                   ))}
                 </div>
@@ -151,13 +151,13 @@ export default function LearnIndexPage() {
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 
-      <main className="min-h-screen bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
+      <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-6 lg:text-3xl">
           Learn
         </h1>
 
         {/* Module cards — progress is synchronous from store, no skeleton needed */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
           {modules.map((mod) => (
             <ModuleCard
               key={mod.id}

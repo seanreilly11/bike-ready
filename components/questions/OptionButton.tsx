@@ -31,8 +31,8 @@ export default function OptionButton({ option, state, onClick, disabled }: Optio
       disabled={disabled}
       aria-disabled={disabled}
       className={[
-        'w-full flex items-center gap-3 rounded-xl border px-4 py-3',
-        'text-left font-display text-sm leading-relaxed',
+        'w-full flex items-center gap-3 rounded-xl border px-4 py-3 min-h-[44px]',
+        'text-left font-display text-base leading-relaxed',
         'transition-all duration-150',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2',
         'active:scale-[0.99]',
