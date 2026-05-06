@@ -1,16 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import type { Difficulty } from '@/types'
+import type { Difficulty, Question } from '@/types'
 import lessonsData from '@/data/lessons.json'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 interface LessonAccordionProps {
   skill:      string
   difficulty: Difficulty
+  question:   Question
 }
 
-export default function LessonAccordion({ skill, difficulty }: LessonAccordionProps) {
+export default function LessonAccordion({ skill, difficulty, question }: LessonAccordionProps) {
   const [open, setOpen] = useState(false)
+  const { track } = useAnalytics()
 
   // Reset to closed on each new question
   useEffect(() => {
@@ -23,7 +26,15 @@ export default function LessonAccordion({ skill, difficulty }: LessonAccordionPr
   return (
     <div className="mb-3">
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => {
+          track('lesson_accordion_toggled', {
+            question_id: question.id,
+            skill: question.skill,
+            difficulty: question.difficulty,
+            open: !open,
+          })
+          setOpen(o => !o)
+        }}
         className={[
           'w-full flex items-center justify-between gap-2 cursor-pointer',
           'rounded-xl border border-orange px-4 py-3',

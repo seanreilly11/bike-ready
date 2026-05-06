@@ -62,7 +62,7 @@ export default function QuestionCard({
       </div>
 
       {/* Lesson accordion */}
-      <LessonAccordion skill={question.skill} difficulty={question.difficulty} />
+      <LessonAccordion skill={question.skill} difficulty={question.difficulty} question={question} />
 
       {/* Prompt card */}
       <div className="bg-white border border-stone-200 rounded-xl p-4 mb-3">
@@ -87,7 +87,7 @@ export default function QuestionCard({
 
       {/* Feedback */}
       {localAnswered && !hideCorrect && (
-        <FeedbackPanel feedback={question.feedback} correct={isCorrect} />
+        <FeedbackPanel feedback={question.feedback} correct={isCorrect} question={question} />
       )}
     </div>
   )

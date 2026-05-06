@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { ModuleId } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
@@ -40,6 +40,7 @@ export default function ModuleSessionPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const questionShownAt = useRef<number>(Date.now());
 
   const moduleQuestions = useMemo(
     () => questionsByModule(moduleId),
@@ -53,6 +54,10 @@ export default function ModuleSessionPage() {
     setCurrentIndex(progress.getCurrentQuestionIndex(moduleId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moduleId]);
+
+  useEffect(() => {
+    questionShownAt.current = Date.now();
+  }, [currentIndex]);
 
   const currentQuestion = moduleQuestions[currentIndex];
   const seenInModule = progress.getModuleSeen(moduleId);
@@ -85,6 +90,7 @@ export default function ModuleSessionPage() {
       skill: currentQuestion.skill,
       difficulty: currentQuestion.difficulty,
       correct,
+      time_to_answer_ms: Date.now() - questionShownAt.current,
     });
   }
 
@@ -108,7 +114,16 @@ export default function ModuleSessionPage() {
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
             <button
-              onClick={() => router.push("/learn")}
+              onClick={() => {
+                if (currentIndex < moduleQuestions.length - 1) {
+                  track("module_exited_early", {
+                    module: mod.id,
+                    question_index: currentIndex,
+                    total_questions: moduleQuestions.length,
+                  });
+                }
+                router.push("/learn");
+              }}
               className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none cursor-pointer py-2 -my-2 px-1 -mx-1"
               aria-label="Back to modules"
             >
@@ -133,7 +148,16 @@ export default function ModuleSessionPage() {
               questions={moduleQuestions}
               progress={progress.progress}
               currentId={currentQuestion?.id ?? ""}
-              onDotClick={setCurrentIndex}
+              onDotClick={(idx) => {
+                if (idx !== currentIndex) {
+                  track("dot_map_jumped", {
+                    module: mod.id,
+                    from_index: currentIndex,
+                    to_index: idx,
+                  });
+                }
+                setCurrentIndex(idx);
+              }}
               alwaysFree={mod.alwaysFree}
               moduleStatus={moduleStatus}
             />

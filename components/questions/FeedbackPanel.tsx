@@ -1,12 +1,27 @@
-import type { Feedback } from '@/types'
+'use client'
+
+import { useEffect } from 'react'
+import type { Feedback, Question } from '@/types'
 import { AnswerResult } from '@/types'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 interface FeedbackPanelProps {
   feedback: Feedback
   correct:  boolean
+  question: Question
 }
 
-export default function FeedbackPanel({ feedback, correct }: FeedbackPanelProps) {
+export default function FeedbackPanel({ feedback, correct, question }: FeedbackPanelProps) {
+  const { track } = useAnalytics()
+
+  useEffect(() => {
+    track('feedback_panel_viewed', {
+      question_id: question.id,
+      module: question.module,
+      correct,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div
       className={[
