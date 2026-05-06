@@ -151,12 +151,14 @@ export type LocalProgress = Record<string, { seen: boolean; correct: boolean }>;
 // ---------------------------------------------------------------------------
 
 export interface AnalyticsEvents {
+  // --- existing ---
   question_answered: {
     question_id: string;
     module: ModuleId;
     skill: string;
     difficulty: Difficulty;
     correct: boolean;
+    time_to_answer_ms: number;
   };
   module_started: { module: ModuleId };
   module_completed: { module: ModuleId };
@@ -169,6 +171,78 @@ export interface AnalyticsEvents {
   badge_earned: { badge_id: string };
   onboarding_completed: Record<string, never>;
   ab_variant_assigned: { test: string; variant: string };
+
+  // --- acquisition ---
+  cta_clicked: { source: "hero" | "bottom" };
+  onboarding_skipped: Record<string, never>;
+
+  // --- learning engagement ---
+  lesson_accordion_toggled: {
+    question_id: string;
+    skill: string;
+    difficulty: Difficulty;
+    open: boolean;
+  };
+  dot_map_jumped: {
+    module: ModuleId;
+    from_index: number;
+    to_index: number;
+  };
+  module_exited_early: {
+    module: ModuleId;
+    question_index: number;
+    total_questions: number;
+  };
+  feedback_panel_viewed: {
+    question_id: string;
+    module: ModuleId;
+    correct: boolean;
+  };
+
+  // --- conversion funnel ---
+  gate_dismissed: { module: ModuleId };
+  gate_next_module_clicked: { from_module: ModuleId; to_module: ModuleId };
+  upgrade_cta_clicked: {
+    source:
+      | "preview_complete"
+      | "user_menu"
+      | "gate_modal"
+      | "review"
+      | "test"
+      | "upsell_banner";
+  };
+  checkout_started: Record<string, never>;
+
+  // --- retention & auth ---
+  auth_modal_opened: {
+    reason: "save_progress" | "upgrade";
+    source: string;
+  };
+  magic_link_sent: { reason: "save_progress" | "upgrade" };
+  return_banner_clicked: Record<string, never>;
+  return_banner_dismissed: Record<string, never>;
+  progress_migrated: { questions_count: number };
+  user_signed_out: Record<string, never>;
+
+  // --- test & review ---
+  test_started: Record<string, never>;
+  test_abandoned: { progress_pct: number; questions_answered: number };
+  test_share_clicked: {
+    score_pct: number;
+    passed: boolean;
+    platform: "native" | "clipboard";
+  };
+  test_retried: { previous_score_pct: number };
+  review_question_opened: {
+    question_id: string;
+    module: ModuleId;
+    position: number;
+  };
+  review_cleared: Record<string, never>;
+
+  // --- milestone & delight ---
+  badge_toast_shown: { badge_id: string };
+  badge_toast_dismissed: { badge_id: string; auto: boolean };
 }
 
 // ---------------------------------------------------------------------------
