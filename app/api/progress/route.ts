@@ -38,16 +38,15 @@ export async function POST(request: NextRequest) {
   const body = (await request.json()) as {
     question_id?: string;
     correct?: boolean;
-    user_id?: string;
   };
-  const { question_id, correct, user_id } = body;
+  const { question_id, correct } = body;
 
   if (typeof question_id !== "string" || typeof correct !== "boolean") {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
   }
 
   const { error } = await supabase.rpc("upsert_question_progress", {
-    p_user_id: user_id || user.id,
+    p_user_id: user.id,
     p_question_id: question_id,
     p_correct: correct,
   });
