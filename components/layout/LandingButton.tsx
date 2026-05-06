@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 const ONBOARDING_KEY = 'bikeready_onboarding_done'
 
@@ -19,9 +20,11 @@ export default function LandingButton({
   className,
 }: LandingButtonProps) {
   const router = useRouter()
+  const { track } = useAnalytics()
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   function handleStart() {
+    track('cta_clicked', { source: variant === 'bottom' ? 'bottom' : 'hero' })
     if (localStorage.getItem(ONBOARDING_KEY) === 'true') {
       router.push('/learn')
     } else {

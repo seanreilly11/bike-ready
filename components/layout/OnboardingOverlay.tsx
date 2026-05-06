@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 interface OnboardingOverlayProps {
   onDone: () => void
@@ -27,6 +28,7 @@ const screens = [
 
 export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
   const [step, setStep] = useState(0)
+  const { track } = useAnalytics()
   const isLast = step === screens.length - 1
   const screen = screens[step]
 
@@ -70,7 +72,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
 
         {step === 0 && (
           <div className="flex justify-center mt-3">
-            <Button variant="ghost" size="sm" onClick={onDone}>
+            <Button variant="ghost" size="sm" onClick={() => { track('onboarding_skipped', {}); onDone(); }}>
               Skip
             </Button>
           </div>
