@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import type { AuthModalReason } from "@/stores/uiStore";
 
 interface AuthModalProps {
@@ -28,7 +29,12 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { sendMagicLink } = useAuth();
+  const { track } = useAnalytics();
   const { title, body, note } = copy[reason];
+
+  useEffect(() => {
+    track('auth_modal_opened', { reason, source: reason });
+  }, [reason, track]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,6 +42,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
     setError(null);
     try {
       await sendMagicLink(email, reason);
+      track('magic_link_sent', { reason });
       setSent(true);
     } catch {
       setError("Something went wrong. Please try again.");

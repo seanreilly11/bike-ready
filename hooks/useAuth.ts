@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
 import { useAppStore } from "@/stores/appStore";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import fetchProgress from "@/lib/queries/fetchProgress";
 import updateProgress from "@/lib/mutations/updateProgress";
 import type { LocalProgress } from "@/types";
@@ -41,6 +42,7 @@ export function useAuth(): {
 } {
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState(true);
+  const { track } = useAnalytics();
 
   const user = useAppStore((s) => s.user);
   const isPremium = useAppStore((s) => s.isPremium);
@@ -114,6 +116,7 @@ export function useAuth(): {
             ),
           );
           localStorage.removeItem(LEGACY_STORAGE_KEY);
+          track('progress_migrated', { questions_count: legacyEntries.length });
         }
 
         // Fetch Supabase progress and hydrate store
@@ -136,6 +139,7 @@ export function useAuth(): {
         useAppStore.getState().setUser(null);
         useAppStore.getState().setPremium(false);
         useAppStore.getState().resetProgress();
+        track('user_signed_out', {});
         if (mounted) setIsLoading(false);
       } else if (event === "INITIAL_SESSION") {
         if (mounted) setIsLoading(false);
