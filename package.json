@@ -19,6 +19,7 @@
     "posthog-js": "^1.240.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "server-only": "^0.0.1",
     "stripe": "^17.7.0",
     "zustand": "^5.0.12"
   },
