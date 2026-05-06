@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { Question } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
@@ -245,18 +245,39 @@ export default function ReviewPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
 
+  const queue = progress.getReviewQueue();
+  const hadItemsRef = useRef(queue.length > 0);
+
+  useEffect(() => {
+    if (queue.length > 0) {
+      hadItemsRef.current = true;
+    }
+  });
+
+  useEffect(() => {
+    if (queue.length === 0 && !activeId && hadItemsRef.current) {
+      track("review_cleared", {});
+    }
+  }, [queue.length, activeId]);
+
   if (!isPremium) {
     return <FreeReviewScreen />;
   }
 
-  const queue = progress.getReviewQueue();
   // Look up from allQuestions (not queue) so the card stays mounted after a correct
   // answer removes the question from the queue before React commits hasAnswered=true.
   const activeQ = activeId
     ? (allQuestions.find((q) => q.id === activeId) ?? null)
     : null;
 
-  function openQuestion(id: string) {
+  const questionShownAt = useRef<number>(Date.now());
+
+  function openQuestion(id: string, position: number) {
+    const question = allQuestions.find((q) => q.id === id);
+    if (question) {
+      track("review_question_opened", { question_id: question.id, module: question.module, position });
+    }
+    questionShownAt.current = Date.now();
     setActiveId(id);
     setHasAnswered(false);
   }
@@ -269,6 +290,7 @@ export default function ReviewPage() {
       module: q.module,
       skill: q.skill,
       difficulty: q.difficulty,
+      time_to_answer_ms: Date.now() - questionShownAt.current,
       correct,
     });
   }
@@ -359,7 +381,7 @@ export default function ReviewPage() {
                           variant="primary"
                           size="lg"
                           full
-                          onClick={() => openQuestion(nextInModule.id)}
+                          onClick={() => openQuestion(nextInModule.id, queue.indexOf(nextInModule))}
                         >
                           Next question →
                         </Button>
@@ -389,7 +411,7 @@ export default function ReviewPage() {
                   {questions.map((q) => (
                     <button
                       key={q.id}
-                      onClick={() => openQuestion(q.id)}
+                      onClick={() => openQuestion(q.id, queue.indexOf(q))}
                       className={[
                         "w-full text-left bg-white border-l-[3px] border-l-red border border-stone-200 rounded-xl px-4 py-3 cursor-pointer",
                         "hover:border-l-red hover:shadow-sm transition-all duration-150",

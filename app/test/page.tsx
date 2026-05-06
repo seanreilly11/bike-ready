@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { Question } from "@/types";
 import { TEST_PASS_PCT } from "@/types";
@@ -121,6 +121,26 @@ export default function TestPage() {
 
   const testSet = useMemo(() => buildTestSet(), []);
 
+  const abandonRef = useRef({ phase, answeredCount: answers.length, totalCount: testSet.length });
+  abandonRef.current = { phase, answeredCount: answers.length, totalCount: testSet.length };
+  const questionShownAt = useRef<number>(Date.now());
+
+  useEffect(() => {
+    return () => {
+      const { phase: p, answeredCount, totalCount } = abandonRef.current;
+      if (p === "questions") {
+        track("test_abandoned", {
+          progress_pct: Math.round((answeredCount / totalCount) * 100),
+          questions_answered: answeredCount,
+        });
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    questionShownAt.current = Date.now();
+  }, [index]);
+
   if (!isPremium) {
     return <FreeTestScreen />;
   }
@@ -180,7 +200,7 @@ export default function TestPage() {
               ))}
             </div>
 
-            <Button full size="lg" onClick={() => setPhase("questions")}>
+            <Button full size="lg" onClick={() => { track("test_started", {}); setPhase("questions"); }}>
               Start Test →
             </Button>
           </div>
@@ -212,6 +232,7 @@ export default function TestPage() {
       skill: currentQ.skill,
       difficulty: currentQ.difficulty,
       correct,
+      time_to_answer_ms: Date.now() - questionShownAt.current,
     });
     await checkModuleBadge(currentQ.module);
 
@@ -310,8 +331,10 @@ export default function TestPage() {
   function handleShare() {
     const text = `I scored ${scorePct}% on the BikeReady Test! 🚲 Ready to cycle in the Netherlands.`;
     if (navigator.share) {
+      track("test_share_clicked", { score_pct: scorePct, passed, platform: "native" });
       navigator.share({ text, url: "https://bikeready.app" }).catch(() => {});
     } else {
+      track("test_share_clicked", { score_pct: scorePct, passed, platform: "clipboard" });
       navigator.clipboard.writeText(text).catch(() => {});
     }
   }
@@ -427,6 +450,7 @@ export default function TestPage() {
                     <FeedbackPanel
                       feedback={question.feedback}
                       correct={false}
+                      question={question}
                     />
                   </div>
                 ))}
@@ -441,6 +465,7 @@ export default function TestPage() {
                 full
                 size="lg"
                 onClick={() => {
+                  track("test_retried", { previous_score_pct: scorePct });
                   setPhase("intro");
                   setAnswers([]);
                   setIndex(0);
