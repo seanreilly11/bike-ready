@@ -895,7 +895,7 @@
   {
     "id": "roadusers_013",
     "module": "roadusers",
-    "skill": "Large Vehicles",
+    "skill": "Turning Traffic",
     "difficulty": "medium",
     "type": "scenario_decision",
     "prompt": "You're at a red light alongside a large truck. The truck is indicating right and you plan to go straight. The light turns green. What do you do?",
