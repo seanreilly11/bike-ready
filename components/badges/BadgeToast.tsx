@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import type { Badge } from '@/types'
 import BadgeItem from './BadgeItem'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 interface BadgeToastProps {
   badge:     Badge
@@ -11,8 +12,17 @@ interface BadgeToastProps {
 }
 
 export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastProps) {
+  const { track } = useAnalytics()
+
   useEffect(() => {
-    const timer = setTimeout(onDismiss, 4000)
+    track('badge_toast_shown', { badge_id: badge.id })
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      track('badge_toast_dismissed', { badge_id: badge.id, auto: true })
+      onDismiss()
+    }, 4000)
     return () => clearTimeout(timer)
   }, [onDismiss])
 
@@ -39,7 +49,7 @@ export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastPro
         </p>
       </div>
       <button
-        onClick={onDismiss}
+        onClick={() => { track('badge_toast_dismissed', { badge_id: badge.id, auto: false }); onDismiss() }}
         className="text-stone-400 hover:text-stone-900 transition-colors shrink-0 focus-visible:outline-none"
         aria-label="Dismiss"
       >
