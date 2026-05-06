@@ -16,7 +16,8 @@ export async function GET() {
     .eq('user_id', user.id)
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error("[badges GET]", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 
   return NextResponse.json({ badges: data })
@@ -44,7 +45,8 @@ export async function POST(request: NextRequest) {
 
   // Ignore unique-constraint violations (badge already earned)
   if (error && !error.message.includes('duplicate')) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error("[badges POST]", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 
   return NextResponse.json({ ok: true })
