@@ -3,11 +3,13 @@
 import { useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useUIStore } from '@/stores/uiStore'
+import { useAnalytics } from '@/hooks/useAnalytics'
 import { createClient } from '@/lib/supabase'
 
 export function useUnlock(onClose?: () => void) {
   const { refreshPremiumStatus } = useAuth()
   const openAuth = useUIStore((s) => s.openAuth)
+  const { track } = useAnalytics()
 
   return useCallback(async () => {
     const supabase = createClient()
@@ -21,10 +23,11 @@ export function useUnlock(onClose?: () => void) {
         onClose?.()
         return
       }
+      track('checkout_started', {})
       window.location.href = data.url!
     } else {
       onClose?.()
       openAuth('upgrade')
     }
-  }, [refreshPremiumStatus, openAuth, onClose])
+  }, [refreshPremiumStatus, openAuth, onClose, track])
 }

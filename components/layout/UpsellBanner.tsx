@@ -1,5 +1,8 @@
+"use client";
+
 import Button from "@/components/ui/Button";
 import { APP_PRICE } from "@/data/constants";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface UpsellBannerProps {
   moduleName: string;
@@ -12,6 +15,7 @@ export default function UpsellBanner({
   moduleQuestionCount,
   onUnlock,
 }: UpsellBannerProps) {
+  const { track } = useAnalytics();
   return (
     <div className="bg-white border-2 border-orange rounded-2xl px-6 py-8 text-center">
       <div className="text-3xl mb-3">🚲</div>
@@ -24,7 +28,7 @@ export default function UpsellBanner({
       <p className="text-stone-500 text-sm mb-6">
         All 6 modules, Review queue, and the BikeReady Test.
       </p>
-      <Button variant="primary" size="lg" full onClick={onUnlock}>
+      <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'upsell_banner' }); onUnlock(); }}>
         Unlock for {APP_PRICE}
       </Button>
       <p className="text-stone-400 text-xs mt-2">

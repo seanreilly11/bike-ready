@@ -1,10 +1,12 @@
 "use client";
 
-import type { Module } from "@/types";
+import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import { APP_PRICE } from "@/data/constants";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface GateModalProps {
+  moduleId: ModuleId;
   moduleName: string;
   nextModule: Module | null;
   onUnlock: () => void;
@@ -21,18 +23,20 @@ const features = [
 ];
 
 export default function GateModal({
+  moduleId,
   moduleName,
   nextModule,
   onUnlock,
   onNextModule,
   onDismiss,
 }: GateModalProps) {
+  const { track } = useAnalytics();
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm"
-        onClick={onDismiss}
+        onClick={() => { track('gate_dismissed', { module: moduleId }); onDismiss(); }}
         aria-hidden
       />
 
@@ -77,7 +81,7 @@ export default function GateModal({
               </p>
             </div>
             <button
-              onClick={() => onNextModule(nextModule.id)}
+              onClick={() => { track('gate_next_module_clicked', { from_module: moduleId, to_module: nextModule.id as ModuleId }); onNextModule(nextModule.id); }}
               className="text-sm font-display font-bold text-orange hover:underline whitespace-nowrap focus-visible:outline-none"
             >
               Try it →
@@ -85,7 +89,7 @@ export default function GateModal({
           </div>
         )}
 
-        <Button variant="primary" size="lg" full onClick={onUnlock}>
+        <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'gate_modal' }); onUnlock(); }}>
           Unlock for {APP_PRICE}
         </Button>
         <p className="text-center text-xs text-stone-400 mt-2">
@@ -93,7 +97,7 @@ export default function GateModal({
         </p>
 
         <div className="flex justify-center mt-4">
-          <Button variant="ghost" size="sm" onClick={onDismiss}>
+          <Button variant="ghost" size="sm" onClick={() => { track('gate_dismissed', { module: moduleId }); onDismiss(); }}>
             Not now
           </Button>
         </div>

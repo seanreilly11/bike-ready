@@ -9,6 +9,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUnlock } from "@/hooks/useUnlock";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
 import ModuleCard from "@/components/modules/ModuleCard";
@@ -24,6 +25,7 @@ import { useState } from "react";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
+  const { track } = useAnalytics();
   const gatedModules = modules.filter((m) => !m.alwaysFree);
   const totalFree = gatedModules.length * FREE_PER_MODULE;
   const totalAll = allQuestions.length;
@@ -46,7 +48,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
         <div className="mb-6">
           <ProgressBar value={pct} color="orange" height={6} />
         </div>
-        <Button variant="primary" size="lg" full onClick={onUnlock}>
+        <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'preview_complete' }); onUnlock(); }}>
           Unlock full course — {APP_PRICE}
         </Button>
         <p className="text-stone-500 text-xs mt-2">
@@ -90,7 +92,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 
       {/* Second CTA */}
       <div className="px-5 pb-16 max-w-sm mx-auto text-center">
-        <Button variant="primary" size="lg" full onClick={onUnlock}>
+        <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'preview_complete' }); onUnlock(); }}>
           Unlock full course — {APP_PRICE}
         </Button>
       </div>
