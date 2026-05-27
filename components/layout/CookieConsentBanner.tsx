@@ -36,12 +36,7 @@ export function CookieConsentBanner() {
           personal data. Essential cookies (login session) are always on.
         </p>
         <div className="flex shrink-0 gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-stone-300 hover:text-white"
-            onClick={decline}
-          >
+          <Button variant="secondary" size="sm" onClick={decline}>
             Decline
           </Button>
           <Button variant="primary" size="sm" onClick={accept}>
