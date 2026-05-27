@@ -11,7 +11,10 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
-const copy: Record<AuthModalReason, { title: string; body: string; note?: string }> = {
+const copy: Record<
+  AuthModalReason,
+  { title: string; body: string; note?: string }
+> = {
   save_progress: {
     title: "Save your progress",
     body: "Enter your email and we'll send a magic link. No password needed.",
@@ -33,7 +36,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
   const { title, body, note } = copy[reason];
 
   useEffect(() => {
-    track('auth_modal_opened', { reason, source: reason });
+    track("auth_modal_opened", { reason, source: reason });
   }, [reason, track]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -42,7 +45,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
     setError(null);
     try {
       await sendMagicLink(email, reason);
-      track('magic_link_sent', { reason });
+      track("magic_link_sent", { reason });
       setSent(true);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -102,9 +105,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
                   "transition-colors duration-150",
                 ].join(" ")}
               />
-              {note && (
-                <p className="text-xs text-stone-400">{note}</p>
-              )}
+              {note && <p className="text-xs text-stone-400">{note}</p>}
               {error && <p className="text-red-dark text-xs">{error}</p>}
               <Button
                 type="submit"
@@ -118,6 +119,23 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
 
             <p className="text-center text-xs text-stone-400 mt-4">
               No password. One click to sign in.
+            </p>
+            <p className="text-center text-xs text-stone-400 mt-2">
+              By continuing you agree to our{" "}
+              <a
+                href="/terms"
+                className="underline hover:text-stone-600 transition-colors"
+              >
+                Terms
+              </a>{" "}
+              and{" "}
+              <a
+                href="/privacy"
+                className="underline hover:text-stone-600 transition-colors"
+              >
+                Privacy Policy
+              </a>
+              .
             </p>
           </>
         )}
