@@ -27,6 +27,18 @@ export function Footer() {
           >
             Terms of service
           </Link>
+          <Link
+            href="/cookies"
+            className="text-xs text-stone-400 hover:text-stone-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
+          >
+            Cookie policy
+          </Link>
+          <Link
+            href="/imprint"
+            className="text-xs text-stone-400 hover:text-stone-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
+          >
+            Imprint
+          </Link>
           <button
             onClick={openCookieSettings}
             type="button"
