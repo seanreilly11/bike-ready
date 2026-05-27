@@ -3,7 +3,13 @@
 import { useCallback } from 'react'
 import type { AnalyticsEvents } from '@/types'
 
-const ANON_ID_KEY = 'bikeready_anon_id'
+const ANON_ID_KEY   = 'bikeready_anon_id'
+const CONSENT_KEY   = 'bikeready_cookie_consent'
+
+function hasConsent(): boolean {
+  if (typeof window === 'undefined') return false
+  return localStorage.getItem(CONSENT_KEY) === 'accepted'
+}
 
 function getAnonId(): string {
   if (typeof window === 'undefined') return ''
@@ -17,6 +23,7 @@ function getAnonId(): string {
 
 async function getPosthog() {
   if (typeof window === 'undefined') return null
+  if (!hasConsent()) return null
   const { default: posthog } = await import('posthog-js')
   const key  = process.env.NEXT_PUBLIC_POSTHOG_KEY
   const host = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com'

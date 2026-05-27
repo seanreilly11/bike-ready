@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CookieConsentBanner } from "@/components/layout/CookieConsentBanner";
+import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "BikeReady — Cycle safely in the Netherlands",
@@ -35,6 +37,8 @@ export default function RootLayout({
             <SpeedInsights />
           </>
         )}
+        <Footer />
+        <CookieConsentBanner />
       </body>
     </html>
   );
