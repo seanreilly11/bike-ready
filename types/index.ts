@@ -246,6 +246,51 @@ export interface AnalyticsEvents {
 }
 
 // ---------------------------------------------------------------------------
+// Guide / signs-reference types
+// ---------------------------------------------------------------------------
+
+export interface GuideSection {
+  heading: string;
+  body: string;
+}
+
+export interface GuideEntry {
+  moduleId: string;
+  title: string;
+  subtitle: string;
+  sections: GuideSection[];
+}
+
+export interface SignsDesignRule {
+  id: string;
+  title: string;
+  body: string;
+  examples: string[];
+}
+
+export interface SignsDesignSystem {
+  intro: string;
+  rules: SignsDesignRule[];
+}
+
+export interface SignsSign {
+  id: string;
+  component: string;
+  name: string;
+  dutch_name: string;
+  code: string | null;
+  description: string;
+  end_variant: string | null;
+}
+
+export interface SignsCategory {
+  id: string;
+  title: string;
+  description: string;
+  signs: SignsSign[];
+}
+
+// ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 

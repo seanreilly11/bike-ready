@@ -155,7 +155,7 @@ export default function LearnIndexPage() {
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-6 lg:text-3xl">
-          Learn
+          Practice
         </h1>
 
         {/* Module cards — progress is synchronous from store, no skeleton needed */}

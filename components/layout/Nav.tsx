@@ -36,8 +36,9 @@ function SignInIcon() {
 }
 
 const navItems = [
-  { href: "/learn", label: "Learn" },
+  { href: "/learn", label: "Practice" },
   { href: "/review", label: "Review" },
+  { href: "/guide", label: "Guide" },
   { href: "/test", label: "Test" },
 ];
 
