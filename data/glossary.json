@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "description": "Comprehensive Dutch-English cycling vocabulary. Covers all terms used in questions plus many additional terms a cyclist will encounter on Dutch roads."
+  },
+  "categories": [
+    {
+      "id": "priority",
+      "title": "Priority & yielding",
+      "terms": [
+        { "term": "voorrang", "pronunciation": "VOHR-rahng", "translation": "Priority / right of way", "context": "Used on signs and in traffic rules to indicate who goes first." },
+        { "term": "voorrang verlenen", "pronunciation": "VOHR-rahng ver-LAY-nen", "translation": "Give way / yield", "context": "Appears on triangular yield signs. Verlenen means to grant — you are granting priority to others." },
+        { "term": "voorrangsweg", "pronunciation": "VOHR-rahngs-wekh", "translation": "Priority road", "context": "A road marked with a yellow diamond sign where you have priority at every junction." },
+        { "term": "haaientanden", "pronunciation": "HAH-yuh-TAN-duh", "translation": "Shark teeth", "context": "White triangles painted on the road. Pointing at you = you yield." },
+        { "term": "rechts", "pronunciation": "rekhts", "translation": "Right", "context": "As in right-before-left — rechts heeft voorrang." },
+        { "term": "links", "pronunciation": "links", "translation": "Left", "context": "Direction. Traffic from your left must yield to you at unmarked junctions." },
+        { "term": "afbuigend voorrang", "pronunciation": "AF-buy-ghent VOHR-rahng", "translation": "Deflecting priority", "context": "A priority road that bends — the priority follows the bend, not the straight road." }
+      ]
+    },
+    {
+      "id": "paths",
+      "title": "Cycle paths & bike streets",
+      "terms": [
+        { "term": "fietspad", "pronunciation": "FEETS-paht", "translation": "Cycle path", "context": "On rectangular white signs with blue border — marks an optional cycle path." },
+        { "term": "fietsstraat", "pronunciation": "FEETS-straht", "translation": "Bike street", "context": "A road where cyclists are primary users. Cars are guests and may not overtake." },
+        { "term": "rijwielpad", "pronunciation": "RY-weel-paht", "translation": "Cycle path (older term)", "context": "Rijwiel is an older Dutch word for bicycle. Same as fietspad in practice." },
+        { "term": "fietser", "pronunciation": "FEET-ser", "translation": "Cyclist", "context": "Seen on signs and sub-signs. Plural: fietsers." },
+        { "term": "fietsers oversteken", "pronunciation": "FEET-sers OH-ver-stay-ken", "translation": "Cyclists crossing", "context": "A warning to car drivers that cyclists may cross the road ahead." },
+        { "term": "auto te gast", "pronunciation": "OW-toh tuh GHAST", "translation": "Car is a guest", "context": "Seen on fietsstraat signs. Means cars must defer to cyclists on this road." },
+        { "term": "bromfiets", "pronunciation": "BROM-feets", "translation": "Moped", "context": "A motorised two-wheeler. Some cycle paths allow bromfietsen, others don't." },
+        { "term": "snorfiets", "pronunciation": "SNOR-feets", "translation": "Low-speed moped", "context": "A moped limited to 25km/h. Allowed on most cycle paths." },
+        { "term": "speed pedelec", "pronunciation": "speed PED-uh-lek", "translation": "Fast e-bike (up to 45km/h)", "context": "Legally classified as a moped. Must ride on the road, not cycle paths. Helmet required." }
+      ]
+    },
+    {
+      "id": "prohibitions",
+      "title": "Prohibitions & restrictions",
+      "terms": [
+        { "term": "verboden", "pronunciation": "ver-BOH-den", "translation": "Forbidden / prohibited", "context": "The most common word on Dutch prohibition signs." },
+        { "term": "verboden in te rijden", "pronunciation": "ver-BOH-den in tuh RY-den", "translation": "No entry", "context": "Seen on round red signs with a white bar. No vehicles may enter." },
+        { "term": "inhalen verboden", "pronunciation": "IN-hah-len ver-BOH-den", "translation": "No overtaking", "context": "Applies to all road users including cyclists, not just cars." },
+        { "term": "doorrijden verboden", "pronunciation": "DOHR-ry-den ver-BOH-den", "translation": "No driving through / don't block the junction", "context": "Similar to 'don't block the box' in English." },
+        { "term": "gesloten", "pronunciation": "gheh-SLOH-ten", "translation": "Closed", "context": "A road that is gesloten is closed to traffic." },
+        { "term": "afgesloten", "pronunciation": "AF-gheh-sloh-ten", "translation": "Closed off / blocked", "context": "Often seen on temporary road closure signs." },
+        { "term": "eenrichtingsverkeer", "pronunciation": "AYN-rikh-tings-ver-keer", "translation": "One-way traffic", "context": "The road operates in one direction only." },
+        { "term": "geen doorgang", "pronunciation": "khayn DOHR-ghahng", "translation": "No passage / no through road", "context": "Means the road doesn't connect through to anywhere." },
+        { "term": "stoep", "pronunciation": "stoop", "translation": "Pavement / sidewalk", "context": "Cycling on the stoep is illegal." }
+      ]
+    },
+    {
+      "id": "exemptions",
+      "title": "Exemptions & exceptions",
+      "terms": [
+        { "term": "uitgezonderd", "pronunciation": "OWT-gheh-zon-dert", "translation": "Except / exempt", "context": "The key sub-sign word. Uitgezonderd fietsers = except cyclists." },
+        { "term": "bestemmingsverkeer", "pronunciation": "beh-STEM-ings-ver-keer", "translation": "Destination traffic", "context": "Residents, deliveries, and visitors to a specific address may enter." },
+        { "term": "vergunninghouders", "pronunciation": "ver-GHUN-ing-how-ders", "translation": "Permit holders", "context": "Only people with a permit may enter or park here." }
+      ]
+    },
+    {
+      "id": "warnings",
+      "title": "Warnings & caution",
+      "terms": [
+        { "term": "pas op", "pronunciation": "pahs op", "translation": "Watch out / be careful", "context": "A general warning seen on signs and heard from other road users." },
+        { "term": "gevaar", "pronunciation": "gheh-VAHR", "translation": "Danger", "context": "Seen on triangular warning signs." },
+        { "term": "langzaam rijden", "pronunciation": "LAHNG-zahm RY-den", "translation": "Drive / ride slowly", "context": "Often seen near schools, residential zones, or construction." },
+        { "term": "slecht wegdek", "pronunciation": "slekht WEGH-dek", "translation": "Poor road surface", "context": "Warning that the road or cycle path surface is in bad condition." },
+        { "term": "drempel", "pronunciation": "DREM-pel", "translation": "Speed bump", "context": "Common in 30km/h zones and residential areas." },
+        { "term": "wegversmalling", "pronunciation": "WEGH-ver-smal-ing", "translation": "Road narrowing", "context": "Warning that the road or path gets narrower ahead." }
+      ]
+    },
+    {
+      "id": "road_types",
+      "title": "Roads & zones",
+      "terms": [
+        { "term": "weg", "pronunciation": "wegh", "translation": "Road", "context": "The general word for road." },
+        { "term": "rijbaan", "pronunciation": "RY-bahn", "translation": "Carriageway", "context": "The road surface itself, as opposed to the shoulder or pavement." },
+        { "term": "rijstrook", "pronunciation": "RY-strohk", "translation": "Lane", "context": "A single traffic lane within a road." },
+        { "term": "berm", "pronunciation": "berm", "translation": "Shoulder / verge", "context": "The strip of grass or gravel beside the road." },
+        { "term": "kruispunt", "pronunciation": "KROWS-punt", "translation": "Junction / intersection", "context": "Any point where two or more roads meet." },
+        { "term": "rotonde", "pronunciation": "roh-TON-duh", "translation": "Roundabout", "context": "Circular junction. Dutch roundabouts often have separate cycle rings." },
+        { "term": "oversteekplaats", "pronunciation": "OH-ver-stayk-plahts", "translation": "Crossing point", "context": "A designated place to cross the road." },
+        { "term": "voetgangersoversteekplaats", "pronunciation": "FOOT-ghang-ers-oh-ver-stayk-plahts", "translation": "Pedestrian crossing / zebra crossing", "context": "The wonderfully long Dutch word for a zebra crossing." },
+        { "term": "woonerf", "pronunciation": "WOHN-erf", "translation": "Residential zone / living street", "context": "Pedestrians have priority, speed limit is walking pace." },
+        { "term": "zone 30", "pronunciation": "ZOH-nuh DEHR-tikh", "translation": "30km/h zone", "context": "The speed limit on most Dutch city streets. Applies to cyclists too." },
+        { "term": "doodlopende weg", "pronunciation": "DOHD-loh-pen-duh wegh", "translation": "Dead-end road", "context": "The road doesn't connect through." },
+        { "term": "tweerichtingsverkeer", "pronunciation": "TWAY-rikh-tings-ver-keer", "translation": "Two-way traffic", "context": "Traffic moves in both directions." }
+      ]
+    },
+    {
+      "id": "actions",
+      "title": "Actions & movements",
+      "terms": [
+        { "term": "oversteken", "pronunciation": "OH-ver-stay-ken", "translation": "To cross", "context": "Crossing a road or junction." },
+        { "term": "inhalen", "pronunciation": "IN-hah-len", "translation": "To overtake", "context": "Passing another road user." },
+        { "term": "afslaan", "pronunciation": "AF-slahn", "translation": "To turn", "context": "Rechts afslaan = turn right. Links afslaan = turn left." },
+        { "term": "rechtdoor", "pronunciation": "REKHT-dohr", "translation": "Straight ahead", "context": "Continue in the same direction." },
+        { "term": "remmen", "pronunciation": "REM-en", "translation": "To brake", "context": "Slow down or stop." },
+        { "term": "afstappen", "pronunciation": "AF-stah-pen", "translation": "To dismount", "context": "Get off your bicycle. Required in some pedestrian zones." },
+        { "term": "bellen", "pronunciation": "BEL-en", "translation": "To ring (the bell)", "context": "Use your bell to signal your presence." },
+        { "term": "stalling", "pronunciation": "STAHL-ing", "translation": "Bicycle parking / storage", "context": "A designated place to park your bicycle, often underground at train stations." }
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "title": "Infrastructure",
+      "terms": [
+        { "term": "verkeerslicht", "pronunciation": "ver-KAYRS-likht", "translation": "Traffic light", "context": "Generic term for any traffic signal." },
+        { "term": "stoplicht", "pronunciation": "STOP-likht", "translation": "Traffic light (informal)", "context": "The everyday word for traffic light." },
+        { "term": "verkeersbord", "pronunciation": "ver-KAYRS-bort", "translation": "Traffic sign", "context": "Any road sign." },
+        { "term": "wegmarkering", "pronunciation": "WEGH-mar-kay-ring", "translation": "Road marking", "context": "Painted lines, arrows, or symbols on the road surface." },
+        { "term": "fietstunnel", "pronunciation": "FEETS-tun-el", "translation": "Bicycle tunnel", "context": "An underpass for cyclists, common at busy junctions and railway crossings." },
+        { "term": "fietsbrug", "pronunciation": "FEETS-brugh", "translation": "Bicycle bridge", "context": "An overpass for cyclists." },
+        { "term": "busstrook", "pronunciation": "BUS-strohk", "translation": "Bus lane", "context": "Usually off-limits to cyclists unless specifically signed." },
+        { "term": "tramrails", "pronunciation": "TRAM-ryles", "translation": "Tram tracks / tram rails", "context": "Cross at 90 degrees to avoid getting your wheel trapped." }
+      ]
+    },
+    {
+      "id": "legal",
+      "title": "Legal & enforcement",
+      "terms": [
+        { "term": "boete", "pronunciation": "BOO-tuh", "translation": "Fine", "context": "A financial penalty for a traffic violation." },
+        { "term": "bekeuring", "pronunciation": "beh-KUR-ing", "translation": "Ticket / citation", "context": "The physical or digital notice of a fine." },
+        { "term": "politie", "pronunciation": "poh-LEET-see", "translation": "Police", "context": "Dutch police actively enforce cycling laws, especially in city centres." },
+        { "term": "handhaving", "pronunciation": "HAHNT-hah-ving", "translation": "Enforcement", "context": "Traffic enforcement, often done by municipal officers as well as police." },
+        { "term": "verplicht", "pronunciation": "ver-PLIKHT", "translation": "Mandatory / required", "context": "Verplicht fietspad = mandatory cycle path." },
+        { "term": "rijbewijs", "pronunciation": "RY-buh-vys", "translation": "Driving licence", "context": "Not required for regular cycling, but relevant for speed pedelec riders." },
+        { "term": "aansprakelijkheid", "pronunciation": "AHN-sprah-kuh-luk-hyte", "translation": "Liability", "context": "In Dutch law, motorists bear a higher liability burden in collisions with cyclists." }
+      ]
+    },
+    {
+      "id": "weather",
+      "title": "Weather & conditions",
+      "terms": [
+        { "term": "regen", "pronunciation": "RAY-ghen", "translation": "Rain", "context": "Expect rain regularly. Most Dutch cyclists just keep riding." },
+        { "term": "wind", "pronunciation": "vint", "translation": "Wind", "context": "The Netherlands is flat and windy. Headwinds are a daily reality." },
+        { "term": "gladheid", "pronunciation": "GLAT-hyte", "translation": "Slippery conditions", "context": "Warning sign for ice, wet leaves, or other slippery surfaces." },
+        { "term": "ijzel", "pronunciation": "EYE-zel", "translation": "Black ice / freezing rain", "context": "Extremely dangerous for cyclists. Check conditions on cold mornings." },
+        { "term": "tegenwind", "pronunciation": "TAY-ghen-vint", "translation": "Headwind", "context": "You'll become very familiar with this word during your first Dutch winter." }
+      ]
+    }
+  ]
+}

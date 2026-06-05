@@ -1,0 +1,483 @@
+# Guide Page — Spec & Implementation Prompt
+
+## Overview
+
+The Guide section is a free, publicly accessible reference area containing 6 module study guides, a 74-term Dutch cycling glossary, and a combined signs teaching page with visual reference. All content is server-rendered for SEO and lives on dedicated routes that Google can index individually.
+
+The Signs & Signals module guide has been merged into the Signs reference page — the teaching content is interleaved with the visual sign reference so you read the concept and immediately see the signs. This means there are 6 study guides (not 7), and the Signs tab handles all sign-related content in one place.
+
+The UI feels like a single tabbed page with drill-down navigation, but each view is a real Next.js route with its own URL, page title, and meta tags.
+
+---
+
+## Route structure
+
+```
+/guide                         → Landing: module list (Guides tab active)
+/guide/[moduleId]              → Individual module guide (6 pages)
+/guide/glossary                → Full glossary with search + filters
+/guide/signs                   → Signs page: teaching content + visual reference combined
+```
+
+All routes share a common layout with the BikeReady nav bar and the bottom tab bar. The Guide section tabs (Guides / Glossary / Signs) appear at the top of the shared layout and use `next/link` for navigation — not client-side state.
+
+### Full URL list
+
+```
+/guide                         → Guide landing (6 module cards)
+/guide/fundamentals            → Fundamentals guide
+/guide/priority                → Priority Rules guide
+/guide/roadusers               → Road Users guide
+/guide/infrastructure          → Infrastructure guide
+/guide/legal                   → Legal Rules guide
+/guide/vocabulary              → Vocabulary guide
+/guide/glossary                → Glossary
+/guide/signs                   → Signs: teaching + visual reference
+```
+
+9 routes total. No `/guide/signs-signals` — the signs module guide content has been folded into `/guide/signs`.
+
+---
+
+## Metadata — every page gets unique SEO tags
+
+Each route exports a `metadata` object (or `generateMetadata` for dynamic routes). All pages include title, description, and Open Graph tags.
+
+### Static metadata
+
+```ts
+// /guide/page.tsx
+export const metadata = {
+  title: "Dutch Cycling Guide for Expats | BikeReady",
+  description: "Everything you need to know about cycling in the Netherlands. 6 in-depth guides covering priority rules, trams, roundabouts, legal requirements, and Dutch vocabulary, plus a visual signs reference.",
+  openGraph: {
+    title: "Dutch Cycling Guide for Expats",
+    description: "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively — explained for newcomers.",
+    url: "https://bikeready.nl/guide",
+    type: "website",
+  },
+}
+
+// /guide/glossary/page.tsx
+export const metadata = {
+  title: "Dutch Cycling Vocabulary — 74 Terms Translated | BikeReady",
+  description: "Complete Dutch-English glossary for cyclists. Haaientanden, voorrang verlenen, fietsstraat, uitgezonderd — every term you'll see on Dutch roads, with pronunciation and context.",
+  openGraph: {
+    title: "Dutch Cycling Vocabulary — 74 Terms",
+    description: "Every Dutch cycling term translated, with pronunciation guides and real-world context.",
+    url: "https://bikeready.nl/guide/glossary",
+  },
+}
+
+// /guide/signs/page.tsx
+export const metadata = {
+  title: "Dutch Road Signs for Cyclists — Complete Guide & Visual Reference | BikeReady",
+  description: "How to read Dutch road signs. Learn the visual grammar — blue circles are mandatory, red borders are prohibitions, diagonal sashes mean end-of — then browse every sign with descriptions and Dutch names.",
+  openGraph: {
+    title: "Dutch Road Signs for Cyclists — Guide & Reference",
+    description: "The visual grammar of Dutch road signs explained, with every cycling sign illustrated.",
+    url: "https://bikeready.nl/guide/signs",
+  },
+}
+```
+
+### Dynamic metadata for module guides
+
+```ts
+// /guide/[moduleId]/page.tsx
+import guides from '@/data/guides.json'
+
+export async function generateMetadata({ params }: { params: { moduleId: string } }) {
+  const guide = guides.find(g => g.moduleId === params.moduleId)
+  if (!guide) return {}
+
+  return {
+    title: `${guide.title} — Dutch Cycling Guide | BikeReady`,
+    description: guide.subtitle,
+    openGraph: {
+      title: `${guide.title} — Dutch Cycling Guide`,
+      description: guide.subtitle,
+      url: `https://bikeready.nl/guide/${guide.moduleId}`,
+    },
+  }
+}
+
+export async function generateStaticParams() {
+  const guides = (await import('@/data/guides.json')).default
+  return guides.map(g => ({ moduleId: g.moduleId }))
+}
+```
+
+### Individual module metadata values
+
+| Route | Title | Description |
+|---|---|---|
+| /guide/fundamentals | Fundamentals — Dutch Cycling Guide | The essential rules every cyclist needs before their first ride in the Netherlands. |
+| /guide/priority | Priority Rules — Dutch Cycling Guide | Who goes first at Dutch junctions — and why your instinct is probably wrong. Right-before-left, shark teeth, priority roads explained. |
+| /guide/roadusers | Road Users — Dutch Cycling Guide | How to share Dutch roads with trams, pedestrians, trucks, and other cyclists. Tram priority, blind spots, zebra crossings. |
+| /guide/infrastructure | Infrastructure — Dutch Cycling Guide | Roundabouts, mandatory vs optional cycle paths, fietsstraat rules, contraflow lanes, and the knooppunten system. |
+| /guide/legal | Legal Rules — Dutch Cycling Guide | Fines, lighting requirements, alcohol limits, phone rules, and the specific Dutch cycling laws that catch expats by surprise. |
+| /guide/vocabulary | Vocabulary — Dutch Cycling Guide | The Dutch words you'll see on roads, signs, and cycle paths every day. Voorrang, haaientanden, fietsstraat, verboden — all translated with context. |
+
+---
+
+## Data files
+
+Three JSON files, all read server-side at build time:
+
+```
+data/guides.json           → 6 module guides (remove the "signs" entry — that content is now in the signs page)
+data/glossary.json         → 74 terms in 10 categories (already created)
+data/signs-reference.json  → Design system rules + teaching content + sign categories (already created)
+```
+
+**Important:** Remove the `signs` module entry from `guides.json`. The signs teaching content now lives in `signs-reference.json` and is rendered as part of the `/guide/signs` page. The guides.json file should contain only: fundamentals, priority, roadusers, infrastructure, legal, vocabulary.
+
+No custom slugs needed — all 6 remaining modules use their `moduleId` directly as the URL segment.
+
+---
+
+## Shared layout
+
+```
+app/guide/layout.tsx
+```
+
+The shared layout wraps all guide routes. It renders:
+
+1. The BikeReady top nav bar (logo + page context)
+2. The three section tabs: Guides | Glossary | Signs
+3. The bottom tab bar (Practice / Review / Guide / Test)
+
+The section tabs use `next/link` with the `usePathname` hook to determine the active tab:
+
+```tsx
+// app/guide/layout.tsx
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const SECTION_TABS = [
+  { href: '/guide', label: 'Guides', match: (path: string) => path === '/guide' || (path.startsWith('/guide/') && !path.startsWith('/guide/glossary') && !path.startsWith('/guide/signs')) },
+  { href: '/guide/glossary', label: 'Glossary', match: (path: string) => path.startsWith('/guide/glossary') },
+  { href: '/guide/signs', label: 'Signs', match: (path: string) => path.startsWith('/guide/signs') },
+]
+```
+
+**Important:** The section tabs should NOT appear when the user is inside a module detail page (`/guide/[moduleId]`). In that state, show the back button + module name + sticky ToC instead. Detect this by checking if the route matches a known moduleId.
+
+```tsx
+const pathname = usePathname()
+const isModuleDetail = guides.some(g => pathname === `/guide/${g.moduleId}`)
+
+{isModuleDetail ? (
+  // Show: ← back button + module emoji + title + horizontal ToC
+) : (
+  // Show: Guides | Glossary | Signs tabs
+)}
+```
+
+---
+
+## Page components
+
+### /guide/page.tsx — Guide landing (module list)
+
+Server component. Reads `guides.json`. Renders 6 module cards in a vertical list.
+
+Each card is a `Link` to `/guide/[moduleId]`:
+
+```tsx
+<Link href={`/guide/${guide.moduleId}`}>
+  <div className="module-card">
+    <span className="emoji">{guide.emoji}</span>
+    <div>
+      <h3>{guide.title}</h3>
+      <p>{guide.subtitle}</p>
+    </div>
+    <span className="topic-count">{guide.sections.length} topics</span>
+    <span className="chevron">›</span>
+  </div>
+</Link>
+```
+
+No client-side state needed. Pure server render.
+
+### /guide/[moduleId]/page.tsx — Module detail
+
+Server component. Reads the matching guide from `guides.json`. Renders the subtitle, then each section as a heading + paragraphs.
+
+**Sticky horizontal ToC** at the top (inside the layout, see above). Each ToC pill is an anchor link to the section heading:
+
+```tsx
+<a href={`#section-${i}`} className="toc-pill">
+  {section.heading}
+</a>
+```
+
+Each section heading has a matching id:
+
+```tsx
+<h3 id={`section-${i}`}>{section.heading}</h3>
+```
+
+**Previous/Next navigation** at the bottom of each guide:
+
+```tsx
+const idx = guides.findIndex(g => g.moduleId === moduleId)
+const prev = idx > 0 ? guides[idx - 1] : null
+const next = idx < guides.length - 1 ? guides[idx + 1] : null
+```
+
+Renders two Link cards: "← Previous: Fundamentals" and "Next: Road Users →".
+
+### /guide/glossary/page.tsx — Glossary
+
+This is a **client component** (`'use client'`) because it needs search and filter interactivity.
+
+Reads `glossary.json`. Renders:
+1. Header (eyebrow, heading, subtitle, term count)
+2. Search input — filters by Dutch term or English translation
+3. Category chips — horizontally scrollable, filters by category
+4. Results count — dynamic: "12 terms in Prohibitions matching 'ver'"
+5. Term cards — each with an `id` attribute for anchor linking
+
+```tsx
+<div id={term.term.replace(/\s+/g, '-').toLowerCase()}>
+  {/* term card content */}
+</div>
+```
+
+This means `/guide/glossary#haaientanden` scrolls directly to that term. Useful for sharing specific terms and for Google's passage indexing.
+
+**Empty state** when no terms match the search/filter combination.
+
+### /guide/signs/page.tsx — Signs: teaching + visual reference (merged)
+
+This page combines the signs teaching content (formerly a separate module guide) with the visual sign reference. The teaching flows into the reference — you read the concept and immediately see the relevant signs.
+
+It is a **client component** (`'use client'`) for the expandable sections and smooth scroll ToC.
+
+Reads `signs-reference.json`. The page renders in this order:
+
+1. **Header** — "Dutch cycling signs" title, subtitle explaining the visual grammar concept
+2. **Sticky horizontal ToC** — scrollable pills for each section (How to read any sign, Blue circles, The end-of pattern, Red borders, Sub-signs, Priority signs, Your traffic light, Information signs)
+3. **Design system overview** — 2×2 grid of rule cards explaining shape/colour grammar (circles = commands, triangles = warnings, rectangles = info, diamond = priority). Each card has a coloured left border matching its category. Below the grid: an orange callout with the quick rule summary.
+4. **Blue circles — mandatory** — prose paragraph explaining the concept, immediately followed by sign cards showing the actual SVGs (mandatory cycle path G11, footpath G7, cyclists & mopeds route G12a). Each sign card shows the SVG, name, Dutch name, RVV code, and description.
+5. **The end-of pattern** — prose explanation of the red sash and grey lines convention. Rendered as side-by-side comparison cards: active sign → arrow → end-of variant. Shows mandatory cycle path active vs end-of, and priority road active vs end-of. The visual comparison is the key — this concept is hard to explain in words but immediately clear when shown.
+6. **Red borders — prohibition** — prose paragraph, then sign cards for no cycling (C14), no entry (C2), road closed (C1), no pedestrians (C16).
+7. **Sub-signs** — prose explaining the modifier concept. Rendered as a combined visual: the no-entry sign stacked above the uitgezonderd sub-sign, exactly as they appear on a real post. Explanation text beside it.
+8. **Priority signs & markings** — prose about priority road diamond and shark teeth. Sign cards for both.
+9. **Your traffic light** — prose about the cyclist traffic light. Sign card showing the cyclist light SVG.
+10. **Information signs** — prose about rectangular information signs. Cards for optional cycle path (fietspad) and fietsstraat. Ends with a highlighted comparison callout: mandatory (round blue, "Must use") vs optional (white rectangle, "Your choice") shown side by side.
+
+Each sign renders its SVG using the `component` key from the JSON:
+
+```tsx
+import { SIGN_COMPONENTS } from '@/components/signs/SignRegistry'
+
+const SignComponent = SIGN_COMPONENTS[sign.component]
+if (SignComponent) return <SignComponent />
+```
+
+This reuses the exact same SVG components already built for the question cards.
+
+---
+
+## Structured data for SEO
+
+Add JSON-LD structured data to the guide landing page, the glossary, each module guide, and the signs page:
+
+### Guide landing — Course schema
+
+```tsx
+<script type="application/ld+json">
+{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Dutch Cycling Guide for Expats",
+  "description": "Everything you need to know about cycling in the Netherlands.",
+  "provider": {
+    "@type": "Organization",
+    "name": "BikeReady"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online"
+  }
+})}
+</script>
+```
+
+### Glossary — DefinedTermSet schema
+
+```tsx
+<script type="application/ld+json">
+{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "name": "Dutch Cycling Vocabulary",
+  "description": "74 Dutch cycling terms translated to English with pronunciation guides.",
+  "hasDefinedTerm": terms.slice(0, 20).map(t => ({
+    "@type": "DefinedTerm",
+    "name": t.term,
+    "description": `${t.translation} — ${t.context}`
+  }))
+})}
+</script>
+```
+
+### Module guides — Article schema
+
+```tsx
+<script type="application/ld+json">
+{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": `${guide.title} — Dutch Cycling Guide`,
+  "description": guide.subtitle,
+  "author": { "@type": "Organization", "name": "BikeReady" },
+  "publisher": { "@type": "Organization", "name": "BikeReady" }
+})}
+</script>
+```
+
+### Signs page — Article schema
+
+```tsx
+<script type="application/ld+json">
+{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Dutch Road Signs for Cyclists — Complete Guide",
+  "description": "How to read Dutch road signs. The visual grammar explained with every cycling sign illustrated.",
+  "author": { "@type": "Organization", "name": "BikeReady" },
+  "publisher": { "@type": "Organization", "name": "BikeReady" }
+})}
+</script>
+```
+
+---
+
+## File structure
+
+```
+app/
+  guide/
+    layout.tsx              → Shared layout: nav, section tabs or module header, bottom bar
+    page.tsx                → Module list (Guides tab landing)
+    glossary/
+      page.tsx              → Glossary page
+    signs/
+      page.tsx              → Signs: teaching + visual reference (merged)
+    [moduleId]/
+      page.tsx              → Individual module guide (dynamic, 6 modules)
+
+data/
+  guides.json               → 6 module guides (signs entry removed)
+  glossary.json             → 74 terms (exists)
+  signs-reference.json      → Design system rules + teaching content + sign categories (exists)
+```
+
+---
+
+## Bottom tab bar — update across the whole app
+
+The bottom tab bar currently has Learn / Review / Test. Update to Practice / Review / Guide / Test across all pages.
+
+```tsx
+const TABS = [
+  { id: 'practice', label: 'Practice', icon: '⚡', href: '/learn' },
+  { id: 'review',   label: 'Review',   icon: '🔄', href: '/review' },
+  { id: 'guide',    label: 'Guide',    icon: '📖', href: '/guide' },
+  { id: 'test',     label: 'Test',     icon: '🎯', href: '/test' },
+]
+```
+
+The active tab is determined by `usePathname()`:
+- `/learn` and `/learn/*` → Practice active
+- `/review` → Review active
+- `/guide` and `/guide/*` → Guide active
+- `/test` → Test active
+
+Move the tab bar into a shared root layout component (`app/layout.tsx` or a `BottomTabBar` component) so it appears on every page.
+
+---
+
+## Navigation behaviour
+
+| Action | What happens |
+|---|---|
+| Tap Guides tab | Navigate to `/guide` — module list (6 modules) |
+| Tap a module card | Navigate to `/guide/[moduleId]` — section tabs hidden, back button + ToC shown |
+| Tap ← back in module detail | Navigate to `/guide` |
+| Tap Previous/Next at bottom of guide | Navigate to `/guide/[otherModuleId]` — scroll resets to top |
+| Tap Glossary tab | Navigate to `/guide/glossary` |
+| Tap Signs tab | Navigate to `/guide/signs` — full signs page with teaching + reference |
+| Tap a ToC pill in module detail | Smooth scroll to that section's anchor on the same page |
+| Tap a ToC pill on signs page | Smooth scroll to that section's anchor on the same page |
+| Search in glossary | Client-side filter — no route change |
+| Tap category chip in glossary | Client-side filter — no route change |
+
+---
+
+## Accessibility
+
+- All section headings use semantic `<h2>` and `<h3>` tags — not styled divs
+- The search input has a `<label>` (can be visually hidden) and `aria-label="Search Dutch or English terms"`
+- Sign SVGs have `role="img"` and `aria-label` with the sign name
+- The ToC pills use `<a href="#section-N">` for native anchor behaviour (or buttons with scrollIntoView)
+- Category filter chips use `aria-pressed` to indicate the active filter
+- Module cards in the list are `<a>` tags (via `Link`), not buttons — they navigate
+
+---
+
+## What does NOT change
+
+- The Practice (formerly Learn) page — no changes
+- The Review page — no changes
+- The Test page — no changes
+- The question experience — no changes
+- The gate/premium logic — the guide is entirely free, no gate checks needed
+- The Zustand stores — no new state needed (glossary search and category filter are local useState)
+- The Signs & Signals questions module — the questions module still exists in the Practice tab with its questions. Only the study guide content has been merged into the signs reference page.
+
+---
+
+## Data changes required
+
+**guides.json** — remove the entry with `moduleId: "signs"`. The file should contain exactly 6 entries: fundamentals, priority, roadusers, infrastructure, legal, vocabulary.
+
+**signs-reference.json** — ensure it contains the teaching prose content from the former signs module guide, integrated into the design_system and sign_categories sections. The existing file already has most of this content in the design system rules. Verify that these specific teaching topics are covered somewhere in the file:
+- Shape tells you the category (circles, triangles, rectangles)
+- Blue circles = mandatory, with end-of-variant explanation
+- Red borders = prohibition, with the red sash meaning
+- Sub-signs modify the main sign (uitgezonderd, bestemmingsverkeer)
+- Your traffic light is the small one at handlebar height
+- Shark teeth as a sign/marking
+
+If any of these topics are missing from signs-reference.json, add them as prose fields on the relevant design_system rules or sign_categories.
+
+---
+
+## Verify
+
+After implementing, confirm:
+
+1. Every guide route (`/guide`, `/guide/fundamentals`, `/guide/priority`, etc.) renders server-side — view page source shows the actual content in the HTML
+2. The `<title>` tag is unique and correct on every guide page
+3. Open Graph meta tags are present on every page — test with https://developers.facebook.com/tools/debug/
+4. `/guide/glossary#haaientanden` scrolls directly to the haaientanden term card
+5. The section tabs (Guides / Glossary / Signs) correctly highlight the active section based on the current URL
+6. The section tabs are hidden and replaced by the back button + ToC when inside a module detail
+7. The ToC pills scroll to the correct section heading when tapped — both in module detail and on the signs page
+8. Previous/Next navigation at the bottom of guides links to the correct adjacent module (6 modules, no signs module)
+9. The bottom tab bar shows "Guide" as active on all `/guide/*` routes
+10. The glossary search filters in real time without a route change
+11. Sign SVGs render correctly using the existing SIGN_COMPONENTS registry
+12. The signs page shows teaching content interleaved with sign visuals — not separated into two blocks
+13. The end-of pattern section shows side-by-side active → end-of comparisons visually
+14. The mandatory vs optional comparison callout appears at the bottom of the signs page
+15. Google can crawl all 9 guide pages — run `next build` and check the output for static/SSG pages
+16. JSON-LD structured data is present on the guide landing, glossary, each module guide, and the signs page
+17. There is no `/guide/signs-signals` route — it should 404
+18. The guide landing shows exactly 6 module cards — no signs module card
