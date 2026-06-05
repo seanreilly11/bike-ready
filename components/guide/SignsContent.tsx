@@ -53,7 +53,7 @@ export default function SignsContent({
     <div className="min-h-dvh bg-stone-50">
       {/* Sticky ToC */}
       <div className="sticky top-[104px] z-20 bg-stone-50 border-b border-stone-200 px-5 py-2">
-        <div className="max-w-3xl mx-auto flex gap-2 overflow-x-auto scrollbar-none">
+        <div className="max-w-5xl mx-auto flex gap-2 overflow-x-auto scrollbar-none">
           {TOC_SECTIONS.map((s) => (
             <a
               key={s.id}
@@ -66,7 +66,7 @@ export default function SignsContent({
         </div>
       </div>
 
-      <main className="px-5 py-6 lg:py-10 max-w-3xl mx-auto">
+      <main className="px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
           Dutch road signs
         </h1>

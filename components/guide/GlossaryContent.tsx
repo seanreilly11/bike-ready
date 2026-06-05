@@ -38,7 +38,7 @@ export default function GlossaryContent() {
   })();
 
   return (
-    <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-3xl mx-auto">
+    <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
       {/* Header */}
       <div className="mb-6">
         <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-1">
@@ -75,7 +75,7 @@ export default function GlossaryContent() {
           onClick={() => setActiveCategory(null)}
           aria-pressed={activeCategory === null}
           className={[
-            "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
+            "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
             activeCategory === null
               ? "bg-stone-900 text-white"
               : "bg-stone-100 text-stone-600 hover:bg-stone-200",
@@ -91,7 +91,7 @@ export default function GlossaryContent() {
             }
             aria-pressed={activeCategory === cat.id}
             className={[
-              "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
+              "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
               activeCategory === cat.id
                 ? "bg-stone-900 text-white"
                 : "bg-stone-100 text-stone-600 hover:bg-stone-200",

@@ -45,7 +45,7 @@ export default function GuideLandingPage() {
           the Netherlands.
         </p>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {guides.map((guide) => (
             <Link
               key={guide.moduleId}
@@ -58,7 +58,7 @@ export default function GuideLandingPage() {
                     <h2 className="font-display font-bold text-stone-900 text-sm group-hover:text-orange transition-colors duration-150">
                       {guide.title}
                     </h2>
-                    <p className="text-stone-500 text-xs mt-0.5 line-clamp-1">
+                    <p className="text-stone-500 text-xs mt-0.5 line-clamp-1" title={guide.subtitle}>
                       {guide.subtitle}
                     </p>
                   </div>

@@ -58,7 +58,7 @@ export default function GuideShell({
               >
                 ← Guides
               </Link>
-              <span className="text-stone-300">/</span>
+              <span className="text-stone-400">/</span>
               <span className="text-sm font-display font-semibold text-stone-900 truncate">
                 {currentGuide.title}
               </span>
