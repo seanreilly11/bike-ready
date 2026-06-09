@@ -116,6 +116,7 @@ export default function GlossaryContent() {
             <Card
               key={term.term}
               id={term.term.replace(/\s+/g, "-").toLowerCase()}
+              className="animate-fade-up"
             >
               <div className="flex items-start justify-between gap-4 mb-1">
                 <h2 className="font-display font-bold text-stone-900 text-sm">

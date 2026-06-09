@@ -46,11 +46,12 @@ export default function GuideLandingPage() {
         </p>
 
         <div className="flex flex-col gap-3">
-          {guides.map((guide) => (
+          {guides.map((guide, i) => (
             <Link
               key={guide.moduleId}
               href={`/guide/${guide.moduleId}`}
-              className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-xl"
+              className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-xl animate-fade-up"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
               <Card hover>
                 <div className="flex items-center justify-between gap-4">

@@ -64,7 +64,7 @@ export default async function ModuleGuidePage({
 
         <div className="flex flex-col gap-10">
           {guide.sections.map((section, i) => (
-            <article key={i}>
+            <article key={i} className="animate-fade-up" style={{ animationDelay: `${i * 80}ms` }}>
               <h2
                 id={`section-${i}`}
                 className="font-display font-bold text-stone-900 text-base mb-3 scroll-mt-40"
@@ -82,7 +82,8 @@ export default async function ModuleGuidePage({
 
         {/* Previous / Next navigation */}
         <nav
-          className="mt-12 pt-8 border-t border-stone-200 flex gap-3"
+          className="mt-12 pt-8 border-t border-stone-200 flex gap-3 animate-fade-up"
+          style={{ animationDelay: `${guide.sections.length * 80}ms` }}
           aria-label="Guide navigation"
         >
           {prev ? (
