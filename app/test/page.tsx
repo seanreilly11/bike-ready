@@ -185,10 +185,11 @@ export default function TestPage() {
                   label: "Badge",
                   value: "BikeReady 🏆 on pass",
                 },
-              ].map((row) => (
+              ].map((row, i) => (
                 <div
                   key={row.label}
-                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-4 py-3"
+                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-4 py-3 animate-fade-up"
+                  style={{ animationDelay: `${i * 60}ms` }}
                 >
                   <span className="font-mono text-xs uppercase tracking-wide text-stone-400">
                     {row.label}
@@ -346,7 +347,7 @@ export default function TestPage() {
           {/* Score hero */}
           <div
             className={[
-              "rounded-2xl p-6 text-center mb-6",
+              "rounded-2xl p-6 text-center mb-6 animate-fade-up",
               passed
                 ? "bg-green-light border border-green-mid"
                 : "bg-red-light border border-red-mid",
@@ -385,10 +386,11 @@ export default function TestPage() {
               By module
             </h2>
             <div className="space-y-3">
-              {moduleBreakdown.map(({ mod, correct, total, pct: modPct }) => (
+              {moduleBreakdown.map(({ mod, correct, total, pct: modPct }, i) => (
                 <div
                   key={mod.id}
-                  className="bg-white border border-stone-200 rounded-xl px-4 py-3"
+                  className="bg-white border border-stone-200 rounded-xl px-4 py-3 animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-display font-medium text-stone-900 flex items-center gap-1.5">
@@ -415,10 +417,11 @@ export default function TestPage() {
                 Review — {wrongAnswers.length} wrong
               </h2>
               <div className="space-y-4">
-                {wrongAnswers.map(({ question, selectedId: sid }) => (
+                {wrongAnswers.map(({ question, selectedId: sid }, i) => (
                   <div
                     key={question.id}
-                    className="bg-white border border-stone-200 rounded-xl p-4"
+                    className="bg-white border border-stone-200 rounded-xl p-4 animate-fade-up"
+                    style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <p className="text-sm text-stone-900 leading-relaxed mb-3">
                       {question.prompt}

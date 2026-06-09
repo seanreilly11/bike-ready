@@ -16,8 +16,8 @@ export default function BadgeGrid({
     <div>
       <h2 className="font-display font-bold text-lg text-stone-900 mb-3">Badges</h2>
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
-        {badges.map((badge) => (
-          <div key={badge.id} className="flex flex-col items-center gap-1.5">
+        {badges.map((badge, i) => (
+          <div key={badge.id} className="flex flex-col items-center gap-1.5 animate-fade-up" style={{ animationDelay: `${i * 40}ms` }}>
             <BadgeItem
               badge={badge}
               earned={earnedIds.has(badge.id)}

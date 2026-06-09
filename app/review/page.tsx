@@ -299,7 +299,7 @@ export default function ReviewPage() {
     return (
       <AppShell wrongCount={0}>
         <main className="min-h-dvh bg-stone-50">
-          <div className="max-w-2xl mx-auto px-5 py-16 text-center">
+          <div className="max-w-2xl mx-auto px-5 py-16 text-center animate-fade-up">
             <div className="text-4xl mb-3">✅</div>
             <h1 className="font-display font-bold text-xl text-stone-900 mb-2">
               All cleared
@@ -408,7 +408,7 @@ export default function ReviewPage() {
                   {mod.title}
                 </h2>
                 <div className="flex flex-col gap-2">
-                  {questions.map((q) => (
+                  {questions.map((q, qi) => (
                     <button
                       key={q.id}
                       onClick={() => openQuestion(q.id, queue.indexOf(q))}
@@ -416,7 +416,9 @@ export default function ReviewPage() {
                         "w-full text-left bg-white border-l-[3px] border-l-red border border-stone-200 rounded-xl px-4 py-3 cursor-pointer",
                         "hover:border-l-red hover:shadow-sm transition-all duration-150",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
+                        "animate-fade-up",
                       ].join(" ")}
+                      style={{ animationDelay: `${qi * 40}ms` }}
                     >
                       <p className="text-sm text-stone-900 leading-relaxed line-clamp-2">
                         {q.prompt}

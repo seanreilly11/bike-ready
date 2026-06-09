@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 interface ProgressBarProps {
   value: number; // 0-100
   color?: "orange" | "green";
@@ -15,6 +19,12 @@ export default function ProgressBar({
   height = 4,
 }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, value));
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setDisplayValue(clamped));
+    return () => cancelAnimationFrame(raf);
+  }, [clamped]);
 
   return (
     <div
@@ -28,10 +38,10 @@ export default function ProgressBar({
       <div
         className={[
           "h-full rounded-full",
-          "transition-[width] duration-500 ease-out",
+          "transition-[width] duration-700 ease-out",
           colorClasses[color],
         ].join(" ")}
-        style={{ width: `${clamped}%` }}
+        style={{ width: `${displayValue}%` }}
       />
     </div>
   );

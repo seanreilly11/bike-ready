@@ -33,13 +33,13 @@ export default function SignsContent({
   signCategories,
 }: SignsContentProps) {
   const shapeRules = designSystem.rules.filter((r) =>
-    SHAPE_RULE_IDS.includes(r.id)
+    SHAPE_RULE_IDS.includes(r.id),
   );
   const colourRules = designSystem.rules.filter((r) =>
-    ["colour_blue", "colour_red_border", "colour_red_bar"].includes(r.id)
+    ["colour_blue", "colour_red_border", "colour_red_bar"].includes(r.id),
   );
   const sashRules = designSystem.rules.filter((r) =>
-    ["sash_red", "sash_grey"].includes(r.id)
+    ["sash_red", "sash_grey"].includes(r.id),
   );
   const subSignRule = designSystem.rules.find((r) => r.id === "sub_signs");
 
@@ -78,21 +78,33 @@ export default function SignsContent({
             How to read any sign
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            {shapeRules.map((rule) => (
-              <RuleCard key={rule.id} rule={rule} />
+            {shapeRules.map((rule, i) => (
+              <div
+                key={rule.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${i * 50}ms` }}
+              >
+                <RuleCard rule={rule} />
+              </div>
             ))}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            {colourRules.map((rule) => (
-              <RuleCard key={rule.id} rule={rule} />
+            {colourRules.map((rule, i) => (
+              <div
+                key={rule.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${i * 50}ms` }}
+              >
+                <RuleCard rule={rule} />
+              </div>
             ))}
           </div>
           <Card accent="orange">
             <p className="text-sm text-stone-900 font-medium leading-relaxed">
               Quick rule: shape tells you the category, colour tells you the
-              type. A blue circle with a white bike = you{" "}
-              <em>must</em> use that path. A white circle with a red border and
-              a bike = you <em>cannot</em> cycle there.
+              type. A blue circle with a white bike = you <em>must</em> use that
+              path. A white circle with a red border and a bike = you{" "}
+              <em>cannot</em> cycle there.
             </p>
           </Card>
         </section>
@@ -111,8 +123,14 @@ export default function SignsContent({
               path. Riding on the adjacent road is a violation.
             </p>
             <div className="flex flex-col gap-3">
-              {mandatory.signs.map((sign) => (
-                <SignCard key={sign.id} sign={sign} />
+              {mandatory.signs.map((sign, i) => (
+                <div
+                  key={sign.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  <SignCard sign={sign} />
+                </div>
               ))}
             </div>
           </section>
@@ -124,8 +142,14 @@ export default function SignsContent({
             The end-of pattern
           </h2>
           <div className="flex flex-col gap-3">
-            {sashRules.map((rule) => (
-              <RuleCard key={rule.id} rule={rule} />
+            {sashRules.map((rule, i) => (
+              <div
+                key={rule.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${i * 50}ms` }}
+              >
+                <RuleCard rule={rule} />
+              </div>
             ))}
           </div>
         </section>
@@ -143,8 +167,14 @@ export default function SignsContent({
               below.
             </p>
             <div className="flex flex-col gap-3">
-              {prohibition.signs.map((sign) => (
-                <SignCard key={sign.id} sign={sign} />
+              {prohibition.signs.map((sign, i) => (
+                <div
+                  key={sign.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  <SignCard sign={sign} />
+                </div>
               ))}
             </div>
           </section>
@@ -176,8 +206,14 @@ export default function SignsContent({
               junction where they appear.
             </p>
             <div className="flex flex-col gap-3">
-              {prioritySigns.signs.map((sign) => (
-                <SignCard key={sign.id} sign={sign} />
+              {prioritySigns.signs.map((sign, i) => (
+                <div
+                  key={sign.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  <SignCard sign={sign} />
+                </div>
               ))}
             </div>
           </section>
@@ -196,8 +232,14 @@ export default function SignsContent({
               large light shows.
             </p>
             <div className="flex flex-col gap-3">
-              {signals.signs.map((sign) => (
-                <SignCard key={sign.id} sign={sign} />
+              {signals.signs.map((sign, i) => (
+                <div
+                  key={sign.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  <SignCard sign={sign} />
+                </div>
               ))}
             </div>
           </section>
@@ -214,8 +256,14 @@ export default function SignsContent({
               about the road — they carry no command.
             </p>
             <div className="flex flex-col gap-3 mb-6">
-              {information.signs.map((sign) => (
-                <SignCard key={sign.id} sign={sign} />
+              {information.signs.map((sign, i) => (
+                <div
+                  key={sign.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  <SignCard sign={sign} />
+                </div>
               ))}
             </div>
             {/* Mandatory vs optional callout */}
