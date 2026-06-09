@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
 
@@ -67,9 +68,7 @@ export default function GuideLandingPage() {
                     <span className="text-xs text-stone-400">
                       {guide.sections.length} topics
                     </span>
-                    <span className="text-stone-400 group-hover:text-orange transition-colors duration-150">
-                      ›
-                    </span>
+                    <ChevronRight size={16} className="text-stone-400 group-hover:text-orange transition-colors duration-150" aria-hidden="true" />
                   </div>
                 </div>
               </Card>

@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { Compass } from "lucide-react";
 
 export default function NotFound() {
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center bg-stone-50 px-6 text-center">
-      <p className="text-4xl mb-4">🗺️</p>
+      <Compass size={48} className="text-stone-400 mb-4" aria-hidden="true" />
       <h1 className="font-display text-2xl font-bold text-stone-900 mb-2">
         Page not found
       </h1>

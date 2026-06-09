@@ -1,5 +1,6 @@
 'use client'
 
+import { X } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useAnalytics } from '@/hooks/useAnalytics'
 
@@ -28,7 +29,7 @@ export default function ReturnBanner({ onDismiss }: ReturnBannerProps) {
         className="shrink-0 text-stone-400 hover:text-stone-900 transition-colors p-2.5 -m-2.5 focus-visible:outline-none cursor-pointer"
         aria-label="Dismiss banner"
       >
-        ✕
+        <X size={16} aria-hidden="true" />
       </button>
     </div>
   )

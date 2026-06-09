@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import { APP_PRICE } from "@/data/constants";
@@ -63,7 +64,7 @@ export default function GateModal({
               key={f}
               className="flex items-center gap-2 text-sm text-stone-700"
             >
-              <span className="text-green font-bold">✓</span>
+              <Check size={16} className="text-green shrink-0" aria-hidden="true" />
               {f}
             </li>
           ))}
@@ -84,7 +85,7 @@ export default function GateModal({
               onClick={() => { track('gate_next_module_clicked', { from_module: moduleId, to_module: nextModule.id as ModuleId }); onNextModule(nextModule.id); }}
               className="text-sm font-display font-bold text-orange hover:underline whitespace-nowrap focus-visible:outline-none"
             >
-              Try it →
+              Try it <ArrowRight size={14} aria-hidden="true" className="inline" />
             </button>
           </div>
         )}

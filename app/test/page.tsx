@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { Trophy, RotateCcw, ArrowRight, Check, X, LockOpen } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
@@ -34,7 +35,7 @@ function FreeTestScreen() {
         >
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
-              <div className="text-5xl mb-4">🏆</div>
+              <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
                 BikeReady Test
               </h1>
@@ -52,7 +53,7 @@ function FreeTestScreen() {
                 },
                 { label: "Feedback", value: "Shown after all questions" },
                 { label: "Pass mark", value: `${TEST_PASS_PCT}% or above` },
-                { label: "Badge", value: "BikeReady 🏆 on pass" },
+                { label: "Badge", value: "BikeReady on pass" },
               ].map((row) => (
                 <div
                   key={row.label}
@@ -68,7 +69,7 @@ function FreeTestScreen() {
               ))}
             </div>
             <Button full size="lg" onClick={() => {}}>
-              Start Test →
+              Start Test <ArrowRight size={16} aria-hidden="true" />
             </Button>
           </div>
         </div>
@@ -76,7 +77,7 @@ function FreeTestScreen() {
         {/* Sticky bottom CTA */}
         <div className="sticky bottom-0 text-center bg-gradient-to-b from-transparent to-[rgba(250,250,248,0.95)] pt-10 -mt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
-            <span className="text-2xl">🔓</span>
+            <LockOpen size={24} className="text-stone-500" aria-hidden="true" />
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
               Unlock to take the BikeReady Test
             </p>
@@ -156,7 +157,7 @@ export default function TestPage() {
         <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
-              <div className="text-5xl mb-4">🏆</div>
+              <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
                 BikeReady Test
               </h1>
@@ -183,7 +184,7 @@ export default function TestPage() {
                 },
                 {
                   label: "Badge",
-                  value: "BikeReady 🏆 on pass",
+                  value: "BikeReady on pass",
                 },
               ].map((row, i) => (
                 <div
@@ -202,7 +203,7 @@ export default function TestPage() {
             </div>
 
             <Button full size="lg" onClick={() => { track("test_started", {}); setPhase("questions"); }}>
-              Start Test →
+              Start Test <ArrowRight size={16} aria-hidden="true" />
             </Button>
           </div>
         </main>
@@ -294,7 +295,7 @@ export default function TestPage() {
             {submitted && index + 1 < testSet.length && (
               <div className="mt-4 animate-fade-up">
                 <Button full size="lg" onClick={handleNext}>
-                  Next question →
+                  Next question <ArrowRight size={16} aria-hidden="true" />
                 </Button>
               </div>
             )}
@@ -353,7 +354,9 @@ export default function TestPage() {
                 : "bg-red-light border border-red-mid",
             ].join(" ")}
           >
-            <div className="text-5xl mb-3">{passed ? "🏆" : "🔁"}</div>
+            <div className="flex justify-center mb-3">
+              {passed ? <Trophy size={48} className="text-yellow-500" aria-hidden="true" /> : <RotateCcw size={48} className="text-stone-500" aria-hidden="true" />}
+            </div>
             <p className="font-display font-extrabold text-4xl sm:text-5xl text-stone-900 mb-1">
               {scorePct}%
             </p>
@@ -375,7 +378,7 @@ export default function TestPage() {
                 onClick={handleShare}
                 className="mt-4 inline-flex items-center gap-2 bg-white border border-green-mid text-green-dark rounded-xl px-4 py-2 text-sm font-display font-bold hover:bg-green-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green"
               >
-                Share result →
+                Share result <ArrowRight size={14} aria-hidden="true" />
               </button>
             )}
           </div>
@@ -442,10 +445,10 @@ export default function TestPage() {
                           <span className="font-mono text-xs">{opt.id}</span>
                           <span className="flex-1">{opt.label}</span>
                           {opt.id === question.correct && (
-                            <span className="font-bold">✓</span>
+                            <Check size={15} aria-hidden="true" />
                           )}
                           {opt.id === sid && opt.id !== question.correct && (
-                            <span className="font-bold">✗</span>
+                            <X size={15} aria-hidden="true" />
                           )}
                         </div>
                       ))}
@@ -474,7 +477,7 @@ export default function TestPage() {
                   setIndex(0);
                 }}
               >
-                Try again →
+                Try again <ArrowRight size={16} aria-hidden="true" />
               </Button>
             )}
             <Button

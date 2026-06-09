@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Lightbulb, ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useAnalytics } from '@/hooks/useAnalytics'
 
@@ -10,17 +11,17 @@ interface OnboardingOverlayProps {
 
 const screens = [
   {
-    emoji: '🚲',
+    emoji: '🚲' as const,
     title: 'Welcome to BikeReady',
     body: 'A short preparation course for expats cycling in Dutch cities. Not a habit app — a one-time reset of your cycling instincts for the Netherlands.',
   },
   {
-    emoji: '💡',
+    emoji: 'lightbulb' as const,
     title: 'How it works',
     body: 'You\'re dropped into a real cycling moment. Make a call based on instinct. The feedback confirms or corrects your mental model. The question is the lesson.',
   },
   {
-    emoji: '🚲',
+    emoji: '🚲' as const,
     title: 'Start here first',
     body: 'Begin with Fundamentals — it\'s free and covers the essential rules every cyclist needs before anything else. Then work through the other modules at your own pace.',
   },
@@ -54,7 +55,9 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
         </div>
 
         <div key={step} className="text-center mb-6 animate-fade-up">
-          <div className="text-5xl mb-3">{screen.emoji}</div>
+          <div className="text-5xl mb-3 flex justify-center">
+            {screen.emoji === 'lightbulb' ? <Lightbulb size={48} className="text-orange" aria-hidden="true" /> : <span>{screen.emoji}</span>}
+          </div>
           <h2 className="font-display font-extrabold text-xl text-stone-900 mb-2">
             {screen.title}
           </h2>
@@ -67,7 +70,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
           full
           onClick={() => isLast ? onDone() : setStep(s => s + 1)}
         >
-          {isLast ? 'Start learning →' : 'Next'}
+          {isLast ? <><span>Start learning</span><ArrowRight size={16} aria-hidden="true" /></> : 'Next'}
         </Button>
 
         {step === 0 && (

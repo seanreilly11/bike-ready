@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import { useProgress } from "@/hooks/useProgress";
 import guidesData from "@/data/guides.json";
@@ -56,7 +57,8 @@ export default function GuideShell({
                 href="/guide"
                 className="text-sm text-stone-500 hover:text-stone-900 transition-colors duration-150 flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
               >
-                ← Guides
+                <ArrowLeft size={14} aria-hidden="true" />
+                Guides
               </Link>
               <span className="text-stone-400">/</span>
               <span className="text-sm font-display font-semibold text-stone-900 truncate">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { Check, X } from 'lucide-react'
 import type { Option } from '@/types'
 
 type OptionState = 'idle' | 'selected' | 'correct' | 'incorrect' | 'unselected-after-answer'
@@ -20,10 +21,7 @@ const stateClasses: Record<OptionState, string> = {
   'unselected-after-answer': 'bg-white border-stone-200 text-stone-400',
 }
 
-const stateIndicator: Partial<Record<OptionState, string>> = {
-  correct:   '✓',
-  incorrect: '✗',
-}
+const stateHasIndicator = new Set<OptionState>(['correct', 'incorrect'])
 
 export default function OptionButton({ option, state, onClick, disabled }: OptionButtonProps) {
   const prevState = useRef<OptionState>(state)
@@ -58,13 +56,13 @@ export default function OptionButton({ option, state, onClick, disabled }: Optio
         {option.id}
       </span>
       <span className="flex-1">{option.label}</span>
-      {stateIndicator[state] && (
+      {stateHasIndicator.has(state) && (
         <span className={[
-          'shrink-0 font-bold',
+          'shrink-0',
           state === 'correct'   ? 'text-green-dark' : '',
           state === 'incorrect' ? 'text-red-dark'   : '',
         ].join(' ')}>
-          {stateIndicator[state]}
+          {state === 'correct' ? <Check size={16} aria-hidden="true" /> : <X size={16} aria-hidden="true" />}
         </span>
       )}
     </button>

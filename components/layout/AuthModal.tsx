@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { X, MailCheck } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -70,12 +71,12 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
           className="absolute top-3 right-3 text-stone-400 hover:text-stone-900 transition-colors p-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded-lg"
           aria-label="Close"
         >
-          ✕
+          <X size={16} aria-hidden="true" />
         </button>
 
         {sent ? (
           <div className="text-center py-4">
-            <div className="text-4xl mb-3">📬</div>
+            <div className="mb-3 flex justify-center"><MailCheck size={40} className="text-orange" aria-hidden="true" /></div>
             <h2 className="font-display font-bold text-xl text-stone-900 mb-2">
               Check your email
             </h2>

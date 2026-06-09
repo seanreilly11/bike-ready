@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
 
@@ -92,7 +93,7 @@ export default async function ModuleGuidePage({
               className="flex-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-xl"
             >
               <Card hover>
-                <span className="text-xs text-stone-400">← Previous</span>
+                <span className="text-xs text-stone-400 flex items-center gap-1"><ArrowLeft size={12} aria-hidden="true" />Previous</span>
                 <p className="text-sm font-display font-semibold text-stone-900 group-hover:text-orange transition-colors duration-150 mt-0.5">
                   {prev.title}
                 </p>
@@ -107,7 +108,7 @@ export default async function ModuleGuidePage({
               className="flex-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-xl"
             >
               <Card hover className="text-right">
-                <span className="text-xs text-stone-400">Next →</span>
+                <span className="text-xs text-stone-400 flex items-center gap-1 justify-end">Next<ArrowRight size={12} aria-hidden="true" /></span>
                 <p className="text-sm font-display font-semibold text-stone-900 group-hover:text-orange transition-colors duration-150 mt-0.5">
                   {next.title}
                 </p>

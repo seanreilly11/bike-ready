@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
 import { useAnalytics } from '@/hooks/useAnalytics'
@@ -16,7 +17,7 @@ interface LandingButtonProps {
 
 export default function LandingButton({
   variant = 'hero',
-  label = 'Start learning →',
+  label = 'Start learning',
   className,
 }: LandingButtonProps) {
   const router = useRouter()
@@ -47,7 +48,7 @@ export default function LandingButton({
         onClick={handleStart}
         className={className}
       >
-        {label}
+        {label} <ArrowRight size={16} aria-hidden="true" />
       </Button>
       {showOnboarding && <OnboardingOverlay onDone={handleOnboardingDone} />}
     </>

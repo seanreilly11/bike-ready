@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useUIStore } from "@/stores/uiStore";
+import { X, ChevronRight, ArrowLeft, ArrowRight, Lock, LockOpen, CheckCircle } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import Badge from "@/components/ui/Badge";
@@ -73,19 +74,19 @@ function FreeReviewScreen() {
                       card.opacityClass,
                     ].join(" ")}
                   >
-                    <span className="text-red font-bold text-[13px] shrink-0">✗</span>
+                    <X size={14} className="text-red shrink-0" aria-hidden="true" />
                     <div className="flex-1 flex flex-col gap-1.5">
                       <div className="h-3 rounded-full bg-stone-200" style={{ width: card.w1 }} />
                       <div className="h-2.5 rounded-full bg-stone-200" style={{ width: card.w2 }} />
                     </div>
-                    <span className="text-stone-400 text-base shrink-0">›</span>
+                    <ChevronRight size={16} className="text-stone-400 shrink-0" aria-hidden="true" />
                   </div>
                 ))}
               </div>
 
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-[rgba(250,250,248,0.3)] to-[rgba(250,250,248,0.97)] flex flex-col items-center justify-end pb-4 gap-3">
-                <span className="text-[28px]">🔒</span>
+                <Lock size={28} className="text-stone-400" aria-hidden="true" />
                 <p className="text-sm text-stone-600 text-center max-w-xs">
                   Answer questions in the modules to build your review list —
                   then unlock to fix them.
@@ -141,7 +142,7 @@ function FreeReviewScreen() {
               aria-label="Unlock Review"
               className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
             >
-              Unlock →
+              Unlock <ArrowRight size={14} aria-hidden="true" className="inline" />
             </button>
           </div>
 
@@ -178,9 +179,7 @@ function FreeReviewScreen() {
                           className="bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red rounded-xl px-[15px] py-3 flex items-start gap-3 blur-sm pointer-events-none select-none"
                           style={{ opacity: cardOpacity }}
                         >
-                          <span className="text-red font-bold text-[13px] pt-px shrink-0">
-                            ✗
-                          </span>
+                          <X size={14} className="text-red shrink-0 mt-px" aria-hidden="true" />
                           <div className="flex-1 min-w-0">
                             <p className="text-[13px] text-stone-900 font-medium leading-snug mb-1">
                               {q.prompt.length > 82
@@ -197,9 +196,7 @@ function FreeReviewScreen() {
                               />
                             </div>
                           </div>
-                          <span className="text-stone-400 text-base pt-px shrink-0">
-                            ›
-                          </span>
+                          <ChevronRight size={16} className="text-stone-400 shrink-0 mt-px" aria-hidden="true" />
                         </div>
                       );
                     })}
@@ -213,7 +210,7 @@ function FreeReviewScreen() {
         {/* Sticky bottom CTA */}
         <div className="sticky bottom-0 text-center bg-gradient-to-b from-transparent to-[rgba(250,250,248,0.95)] pt-10 -mt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
-            <span className="text-2xl">🔓</span>
+            <LockOpen size={24} className="text-stone-500" aria-hidden="true" />
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
               Unlock to fix {total} mistake{total !== 1 ? "s" : ""}
             </p>
@@ -300,7 +297,7 @@ export default function ReviewPage() {
       <AppShell wrongCount={0}>
         <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-16 text-center animate-fade-up">
-            <div className="text-4xl mb-3">✅</div>
+            <div className="mb-3 flex justify-center"><CheckCircle size={48} className="text-green" aria-hidden="true" /></div>
             <h1 className="font-display font-bold text-xl text-stone-900 mb-2">
               All cleared
             </h1>
@@ -356,7 +353,7 @@ export default function ReviewPage() {
                 }}
                 className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer py-2 -my-2 inline-block"
               >
-                ← Back to list
+                <ArrowLeft size={14} aria-hidden="true" className="inline mr-1" />Back to list
               </button>
               <QuestionCard
                 key={activeQ.id}
@@ -383,7 +380,7 @@ export default function ReviewPage() {
                           full
                           onClick={() => openQuestion(nextInModule.id, queue.indexOf(nextInModule))}
                         >
-                          Next question →
+                          Next question <ArrowRight size={16} aria-hidden="true" />
                         </Button>
                       )}
                       <Button

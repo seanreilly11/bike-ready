@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { X } from 'lucide-react'
 import type { Badge } from '@/types'
 import BadgeItem from './BadgeItem'
 import { useAnalytics } from '@/hooks/useAnalytics'
@@ -53,7 +54,7 @@ export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastPro
         className="text-stone-400 hover:text-stone-900 transition-colors shrink-0 focus-visible:outline-none"
         aria-label="Dismiss"
       >
-        ✕
+        <X size={16} aria-hidden="true" />
       </button>
     </div>
   )

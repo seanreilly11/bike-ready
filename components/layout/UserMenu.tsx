@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Star, ArrowRight } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { PREMIUM_ENABLED } from "@/lib/config";
 
@@ -45,8 +46,8 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
       >
         {initial}
         {isPremium && (
-          <span className="absolute -bottom-0.5 -right-0.5 text-[10px] leading-none">
-            ⭐
+          <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center">
+            <Star size={10} fill="currentColor" className="text-yellow-500" aria-hidden="true" />
           </span>
         )}
       </button>
@@ -66,8 +67,8 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
             <>
               {isPremium ? (
                 <div className="px-3 py-2.5">
-                  <span className="font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
-                    ⭐ Premium
+                  <span className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
+                    <Star size={11} fill="currentColor" aria-hidden="true" /> Premium
                   </span>
                 </div>
               ) : (
@@ -75,7 +76,7 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
                   onClick={() => { onUnlock(); setIsOpen(false); }}
                   className="w-full text-left px-3 py-2.5 text-sm font-display font-medium text-orange hover:bg-stone-50 transition-colors"
                 >
-                  ✦ Go Premium →
+                  Go Premium <ArrowRight size={14} aria-hidden="true" />
                 </button>
               )}
               <hr className="border-stone-100" />

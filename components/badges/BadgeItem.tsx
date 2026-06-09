@@ -1,3 +1,4 @@
+import { Lock } from 'lucide-react'
 import type { Badge } from '@/types'
 
 interface BadgeItemProps {
@@ -8,9 +9,9 @@ interface BadgeItemProps {
 }
 
 const sizeClasses = {
-  sm: { outer: 'size-9',    emoji: 'text-base',   pip: 'size-3.5',    svg: 'size-[7px]'  },
-  md: { outer: 'size-14',   emoji: 'text-[25px]', pip: 'size-[18px]', svg: 'size-[9px]'  },
-  lg: { outer: 'size-[72px]', emoji: 'text-[32px]', pip: 'size-[22px]', svg: 'size-[11px]' },
+  sm: { outer: 'size-9',      emoji: 'text-base',   pip: 'size-3.5',    svg: 'size-[7px]',  lock: 15 },
+  md: { outer: 'size-14',     emoji: 'text-[25px]', pip: 'size-[18px]', svg: 'size-[9px]',  lock: 20 },
+  lg: { outer: 'size-[72px]', emoji: 'text-[32px]', pip: 'size-[22px]', svg: 'size-[11px]', lock: 26 },
 }
 
 export default function BadgeItem({ badge, earned, mastered, size = 'md' }: BadgeItemProps) {
@@ -20,7 +21,6 @@ export default function BadgeItem({ badge, earned, mastered, size = 'md' }: Badg
   const borderWidth = mastered || earned ? 2.5 : 1
   const bg          = mastered ? '#fffbea' : '#F4F2EE'
   const opacity     = earned ? 1 : 0.4
-  const emoji       = earned ? badge.emoji : '🔒'
 
   return (
     <div className="relative inline-block">
@@ -29,7 +29,7 @@ export default function BadgeItem({ badge, earned, mastered, size = 'md' }: Badg
         style={{ background: bg, border: `${borderWidth}px solid ${borderColor}`, opacity, lineHeight: 1 }}
         aria-label={badge.name}
       >
-        {emoji}
+        {earned ? badge.emoji : <Lock size={classes.lock} className="text-stone-500" aria-hidden="true" />}
       </div>
 
       {mastered && (

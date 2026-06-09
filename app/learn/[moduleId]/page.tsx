@@ -11,6 +11,7 @@ import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
 import UpsellBanner from "@/components/layout/UpsellBanner";
@@ -127,7 +128,7 @@ export default function ModuleSessionPage() {
               className="text-stone-400 hover:text-stone-900 text-sm focus-visible:outline-none cursor-pointer py-2 -my-2 px-1 -mx-1"
               aria-label="Back to modules"
             >
-              ←
+              <ArrowLeft size={16} aria-hidden="true" />
             </button>
             <span className="font-display font-bold text-orange flex-1">
               {mod.title}
@@ -206,7 +207,7 @@ export default function ModuleSessionPage() {
                     full
                     onClick={() => router.push(`/learn/${nextModule.id}`)}
                   >
-                    Next: {nextModule.emoji} {nextModule.title} →
+                    Next: {nextModule.emoji} {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 )}
                 <Button
@@ -233,7 +234,7 @@ export default function ModuleSessionPage() {
                   full
                   onClick={() => router.push(`/learn/${nextModule.id}`)}
                 >
-                  Next module: {nextModule.emoji} {nextModule.title} →
+                  Next module: {nextModule.emoji} {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
                 </Button>
               )}
 
@@ -266,8 +267,8 @@ export default function ModuleSessionPage() {
                       onClick={handleNext}
                     >
                       {currentIndex === moduleQuestions.length - 1
-                        ? "Complete module →"
-                        : "Next question →"}
+                        ? <><span>Complete module</span><ArrowRight size={16} aria-hidden="true" /></>
+                        : <><span>Next question</span><ArrowRight size={16} aria-hidden="true" /></>}
                     </Button>
                   </div>
                 )}
