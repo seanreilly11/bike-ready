@@ -43,13 +43,13 @@ export default function FeedbackPanel({ feedback, correct, question }: FeedbackP
       </p>
 
       <div className="border-t border-current/10 pt-3 space-y-2">
-        <div>
+        <div className="animate-fade-up" style={{ animationDelay: '80ms' }}>
           <span className="font-mono text-xs uppercase tracking-wide text-stone-400 block mb-0.5">
             Rule
           </span>
           <p className="text-sm text-stone-600 leading-relaxed">{feedback.rule}</p>
         </div>
-        <div>
+        <div className="animate-fade-up" style={{ animationDelay: '160ms' }}>
           <span className="font-mono text-xs uppercase tracking-wide text-stone-400 block mb-0.5">
             Tip
           </span>

@@ -160,12 +160,13 @@ export default function LearnIndexPage() {
 
         {/* Module cards — progress is synchronous from store, no skeleton needed */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
-          {modules.map((mod) => (
-            <ModuleCard
-              key={mod.id}
-              module={mod}
-              onClick={() => router.push(`/learn/${mod.id}`)}
-            />
+          {modules.map((mod, i) => (
+            <div key={mod.id} className="animate-fade-up" style={{ animationDelay: `${i * 60}ms` }}>
+              <ModuleCard
+                module={mod}
+                onClick={() => router.push(`/learn/${mod.id}`)}
+              />
+            </div>
           ))}
         </div>
 

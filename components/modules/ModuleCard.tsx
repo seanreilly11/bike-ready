@@ -61,7 +61,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       onClick={onClick}
       className={[
         "w-full text-left border border-stone-200 rounded-xl p-4 cursor-pointer",
-        "hover:border-stone-400 hover:shadow-md transition-all duration-200",
+        "hover:border-stone-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
         "active:scale-[0.99]",
       ].join(" ")}

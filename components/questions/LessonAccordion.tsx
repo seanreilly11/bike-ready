@@ -55,11 +55,16 @@ export default function LessonAccordion({ skill, difficulty, question }: LessonA
         </span>
       </button>
 
-      {open && (
-        <div className="mt-1.5 bg-orange-light border border-orange-mid rounded-xl px-4 py-3 animate-fade-up">
-          <p className="text-base text-stone-700 leading-relaxed">{lesson.body}</p>
+      <div
+        className="grid transition-[grid-template-rows] duration-200 ease-out"
+        style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-1.5 bg-orange-light border border-orange-mid rounded-xl px-4 py-3">
+            <p className="text-base text-stone-700 leading-relaxed">{lesson.body}</p>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

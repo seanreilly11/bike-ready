@@ -53,7 +53,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
           ))}
         </div>
 
-        <div className="text-center mb-6">
+        <div key={step} className="text-center mb-6 animate-fade-up">
           <div className="text-5xl mb-3">{screen.emoji}</div>
           <h2 className="font-display font-extrabold text-xl text-stone-900 mb-2">
             {screen.title}

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import type { Option } from '@/types'
 
 type OptionState = 'idle' | 'selected' | 'correct' | 'incorrect' | 'unselected-after-answer'
@@ -25,11 +26,22 @@ const stateIndicator: Partial<Record<OptionState, string>> = {
 }
 
 export default function OptionButton({ option, state, onClick, disabled }: OptionButtonProps) {
+  const prevState = useRef<OptionState>(state)
+  const [burst, setBurst] = useState<'pop' | 'shake' | null>(null)
+
+  useEffect(() => {
+    const prev = prevState.current
+    if (prev !== 'correct' && state === 'correct') setBurst('pop')
+    if (prev !== 'incorrect' && state === 'incorrect') setBurst('shake')
+    prevState.current = state
+  }, [state])
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       aria-disabled={disabled}
+      onAnimationEnd={() => setBurst(null)}
       className={[
         'w-full flex items-center gap-3 rounded-xl border px-4 py-3 min-h-[44px]',
         'text-left font-display text-base leading-relaxed',
@@ -38,6 +50,8 @@ export default function OptionButton({ option, state, onClick, disabled }: Optio
         'active:scale-[0.99]',
         disabled ? 'cursor-default' : 'cursor-pointer',
         stateClasses[state],
+        burst === 'pop'   ? 'animate-pop'   : '',
+        burst === 'shake' ? 'animate-shake' : '',
       ].join(' ')}
     >
       <span className="font-mono text-xs uppercase tracking-wide text-stone-400 shrink-0 w-4">

@@ -80,7 +80,7 @@ export default function Nav({
                 {item.label}
                 {item.label === "Review" && wrongCount > 0 && (
                   <span
-                    className="absolute top-1.5 right-1 w-2 h-2 rounded-full bg-red"
+                    className="absolute top-1.5 right-1 w-2 h-2 rounded-full bg-red animate-pulse"
                     aria-label={`${wrongCount} questions to review`}
                   />
                 )}

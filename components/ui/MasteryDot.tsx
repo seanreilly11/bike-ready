@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import type { DotState } from '@/types'
 
 interface MasteryDotProps {
@@ -13,12 +16,24 @@ const stateClasses: Record<DotState, string> = {
 }
 
 export default function MasteryDot({ state }: MasteryDotProps) {
+  const prevState = useRef<DotState>(state)
+  const [popping, setPopping] = useState(false)
+
+  useEffect(() => {
+    if (prevState.current !== 'correct' && state === 'correct') {
+      setPopping(true)
+    }
+    prevState.current = state
+  }, [state])
+
   return (
     <div
       className={[
         'w-2.5 h-2.5 rounded-full transition-colors duration-200',
         stateClasses[state],
+        popping ? 'animate-pop' : '',
       ].join(' ')}
+      onAnimationEnd={() => setPopping(false)}
     />
   )
 }
