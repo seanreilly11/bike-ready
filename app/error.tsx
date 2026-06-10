@@ -1,11 +1,19 @@
 "use client";
 
-export default function GlobalError({
+import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
+
+export default function Error({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center bg-stone-50 px-6 text-center">
       <p className="text-4xl mb-4">🚲</p>

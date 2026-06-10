@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import type { AnalyticsEvents } from '@/types'
 
 const ANON_ID_KEY   = 'bikeready_anon_id'
@@ -44,8 +45,8 @@ export function useAnalytics() {
         ...(properties as Record<string, unknown>),
         anonymous_id: getAnonId(),
       })
-    } catch {
-      // Analytics failures are silent
+    } catch (err) {
+      Sentry.captureException(err)
     }
   }, [])
 
@@ -54,8 +55,8 @@ export function useAnalytics() {
       const ph = await getPosthog()
       if (!ph) return
       ph.identify(userId, { anonymous_id: getAnonId() })
-    } catch {
-      // Silent
+    } catch (err) {
+      Sentry.captureException(err)
     }
   }, [])
 
