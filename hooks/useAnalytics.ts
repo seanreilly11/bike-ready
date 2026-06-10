@@ -2,15 +2,10 @@
 
 import { useCallback } from 'react'
 import * as Sentry from '@sentry/nextjs'
+import { usePostHog } from 'posthog-js/react'
 import type { AnalyticsEvents } from '@/types'
 
-const ANON_ID_KEY   = 'bikeready_anon_id'
-const CONSENT_KEY   = 'bikeready_cookie_consent'
-
-function hasConsent(): boolean {
-  if (typeof window === 'undefined') return false
-  return localStorage.getItem(CONSENT_KEY) === 'accepted'
-}
+const ANON_ID_KEY = 'bikeready_anon_id'
 
 function getAnonId(): string {
   if (typeof window === 'undefined') return ''
@@ -22,43 +17,30 @@ function getAnonId(): string {
   return id
 }
 
-async function getPosthog() {
-  if (typeof window === 'undefined') return null
-  if (!hasConsent()) return null
-  const { default: posthog } = await import('posthog-js')
-  const key  = process.env.NEXT_PUBLIC_POSTHOG_KEY
-  const host = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com'
-  if (!key || posthog.__loaded) return posthog
-  posthog.init(key, { api_host: host, capture_pageview: false })
-  return posthog
-}
-
 export function useAnalytics() {
-  const track = useCallback(async <K extends keyof AnalyticsEvents>(
+  const posthog = usePostHog()
+
+  const track = useCallback(<K extends keyof AnalyticsEvents>(
     event: K,
     properties: AnalyticsEvents[K],
   ) => {
     try {
-      const ph = await getPosthog()
-      if (!ph) return
-      ph.capture(event as string, {
+      posthog?.capture(event as string, {
         ...(properties as Record<string, unknown>),
         anonymous_id: getAnonId(),
       })
     } catch (err) {
       Sentry.captureException(err)
     }
-  }, [])
+  }, [posthog])
 
-  const identify = useCallback(async (userId: string) => {
+  const identify = useCallback((userId: string) => {
     try {
-      const ph = await getPosthog()
-      if (!ph) return
-      ph.identify(userId, { anonymous_id: getAnonId() })
+      posthog?.identify(userId, { anonymous_id: getAnonId() })
     } catch (err) {
       Sentry.captureException(err)
     }
-  }, [])
+  }, [posthog])
 
   return { track, identify }
 }

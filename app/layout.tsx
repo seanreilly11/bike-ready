@@ -4,6 +4,9 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CookieConsentBanner } from "@/components/layout/CookieConsentBanner";
 import { Footer } from "@/components/layout/Footer";
+import { PHProvider } from "./providers";
+import { Suspense } from "react";
+import { PostHogPageView } from "@/components/PostHogPageView";
 
 export const metadata: Metadata = {
   title: "BikeReady — Cycle safely in the Netherlands",
@@ -30,15 +33,20 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === "production" && (
-          <>
-            <Analytics />
-            <SpeedInsights />
-          </>
-        )}
-        <Footer />
-        <CookieConsentBanner />
+        <PHProvider>
+          <Suspense>
+            <PostHogPageView />
+          </Suspense>
+          {children}
+          {process.env.NODE_ENV === "production" && (
+            <>
+              <Analytics />
+              <SpeedInsights />
+            </>
+          )}
+          <Footer />
+          <CookieConsentBanner />
+        </PHProvider>
       </body>
     </html>
   );

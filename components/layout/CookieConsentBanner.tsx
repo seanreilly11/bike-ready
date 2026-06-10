@@ -20,6 +20,7 @@ export function CookieConsentBanner() {
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, "accepted");
+    window.dispatchEvent(new CustomEvent("bikeready:consent-accepted"));
     setVisible(false);
   }
 
