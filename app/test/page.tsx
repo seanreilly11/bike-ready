@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { Question } from "@/types";
 import { TEST_PASS_PCT } from "@/types";
@@ -23,7 +23,7 @@ import { useUIStore } from "@/stores/uiStore";
 function FreeTestScreen() {
   const openGate = useUIStore((s) => s.openGate);
   const { buildTestSet } = useQuestions();
-  const testSet = useMemo(() => buildTestSet(), []);
+  const testSet = buildTestSet();
 
   return (
     <AppShell wrongCount={0}>
@@ -120,11 +120,14 @@ export default function TestPage() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const testSet = useMemo(() => buildTestSet(), []);
+  const testSet = buildTestSet();
 
   const abandonRef = useRef({ phase, answeredCount: answers.length, totalCount: testSet.length });
-  abandonRef.current = { phase, answeredCount: answers.length, totalCount: testSet.length };
-  const questionShownAt = useRef<number>(Date.now());
+  const questionShownAt = useRef<number>(0);
+
+  useEffect(() => {
+    abandonRef.current = { phase, answeredCount: answers.length, totalCount: testSet.length };
+  });
 
   useEffect(() => {
     return () => {
