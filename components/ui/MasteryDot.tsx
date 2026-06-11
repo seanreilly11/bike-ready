@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import type { DotState } from '@/types'
 
 interface MasteryDotProps {
@@ -16,15 +16,15 @@ const stateClasses: Record<DotState, string> = {
 }
 
 export default function MasteryDot({ state }: MasteryDotProps) {
-  const prevState = useRef<DotState>(state)
   const [popping, setPopping] = useState(false)
+  const [prevState, setPrevState] = useState<DotState>(state)
 
-  useEffect(() => {
-    if (prevState.current !== 'correct' && state === 'correct') {
+  if (state !== prevState) {
+    if (prevState !== 'correct' && state === 'correct') {
       setPopping(true)
     }
-    prevState.current = state
-  }, [state])
+    setPrevState(state)
+  }
 
   return (
     <div

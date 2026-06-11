@@ -3,17 +3,17 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DotMap from '@/components/modules/DotMap'
 import { useAppStore } from '@/stores/appStore'
-import type { Question, LocalProgress } from '@/types'
+import type { ModuleId, Question, LocalProgress } from '@/types'
 import { FREE_PER_MODULE } from '@/types'
 
 function resetStore() {
   useAppStore.setState({ progress: {}, earned: [], user: null, isPremium: false })
 }
 
-function makeQuestions(count: number, moduleId = 'priority'): Question[] {
+function makeQuestions(count: number, moduleId: ModuleId = 'priority'): Question[] {
   return Array.from({ length: count }, (_, i) => ({
     id: `q${i + 1}`,
-    module: moduleId as any,
+    module: moduleId,
     skill: 'Test',
     difficulty: 'easy' as const,
     type: 'multiple_choice' as const,

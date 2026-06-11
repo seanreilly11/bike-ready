@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { headers } from "next/headers";
 
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Failed to set is_premium:", error);
+      Sentry.captureException(error);
       return new NextResponse("Database error", { status: 500 });
     }
   }

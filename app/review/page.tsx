@@ -244,6 +244,7 @@ export default function ReviewPage() {
 
   const queue = progress.getReviewQueue();
   const hadItemsRef = useRef(queue.length > 0);
+  const questionShownAt = useRef<number>(0);
 
   useEffect(() => {
     if (queue.length > 0) {
@@ -257,6 +258,10 @@ export default function ReviewPage() {
     }
   }, [queue.length, activeId]);
 
+  useEffect(() => {
+    questionShownAt.current = Date.now();
+  }, [activeId]);
+
   if (!isPremium) {
     return <FreeReviewScreen />;
   }
@@ -267,14 +272,11 @@ export default function ReviewPage() {
     ? (allQuestions.find((q) => q.id === activeId) ?? null)
     : null;
 
-  const questionShownAt = useRef<number>(Date.now());
-
   function openQuestion(id: string, position: number) {
     const question = allQuestions.find((q) => q.id === id);
     if (question) {
       track("review_question_opened", { question_id: question.id, module: question.module, position });
     }
-    questionShownAt.current = Date.now();
     setActiveId(id);
     setHasAnswered(false);
   }

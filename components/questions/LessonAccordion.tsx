@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { Difficulty, Question } from '@/types'
 import lessonsData from '@/data/lessons.json'
 import { useAnalytics } from '@/hooks/useAnalytics'
@@ -15,10 +15,13 @@ export default function LessonAccordion({ skill, difficulty, question }: LessonA
   const [open, setOpen] = useState(false)
   const { track } = useAnalytics()
 
-  // Reset to closed on each new question
-  useEffect(() => {
+  // Reset to closed when the question changes
+  const resetKey = `${skill}-${difficulty}`
+  const [prevResetKey, setPrevResetKey] = useState(resetKey)
+  if (resetKey !== prevResetKey) {
+    setPrevResetKey(resetKey)
     setOpen(false)
-  }, [skill, difficulty])
+  }
 
   const lesson = (lessonsData.lessons as Record<string, Record<Difficulty, { title: string; body: string }>>)[skill]?.[difficulty]
   if (!lesson) return null

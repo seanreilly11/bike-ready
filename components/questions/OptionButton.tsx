@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { Check, X } from 'lucide-react'
 import type { Option } from '@/types'
 
@@ -24,15 +24,14 @@ const stateClasses: Record<OptionState, string> = {
 const stateHasIndicator = new Set<OptionState>(['correct', 'incorrect'])
 
 export default function OptionButton({ option, state, onClick, disabled }: OptionButtonProps) {
-  const prevState = useRef<OptionState>(state)
   const [burst, setBurst] = useState<'pop' | 'shake' | null>(null)
+  const [prevState, setPrevState] = useState<OptionState>(state)
 
-  useEffect(() => {
-    const prev = prevState.current
-    if (prev !== 'correct' && state === 'correct') setBurst('pop')
-    if (prev !== 'incorrect' && state === 'incorrect') setBurst('shake')
-    prevState.current = state
-  }, [state])
+  if (state !== prevState) {
+    if (prevState !== 'correct' && state === 'correct') setBurst('pop')
+    if (prevState !== 'incorrect' && state === 'incorrect') setBurst('shake')
+    setPrevState(state)
+  }
 
   return (
     <button
