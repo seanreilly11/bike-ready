@@ -105,16 +105,18 @@ function UpgradeHandler() {
   const searchParams = useSearchParams();
   const { refreshPremiumStatus } = useAuth();
   const setUpgradeToast = useUIStore((s) => s.setUpgradeToast);
+  const { track } = useAnalytics();
 
   useEffect(() => {
     if (searchParams.get("upgraded") === "true") {
       setUpgradeToast(true);
       router.replace("/learn");
       refreshPremiumStatus();
+      track("gate_converted", {});
       const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);
     }
-  }, [searchParams, router, refreshPremiumStatus, setUpgradeToast]);
+  }, [searchParams, router, refreshPremiumStatus, setUpgradeToast, track]);
 
   return null;
 }

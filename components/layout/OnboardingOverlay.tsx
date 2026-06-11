@@ -68,7 +68,14 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
           variant="primary"
           size="lg"
           full
-          onClick={() => isLast ? onDone() : setStep(s => s + 1)}
+          onClick={() => {
+            if (isLast) {
+              track('onboarding_completed', {})
+              onDone()
+            } else {
+              setStep(s => s + 1)
+            }
+          }}
         >
           {isLast ? <><span>Start learning</span><ArrowRight size={16} aria-hidden="true" /></> : 'Next'}
         </Button>

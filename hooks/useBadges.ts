@@ -7,12 +7,14 @@ import badgeDefinitions from "@/data/badges";
 import { activeQuestions } from "@/hooks/useQuestions";
 import { useAppStore } from "@/stores/appStore";
 import { useUIStore } from "@/stores/uiStore";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 export function useBadges() {
   const supabase = createClient();
   const user = useAppStore((s) => s.user);
   const earned = useAppStore((s) => s.earned);
   const newBadgeId = useUIStore((s) => s.newBadgeId);
+  const { track } = useAnalytics();
 
   const checkModuleBadge = useCallback(
     async (moduleId: ModuleId) => {
@@ -29,6 +31,7 @@ export function useBadges() {
       // Award badge locally
       useAppStore.getState().earnBadge(badge.id);
       useUIStore.getState().showBadge(badge.id);
+      track("badge_earned", { badge_id: badge.id });
 
       // Persist to Supabase if authenticated
       if (user) {
@@ -39,7 +42,7 @@ export function useBadges() {
           .single();
       }
     },
-    [user, earned, supabase],
+    [user, earned, supabase, track],
   );
 
   const dismissNewBadge = useCallback(() => {

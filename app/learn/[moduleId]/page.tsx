@@ -53,6 +53,7 @@ export default function ModuleSessionPage() {
   // re-run this effect and skip the feedback panel.
   useEffect(() => {
     setCurrentIndex(progress.getCurrentQuestionIndex(moduleId));
+    track("module_started", { module: moduleId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moduleId]);
 
@@ -67,6 +68,12 @@ export default function ModuleSessionPage() {
 
   // Gate: free users after FREE_PER_MODULE questions, unless module is always free
   const hitGate = !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
+
+  useEffect(() => {
+    if (hitGate) {
+      track("gate_seen", { module: moduleId, source: "inline" });
+    }
+  }, [hitGate, moduleId, track]);
 
   const nextModuleIndex = modules.findIndex((m) => m.id === moduleId) + 1;
   const nextModule =
@@ -96,7 +103,11 @@ export default function ModuleSessionPage() {
   }
 
   function handleNext() {
-    setCurrentIndex((i) => i + 1);
+    const next = currentIndex + 1;
+    if (next === moduleQuestions.length) {
+      track("module_completed", { module: moduleId });
+    }
+    setCurrentIndex(next);
   }
 
   const progressPct =
