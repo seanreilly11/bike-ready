@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import type { User } from '@supabase/supabase-js'
 import { useAppStore } from '@/stores/appStore'
 
 // Reset store state between tests
@@ -96,7 +97,7 @@ describe('appStore', () => {
 
   describe('setUser / setPremium', () => {
     it('sets user', () => {
-      const fakeUser = { id: 'u1', email: 'test@example.com' } as any
+      const fakeUser = { id: 'u1', email: 'test@example.com' } as unknown as User
       useAppStore.getState().setUser(fakeUser)
       expect(useAppStore.getState().user).toEqual(fakeUser)
     })
