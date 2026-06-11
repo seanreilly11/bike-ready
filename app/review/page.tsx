@@ -291,6 +291,7 @@ export default function ReviewPage() {
       difficulty: q.difficulty,
       time_to_answer_ms: Date.now() - questionShownAt.current,
       correct,
+      context: "review",
     });
   }
 

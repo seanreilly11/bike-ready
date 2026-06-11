@@ -99,6 +99,7 @@ export default function ModuleSessionPage() {
       difficulty: currentQuestion.difficulty,
       correct,
       time_to_answer_ms: Date.now() - questionShownAt.current,
+      context: "learn",
     });
   }
 

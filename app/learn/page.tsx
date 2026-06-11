@@ -31,6 +31,14 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const totalAll = allQuestions.length;
   const pct = Math.round((totalFree / totalAll) * 100);
 
+  useEffect(() => {
+    modules
+      .filter((m) => !m.alwaysFree)
+      .forEach((mod) => {
+        track("gate_seen", { module: mod.id, source: "preview_complete" });
+      });
+  }, [track]);
+
   return (
     <div className="min-h-dvh bg-stone-900">
       {/* Dark hero */}

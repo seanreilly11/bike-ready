@@ -159,6 +159,7 @@ export interface AnalyticsEvents {
     difficulty: Difficulty;
     correct: boolean;
     time_to_answer_ms: number;
+    context: "learn" | "review" | "test";
   };
   module_started: { module: ModuleId };
   module_completed: { module: ModuleId };

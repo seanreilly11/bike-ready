@@ -20,6 +20,7 @@ export function useUnlock(onClose?: () => void) {
       const data = (await res.json()) as { alreadyPremium?: boolean; url?: string }
       if (data.alreadyPremium) {
         await refreshPremiumStatus()
+        track('gate_converted', {})
         onClose?.()
         return
       }
