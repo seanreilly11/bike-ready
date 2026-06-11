@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import { PostHogPageView } from "@/components/PostHogPageView";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl"),
   title: "BikeReady — Cycle safely in the Netherlands",
   description:
     "A short preparation course for expats learning to cycle safely in Dutch cities.",
