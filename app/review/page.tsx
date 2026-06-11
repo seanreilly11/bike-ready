@@ -258,6 +258,10 @@ export default function ReviewPage() {
     }
   }, [queue.length, activeId]);
 
+  useEffect(() => {
+    questionShownAt.current = Date.now();
+  }, [activeId]);
+
   if (!isPremium) {
     return <FreeReviewScreen />;
   }
@@ -273,7 +277,6 @@ export default function ReviewPage() {
     if (question) {
       track("review_question_opened", { question_id: question.id, module: question.module, position });
     }
-    questionShownAt.current = Date.now();
     setActiveId(id);
     setHasAnswered(false);
   }
