@@ -54,7 +54,7 @@ describe('questions.json data integrity', () => {
 
     it('no question has a feedback.title field', () => {
       for (const q of allQuestions) {
-        expect((q.feedback as Record<string, unknown>).title, `${q.id} still has deprecated feedback.title`).toBeUndefined()
+        expect((q.feedback as unknown as Record<string, unknown>).title, `${q.id} still has deprecated feedback.title`).toBeUndefined()
       }
     })
 
