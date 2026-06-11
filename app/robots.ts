@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/auth/'],
+      disallow: ['/api/', '/auth/', '/review', '/test'],
     },
     sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bikeready.nl'}/sitemap.xml`,
   }

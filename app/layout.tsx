@@ -8,8 +8,10 @@ import { PHProvider } from "./providers";
 import { Suspense } from "react";
 import { PostHogPageView } from "@/components/PostHogPageView";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl"),
+  metadataBase: new URL(SITE_URL),
   title: "BikeReady — Cycle safely in the Netherlands",
   description:
     "A short preparation course for expats learning to cycle safely in Dutch cities.",
@@ -31,6 +33,26 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  name: "BikeReady",
+                  url: SITE_URL,
+                },
+                {
+                  "@type": "WebSite",
+                  name: "BikeReady",
+                  url: SITE_URL,
+                },
+              ],
+            }),
+          }}
         />
       </head>
       <body className="antialiased">
