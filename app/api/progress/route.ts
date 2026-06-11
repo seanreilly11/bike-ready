@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/lib/supabase/server";
+import { logError } from "@/lib/logger";
 
 // GET /api/progress — fetch all progress rows for the authenticated user
 export async function GET() {
@@ -19,8 +19,7 @@ export async function GET() {
     .eq("user_id", user.id);
 
   if (error) {
-    console.error("[progress GET]", error);
-    Sentry.captureException(error);
+    logError("progress GET", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 
@@ -55,8 +54,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    console.error("[progress POST]", error);
-    Sentry.captureException(error);
+    logError("progress POST", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 

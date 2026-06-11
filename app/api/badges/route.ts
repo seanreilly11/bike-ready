@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as Sentry from '@sentry/nextjs'
 import { createClient } from '@/lib/supabase/server'
+import { logError } from '@/lib/logger'
 
 // GET /api/badges — fetch all earned badges for the authenticated user
 export async function GET() {
@@ -17,8 +17,7 @@ export async function GET() {
     .eq('user_id', user.id)
 
   if (error) {
-    console.error("[badges GET]", error);
-    Sentry.captureException(error)
+    logError("badges GET", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 
@@ -47,8 +46,7 @@ export async function POST(request: NextRequest) {
 
   // Ignore unique-constraint violations (badge already earned)
   if (error && !error.message.includes('duplicate')) {
-    console.error("[badges POST]", error);
-    Sentry.captureException(error)
+    logError("badges POST", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 
