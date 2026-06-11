@@ -10,7 +10,11 @@ export function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem(CONSENT_KEY)) setVisible(true);
+    const checkConsent = () => {
+      if (!localStorage.getItem(CONSENT_KEY)) setVisible(true);
+    };
+    checkConsent();
+
     const handler = () => setVisible(true);
     window.addEventListener(COOKIE_SETTINGS_EVENT, handler);
     return () => window.removeEventListener(COOKIE_SETTINGS_EVENT, handler);
