@@ -150,7 +150,7 @@ export function useAuth(): {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile, supabase.auth, verifyPremium]);
+  }, [fetchProfile, supabase.auth, verifyPremium, track]);
 
   const refreshPremiumStatus = useCallback(async () => {
     const {

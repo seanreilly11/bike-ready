@@ -17,7 +17,7 @@ export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastPro
 
   useEffect(() => {
     track('badge_toast_shown', { badge_id: badge.id })
-  }, [])
+  }, [badge.id, track])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,7 +25,7 @@ export default function BadgeToast({ badge, mastered, onDismiss }: BadgeToastPro
       onDismiss()
     }, 4000)
     return () => clearTimeout(timer)
-  }, [onDismiss])
+  }, [onDismiss, badge.id, track])
 
   return (
     <div

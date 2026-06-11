@@ -256,7 +256,7 @@ export default function ReviewPage() {
     if (queue.length === 0 && !activeId && hadItemsRef.current) {
       track("review_cleared", {});
     }
-  }, [queue.length, activeId]);
+  }, [queue.length, activeId, track]);
 
   useEffect(() => {
     questionShownAt.current = Date.now();

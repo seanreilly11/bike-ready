@@ -108,7 +108,7 @@ interface Answer {
 
 export default function TestPage() {
   const router = useRouter();
-  const { user, isPremium } = useAuth();
+  const { isPremium } = useAuth();
   const progress = useProgress();
   const { checkModuleBadge } = useBadges();
   const { track } = useAnalytics();
@@ -139,7 +139,7 @@ export default function TestPage() {
         });
       }
     };
-  }, []);
+  }, [track]);
 
   useEffect(() => {
     questionShownAt.current = Date.now();
