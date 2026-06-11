@@ -244,6 +244,7 @@ export default function ReviewPage() {
 
   const queue = progress.getReviewQueue();
   const hadItemsRef = useRef(queue.length > 0);
+  const questionShownAt = useRef<number>(0);
 
   useEffect(() => {
     if (queue.length > 0) {
@@ -266,8 +267,6 @@ export default function ReviewPage() {
   const activeQ = activeId
     ? (allQuestions.find((q) => q.id === activeId) ?? null)
     : null;
-
-  const questionShownAt = useRef<number>(Date.now());
 
   function openQuestion(id: string, position: number) {
     const question = allQuestions.find((q) => q.id === id);
