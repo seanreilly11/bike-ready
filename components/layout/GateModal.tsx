@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
@@ -32,6 +33,15 @@ export default function GateModal({
   onDismiss,
 }: GateModalProps) {
   const { track } = useAnalytics();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { track('gate_dismissed', { module: moduleId }); onDismiss(); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [moduleId, onDismiss, track]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       {/* Backdrop */}
@@ -42,7 +52,12 @@ export default function GateModal({
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="gate-modal-title"
+        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up"
+      >
         {/* Social proof */}
         <div className="flex justify-center mb-4">
           <span className="font-mono text-xs uppercase tracking-wide bg-orange-light text-orange border border-orange-mid rounded-full px-3 py-1">
@@ -50,7 +65,7 @@ export default function GateModal({
           </span>
         </div>
 
-        <h2 className="font-display font-extrabold text-2xl text-stone-900 text-center mb-2">
+        <h2 id="gate-modal-title" className="font-display font-extrabold text-2xl text-stone-900 text-center mb-2">
           Want to finish {moduleName}?
         </h2>
         <p className="text-stone-600 text-sm text-center mb-5">

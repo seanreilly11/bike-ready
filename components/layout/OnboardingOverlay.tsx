@@ -39,7 +39,12 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
       <div className="absolute inset-0 bg-stone-900/80 backdrop-blur-sm" aria-hidden />
 
       {/* Card */}
-      <div className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="onboarding-title"
+        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up"
+      >
 
         {/* Step dots */}
         <div className="flex justify-center gap-1.5 mb-6">
@@ -58,7 +63,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
           <div className="text-5xl mb-3 flex justify-center">
             {screen.emoji === 'lightbulb' ? <Lightbulb size={48} className="text-orange" aria-hidden="true" /> : <span>{screen.emoji}</span>}
           </div>
-          <h2 className="font-display font-extrabold text-xl text-stone-900 mb-2">
+          <h2 id="onboarding-title" className="font-display font-extrabold text-xl text-stone-900 mb-2">
             {screen.title}
           </h2>
           <p className="text-stone-600 text-sm leading-relaxed">{screen.body}</p>

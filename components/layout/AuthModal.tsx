@@ -40,6 +40,14 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
     track("auth_modal_opened", { reason, source: reason });
   }, [reason, track]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -65,7 +73,12 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-fade-up">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-fade-up"
+      >
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-stone-400 hover:text-stone-900 transition-colors p-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded-lg"
@@ -77,7 +90,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
         {sent ? (
           <div className="text-center py-4">
             <div className="mb-3 flex justify-center"><MailCheck size={40} className="text-orange" aria-hidden="true" /></div>
-            <h2 className="font-display font-bold text-xl text-stone-900 mb-2">
+            <h2 id="auth-modal-title" className="font-display font-bold text-xl text-stone-900 mb-2">
               Check your email
             </h2>
             <p className="text-stone-600 text-sm">
@@ -87,7 +100,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
           </div>
         ) : (
           <>
-            <h2 className="font-display font-bold text-xl text-stone-900 mb-1">
+            <h2 id="auth-modal-title" className="font-display font-bold text-xl text-stone-900 mb-1">
               {title}
             </h2>
             <p className="text-stone-600 text-sm mb-5">{body}</p>
