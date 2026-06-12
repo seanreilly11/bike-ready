@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
   }
 
   const { error } = await supabase.rpc("upsert_question_progress", {
-    p_user_id: user.id,
     p_question_id: question_id,
     p_correct: correct,
   });

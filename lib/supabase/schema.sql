@@ -69,15 +69,18 @@ create policy "Users can update their own progress"
   on question_progress for update
   using (auth.uid() = user_id);
 
--- Upsert helper: correct is OR'd — never reverts once true
+-- Upsert helper: correct is OR'd — never reverts once true.
+-- User identity comes from auth.uid(); callers cannot write other users' rows.
 create or replace function public.upsert_question_progress(
-  p_user_id     uuid,
   p_question_id text,
   p_correct     boolean
 ) returns void as $$
 begin
+  if auth.uid() is null then
+    raise exception 'not authenticated';
+  end if;
   insert into question_progress (user_id, question_id, seen, correct, attempts, last_answered_at)
-  values (p_user_id, p_question_id, true, p_correct, 1, now())
+  values (auth.uid(), p_question_id, true, p_correct, 1, now())
   on conflict (user_id, question_id) do update set
     correct          = question_progress.correct or excluded.correct,
     attempts         = question_progress.attempts + 1,
@@ -85,6 +88,9 @@ begin
     last_answered_at = now();
 end;
 $$ language plpgsql security definer;
+
+revoke execute on function public.upsert_question_progress(text, boolean) from anon, public;
+grant execute on function public.upsert_question_progress(text, boolean) to authenticated;
 
 -- ---------------------------------------------------------------------------
 -- badges
