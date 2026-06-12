@@ -12,7 +12,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "BikeReady — Cycle safely in the Netherlands",
+  title: {
+    default: "BikeReady — Cycle safely in the Netherlands",
+    template: "%s — BikeReady",
+  },
   description:
     "A short preparation course for expats learning to cycle safely in Dutch cities.",
 };

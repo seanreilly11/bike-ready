@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import GuideShell from "@/components/layout/GuideShell";
+
+export const metadata: Metadata = {
+  title: "Guide",
+  description:
+    "Reference guide to Dutch cycling rules, road signs, and vocabulary for expats.",
+};
 
 export default function GuideLayout({
   children,
