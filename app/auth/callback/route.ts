@@ -22,8 +22,12 @@ export async function GET(request: NextRequest) {
         method: 'POST',
         headers: { cookie: request.headers.get('cookie') ?? '' },
       })
-      const { url } = (await res.json()) as { url: string }
-      return NextResponse.redirect(url)
+      if (!res.ok) {
+        return NextResponse.redirect(new URL('/learn?error=checkout_failed', request.url))
+      }
+      const { url } = (await res.json()) as { url?: string }
+      // No url means alreadyPremium — nothing to pay for
+      return NextResponse.redirect(url ?? new URL('/learn', request.url))
     }
   }
 
