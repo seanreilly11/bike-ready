@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { logError } from '@/lib/logger'
+import { VALID_BADGE_IDS } from '@/lib/validIds'
 
 // GET /api/badges — fetch all earned badges for the authenticated user
 export async function GET() {
@@ -38,6 +39,10 @@ export async function POST(request: NextRequest) {
 
   if (typeof badge_id !== 'string') {
     return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
+  }
+
+  if (!VALID_BADGE_IDS.has(badge_id)) {
+    return NextResponse.json({ error: 'Unknown badge' }, { status: 400 })
   }
 
   const { error } = await supabase

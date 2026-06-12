@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { logError } from "@/lib/logger";
+import { VALID_QUESTION_IDS } from "@/lib/validIds";
 
 // GET /api/progress — fetch all progress rows for the authenticated user
 export async function GET() {
@@ -45,6 +46,10 @@ export async function POST(request: NextRequest) {
 
   if (typeof question_id !== "string" || typeof correct !== "boolean") {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+
+  if (!VALID_QUESTION_IDS.has(question_id)) {
+    return NextResponse.json({ error: "Unknown question" }, { status: 400 });
   }
 
   const { error } = await supabase.rpc("upsert_question_progress", {

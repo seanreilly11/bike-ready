@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { isRateLimited } from "@/lib/cooldown";
 
 export async function GET() {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -11,6 +12,11 @@ export async function GET() {
   } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Each pass can hit the Stripe API; throttle per user to protect the quota.
+  if (isRateLimited(`verify:${user.id}`, 10_000)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   const { data: profile } = await supabaseAdmin

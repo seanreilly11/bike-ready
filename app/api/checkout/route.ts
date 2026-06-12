@@ -1,12 +1,18 @@
 import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { isRateLimited } from "@/lib/cooldown";
 
 export async function POST() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
+  }
+
+  // Throttle Stripe Checkout session creation per user.
+  if (isRateLimited(`checkout:${user.id}`, 5_000)) {
+    return new Response("Too many requests", { status: 429 });
   }
 
   // Check if already premium — don't create a duplicate session
