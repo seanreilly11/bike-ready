@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fonts */
-  --font-display: 'Bricolage Grotesque', sans-serif;
-  --font-mono:    'DM Mono', monospace;
+  /* Fonts — families injected by next/font (see app/layout.tsx) */
+  --font-display: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+  --font-mono:    var(--font-dm-mono), 'DM Mono', monospace;
 
   /* Primary accent */
   --color-orange:       #E8500A;
