@@ -21,9 +21,9 @@ create policy "Users can read their own profile"
   on profiles for select
   using (auth.uid() = id);
 
-create policy "Users can update their own profile"
-  on profiles for update
-  using (auth.uid() = id);
+-- No user-facing update policy: is_premium / stripe_* are written only by
+-- the service-role client (Stripe webhook + premium verify). A client-side
+-- update policy would let users set is_premium themselves.
 
 -- Auto-create profile on user sign-up
 create or replace function public.handle_new_user()
