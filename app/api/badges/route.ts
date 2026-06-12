@@ -49,8 +49,9 @@ export async function POST(request: NextRequest) {
     .from('badges')
     .insert({ user_id: user.id, badge_id })
 
-  // Ignore unique-constraint violations (badge already earned)
-  if (error && !error.message.includes('duplicate')) {
+  // Ignore unique-constraint violations (badge already earned). 23505 is the
+  // Postgres unique_violation code — more robust than matching the message.
+  if (error && error.code !== '23505') {
     logError("badges POST", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }

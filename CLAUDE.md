@@ -28,7 +28,7 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 
 - Functional components only. No class components.
 - Co-locate state as close to where it is used as possible. Lift only when necessary.
-- Prefer `useState` + `useReducer` for local state. Use React Context only for genuinely global state (auth, premium status).
+- Prefer `useState` + `useReducer` for local state. Genuinely global state (progress, badges, auth/premium, modal/UI flags) lives in **Zustand stores** — `stores/appStore.ts` (domain state) and `stores/uiStore.ts` (UI state). Read/write it only through the hooks layer, never reach into Supabase or PostHog from a component.
 - Never use `useEffect` to sync state that can be derived. Derive it inline instead.
 - Keep components small and focused. If a component exceeds ~80 lines it probably needs splitting.
 - Name components by what they render, not by where they are used. `QuestionCard`, not `ModulePageCard`.
@@ -97,9 +97,16 @@ bikeready/
 │   │   └── page.tsx              # Review queue (/review)
 │   ├── test/
 │   │   └── page.tsx              # Test (/test)
+│   ├── guide/                    # Static reference guide (/guide, /guide/[moduleId], signs, glossary)
+│   ├── (legal)/                  # Privacy, terms, imprint, cookies
+│   ├── auth/callback/route.ts    # Magic-link exchange + checkout hand-off
 │   └── api/
 │       ├── progress/route.ts     # POST answers, GET progress
-│       └── badges/route.ts       # GET/POST badge state
+│       ├── badges/route.ts       # GET/POST badge state
+│       ├── checkout/route.ts     # Create Stripe Checkout session
+│       ├── stripe/webhook/route.ts  # Stripe webhook → grant premium
+│       ├── premium/verify/route.ts  # Reconcile premium from Stripe
+│       └── health/route.ts       # Uptime health check
 ├── components/                   # As above
 ├── data/
 │   ├── questions.json            # Full question bank — single source of truth
@@ -111,14 +118,24 @@ bikeready/
 │   ├── useAuth.ts                # Auth state, magic link, premium status
 │   ├── useProgress.ts            # Question progress read/write + localStorage fallback
 │   ├── useBadges.ts              # Badge state + trigger logic
+│   ├── useQuestions.ts           # Active question bank + test-set builder
+│   ├── useUnlock.ts              # Premium unlock / checkout entry point
+│   ├── useABTest.ts              # A/B variant assignment
 │   └── useAnalytics.ts           # Posthog event tracking
+├── stores/
+│   ├── appStore.ts               # Global domain state (progress, badges, user, premium)
+│   └── uiStore.ts                # Global UI state (modals, onboarding, toasts)
 ├── lib/
 │   ├── tokens.ts                 # Design tokens (colours, fonts, spacing)
 │   ├── supabase.ts               # Supabase browser client
+│   ├── supabase/                 # server.ts (SSR client), admin.ts (service role), schema.sql
+│   ├── validIds.ts               # Server-safe valid question/badge id sets
+│   ├── cooldown.ts               # In-memory per-user rate limiting for API routes
+│   ├── posthogServer.ts          # Server-side PostHog capture (webhook revenue events)
 │   └── stripe.ts                 # Stripe checkout helper
 ├── types/
 │   └── index.ts                  # All TypeScript types
-└── supabase/
+└── lib/supabase/
     └── schema.sql                # Database schema + RLS policies
 ```
 
@@ -128,7 +145,7 @@ bikeready/
 
 ### `data/questions.json`
 
-The full question bank. Imported at build time. Never fetched at runtime. 77 questions currently (33 original + 44 generated). All additions go here and nowhere else.
+The full question bank. Imported at build time. Never fetched at runtime. 117 questions currently, 73 of them `active` (the rest `draft`/`archived` and filtered out by `activeQuestions` in `hooks/useQuestions.ts`). All additions go here and nowhere else.
 
 **Schema:**
 
@@ -219,13 +236,13 @@ Lookup: `lessons[question.skill]?.[question.difficulty]`. If no match found, the
 
 **localStorage before auth.** Free users get progress in localStorage: `{ [questionId]: { seen: boolean, correct: boolean } }`. Same shape as Supabase. Also store `anonymous_id` (UUID) from first visit. On sign-up, migrate localStorage to Supabase and clear it.
 
-**Per-module free limit.** `FREE_PER_MODULE = 2`. After 2 questions in a module, question 3 is replaced by the gate screen inline — no popup. Gate shows a next-module nudge card and an upgrade prompt.
+**Per-module free limit.** `FREE_PER_MODULE = 3` (see `types/index.ts`). After 3 questions in a gated module the next question is replaced by the gate screen inline — no popup. Gate shows a next-module nudge card and an upgrade prompt. Modules flagged `alwaysFree` (Fundamentals) are never gated.
 
-**Preview-complete screen.** Once a user has answered 2 questions in all 6 modules (12 total), the Learn index is replaced by a dedicated upsell screen: dark hero with exact progress shown, all 6 module cards with 2 filled dots and the rest dimmed, and the unlock CTA.
+**Preview-complete screen.** Once a free user has answered `FREE_PER_MODULE` questions in every gated module, the Learn index is replaced by a dedicated upsell screen: dark hero with exact progress shown, module cards with filled preview dots and the rest dimmed, and the unlock CTA.
 
 **TypeScript strictly.** No `any`. No type assertions unless absolutely unavoidable. All types in `types/index.ts`.
 
-**Tailwind only.** No inline styles in production. No CSS modules. Tokens from `lib/tokens.ts` extend `tailwind.config.ts`.
+**Tailwind only.** Tokens live in `lib/tokens.ts` (JS access) mirrored in `app/globals.css` `@theme` (Tailwind v4 utilities) — no `tailwind.config.ts`. Prefer token utility classes; inline `style` is only for genuinely dynamic values (animation delays, computed widths) and must reference `colors`/`fonts` from `lib/tokens.ts`, never raw hex.
 
 ---
 
@@ -276,16 +293,21 @@ Animated step indicator dots. Skip option on screen 1. Stored in localStorage as
 
 `anonymous_id` UUID generated on first load, stored in localStorage. On sign-up: `posthog.identify(userId, { anonymous_id })`.
 
+**The `AnalyticsEvents` type in `types/index.ts` is the source of truth** for the full event list and their property shapes — it is far richer than the table below (funnel, retention, test, review, guide events). All client events fire through the `useAnalytics` hook. Add new events to that type first.
+
+Core events (illustrative subset):
+
 | Event | Properties |
 |---|---|
 | `question_answered` | questionId, skill, difficulty, correct, moduleId |
-| `module_started` | moduleId |
-| `module_completed` | moduleId |
+| `module_started` / `module_completed` | moduleId |
 | `gate_seen` | moduleId, source |
-| `gate_converted` | — |
+| `checkout_started` / `gate_converted` | — |
 | `test_completed` | score_pct, passed |
 | `badge_earned` | badgeId |
 | `onboarding_completed` | — |
+
+Ground-truth revenue is captured **server-side** in the Stripe webhook via `lib/posthogServer.ts` (`purchase_completed`), since the browser may be closed by the time payment settles.
 
 ---
 
@@ -304,24 +326,34 @@ Session length: 30 days. Cookie-based via `@supabase/ssr`.
 
 ## Supabase
 
-- `@supabase/ssr` for the browser client
+- `@supabase/ssr` for the browser client (`lib/supabase.ts`) and server client (`lib/supabase/server.ts`)
 - All tables have RLS — users access only their own rows
-- `is_premium` boolean on `profiles`, set by Stripe webhook
+- `profiles` has **no client-side UPDATE policy**: `is_premium`/`stripe_*` are written only by the service-role client (`lib/supabase/admin.ts`) in the Stripe webhook and premium-verify routes
+- `upsert_question_progress` derives the user from `auth.uid()` — never pass a user id from the client
 - Magic link is the only auth method
-- See `supabase/schema.sql` for full schema
+- See `lib/supabase/schema.sql` for full schema
 
 ---
 
 ## Environment variables
 
+See `.env.local.example` for the full list. Validated at build time by `lib/validateEnv.ts`: the Supabase vars are always required; Stripe, PostHog and Sentry vars are required only on production (`VERCEL_ENV === "production"`).
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+NEXT_PUBLIC_SUPABASE_REDIRECT_URL=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PRICE_ID=
 NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+NEXT_PUBLIC_POSTHOG_HOST=
+NEXT_PUBLIC_SENTRY_DSN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+SENTRY_AUTH_TOKEN=
+NEXT_PUBLIC_SITE_URL=
 ```
 
 ---
