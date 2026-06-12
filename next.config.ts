@@ -4,12 +4,30 @@ import { validateEnv } from "./lib/validateEnv";
 
 validateEnv();
 
+// Allowed remote origins: Supabase (REST + realtime), PostHog (EU + US
+// clouds, incl. lazily-loaded recorder script), Sentry ingest, Google Fonts.
+// Next.js inline bootstrap scripts require 'unsafe-inline' without nonces.
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://*.i.posthog.com https://*.posthog.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: blob:",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.i.posthog.com https://*.posthog.com https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io",
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
       {
         source: "/:path*",
         headers: [
+          { key: "Content-Security-Policy", value: csp },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

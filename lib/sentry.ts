@@ -7,7 +7,7 @@ export const sentryOptions: Sentry.NodeOptions | Sentry.BrowserOptions = {
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   enabled: process.env.VERCEL_ENV === "production",
   sendDefaultPii: false,
-  tracesSampleRate: 0,
+  tracesSampleRate: 0.1,
   beforeSend(event) {
     if (event.request) {
       delete event.request.cookies;
