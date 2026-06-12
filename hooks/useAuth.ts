@@ -112,7 +112,7 @@ export function useAuth(): {
         if (legacyEntries.length > 0) {
           await Promise.all(
             legacyEntries.map(([questionId, { correct }]) =>
-              updateProgress(questionId, correct, sessionUser.id),
+              updateProgress(questionId, correct),
             ),
           );
           localStorage.removeItem(LEGACY_STORAGE_KEY);

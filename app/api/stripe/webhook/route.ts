@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { headers } from "next/headers";
 import { logError } from "@/lib/logger";
+import { captureServerEvent } from "@/lib/posthogServer";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -47,6 +48,13 @@ export async function POST(request: NextRequest) {
       logError("stripe webhook", error);
       return new NextResponse("Database error", { status: 500 });
     }
+
+    // Ground-truth revenue event — the browser may already be closed.
+    await captureServerEvent(userId, "purchase_completed", {
+      amount_total: session.amount_total,
+      currency: session.currency,
+      stripe_payment_id: session.payment_intent,
+    });
   }
 
   return new NextResponse("OK", { status: 200 });
