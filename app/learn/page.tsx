@@ -108,6 +108,12 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
+const NOTICES: Record<string, string> = {
+  auth_error:
+    "We couldn't sign you in. The link may have expired — request a new one.",
+  checkout_failed: "Something went wrong starting checkout. Please try again.",
+};
+
 function UpgradeHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -126,7 +132,26 @@ function UpgradeHandler() {
     }
   }, [searchParams, router, refreshPremiumStatus, setUpgradeToast, track]);
 
-  return null;
+  // Derived from the URL — no state to keep in sync. Dismiss clears the param.
+  const errorKey =
+    searchParams.get("auth_error") === "1"
+      ? "auth_error"
+      : searchParams.get("error");
+  const notice = errorKey ? NOTICES[errorKey] : undefined;
+
+  if (!notice) return null;
+  return (
+    <div className="bg-red-light border border-red text-red-dark px-5 py-3 flex items-center justify-between gap-3 animate-fade-up">
+      <span className="text-sm font-display font-medium">{notice}</span>
+      <button
+        onClick={() => router.replace("/learn")}
+        className="text-red-dark/70 hover:text-red-dark text-sm font-display shrink-0 focus-visible:outline-none"
+        aria-label="Dismiss"
+      >
+        ✕
+      </button>
+    </div>
+  );
 }
 
 export default function LearnIndexPage() {
