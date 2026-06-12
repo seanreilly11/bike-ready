@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import glossaryData from "@/data/glossary.json";
 import Card from "@/components/ui/Card";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const allTerms = glossaryData.categories.flatMap((c) =>
   c.terms.map((t) => ({ ...t, categoryId: c.id, categoryTitle: c.title }))
@@ -11,6 +12,7 @@ const allTerms = glossaryData.categories.flatMap((c) =>
 export default function GlossaryContent() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const { track } = useAnalytics();
 
   const filteredTerms = useMemo(() => {
     const q = search.toLowerCase();
@@ -24,6 +26,14 @@ export default function GlossaryContent() {
       return matchesSearch && matchesCategory;
     });
   }, [search, activeCategory]);
+
+  useEffect(() => {
+    if (!search) return;
+    const timer = setTimeout(() => {
+      track("glossary_searched", { query: search, results_count: filteredTerms.length });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [search, filteredTerms.length, track]);
 
   const activeLabel = activeCategory
     ? glossaryData.categories.find((c) => c.id === activeCategory)?.title
@@ -72,7 +82,12 @@ export default function GlossaryContent() {
       {/* Category chips */}
       <div className="flex gap-2 overflow-x-auto pb-3 mb-5 scrollbar-none">
         <button
-          onClick={() => setActiveCategory(null)}
+          onClick={() => {
+            if (activeCategory !== null) {
+              setActiveCategory(null);
+              track("glossary_category_filtered", { category: null });
+            }
+          }}
           aria-pressed={activeCategory === null}
           className={[
             "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
@@ -86,9 +101,11 @@ export default function GlossaryContent() {
         {glossaryData.categories.map((cat) => (
           <button
             key={cat.id}
-            onClick={() =>
-              setActiveCategory(activeCategory === cat.id ? null : cat.id)
-            }
+            onClick={() => {
+              const next = activeCategory === cat.id ? null : cat.id;
+              setActiveCategory(next);
+              track("glossary_category_filtered", { category: next });
+            }}
             aria-pressed={activeCategory === cat.id}
             className={[
               "flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-display font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",

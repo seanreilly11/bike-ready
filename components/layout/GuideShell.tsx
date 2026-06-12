@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import { useProgress } from "@/hooks/useProgress";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import guidesData from "@/data/guides.json";
 
 const SECTION_TABS = [
@@ -38,6 +39,7 @@ export default function GuideShell({
 }) {
   const pathname = usePathname();
   const progress = useProgress();
+  const { track } = useAnalytics();
 
   const moduleId = MODULE_IDS.find((id) => pathname === `/guide/${id}`);
   const isModuleDetail = !!moduleId;
@@ -71,6 +73,13 @@ export default function GuideShell({
                 <a
                   key={i}
                   href={`#section-${i}`}
+                  onClick={() =>
+                    track("guide_toc_clicked", {
+                      module: currentGuide.moduleId,
+                      section_index: i,
+                      section_heading: section.heading,
+                    })
+                  }
                   className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-display font-medium bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900 transition-colors duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
                 >
                   {section.heading}

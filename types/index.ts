@@ -244,6 +244,15 @@ export interface AnalyticsEvents {
   // --- milestone & delight ---
   badge_toast_shown: { badge_id: string };
   badge_toast_dismissed: { badge_id: string; auto: boolean };
+
+  // --- guide engagement ---
+  glossary_searched: { query: string; results_count: number };
+  glossary_category_filtered: { category: string | null };
+  guide_toc_clicked: {
+    module: string;
+    section_index: number;
+    section_heading: string;
+  };
 }
 
 // ---------------------------------------------------------------------------
