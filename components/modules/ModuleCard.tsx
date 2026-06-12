@@ -45,7 +45,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
 
   const borderLeft =
     status === "mastered"
-      ? "3px solid #f5a623"
+      ? `3px solid ${colors.gold}`
       : status === "complete"
         ? `3px solid ${colors.green}`
         : status === "in_progress"
@@ -54,7 +54,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
             ? `3px solid ${colors.green}`
             : `1px solid ${colors.stone200}`;
 
-  const bg = status === "mastered" ? "#fffdf0" : "white";
+  const bg = status === "mastered" ? colors.goldLight : "white";
 
   return (
     <button
@@ -70,39 +70,10 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <h3 className="font-display font-bold text-orange">{module.title}</h3>
-        {/* {status === "mastered" ? (
-          <span
-            style={{
-              background:    "#fef3c7",
-              color:         "#92400e",
-              fontFamily:    "DM Mono, monospace",
-              fontSize:      9,
-              padding:       "2px 7px",
-              borderRadius:  99,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              display:       "inline-flex",
-              alignItems:    "center",
-              gap:           4,
-              whiteSpace:    "nowrap",
-            }}
-          >
-            <svg
-              viewBox="0 0 10 10"
-              fill="#92400e"
-              style={{ width: 9, height: 9 }}
-              aria-hidden="true"
-            >
-              <polygon points="5,1 6.2,3.8 9.5,4.1 7.1,6.2 7.9,9.5 5,7.8 2.1,9.5 2.9,6.2 0.5,4.1 3.8,3.8" />
-            </svg>
-            Mastered
-          </span>
-        ) : ( */}
         <Badge
           variant={statusBadge[status].variant}
           label={statusBadge[status].label}
         />
-        {/* )} */}
       </div>
 
       {/* Description */}

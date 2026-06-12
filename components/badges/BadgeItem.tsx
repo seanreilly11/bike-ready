@@ -1,5 +1,6 @@
 import { Lock } from 'lucide-react'
 import type { Badge } from '@/types'
+import { colors } from '@/lib/tokens'
 
 interface BadgeItemProps {
   badge:    Badge
@@ -17,9 +18,9 @@ const sizeClasses = {
 export default function BadgeItem({ badge, earned, mastered, size = 'md' }: BadgeItemProps) {
   const classes = sizeClasses[size]
 
-  const borderColor = mastered ? '#f5a623' : earned ? '#4ade80' : '#E8E4DC'
+  const borderColor = mastered ? colors.gold : earned ? colors.green : colors.stone200
   const borderWidth = mastered || earned ? 2.5 : 1
-  const bg          = mastered ? '#fffbea' : '#F4F2EE'
+  const bg          = mastered ? colors.goldLight : colors.stone100
   const opacity     = earned ? 1 : 0.4
 
   return (
@@ -35,7 +36,7 @@ export default function BadgeItem({ badge, earned, mastered, size = 'md' }: Badg
       {mastered && (
         <div
           className={`absolute -bottom-0.5 -right-0.5 ${classes.pip} rounded-full flex items-center justify-center border-2 border-white`}
-          style={{ background: '#f5a623' }}
+          style={{ background: colors.gold }}
         >
           <svg
             viewBox="0 0 10 10"

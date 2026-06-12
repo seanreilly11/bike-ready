@@ -32,6 +32,10 @@ export const colors = {
   yellow:      '#fde68a',
   yellowLight: '#fef9c3',
   yellowDark:  '#854d0e',
+
+  // Mastery (gold)
+  gold:      '#f5a623',
+  goldLight: '#fffbea',
 } as const
 
 export const fonts = {

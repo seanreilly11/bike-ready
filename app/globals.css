@@ -35,6 +35,10 @@
   --color-yellow-light: #fef9c3;
   --color-yellow-dark:  #854d0e;
 
+  /* Mastery (gold) */
+  --color-gold:       #f5a623;
+  --color-gold-light: #fffbea;
+
   /* Animations */
   --animate-fade-up: fadeUp 0.25s ease-out both;
   --animate-pop:     pop 0.3s ease-out both;
