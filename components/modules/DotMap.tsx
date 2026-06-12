@@ -31,14 +31,19 @@ export default function DotMap({
   moduleStatus,
 }: DotMapProps) {
   const { isPremium } = useAuth()
+  const isMastered = moduleStatus === 'mastered'
 
   return (
     <div className="flex flex-wrap gap-1.5">
       {questions.map((q, index) => {
         const isGated = !alwaysFree && !isPremium && index >= FREE_PER_MODULE
-        const state: DotState = isGated
-          ? 'locked'
-          : getDotState(q.id, progress, currentId)
+        // A mastered module shows all dots gold — a module-level signal that
+        // overrides individual question state.
+        const state: DotState = isMastered
+          ? 'mastered'
+          : isGated
+            ? 'locked'
+            : getDotState(q.id, progress, currentId)
 
         return (
           <button

@@ -126,4 +126,22 @@ describe('DotMap', () => {
     await user.click(lockedBtn)
     expect(onDotClick).not.toHaveBeenCalled()
   })
+
+  it('renders every dot as mastered when the module is mastered', () => {
+    const questions = makeQuestions(3)
+    useAppStore.setState({ isPremium: true })
+    render(
+      <DotMap
+        questions={questions}
+        progress={{ q1: { seen: true, correct: true } }}
+        currentId="q2"
+        onDotClick={vi.fn()}
+        alwaysFree={false}
+        moduleStatus="mastered"
+      />
+    )
+    expect(screen.getAllByRole('button', { name: /mastered/i })).toHaveLength(3)
+    // mastered overrides per-question and active state
+    expect(screen.queryByRole('button', { name: /active/i })).not.toBeInTheDocument()
+  })
 })

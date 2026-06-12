@@ -8,11 +8,12 @@ interface MasteryDotProps {
 }
 
 const stateClasses: Record<DotState, string> = {
-  unseen:  'bg-stone-200',
-  seen:    'bg-orange',
-  correct: 'bg-green',
-  active:  'bg-orange ring-2 ring-orange ring-offset-1',
-  locked:  'bg-stone-300',
+  unseen:   'bg-stone-200',
+  seen:     'bg-orange',
+  correct:  'bg-green',
+  active:   'bg-orange ring-2 ring-orange ring-offset-1',
+  locked:   'bg-stone-300',
+  mastered: 'bg-gold',
 }
 
 export default function MasteryDot({ state }: MasteryDotProps) {

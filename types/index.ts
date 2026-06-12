@@ -27,7 +27,13 @@ export type QuestionStatus = "draft" | "active" | "archived";
 
 export type SignId = keyof typeof SIGN_REGISTRY;
 
-export type DotState = "unseen" | "seen" | "correct" | "active" | "locked";
+export type DotState =
+  | "unseen"
+  | "seen"
+  | "correct"
+  | "active"
+  | "locked"
+  | "mastered";
 
 export const AnswerResult = {
   Correct: "Correct",
