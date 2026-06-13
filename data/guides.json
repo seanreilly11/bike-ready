@@ -3,6 +3,9 @@
     "moduleId": "fundamentals",
     "title": "Fundamentals",
     "subtitle": "The essential rules every cyclist needs before their first ride",
+    "seoTitle": "Cycling in the Netherlands: Essential Rules for Beginners",
+    "h1": "Cycling in the Netherlands — the fundamentals",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Which side of the road",
@@ -46,6 +49,9 @@
     "moduleId": "priority",
     "title": "Priority Rules",
     "subtitle": "Who goes first at Dutch junctions — and why your instinct is probably wrong",
+    "seoTitle": "Dutch Bike Priority Rules: Who Goes First at Junctions",
+    "h1": "Dutch bike priority rules",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Right before left — the default rule",
@@ -85,6 +91,9 @@
     "moduleId": "roadusers",
     "title": "Road Users",
     "subtitle": "How to share Dutch roads with trams, pedestrians, trucks, and everyone else",
+    "seoTitle": "Trams, Trucks & Pedestrians: Sharing Dutch Roads by Bike",
+    "h1": "Sharing the road",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Trams have absolute priority",
@@ -124,6 +133,9 @@
     "moduleId": "infrastructure",
     "title": "Infrastructure",
     "subtitle": "Roundabouts, cycle paths, and how Dutch roads are actually structured",
+    "seoTitle": "Dutch Roundabouts, Cycle Paths & Fietsstraten Explained",
+    "h1": "Cycle paths, roundabouts & fietsstraten",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Dutch roundabouts — the cycle ring",
@@ -167,6 +179,9 @@
     "moduleId": "legal",
     "title": "Legal Rules",
     "subtitle": "Fines, requirements, and the specific laws that catch expats by surprise",
+    "seoTitle": "Dutch Cycling Laws: Fines, Lights, Alcohol & Phone Rules",
+    "h1": "Dutch cycling laws and fines",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Lights — what you need and when",
@@ -214,6 +229,9 @@
     "moduleId": "vocabulary",
     "title": "Vocabulary",
     "subtitle": "The Dutch words you'll see on roads, signs, and cycle paths every day",
+    "seoTitle": "Dutch Road & Cycling Words Explained",
+    "h1": "Dutch road words explained",
+    "updatedAt": "2026-06-13",
     "sections": [
       {
         "heading": "Priority and yielding",

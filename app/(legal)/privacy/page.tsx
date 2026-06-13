@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — BikeReady",
+  title: "Privacy Policy",
   description: "How BikeReady collects, uses, and protects your data.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

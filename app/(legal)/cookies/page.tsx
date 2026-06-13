@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy — BikeReady",
+  title: "Cookie Policy",
   description: "What cookies BikeReady uses and why.",
+  alternates: { canonical: "/cookies" },
 };
 
 export default function CookiesPage() {

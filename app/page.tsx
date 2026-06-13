@@ -11,11 +11,13 @@ import { PREMIUM_ENABLED } from "@/lib/config";
 export const metadata: Metadata = {
   title: "BikeReady — Cycle safely in the Netherlands",
   description:
-    "A short preparation course for expats. Real scenarios, real Dutch rules. Know what to do before you ride.",
+    "Learn Dutch road rules, signs, and bike priority before your first ride. A short scenario-based course for expats. Know what to do before you ride.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "BikeReady — Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
+    url: "/",
     type: "website",
   },
   twitter: {

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
+import JsonLd from "@/components/seo/JsonLd";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -13,13 +15,16 @@ export async function generateMetadata({
   const guide = guides.find((g) => g.moduleId === moduleId);
   if (!guide) return {};
 
+  const title = guide.seoTitle ?? guide.title;
+  const path = `/guide/${guide.moduleId}`;
   return {
-    title: `${guide.title} — Dutch Cycling Guide | BikeReady`,
+    title,
     description: guide.subtitle,
+    alternates: { canonical: path },
     openGraph: {
-      title: `${guide.title} — Dutch Cycling Guide`,
+      title,
       description: guide.subtitle,
-      url: `https://bikeready.nl/guide/${guide.moduleId}`,
+      url: path,
     },
   };
 }
@@ -41,25 +46,29 @@ export default async function ModuleGuidePage({
   const prev = idx > 0 ? guides[idx - 1] : null;
   const next = idx < guides.length - 1 ? guides[idx + 1] : null;
 
+  const path = `/guide/${guide.moduleId}`;
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
+      <JsonLd
+        data={[
+          articleJsonLd({
             headline: `${guide.title} — Dutch Cycling Guide`,
             description: guide.subtitle,
-            author: { "@type": "Organization", name: "BikeReady" },
-            publisher: { "@type": "Organization", name: "BikeReady" },
+            path,
+            dateModified: guide.updatedAt,
           }),
-        }}
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Guide", path: "/guide" },
+            { name: guide.title, path },
+          ]),
+        ]}
       />
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          {guide.title}
+          {guide.h1 ?? guide.title}
         </h1>
         <p className="text-stone-500 text-sm mb-6">{guide.subtitle}</p>
 

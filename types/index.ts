@@ -274,6 +274,12 @@ export interface GuideEntry {
   moduleId: string;
   title: string;
   subtitle: string;
+  /** Keyword-targeted <title> tag. Falls back to `title` if absent. */
+  seoTitle?: string;
+  /** On-page H1. Falls back to `title` if absent. */
+  h1?: string;
+  /** ISO date (YYYY-MM-DD) used for Article dateModified + sitemap lastmod. */
+  updatedAt?: string;
   sections: GuideSection[];
 }
 
