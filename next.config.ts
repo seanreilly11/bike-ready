@@ -7,9 +7,13 @@ validateEnv();
 // Allowed remote origins: Supabase (REST + realtime), PostHog (EU + US
 // clouds, incl. lazily-loaded recorder script), Sentry ingest, Google Fonts.
 // Next.js inline bootstrap scripts require 'unsafe-inline' without nonces.
+// Dev (Turbopack) needs 'unsafe-eval' for source maps and React's debug
+// features; production keeps a strict script-src — React never uses eval there.
+const isDev = process.env.NODE_ENV !== "production";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://*.i.posthog.com https://*.posthog.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.i.posthog.com https://*.posthog.com`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob:",
