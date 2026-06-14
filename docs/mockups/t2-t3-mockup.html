@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BikeReady — T2 & T3 mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#E8500A; --orange-light:#FDF0E8; --orange-mid:#FAD5B8;
+    --stone-50:#FAFAF8; --stone-100:#F4F2EE; --stone-200:#E8E4DC;
+    --stone-400:#A89D8C; --stone-600:#6B6055; --stone-900:#1C1915;
+    --green:#4ade80; --green-light:#f0fdf4; --green-mid:#bbf7d0; --green-dark:#166534;
+    --red:#f87171; --red-light:#fef2f2; --red-mid:#fecaca; --red-dark:#991b1b;
+    --yellow:#fde68a; --yellow-light:#fef9c3; --yellow-dark:#854d0e;
+    --gold:#f5a623; --gold-light:#fffbea;
+    --disp:'Bricolage Grotesque',sans-serif; --mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--stone-100);font-family:var(--disp);color:var(--stone-900);-webkit-font-smoothing:antialiased}
+  .board{max-width:1200px;margin:0 auto;padding:40px 32px 56px}
+  .board > header{margin-bottom:28px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-400)}
+  .board h1{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+  .board h1 b{color:var(--orange)}
+  .sub{color:var(--stone-600);font-size:15px;margin-top:8px;max-width:720px;line-height:1.55}
+
+  .section{margin-top:30px}
+  .tag-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:999px;padding:3px 10px}
+  .tag.t3{color:var(--stone-600);background:var(--stone-100);border-color:var(--stone-200)}
+  .cap{font-size:13px;color:var(--stone-600)}
+  .frame{background:var(--stone-50);border:1px solid var(--stone-200);border-radius:18px;padding:20px;box-shadow:0 1px 2px rgba(28,25,21,.04)}
+
+  /* ---- nav + header band (T2.2 + T3) ---- */
+  .nav{background:#fff;border:1px solid var(--stone-200);border-radius:14px;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+  .logo{font-weight:800;font-size:18px;letter-spacing:-.02em}
+  .nav-items{display:flex;align-items:center;gap:4px}
+  .nav-link{position:relative;font-size:14px;font-weight:500;color:var(--stone-600);padding:8px 12px;border-radius:8px;text-decoration:none}
+  .nav-link.active{color:var(--orange)}
+  .nav-link.active::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2.5px;border-radius:2px;background:var(--orange)}
+  .signin{margin-left:8px;font-size:14px;font-weight:700;color:var(--stone-900);background:#fff;border:1px solid var(--stone-200);border-radius:12px;padding:7px 14px}
+
+  .headband{margin-top:14px;background:linear-gradient(0deg,var(--stone-50),var(--stone-50));border:1px solid var(--stone-200);border-left:4px solid var(--orange);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;background:var(--orange-light)}
+  .headband h2{font-size:24px;font-weight:800;letter-spacing:-.02em}
+  .headband p{font-size:13px;color:var(--stone-600);margin-top:2px}
+  .headband .pill{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);background:#fff;border:1px solid var(--orange-mid);border-radius:999px;padding:6px 12px}
+
+  /* ---- module cards (T2.1 + T2.3 + progress) ---- */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .mcard{background:#fff;border:1px solid var(--stone-200);border-radius:14px;padding:16px;border-left:3px solid var(--stone-200)}
+  .mcard.inprog{border-left-color:var(--orange)}
+  .mcard .top{display:flex;align-items:flex-start;gap:12px}
+  .icon-tile{flex:none;width:44px;height:44px;border-radius:12px;background:var(--orange-light);color:var(--orange);display:flex;align-items:center;justify-content:center}
+  .icon-tile svg{width:24px;height:24px}
+  .mcard .title{font-weight:700;color:var(--orange);font-size:16px}
+  .mcard .desc{font-size:13.5px;color:var(--stone-600);line-height:1.5;margin-top:3px}
+  .badge{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-radius:999px;padding:3px 9px;border:1px solid;white-space:nowrap}
+  .badge.notstarted{color:var(--stone-600);background:var(--stone-100);border-color:var(--stone-200)} /* was stone-400 → stone-600 */
+  .badge.inprogress{color:var(--yellow-dark);background:var(--yellow-light);border-color:var(--yellow)}
+  .spacer{flex:1}
+  .dots{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .dot{width:12px;height:12px;border-radius:999px;background:var(--stone-200)}
+  .dot.seen{background:var(--orange)} .dot.correct{background:var(--green)}
+  .pbar{height:6px;border-radius:999px;background:var(--stone-200);overflow:hidden;margin-top:12px}
+  .pbar > i{display:block;height:100%;border-radius:999px;background:var(--orange)}
+  .count{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--stone-400);margin-top:10px}
+
+  /* icon set strip (T2.1) */
+  .iconset{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .iconset .ti{display:flex;flex-direction:column;align-items:center;gap:6px;width:78px}
+  .iconset .ti span{font-size:11px;color:var(--stone-600);text-align:center}
+
+  /* ---- feedback + sign (T2.4 + T2.5) ---- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .qcard{background:#fff;border:1px solid var(--stone-200);border-radius:14px;padding:16px}
+  .signbox{background:var(--stone-100);border-radius:12px;padding:16px;display:flex;justify-content:center;margin-bottom:12px}
+  .prompt{font-size:15px;line-height:1.55}
+  .feedback{margin-top:14px;border-radius:14px;border:1px solid var(--green-mid);background:var(--green-light);padding:16px}
+  .fb-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .fb-chip{width:26px;height:26px;border-radius:999px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center}
+  .fb-chip svg{width:16px;height:16px}
+  .fb-title{font-weight:700;color:var(--green-dark);font-size:15px}
+  .fb-body{font-size:14px;line-height:1.55;color:var(--stone-900)}
+  .fb-divider{border-top:1px solid rgba(22,101,52,.15);margin-top:12px;padding-top:10px}
+  .fb-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--stone-400);display:block;margin-bottom:2px}
+  .fb-sub{font-size:13px;color:var(--stone-600);line-height:1.5;margin-bottom:8px}
+
+  /* ---- success spot illustration (T2.5) ---- */
+  .cleared{background:#fff;border:1px solid var(--stone-200);border-radius:14px;padding:30px 24px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .cleared h3{font-size:20px;font-weight:800;margin-top:14px}
+  .cleared p{color:var(--stone-600);font-size:14px;margin-top:6px;max-width:300px;line-height:1.5}
+  .btn{margin-top:16px;background:#fff;border:1px solid var(--stone-200);border-radius:12px;font-weight:700;font-size:14px;padding:9px 16px}
+  .btn.primary{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+  /* ---- elevation / rhythm (T3) ---- */
+  .elev{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .el{background:#fff;border:1px solid var(--stone-200);border-radius:14px;padding:18px;font-size:13px;color:var(--stone-600)}
+  .el b{display:block;color:var(--stone-900);font-size:14px;margin-bottom:6px}
+  .el.s1{box-shadow:0 1px 2px rgba(28,25,21,.05)}
+  .el.s2{box-shadow:0 4px 10px rgba(28,25,21,.08)}
+  .el.s3{box-shadow:0 12px 28px rgba(28,25,21,.12)}
+
+  .note{font-size:12px;color:var(--stone-400);margin-top:8px;font-family:var(--mono)}
+  .legend{font-family:var(--mono);font-size:11px;color:var(--stone-400);text-transform:uppercase;letter-spacing:.06em;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <p class="kicker">BikeReady · design mockup</p>
+    <h1>Tier 2 &amp; Tier 3 <b>proposed design</b></h1>
+    <p class="sub">Same locked palette and fonts. Every illustration and icon below is built only from existing tokens (orange / stone / green / semantic). This is a static mock, not the live app.</p>
+  </header>
+
+  <!-- ===== T2.2 + T3 ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">T2.2</span><span class="tag t3">T3</span><span class="cap">Nav active-state underline · index header band with module count</span></div>
+    <div class="frame">
+      <div class="nav">
+        <div class="logo">BikeReady</div>
+        <div class="nav-items">
+          <a class="nav-link active" href="#">Practice</a>
+          <a class="nav-link" href="#">Review</a>
+          <a class="nav-link" href="#">Guide</a>
+          <a class="nav-link" href="#">Test</a>
+          <span class="signin">Sign in</span>
+        </div>
+      </div>
+      <div class="headband">
+        <div>
+          <h2>Practice</h2>
+          <p>Work through 7 modules of real Dutch cycling scenarios.</p>
+        </div>
+        <span class="pill">7 modules · 0% done</span>
+      </div>
+      <p class="note">Before: nav showed active state with orange text only · index page started with a bare "Practice" heading on empty beige.</p>
+    </div>
+  </div>
+
+  <!-- ===== T2.1 icon set ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">T2.1</span><span class="cap">Custom on-palette module icon set (replaces emoji)</span></div>
+    <div class="frame">
+      <div class="iconset">
+        <div class="ti"><div class="icon-tile" id="ic-bike"></div><span>Fundamentals</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-zap"></div><span>Priority</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-sign"></div><span>Signs</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-walk"></div><span>Road Users</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-round"></div><span>Infrastructure</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-scale"></div><span>Legal</span></div>
+        <div class="ti"><div class="icon-tile" id="ic-flag"></div><span>Vocabulary</span></div>
+      </div>
+      <p class="note">Uniform 24px grid · 1.75px stroke · orange on orange-light tile — consistent with lucide icons already in the app.</p>
+    </div>
+  </div>
+
+  <!-- ===== T2.1 + T2.3 + progress on cards ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">T2.1</span><span class="tag">T2.3</span><span class="cap">Module cards: icon · readable status badge (stone-600 not stone-400) · 6px progress bar · 12px dots</span></div>
+    <div class="frame">
+      <div class="cards">
+        <div class="mcard inprog">
+          <div class="top">
+            <div class="icon-tile" id="ic-bike2"></div>
+            <div>
+              <div class="title">Fundamentals</div>
+              <div class="desc">The essential rules every cyclist in the Netherlands needs to know before anything else.</div>
+            </div>
+            <div class="spacer"></div>
+            <span class="badge inprogress">In progress</span>
+          </div>
+          <div class="dots">
+            <span class="dot correct"></span><span class="dot correct"></span><span class="dot seen"></span>
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+          <div class="pbar"><i style="width:38%"></i></div>
+          <div class="count">3 / 8 seen</div>
+        </div>
+
+        <div class="mcard">
+          <div class="top">
+            <div class="icon-tile" id="ic-sign2"></div>
+            <div>
+              <div class="title">Signs &amp; Signals</div>
+              <div class="desc">Read the signs that keep you out of trouble.</div>
+            </div>
+            <div class="spacer"></div>
+            <span class="badge notstarted">Not started</span>
+          </div>
+          <div class="dots">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+          <div class="pbar"><i style="width:0%"></i></div>
+          <div class="count">0 / 8 seen</div>
+        </div>
+      </div>
+      <p class="legend">dot states · grey = unseen · orange = seen · green = correct</p>
+    </div>
+  </div>
+
+  <!-- ===== T2.4 + T2.5 ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">T2.4</span><span class="tag">T2.5</span><span class="cap">Crisp SVG sign in context · feedback panel with correct/wrong icon chip (meaning beyond colour)</span></div>
+    <div class="frame">
+      <div class="two">
+        <div class="qcard">
+          <div class="signbox" id="signbox"></div>
+          <p class="prompt">You see this blue round sign at the start of a path. What does it mean for you as a cyclist?</p>
+        </div>
+        <div class="qcard">
+          <p class="prompt" style="color:var(--stone-600);font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">Feedback panel</p>
+          <div class="feedback">
+            <div class="fb-head">
+              <span class="fb-chip" id="fb-check"></span>
+              <span class="fb-title">Correct</span>
+            </div>
+            <p class="fb-body">A blue circle is mandatory: this is a compulsory cycle path (verplicht fietspad). You must use it, and mopeds without an engine running may join.</p>
+            <div class="fb-divider">
+              <span class="fb-label">Rule</span>
+              <p class="fb-sub">Blue circle = obligation. Red circle = prohibition.</p>
+              <span class="fb-label">Tip</span>
+              <p class="fb-sub">Blue means "you must" — not "you may".</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="note">The chip + check icon means a colour-blind user reads "correct" without relying on the green tint.</p>
+    </div>
+  </div>
+
+  <!-- ===== T2.5 success illustration ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">T2.5</span><span class="cap">Success / empty state with on-palette spot illustration (replaces lone icon)</span></div>
+    <div class="frame">
+      <div class="two">
+        <div class="cleared">
+          <div id="spot-cleared"></div>
+          <h3>All cleared</h3>
+          <p>No wrong answers to review. Keep learning!</p>
+          <span class="btn">Back to modules</span>
+        </div>
+        <div class="cleared">
+          <div id="spot-done"></div>
+          <h3>Module complete</h3>
+          <p>You've seen all 8 questions in Fundamentals.</p>
+          <span class="btn primary">Next: Priority Rules →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== T3 elevation ===== -->
+  <div class="section">
+    <div class="tag-row"><span class="tag t3">T3</span><span class="cap">Consistent elevation + spacing rhythm applied across cards / sheets / modals</span></div>
+    <div class="frame">
+      <div class="elev">
+        <div class="el s1"><b>Rest — shadow-sm</b>Cards at rest. Barely-there lift on stone-50.</div>
+        <div class="el s2"><b>Raised — shadow-md</b>Hover / active cards, toasts.</div>
+        <div class="el s3"><b>Overlay — shadow-xl</b>Modals, gate, sheets.</div>
+      </div>
+      <p class="note">Spacing tiers 16 / 24 / 32 / 48 · radius 14 (cards) / 12 (buttons) / 999 (tags) — standardised everywhere.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== inline SVG defs injected by JS to keep markup readable ===== -->
+<script>
+const S = (p,extra='') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" ${extra}>${p}</svg>`;
+const icons = {
+  bike: S('<circle cx="6" cy="17.5" r="3.2"/><circle cx="18" cy="17.5" r="3.2"/><path d="M6 17.5l4.5-8H15"/><path d="M9 9.5h4l3 8"/><path d="M14.5 6.5h2.2"/>'),
+  zap:  S('<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>'),
+  sign: S('<rect x="4" y="4" width="13" height="7" rx="1.5"/><path d="M17 7.5l3 0"/><path d="M9 11v9"/>'),
+  walk: S('<circle cx="12.5" cy="4.5" r="1.8"/><path d="M11 21l1.5-6-2.5-2.5 1-4 3 2 2 1"/><path d="M10 13l-2 4"/>'),
+  round:S('<path d="M12 7a5 5 0 1 1-4.5 2.8"/><path d="M7.5 6.5l-0.2 3.4 3.4-0.2"/><path d="M12 7v5l3 2"/>'),
+  scale:S('<path d="M12 4v16"/><path d="M6 20h12"/><path d="M5 7h14"/><path d="M5 7l-2.5 5a2.5 2.5 0 0 0 5 0L5 7z"/><path d="M19 7l-2.5 5a2.5 2.5 0 0 0 5 0L19 7z"/>'),
+  flag: S('<path d="M6 21V4"/><path d="M6 4h11l-2 3.5L17 11H6"/>'),
+};
+document.getElementById('ic-bike').innerHTML = icons.bike;
+document.getElementById('ic-bike2').innerHTML = icons.bike;
+document.getElementById('ic-zap').innerHTML = icons.zap;
+document.getElementById('ic-sign').innerHTML = icons.sign;
+document.getElementById('ic-sign2').innerHTML = icons.sign;
+document.getElementById('ic-walk').innerHTML = icons.walk;
+document.getElementById('ic-round').innerHTML = icons.round;
+document.getElementById('ic-scale').innerHTML = icons.scale;
+document.getElementById('ic-flag').innerHTML = icons.flag;
+
+// feedback check chip
+document.getElementById('fb-check').innerHTML = S('<path d="M5 12.5l4.5 4.5L19 6.5"/>','');
+
+// Dutch mandatory cycle sign (G11) as crisp SVG — real-world sign colours (content, not UI tokens)
+document.getElementById('signbox').innerHTML = `
+<svg width="92" height="92" viewBox="0 0 92 92" aria-label="Mandatory cycle path (G11)">
+  <circle cx="46" cy="46" r="44" fill="#1466b5"/>
+  <circle cx="46" cy="46" r="44" fill="none" stroke="#0f4f8c" stroke-width="2"/>
+  <g fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="31" cy="58" r="11"/>
+    <circle cx="63" cy="58" r="11"/>
+    <path d="M31 58l13-23h11"/>
+    <path d="M38 35h13l9 23"/>
+    <path d="M51 31h6"/>
+  </g>
+</svg>`;
+
+// spot illustration: bike wheel + green check badge (tokens only)
+const spot = (badge) => `
+<svg width="120" height="92" viewBox="0 0 120 92" aria-hidden="true">
+  <circle cx="46" cy="50" r="30" fill="#FDF0E8"/>
+  <g fill="none" stroke="#E8500A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="38" cy="58" r="12"/><circle cx="72" cy="58" r="12"/>
+    <path d="M38 58l13-22h10"/><path d="M46 36h12l11 22"/><path d="M58 32h6"/>
+  </g>
+  ${badge ? `<g><circle cx="92" cy="30" r="16" fill="#4ade80"/><path d="M84 30l5 5 9-10" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>` : `<g><circle cx="92" cy="30" r="16" fill="#f5a623"/><path d="M92 22v9M92 36v0.5" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>`}
+</svg>`;
+document.getElementById('spot-cleared').innerHTML = spot(true);
+document.getElementById('spot-done').innerHTML = spot(false);
+</script>
+</body>
+</html>
