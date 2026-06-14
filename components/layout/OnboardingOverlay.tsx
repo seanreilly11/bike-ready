@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Lightbulb, ArrowRight } from 'lucide-react'
+import { Bike, Lightbulb, ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useAnalytics } from '@/hooks/useAnalytics'
 
@@ -11,17 +11,17 @@ interface OnboardingOverlayProps {
 
 const screens = [
   {
-    emoji: '🚲' as const,
+    icon: Bike,
     title: 'Welcome to BikeReady',
     body: 'A short preparation course for expats cycling in Dutch cities. Not a habit app — a one-time reset of your cycling instincts for the Netherlands.',
   },
   {
-    emoji: 'lightbulb' as const,
+    icon: Lightbulb,
     title: 'How it works',
     body: 'You\'re dropped into a real cycling moment. Make a call based on instinct. The feedback confirms or corrects your mental model. The question is the lesson.',
   },
   {
-    emoji: '🚲' as const,
+    icon: Bike,
     title: 'Start here first',
     body: 'Begin with Fundamentals — it\'s free and covers the essential rules every cyclist needs before anything else. Then work through the other modules at your own pace.',
   },
@@ -32,6 +32,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
   const { track } = useAnalytics()
   const isLast = step === screens.length - 1
   const screen = screens[step]
+  const StepIcon = screen.icon
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4">
@@ -60,8 +61,8 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
         </div>
 
         <div key={step} className="text-center mb-6 animate-fade-up">
-          <div className="text-5xl mb-3 flex justify-center">
-            {screen.emoji === 'lightbulb' ? <Lightbulb size={48} className="text-orange" aria-hidden="true" /> : <span>{screen.emoji}</span>}
+          <div className="mb-3 flex justify-center">
+            <StepIcon size={48} className="text-orange" aria-hidden="true" />
           </div>
           <h2 id="onboarding-title" className="font-display font-extrabold text-xl text-stone-900 mb-2">
             {screen.title}

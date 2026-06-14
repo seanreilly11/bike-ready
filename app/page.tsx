@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/layout/Nav";
 import LandingButton from "@/components/layout/LandingButton";
 import HeroSection from "@/components/layout/HeroSection";
+import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
 import { APP_PRICE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
@@ -97,9 +98,12 @@ export default function LandingPage() {
                 ].join(" ")}
               >
                 <div>
-                  <p className="font-display font-bold text-sm text-orange mb-1">
-                    {mod.title}
-                  </p>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <ModuleIcon icon={mod.icon} size="sm" />
+                    <p className="font-display font-bold text-sm text-orange">
+                      {mod.title}
+                    </p>
+                  </div>
                   <p className="text-xs text-stone-500 leading-relaxed mb-2">
                     {mod.description}
                   </p>

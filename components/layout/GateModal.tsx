@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
+import ModuleIcon from "@/components/ui/ModuleIcon";
 import { APP_PRICE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
@@ -88,13 +89,16 @@ export default function GateModal({
         {/* Next module nudge */}
         {nextModule && (
           <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 mb-4 flex items-center justify-between gap-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-0.5">
-                Or try next
-              </p>
-              <p className="font-display font-bold text-stone-900">
-                {nextModule.emoji} {nextModule.title}
-              </p>
+            <div className="flex items-center gap-3 min-w-0">
+              <ModuleIcon icon={nextModule.icon} size="sm" />
+              <div>
+                <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-0.5">
+                  Or try next
+                </p>
+                <p className="font-display font-bold text-stone-900">
+                  {nextModule.title}
+                </p>
+              </div>
             </div>
             <button
               onClick={() => { track('gate_next_module_clicked', { from_module: moduleId, to_module: nextModule.id as ModuleId }); onNextModule(nextModule.id); }}

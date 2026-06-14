@@ -1,59 +1,60 @@
+import { Bike, Zap, Signpost, Footprints, RotateCw, Scale, Languages, Trophy } from 'lucide-react'
 import type { Badge } from '@/types'
 
 const badges: Badge[] = [
   {
     id:          'badge_fundamentals',
     name:        'Ready to Ride',
-    emoji:       '🚲',
+    icon:        Bike,
     description: 'Completed Fundamentals',
     moduleId:    'fundamentals',
   },
   {
     id:          'badge_priority',
     name:        'Priority Pro',
-    emoji:       '⚡',
+    icon:        Zap,
     description: 'Completed Priority Rules',
     moduleId:    'priority',
   },
   {
     id:          'badge_signs',
     name:        'Sign Reader',
-    emoji:       '🪧',
+    icon:        Signpost,
     description: 'Completed Signs & Signals',
     moduleId:    'signs',
   },
   {
     id:          'badge_roadusers',
     name:        'Road Aware',
-    emoji:       '🚶',
+    icon:        Footprints,
     description: 'Completed Road Users',
     moduleId:    'roadusers',
   },
   {
     id:          'badge_infra',
     name:        'Roundabout Ready',
-    emoji:       '🔄',
+    icon:        RotateCw,
     description: 'Completed Infrastructure',
     moduleId:    'infrastructure',
   },
   {
     id:          'badge_legal',
     name:        'Law Abiding',
-    emoji:       '⚖️',
+    icon:        Scale,
     description: 'Completed Legal Rules',
     moduleId:    'legal',
   },
   {
     id:          'badge_vocab',
     name:        'Dutch Speaker',
-    emoji:       '🇳🇱',
+    icon:        Languages,
     description: 'Completed Vocabulary',
     moduleId:    'vocabulary',
   },
   {
     id:          'badge_master',
     name:        'BikeReady',
-    emoji:       '🏆',
+    icon:        Trophy,
     description: 'Completed all modules and passed the Test',
     moduleId:    null,
   },

@@ -14,6 +14,7 @@ import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
+import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
@@ -282,7 +283,7 @@ export default function TestPage() {
                   {pct}%
                 </span>
               </div>
-              <ProgressBar value={pct} color="orange" height={3} />
+              <ProgressBar value={pct} color="orange" height={6} />
             </div>
           </div>
 
@@ -400,8 +401,9 @@ export default function TestPage() {
                   style={{ animationDelay: `${i * 50}ms` }}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-display font-medium text-stone-900 flex items-center gap-1.5">
-                      {mod.emoji} {mod.title}
+                    <span className="font-display font-medium text-stone-900 flex items-center gap-2">
+                      <ModuleIcon icon={mod.icon} size="sm" />
+                      {mod.title}
                     </span>
                     <span className="font-mono text-xs text-stone-400">
                       {correct}/{total}

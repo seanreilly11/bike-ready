@@ -35,9 +35,9 @@ describe('modules data', () => {
     }
   })
 
-  it('every module has an emoji', () => {
+  it('every module has an icon', () => {
     for (const mod of modules) {
-      expect(mod.emoji, `${mod.id} missing emoji`).toBeTruthy()
+      expect(mod.icon, `${mod.id} missing icon`).toBeTruthy()
     }
   })
 

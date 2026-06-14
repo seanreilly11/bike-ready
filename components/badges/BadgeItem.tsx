@@ -10,27 +10,33 @@ interface BadgeItemProps {
 }
 
 const sizeClasses = {
-  sm: { outer: 'size-9',      emoji: 'text-base',   pip: 'size-3.5',    svg: 'size-[7px]',  lock: 15 },
-  md: { outer: 'size-14',     emoji: 'text-[25px]', pip: 'size-[18px]', svg: 'size-[9px]',  lock: 20 },
-  lg: { outer: 'size-[72px]', emoji: 'text-[32px]', pip: 'size-[22px]', svg: 'size-[11px]', lock: 26 },
+  sm: { outer: 'size-9',      icon: 16, pip: 'size-3.5',    svg: 'size-[7px]',  lock: 15 },
+  md: { outer: 'size-14',     icon: 24, pip: 'size-[18px]', svg: 'size-[9px]',  lock: 20 },
+  lg: { outer: 'size-[72px]', icon: 30, pip: 'size-[22px]', svg: 'size-[11px]', lock: 26 },
 }
 
 export default function BadgeItem({ badge, earned, mastered, size = 'md' }: BadgeItemProps) {
   const classes = sizeClasses[size]
+  const Icon = badge.icon
 
   const borderColor = mastered ? colors.gold : earned ? colors.green : colors.stone200
   const borderWidth = mastered || earned ? 2.5 : 1
   const bg          = mastered ? colors.goldLight : colors.stone100
   const opacity     = earned ? 1 : 0.4
+  const iconColor   = mastered ? colors.gold : colors.orange
 
   return (
     <div className="relative inline-block">
       <div
-        className={`${classes.outer} ${classes.emoji} rounded-full flex items-center justify-center select-none`}
-        style={{ background: bg, border: `${borderWidth}px solid ${borderColor}`, opacity, lineHeight: 1 }}
+        className={`${classes.outer} rounded-full flex items-center justify-center select-none`}
+        style={{ background: bg, border: `${borderWidth}px solid ${borderColor}`, opacity }}
         aria-label={badge.name}
       >
-        {earned ? badge.emoji : <Lock size={classes.lock} className="text-stone-500" aria-hidden="true" />}
+        {earned ? (
+          <Icon size={classes.icon} strokeWidth={1.75} style={{ color: iconColor }} aria-hidden="true" />
+        ) : (
+          <Lock size={classes.lock} className="text-stone-500" aria-hidden="true" />
+        )}
       </div>
 
       {mastered && (

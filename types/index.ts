@@ -2,6 +2,7 @@
 // This is the single source of truth for all type definitions.
 
 import { SIGN_REGISTRY } from "@/data/signs";
+import type { LucideIcon } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // Enums and unions
@@ -95,7 +96,7 @@ export interface LessonsFile {
 export interface Module {
   id: ModuleId;
   title: string;
-  emoji: string;
+  icon: LucideIcon;
   description: string;
   badgeId: string;
   badgeName: string;
@@ -105,7 +106,7 @@ export interface Module {
 export interface Badge {
   id: string;
   name: string;
-  emoji: string;
+  icon: LucideIcon;
   description: string;
   moduleId: ModuleId | null;
 }
