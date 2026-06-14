@@ -16,6 +16,7 @@ interface QuestionCardProps {
   answered:    boolean
   selectedId:  string | null
   hideCorrect: boolean   // true in Test mode
+  lessonHiddenOnDesktop?: boolean   // true when a study rail shows the lesson on lg
 }
 
 
@@ -25,6 +26,7 @@ export default function QuestionCard({
   answered,
   selectedId,
   hideCorrect,
+  lessonHiddenOnDesktop = false,
 }: QuestionCardProps) {
   const [localSelected, setLocalSelected] = useState<string | null>(selectedId)
   const [localAnswered, setLocalAnswered]  = useState(answered)
@@ -61,8 +63,10 @@ export default function QuestionCard({
         <Badge variant={question.difficulty} label={question.difficulty} />
       </div>
 
-      {/* Lesson accordion */}
-      <LessonAccordion skill={question.skill} difficulty={question.difficulty} question={question} />
+      {/* Lesson accordion (hidden on desktop when a study rail shows the lesson) */}
+      <div className={lessonHiddenOnDesktop ? 'lg:hidden' : undefined}>
+        <LessonAccordion skill={question.skill} difficulty={question.difficulty} question={question} />
+      </div>
 
       {/* Prompt card */}
       <div className="bg-white border border-stone-200 rounded-xl p-4 mb-3">

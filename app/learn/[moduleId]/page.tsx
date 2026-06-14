@@ -20,6 +20,9 @@ import QuestionCard from "@/components/questions/QuestionCard";
 import BadgeToast from "@/components/badges/BadgeToast";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
+import ModuleIcon from "@/components/ui/ModuleIcon";
+import StudyLayout from "@/components/layout/StudyLayout";
+import StudyRail from "@/components/layout/StudyRail";
 import modules from "@/data/modules";
 import { useQuestions, activeQuestions } from "@/hooks/useQuestions";
 import { isMastered } from "@/lib/utils/progress";
@@ -111,6 +114,17 @@ export default function ModuleSessionPage() {
     setCurrentIndex(next);
   }
 
+  function handleDotClick(idx: number) {
+    if (idx !== currentIndex) {
+      track("dot_map_jumped", {
+        module: moduleId,
+        from_index: currentIndex,
+        to_index: idx,
+      });
+    }
+    setCurrentIndex(idx);
+  }
+
   const progressPct =
     moduleQuestions.length > 0
       ? Math.round((seenInModule / moduleQuestions.length) * 100)
@@ -123,8 +137,8 @@ export default function ModuleSessionPage() {
       )}
 
       {/* Sticky sub-header */}
-      <div className="sticky top-14 z-30 bg-white border-b border-stone-200 px-5 py-3">
-        <div className="max-w-2xl mx-auto">
+      <div className="sticky top-14 z-30 bg-white border-b border-stone-200 py-3">
+        <div className="max-w-5xl mx-auto px-5">
           <div className="flex items-center gap-3 mb-2">
             <button
               onClick={() => {
@@ -149,119 +163,125 @@ export default function ModuleSessionPage() {
               {seenInModule} / {moduleQuestions.length}
             </span>
           </div>
-          <ProgressBar value={progressPct} color="orange" height={3} />
+          <ProgressBar value={progressPct} color="orange" height={6} />
         </div>
       </div>
 
       <main className="min-h-dvh bg-stone-50">
-        <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
-          {/* Dot map */}
-          <div className="mb-6">
-            <DotMap
-              questions={moduleQuestions}
-              progress={progress.progress}
-              currentId={currentQuestion?.id ?? ""}
-              onDotClick={(idx) => {
-                if (idx !== currentIndex) {
-                  track("dot_map_jumped", {
-                    module: mod.id,
-                    from_index: currentIndex,
-                    to_index: idx,
-                  });
-                }
-                setCurrentIndex(idx);
-              }}
-              alwaysFree={mod.alwaysFree}
-              moduleStatus={moduleStatus}
-            />
-          </div>
+        {/* Badge toast */}
+        {badges.newBadge && (
+          <BadgeToast
+            badge={badges.newBadge}
+            mastered={isMastered(
+              badges.newBadge.moduleId ?? '',
+              progress.progress,
+              activeQuestions,
+            )}
+            onDismiss={badges.dismissNewBadge}
+          />
+        )}
 
-          {/* Badge toast */}
-          {badges.newBadge && (
-            <BadgeToast
-              badge={badges.newBadge}
-              mastered={isMastered(
-                badges.newBadge.moduleId ?? '',
-                progress.progress,
-                activeQuestions,
-              )}
-              onDismiss={badges.dismissNewBadge}
-            />
-          )}
+        {allDone || hitGate ? (
+          <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
+            {/* Dot map */}
+            <div className="mb-6">
+              <DotMap
+                questions={moduleQuestions}
+                progress={progress.progress}
+                currentId={currentQuestion?.id ?? ""}
+                onDotClick={handleDotClick}
+                alwaysFree={mod.alwaysFree}
+                moduleStatus={moduleStatus}
+              />
+            </div>
 
-          {/* All done */}
-          {allDone ? (
-            <div className="text-center py-10">
-              <div className="text-4xl mb-3">{mod.emoji}</div>
-              <h2 className="font-display font-bold text-xl text-stone-900 mb-2">
-                Module complete
-              </h2>
-              <p className="text-stone-600 text-sm mb-6">
-                You&apos;ve seen all {moduleQuestions.length} questions in{" "}
-                {mod.title}.
-              </p>
-              {!user && (
-                <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
-                  Sign in so you don&apos;t lose what you&apos;ve done.{" "}
-                  <button
-                    onClick={() => openAuth('save_progress')}
-                    className="font-bold text-orange underline underline-offset-2"
+            {allDone ? (
+              <div className="text-center py-10">
+                <div className="flex justify-center mb-3"><ModuleIcon icon={mod.icon} size="lg" /></div>
+                <h2 className="font-display font-bold text-xl text-stone-900 mb-2">
+                  Module complete
+                </h2>
+                <p className="text-stone-600 text-sm mb-6">
+                  You&apos;ve seen all {moduleQuestions.length} questions in{" "}
+                  {mod.title}.
+                </p>
+                {!user && (
+                  <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
+                    Sign in so you don&apos;t lose what you&apos;ve done.{" "}
+                    <button
+                      onClick={() => openAuth('save_progress')}
+                      className="font-bold text-orange underline underline-offset-2"
+                    >
+                      Sign in
+                    </button>
+                  </div>
+                )}
+                <div className="flex flex-col gap-3">
+                  {nextModule && (
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      full
+                      onClick={() => router.push(`/learn/${nextModule.id}`)}
+                    >
+                      Next: {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
+                    </Button>
+                  )}
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    full
+                    onClick={() => router.push("/learn")}
                   >
-                    Sign in
-                  </button>
+                    Back to modules
+                  </Button>
                 </div>
-              )}
-              <div className="flex flex-col gap-3">
+              </div>
+            ) : (
+              /* End of free preview */
+              <div className="animate-fade-up text-center">
+                <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-6">
+                  Free preview complete
+                </p>
+
                 {nextModule && (
                   <Button
-                    variant="primary"
+                    variant="secondary"
                     size="lg"
                     full
                     onClick={() => router.push(`/learn/${nextModule.id}`)}
                   >
-                    Next: {nextModule.emoji} {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
+                    Next module: {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 )}
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  full
-                  onClick={() => router.push("/learn")}
-                >
-                  Back to modules
-                </Button>
-              </div>
-            </div>
-          ) : hitGate ? (
-            /* End of free preview */
-            <div className="animate-fade-up text-center">
-              <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-6">
-                Free preview complete
-              </p>
 
-              {nextModule && (
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  full
-                  onClick={() => router.push(`/learn/${nextModule.id}`)}
-                >
-                  Next module: {nextModule.emoji} {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
-                </Button>
-              )}
-
-              <div className="mt-6">
-                <UpsellBanner
-                  moduleName={mod.title}
-                  moduleQuestionCount={moduleQuestions.length}
-                  onUnlock={handleUnlock}
-                />
+                <div className="mt-6">
+                  <UpsellBanner
+                    moduleName={mod.title}
+                    moduleQuestionCount={moduleQuestions.length}
+                    onUnlock={handleUnlock}
+                  />
+                </div>
               </div>
-            </div>
-          ) : (
-            /* Active question */
-            currentQuestion && (
+            )}
+          </div>
+        ) : currentQuestion ? (
+          /* Active question — reading column + desktop context rail */
+          <StudyLayout
+            reading={
               <div>
+                {/* Dot map — mobile only; the rail shows progress on desktop */}
+                <div className="mb-6 lg:hidden">
+                  <DotMap
+                    questions={moduleQuestions}
+                    progress={progress.progress}
+                    currentId={currentQuestion.id}
+                    onDotClick={handleDotClick}
+                    alwaysFree={mod.alwaysFree}
+                    moduleStatus={moduleStatus}
+                  />
+                </div>
+
                 <QuestionCard
                   key={currentQuestion.id}
                   question={currentQuestion}
@@ -269,6 +289,7 @@ export default function ModuleSessionPage() {
                   answered={!!progress.progress[currentQuestion.id]?.seen}
                   selectedId={null}
                   hideCorrect={false}
+                  lessonHiddenOnDesktop
                 />
                 {progress.progress[currentQuestion.id]?.seen && (
                   <div className="mt-4">
@@ -285,9 +306,20 @@ export default function ModuleSessionPage() {
                   </div>
                 )}
               </div>
-            )
-          )}
-        </div>
+            }
+            rail={
+              <StudyRail
+                question={currentQuestion}
+                moduleQuestions={moduleQuestions}
+                progress={progress.progress}
+                currentId={currentQuestion.id}
+                onDotClick={handleDotClick}
+                alwaysFree={mod.alwaysFree}
+                moduleStatus={moduleStatus}
+              />
+            }
+          />
+        ) : null}
       </main>
     </AppShell>
   );
