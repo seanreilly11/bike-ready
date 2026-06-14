@@ -16,6 +16,7 @@ import ModuleCard from "@/components/modules/ModuleCard";
 import BadgeGrid from "@/components/badges/BadgeGrid";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
+import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
@@ -75,17 +76,17 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
                 className="bg-stone-800 border border-stone-700 rounded-xl p-4 opacity-80"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">{mod.emoji}</span>
+                  <ModuleIcon icon={mod.icon} size="sm" />
                   <p className="font-display font-bold text-white text-sm">
                     {mod.title}
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {qs.map((q, i) => (
                     <div
                       key={q.id}
                       className={[
-                        "w-2.5 h-2.5 rounded-full",
+                        "w-3 h-3 rounded-full",
                         i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
                         i >= FREE_PER_MODULE ? "opacity-35" : "",
                       ].join(" ")}
@@ -164,6 +165,11 @@ export default function LearnIndexPage() {
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
 
+  const answeredCount = allQuestions.filter((q) => progress.progress[q.id]?.seen).length;
+  const completionPct = allQuestions.length
+    ? Math.round((answeredCount / allQuestions.length) * 100)
+    : 0;
+
   // Don't show preview-complete screen while auth is still resolving
   if (!isAuthLoading && progress.isPreviewComplete(isPremium)) {
     return (
@@ -189,14 +195,24 @@ export default function LearnIndexPage() {
       )}
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
-        <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-6 lg:text-3xl">
-          Practice
-        </h1>
+        <div className="bg-orange-light border border-stone-200 border-l-4 border-l-orange rounded-2xl px-5 py-4 sm:px-6 mb-6 flex items-center justify-between gap-4">
+          <div>
+            <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
+              Practice
+            </h1>
+            <p className="text-sm text-stone-600 mt-1">
+              Work through real Dutch cycling scenarios, one question at a time.
+            </p>
+          </div>
+          <span className="shrink-0 font-mono text-xs uppercase tracking-wide text-orange bg-white border border-orange-mid rounded-full px-3 py-1.5">
+            {modules.length} modules · {completionPct}% done
+          </span>
+        </div>
 
         {/* Module cards — progress is synchronous from store, no skeleton needed */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
           {modules.map((mod, i) => (
-            <div key={mod.id} className="animate-fade-up" style={{ animationDelay: `${i * 60}ms` }}>
+            <div key={mod.id} className="animate-fade-up h-full" style={{ animationDelay: `${i * 60}ms` }}>
               <ModuleCard
                 module={mod}
                 onClick={() => router.push(`/learn/${mod.id}`)}

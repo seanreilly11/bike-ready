@@ -4,6 +4,7 @@ import type { Module, ModuleStatus } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
 import MasteryDot from "@/components/ui/MasteryDot";
 import Badge from "@/components/ui/Badge";
+import ModuleIcon from "@/components/ui/ModuleIcon";
 import { useAppStore } from "@/stores/appStore";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useProgress } from "@/hooks/useProgress";
@@ -60,7 +61,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
     <button
       onClick={onClick}
       className={[
-        "w-full text-left border border-stone-200 rounded-xl p-4 cursor-pointer",
+        "w-full h-full text-left border border-stone-200 rounded-xl p-4 cursor-pointer",
         "hover:border-stone-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
         "active:scale-[0.99]",
@@ -69,7 +70,10 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="font-display font-bold text-orange">{module.title}</h3>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <ModuleIcon icon={module.icon} size="sm" />
+          <h3 className="font-display font-bold text-orange">{module.title}</h3>
+        </div>
         <Badge
           variant={statusBadge[status].variant}
           label={statusBadge[status].label}
@@ -80,7 +84,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       <p className="text-sm text-stone-600 mb-3">{module.description}</p>
 
       {/* Dot map */}
-      <div className="flex flex-wrap gap-1.5 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2">
         {questions.map((q, i) => {
           const isGated =
             !module.alwaysFree && !isPremium && i >= FREE_PER_MODULE;

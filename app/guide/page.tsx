@@ -48,13 +48,15 @@ export default function GuideLandingPage() {
       />
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
-        <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Dutch cycling guides for expats
-        </h1>
-        <p className="text-stone-500 text-sm mb-6">
-          Free reference guides, glossary, and signs reference for cycling in
-          the Netherlands.
-        </p>
+        <div className="bg-orange-light border border-orange-mid rounded-2xl px-5 py-5 mb-6 sm:px-6">
+          <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
+            Dutch cycling guides for expats
+          </h1>
+          <p className="text-stone-600 text-sm mt-1">
+            Free reference guides, glossary, and signs reference for cycling in
+            the Netherlands.
+          </p>
+        </div>
 
         <div className="flex flex-col gap-3">
           {guides.map((guide, i) => (

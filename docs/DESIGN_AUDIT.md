@@ -96,7 +96,7 @@ illustrations → dropped.)
 [app/review/page.tsx](app/review/page.tsx), [app/test/page.tsx](app/test/page.tsx);
 new `components/layout/StudyLayout.tsx`.
 **What:** On `lg`, render two columns: **left** = the existing `max-w-2xl` reading
-column, vertically centered in the viewport; **right** = a sticky context panel showing
+column, top-aligned alongside the rail; **right** = a sticky context panel showing
 module title, the dot-map progress, the current `SignDisplay` when the question has a
 sign, and the skill / lesson title ("what you're learning"). Below `lg`, layout is
 unchanged.

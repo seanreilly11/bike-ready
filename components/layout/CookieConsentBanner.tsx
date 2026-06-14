@@ -20,6 +20,13 @@ export function CookieConsentBanner() {
     return () => window.removeEventListener(COOKIE_SETTINGS_EVENT, handler);
   }, []);
 
+  // Reserve space at the bottom of the page so the fixed banner never covers
+  // page content (e.g. the landing bottom CTA) before the user responds.
+  useEffect(() => {
+    document.body.classList.toggle("cookie-banner-open", visible);
+    return () => document.body.classList.remove("cookie-banner-open");
+  }, [visible]);
+
   if (!visible) return null;
 
   function accept() {

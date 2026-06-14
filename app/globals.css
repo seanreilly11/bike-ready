@@ -74,6 +74,12 @@
 
 /* Base styles */
 html { scroll-behavior: smooth; }
+
+/* Reserve space for the fixed cookie consent banner while it is shown */
+body.cookie-banner-open { padding-bottom: 8.5rem; }
+@media (min-width: 640px) {
+  body.cookie-banner-open { padding-bottom: 5rem; }
+}
 body {
   overflow-x: hidden;
   background-color: var(--color-stone-50);
