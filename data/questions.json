@@ -38,7 +38,7 @@
       },
       {
         "id": "b",
-        "label": "€55 per missing light"
+        "label": "€75 per missing light"
       },
       {
         "id": "c",
@@ -51,9 +51,9 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "The fine is €55 per missing light - so €110 if both front and rear are missing. Reflectors don't count as lights.",
-      "rule": "RVV 1990 Art. 35 - active lights required. €55 fine per light.",
-      "tip": "€55 front, €55 rear. Both active, not just reflectors."
+      "body": "The fine is €75 per missing light - so €150 if both front and rear are missing, plus €9 administrative costs. Reflectors don't count as lights.",
+      "rule": "RVV 1990 Art. 35 - active lights required. €75 fine per light (from 1 January 2026).",
+      "tip": "€75 front, €75 rear. Both active, not just reflectors."
     },
     "status": "active"
   },
@@ -74,11 +74,11 @@
         "label": "False"
       }
     ],
-    "correct": "b",
+    "correct": "a",
     "feedback": {
-      "body": "Wearing both earbuds is illegal in the Netherlands. One ear is permitted, but two ears are considered to obstruct your ability to hear traffic. The fine is €160.",
-      "rule": "RVV 1990 Art. 61a - two earbuds prohibited. €160 fine.",
-      "tip": "One ear in, one ear out. Two ears = €160."
+      "body": "There is no Dutch law banning headphones or earbuds while cycling — wearing both is legal. But you are still responsible for cycling safely: if not hearing traffic causes a dangerous situation, you can be fined for that. Police strongly advise keeping one ear free.",
+      "rule": "No RVV 1990 article prohibits headphones. The phone ban (Art. 61a) covers holding a device, not listening through earbuds.",
+      "tip": "Legal, but risky — leave one ear open so you can hear bells and sirens."
     },
     "status": "active"
   },

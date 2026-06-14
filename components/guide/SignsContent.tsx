@@ -68,7 +68,7 @@ export default function SignsContent({
 
       <main className="px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Dutch road signs
+          Dutch road signs explained
         </h1>
         <p className="text-stone-500 text-sm mb-6">{designSystem.intro}</p>
 

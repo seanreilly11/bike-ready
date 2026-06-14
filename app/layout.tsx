@@ -31,7 +31,15 @@ export const metadata: Metadata = {
     template: "%s — BikeReady",
   },
   description:
-    "A short preparation course for expats learning to cycle safely in Dutch cities.",
+    "Learn Dutch road rules, signs, and bike priority before your first ride. A short preparation course for expats learning to cycle safely in the Netherlands.",
+  openGraph: {
+    siteName: "BikeReady",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export const viewport: Viewport = {
@@ -61,6 +69,7 @@ export default function RootLayout({
                   "@type": "Organization",
                   name: "BikeReady",
                   url: SITE_URL,
+                  logo: `${SITE_URL}/icon`,
                 },
                 {
                   "@type": "WebSite",

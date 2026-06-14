@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — BikeReady",
+  title: "Terms of Service",
   description: "Terms and conditions for using BikeReady.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

@@ -55,7 +55,7 @@ export default function GlossaryContent() {
           {allTerms.length} terms
         </p>
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Glossary
+          Dutch cycling glossary
         </h1>
         <p className="text-stone-500 text-sm mb-6">
           Dutch cycling words you&apos;ll see on signs, roads, and paths —

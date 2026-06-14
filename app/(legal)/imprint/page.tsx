@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Imprint — BikeReady",
+  title: "Imprint",
   description: "Legal information about the operator of BikeReady.",
+  alternates: { canonical: "/imprint" },
 };
 
 export default function ImprintPage() {

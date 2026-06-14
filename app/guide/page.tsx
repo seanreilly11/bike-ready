@@ -2,16 +2,19 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 
 export const metadata = {
-  title: "Dutch Cycling Guide for Expats | BikeReady",
+  title: "Dutch Cycling Rules & Guides for Expats",
   description:
     "Everything you need to know about cycling in the Netherlands. 6 in-depth guides covering priority rules, trams, roundabouts, legal requirements, and Dutch vocabulary, plus a visual signs reference.",
+  alternates: { canonical: "/guide" },
   openGraph: {
-    title: "Dutch Cycling Guide for Expats",
+    title: "Dutch Cycling Rules & Guides for Expats",
     description:
       "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively — explained for newcomers.",
-    url: "https://bikeready.nl/guide",
+    url: "/guide",
     type: "website",
   },
 };
@@ -19,27 +22,34 @@ export const metadata = {
 export default function GuideLandingPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd
+        data={[
+          {
             "@context": "https://schema.org",
             "@type": "Course",
             name: "Dutch Cycling Guide for Expats",
             description:
               "Everything you need to know about cycling in the Netherlands.",
-            provider: { "@type": "Organization", name: "BikeReady" },
+            provider: {
+              "@type": "Organization",
+              name: "BikeReady",
+              url: SITE_URL,
+            },
             hasCourseInstance: {
               "@type": "CourseInstance",
               courseMode: "online",
             },
-          }),
-        }}
+          },
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Guide", path: "/guide" },
+          ]),
+        ]}
       />
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Guide
+          Dutch cycling guides for expats
         </h1>
         <p className="text-stone-500 text-sm mb-6">
           Free reference guides, glossary, and signs reference for cycling in
