@@ -30,7 +30,7 @@ export default function MasteryDot({ state }: MasteryDotProps) {
   return (
     <div
       className={[
-        'w-2.5 h-2.5 rounded-full transition-colors duration-200',
+        'w-3 h-3 rounded-full transition-colors duration-200',
         stateClasses[state],
         popping ? 'animate-pop' : '',
       ].join(' ')}

@@ -34,7 +34,7 @@ export default function DotMap({
   const isMastered = moduleStatus === 'mastered'
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-2">
       {questions.map((q, index) => {
         const isGated = !alwaysFree && !isPremium && index >= FREE_PER_MODULE
         // A mastered module shows all dots gold — a module-level signal that

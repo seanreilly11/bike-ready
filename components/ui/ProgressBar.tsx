@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 interface ProgressBarProps {
   value: number; // 0-100
   color?: "orange" | "green";
-  height?: number; // px, default 4
+  height?: number; // px, default 6
 }
 
 const colorClasses = {
@@ -16,7 +16,7 @@ const colorClasses = {
 export default function ProgressBar({
   value,
   color = "orange",
-  height = 4,
+  height = 6,
 }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, value));
   const [displayValue, setDisplayValue] = useState(0);
