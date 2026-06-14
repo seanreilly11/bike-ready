@@ -8,6 +8,12 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     globals: true,
+    // Feature flags default off; run the suite with them on so tests exercise
+    // the gating logic (matches the pre-opt-in default).
+    env: {
+      NEXT_PUBLIC_PREMIUM_ENABLED: 'true',
+      NEXT_PUBLIC_TEST_ENABLED: 'true',
+    },
   },
   resolve: {
     alias: {

@@ -2,6 +2,7 @@
 
 import type { SignsDesignSystem, SignsCategory } from "@/types";
 import Card from "@/components/ui/Card";
+import PageBanner from "@/components/layout/PageBanner";
 import SignCard from "@/components/guide/SignCard";
 import RuleCard from "@/components/guide/RuleCard";
 
@@ -70,10 +71,10 @@ export default function SignsContent({
       </div>
 
       <main className="px-5 py-6 lg:py-10 max-w-5xl mx-auto">
-        <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Dutch road signs explained
-        </h1>
-        <p className="text-stone-500 text-sm mb-6">{designSystem.intro}</p>
+        <PageBanner
+          title="Dutch road signs explained"
+          subtitle={designSystem.intro}
+        />
 
         {/* ── How to read signs ──────────────────────────────────────── */}
         <section id="how-to-read" className="mb-12 scroll-mt-40">

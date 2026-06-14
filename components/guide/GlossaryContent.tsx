@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import glossaryData from "@/data/glossary.json";
 import Card from "@/components/ui/Card";
+import PageBanner from "@/components/layout/PageBanner";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 const allTerms = glossaryData.categories.flatMap((c) =>
@@ -50,18 +51,15 @@ export default function GlossaryContent() {
   return (
     <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-1">
-          {allTerms.length} terms
-        </p>
-        <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2 lg:text-3xl">
-          Dutch cycling glossary
-        </h1>
-        <p className="text-stone-500 text-sm mb-6">
-          Dutch cycling words you&apos;ll see on signs, roads, and paths —
-          translated with pronunciation.
-        </p>
-      </div>
+      <PageBanner
+        title="Dutch cycling glossary"
+        subtitle="Dutch cycling words you'll see on signs, roads, and paths — translated with pronunciation."
+        right={
+          <span className="font-mono text-xs uppercase tracking-wide text-orange bg-white border border-orange-mid rounded-full px-3 py-1.5">
+            {allTerms.length} terms
+          </span>
+        }
+      />
 
       {/* Search */}
       <div className="mb-4">
