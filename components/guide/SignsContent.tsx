@@ -52,7 +52,10 @@ export default function SignsContent({
   return (
     <div className="min-h-dvh bg-stone-50">
       {/* Sticky ToC */}
-      <div className="sticky top-[104px] z-20 bg-stone-50 border-b border-stone-200 py-2">
+      <div
+        className="sticky z-20 bg-stone-50 border-b border-stone-200 py-2"
+        style={{ top: "var(--guide-bar-bottom, 100px)" }}
+      >
         <div className="max-w-5xl px-5 mx-auto flex gap-2 overflow-x-auto scrollbar-none">
           {TOC_SECTIONS.map((s) => (
             <a
@@ -81,7 +84,7 @@ export default function SignsContent({
             {shapeRules.map((rule, i) => (
               <div
                 key={rule.id}
-                className="animate-fade-up"
+                className="animate-fade-up h-full"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <RuleCard rule={rule} />
@@ -92,7 +95,7 @@ export default function SignsContent({
             {colourRules.map((rule, i) => (
               <div
                 key={rule.id}
-                className="animate-fade-up"
+                className="animate-fade-up h-full"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <RuleCard rule={rule} />

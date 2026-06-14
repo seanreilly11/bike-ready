@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
@@ -47,10 +48,32 @@ export default function GuideShell({
     ? guidesData.find((g) => g.moduleId === moduleId)
     : null;
 
+  // Expose "nav height + this bar's height" as a CSS variable so descendant
+  // sticky elements (e.g. the Signs ToC) can sit flush beneath it regardless of
+  // the bar's varying height (section tabs vs the taller module-detail header).
+  const barRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = barRef.current;
+    if (!el) return;
+    const NAV_H = 56; // sticky nav (h-14)
+    const update = () =>
+      document.documentElement.style.setProperty(
+        "--guide-bar-bottom",
+        `${NAV_H + el.offsetHeight}px`,
+      );
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.removeProperty("--guide-bar-bottom");
+    };
+  }, []);
+
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
       {/* Section tabs or module header */}
-      <div className="sticky top-14 z-30 bg-white border-b border-stone-200">
+      <div ref={barRef} className="sticky top-14 z-30 bg-white border-b border-stone-200">
         {isModuleDetail && currentGuide ? (
           <div className="max-w-5xl mx-auto px-5">
             {/* Back + title row */}

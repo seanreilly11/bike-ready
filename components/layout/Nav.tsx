@@ -6,6 +6,7 @@ import UserMenu from "@/components/layout/UserMenu";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
+import { TEST_ENABLED } from "@/lib/config";
 
 interface NavProps {
   currentRoute: string;
@@ -39,7 +40,7 @@ const navItems = [
   { href: "/learn", label: "Practice" },
   { href: "/review", label: "Review" },
   { href: "/guide", label: "Guide" },
-  { href: "/test", label: "Test" },
+  ...(TEST_ENABLED ? [{ href: "/test", label: "Test" }] : []),
 ];
 
 export default function Nav({

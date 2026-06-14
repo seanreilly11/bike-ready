@@ -24,7 +24,7 @@ export default function RuleCard({ rule }: RuleCardProps) {
   const accent = ruleAccent[rule.id] ?? null;
 
   return (
-    <Card accent={accent}>
+    <Card accent={accent} className="h-full">
       <h3 className="font-display font-bold text-stone-900 text-sm mb-1.5">
         {rule.title}
       </h3>

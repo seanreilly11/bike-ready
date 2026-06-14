@@ -16,6 +16,7 @@ import ModuleIcon from "@/components/ui/ModuleIcon";
 import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
+import { TEST_ENABLED } from "@/lib/config";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -319,9 +320,11 @@ export default function ReviewPage() {
                 <Button variant="primary" size="lg" onClick={() => router.push("/learn")}>
                   Back to practice <ArrowRight size={16} aria-hidden="true" />
                 </Button>
-                <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
-                  Take the test
-                </Button>
+                {TEST_ENABLED && (
+                  <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
+                    Take the test
+                  </Button>
+                )}
               </div>
             </div>
           </div>

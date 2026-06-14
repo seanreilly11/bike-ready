@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import { APP_PRICE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { TEST_ENABLED } from "@/lib/config";
 
 interface GateModalProps {
   moduleId: ModuleId;
@@ -20,7 +21,7 @@ interface GateModalProps {
 const features = [
   "All questions in every module",
   "Shrinking Review queue",
-  "Timed Test with results breakdown",
+  ...(TEST_ENABLED ? ["Timed Test with results breakdown"] : []),
   "Module completion badges",
   "Progress saved across devices",
 ];
