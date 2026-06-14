@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { Check, X } from 'lucide-react'
 import type { Feedback, Question } from '@/types'
 import { AnswerResult } from '@/types'
 import { useAnalytics } from '@/hooks/useAnalytics'
@@ -31,12 +32,20 @@ export default function FeedbackPanel({ feedback, correct, question }: FeedbackP
           : 'bg-red-light border-red-mid',
       ].join(' ')}
     >
-      <p className={[
-        'font-display font-bold text-base mb-1',
-        correct ? 'text-green-dark' : 'text-red-dark',
-      ].join(' ')}>
-        {correct ? AnswerResult.Correct : AnswerResult.Wrong}
-      </p>
+      <div className="flex items-center gap-2.5 mb-2">
+        <span className={[
+          'flex-none w-6 h-6 rounded-full flex items-center justify-center',
+          correct ? 'bg-green-mid text-green-dark' : 'bg-red-mid text-red-dark',
+        ].join(' ')}>
+          {correct ? <Check size={15} aria-hidden="true" /> : <X size={15} aria-hidden="true" />}
+        </span>
+        <p className={[
+          'font-display font-bold text-base',
+          correct ? 'text-green-dark' : 'text-red-dark',
+        ].join(' ')}>
+          {correct ? AnswerResult.Correct : AnswerResult.Wrong}
+        </p>
+      </div>
 
       <p className="text-stone-900 text-base leading-relaxed mb-3">
         {feedback.body}

@@ -78,6 +78,12 @@ export default function Nav({
                 ].join(" ")}
               >
                 {item.label}
+                {currentRoute.startsWith(item.href) && (
+                  <span
+                    className="absolute left-3 right-3 -bottom-0.5 h-0.5 rounded-full bg-orange"
+                    aria-hidden="true"
+                  />
+                )}
                 {item.label === "Review" && wrongCount > 0 && (
                   <span
                     className="absolute top-1.5 right-1 w-2 h-2 rounded-full bg-red animate-pulse"

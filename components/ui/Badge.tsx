@@ -13,7 +13,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   medium: "bg-yellow-light text-yellow-dark border-yellow",
   hard: "bg-red-light text-red-dark border-red-mid",
   earned: "bg-yellow-light text-yellow-dark border-yellow",
-  locked: "bg-stone-100 text-stone-400 border-stone-200",
+  locked: "bg-stone-100 text-stone-600 border-stone-200",
   mastered: "bg-orange-light text-orange border-orange",
 };
 
