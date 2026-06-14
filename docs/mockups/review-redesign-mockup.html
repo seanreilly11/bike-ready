@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>BikeReady — Review redesign mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#E8500A; --orange-light:#FDF0E8; --orange-mid:#FAD5B8;
+    --stone-50:#FAFAF8; --stone-100:#F4F2EE; --stone-200:#E8E4DC;
+    --stone-400:#A89D8C; --stone-600:#6B6055; --stone-900:#1C1915;
+    --green:#4ade80; --green-light:#f0fdf4; --green-mid:#bbf7d0; --green-dark:#166534;
+    --red:#f87171; --red-light:#fef2f2; --red-mid:#fecaca; --red-dark:#991b1b;
+    --yellow:#fde68a; --yellow-light:#fef9c3; --yellow-dark:#854d0e;
+    --disp:'Bricolage Grotesque',sans-serif; --mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--stone-100);font-family:var(--disp);color:var(--stone-900);-webkit-font-smoothing:antialiased}
+  .board{max-width:860px;margin:0 auto;padding:40px 32px 56px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-400)}
+  h1.title{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+  h1.title b{color:var(--orange)}
+  .sub{color:var(--stone-600);font-size:15px;margin-top:8px;max-width:720px;line-height:1.55}
+  .section{margin-top:30px}
+  .tag-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:999px;padding:3px 10px}
+  .cap{font-size:13px;color:var(--stone-600)}
+  .frame{background:var(--stone-50);border:1px solid var(--stone-200);border-radius:18px;padding:22px}
+  .col{max-width:600px;margin:0 auto}
+
+  /* header band (matches Practice) */
+  .band{background:var(--orange-light);border:1px solid var(--stone-200);border-left:4px solid var(--orange);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+  .band h2{font-size:26px;font-weight:800;letter-spacing:-.02em}
+  .band p{font-size:13px;color:var(--stone-600);margin-top:3px}
+  .pill-red{flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--red-dark);background:var(--red-light);border:1px solid var(--red-mid);border-radius:999px;padding:6px 12px}
+
+  /* module group */
+  .mgroup{margin-bottom:22px}
+  .mhead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .micon{flex:none;width:36px;height:36px;border-radius:10px;background:var(--orange-light);color:var(--orange);display:flex;align-items:center;justify-content:center}
+  .micon svg{width:20px;height:20px}
+  .mhead h3{font-size:16px;font-weight:700;color:var(--stone-900)}
+  .mcount{margin-left:auto;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--red-dark)}
+
+  /* question card */
+  .qlist{display:flex;flex-direction:column;gap:10px}
+  .qcard{width:100%;text-align:left;background:#fff;border:1px solid var(--stone-200);border-left:3px solid var(--red);border-radius:14px;padding:13px 15px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;transition:all .2s ease}
+  .qcard:hover,.qcard.hover{border-color:var(--stone-400);box-shadow:0 6px 16px rgba(28,25,21,.10);transform:translateY(-2px)}
+  .xchip{flex:none;width:28px;height:28px;border-radius:999px;background:var(--red-light);color:var(--red-dark);display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .xchip svg{width:15px;height:15px}
+  .qbody{flex:1;min-width:0}
+  .qprompt{font-size:14px;line-height:1.45;color:var(--stone-900);font-weight:500}
+  .qmeta{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap}
+  .skill{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-400)}
+  .badge{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;border-radius:999px;padding:2px 8px;border:1px solid}
+  .badge.easy{color:var(--green-dark);background:var(--green-light);border-color:var(--green-mid)}
+  .badge.medium{color:var(--yellow-dark);background:var(--yellow-light);border-color:var(--yellow)}
+  .badge.hard{color:var(--red-dark);background:var(--red-light);border-color:var(--red-mid)}
+  .chev{flex:none;color:var(--stone-400);margin-top:3px;transition:all .2s ease}
+  .chev svg{width:18px;height:18px}
+  .qcard:hover .chev,.qcard.hover .chev{color:var(--orange);transform:translateX(2px)}
+
+  /* cleared state */
+  .cleared{background:var(--green-light);border:1px solid var(--green-mid);border-radius:18px;padding:40px 28px;text-align:center}
+  .cring{width:64px;height:64px;border-radius:999px;background:rgba(187,247,208,.6);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+  .cring svg{width:34px;height:34px;color:var(--green-dark)}
+  .cleared h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .cleared p{color:var(--stone-600);font-size:14px;line-height:1.5;max-width:340px;margin:0 auto 20px}
+  .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;font-weight:700;font-size:15px;padding:12px 20px;border:1px solid var(--stone-200);background:#fff;color:var(--stone-900)}
+  .btn.primary{background:var(--orange);color:#fff;border-color:var(--orange)}
+  .btn svg{width:16px;height:16px}
+  .note{font-size:12px;color:var(--stone-400);margin-top:10px;font-family:var(--mono)}
+  .lucide{stroke-width:1.75}
+</style>
+</head>
+<body>
+<div class="board">
+  <header>
+    <p class="kicker">BikeReady · review redesign</p>
+    <h1 class="title">Review page <b>redesign</b></h1>
+    <p class="sub">Aligns with the Practice / landing language: orange header band, module icon tiles, card hover-lift, colourful chips &amp; difficulty badges. Locked palette + fonts. Static mock.</p>
+  </header>
+
+  <!-- WORKING STATE -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">State 1</span><span class="cap">Has mistakes — grouped by module, colourful interactive cards (top card shown in hover state)</span></div>
+    <div class="frame">
+      <div class="col">
+        <div class="band">
+          <div>
+            <h2>Review</h2>
+            <p>Fix your mistakes — answer one right and it leaves the list.</p>
+          </div>
+          <span class="pill-red">3 to fix</span>
+        </div>
+
+        <div class="mgroup">
+          <div class="mhead">
+            <span class="micon"><i data-lucide="zap"></i></span>
+            <h3>Priority Rules</h3>
+            <span class="mcount">2 to fix</span>
+          </div>
+          <div class="qlist">
+            <button class="qcard hover">
+              <span class="xchip"><i data-lucide="x"></i></span>
+              <div class="qbody">
+                <p class="qprompt">At an unmarked crossing, a car approaches from your right. Who has priority?</p>
+                <div class="qmeta"><span class="skill">Right before left</span><span class="badge medium">Medium</span></div>
+              </div>
+              <i data-lucide="chevron-right" class="chev"></i>
+            </button>
+            <button class="qcard">
+              <span class="xchip"><i data-lucide="x"></i></span>
+              <div class="qbody">
+                <p class="qprompt">You're on a road with shark's teeth painted across it. Must you give way?</p>
+                <div class="qmeta"><span class="skill">Shark teeth</span><span class="badge hard">Hard</span></div>
+              </div>
+              <i data-lucide="chevron-right" class="chev"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mgroup">
+          <div class="mhead">
+            <span class="micon"><i data-lucide="footprints"></i></span>
+            <h3>Road Users</h3>
+            <span class="mcount">1 to fix</span>
+          </div>
+          <div class="qlist">
+            <button class="qcard">
+              <span class="xchip"><i data-lucide="x"></i></span>
+              <div class="qbody">
+                <p class="qprompt">A tram is approaching the crossing at the same time as you. Who goes first?</p>
+                <div class="qmeta"><span class="skill">Trams</span><span class="badge easy">Easy</span></div>
+              </div>
+              <i data-lucide="chevron-right" class="chev"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Cards: red left accent + red ✕ chip, prompt, skill + difficulty badge, chevron. Hover = lift + shadow + orange chevron slide. Staggered fade-up on load.</p>
+  </div>
+
+  <!-- CLEARED STATE -->
+  <div class="section">
+    <div class="tag-row"><span class="tag">State 2</span><span class="cap">All cleared — celebratory green card with two CTAs (instead of the plain centered text)</span></div>
+    <div class="frame">
+      <div class="col">
+        <div class="cleared">
+          <div class="cring"><i data-lucide="check"></i></div>
+          <h2>All cleared!</h2>
+          <p>No mistakes to fix right now. Answer more questions in the modules — anything you miss lands here.</p>
+          <div class="ctas">
+            <span class="btn primary">Back to practice <i data-lucide="arrow-right"></i></span>
+            <span class="btn">Take the test</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>window.lucide && lucide.createIcons();</script>
+</body>
+</html>

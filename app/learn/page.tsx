@@ -17,6 +17,7 @@ import BadgeGrid from "@/components/badges/BadgeGrid";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
+import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
@@ -195,19 +196,15 @@ export default function LearnIndexPage() {
       )}
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
-        <div className="bg-orange-light border border-stone-200 border-l-4 border-l-orange rounded-2xl px-5 py-4 sm:px-6 mb-6 flex items-center justify-between gap-4">
-          <div>
-            <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
-              Practice
-            </h1>
-            <p className="text-sm text-stone-600 mt-1">
-              Work through real Dutch cycling scenarios, one question at a time.
-            </p>
-          </div>
-          <span className="shrink-0 font-mono text-xs uppercase tracking-wide text-orange bg-white border border-orange-mid rounded-full px-3 py-1.5">
-            {modules.length} modules · {completionPct}% done
-          </span>
-        </div>
+        <PageBanner
+          title="Practice"
+          subtitle="Work through real Dutch cycling scenarios, one question at a time."
+          right={
+            <span className="font-mono text-xs uppercase tracking-wide text-orange bg-white border border-orange-mid rounded-full px-3 py-1.5">
+              {modules.length} modules · {completionPct}% done
+            </span>
+          }
+        />
 
         {/* Module cards — progress is synchronous from store, no skeleton needed */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">

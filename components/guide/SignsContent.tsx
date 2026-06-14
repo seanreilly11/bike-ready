@@ -52,8 +52,8 @@ export default function SignsContent({
   return (
     <div className="min-h-dvh bg-stone-50">
       {/* Sticky ToC */}
-      <div className="sticky top-[104px] z-20 bg-stone-50 border-b border-stone-200 px-5 py-2">
-        <div className="max-w-5xl mx-auto flex gap-2 overflow-x-auto scrollbar-none">
+      <div className="sticky top-[104px] z-20 bg-stone-50 border-b border-stone-200 py-2">
+        <div className="max-w-5xl px-5 mx-auto flex gap-2 overflow-x-auto scrollbar-none">
           {TOC_SECTIONS.map((s) => (
             <a
               key={s.id}

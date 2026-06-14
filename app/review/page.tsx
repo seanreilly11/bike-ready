@@ -7,11 +7,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useUIStore } from "@/stores/uiStore";
-import { X, ChevronRight, ArrowLeft, ArrowRight, Lock, LockOpen, CheckCircle } from "lucide-react";
+import { X, Check, ChevronRight, ArrowLeft, ArrowRight, Lock, LockOpen } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import ModuleIcon from "@/components/ui/ModuleIcon";
+import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 
@@ -299,21 +301,29 @@ export default function ReviewPage() {
     return (
       <AppShell wrongCount={0}>
         <main className="min-h-dvh bg-stone-50">
-          <div className="max-w-2xl mx-auto px-5 py-16 text-center animate-fade-up">
-            <div className="mb-3 flex justify-center"><CheckCircle size={48} className="text-green" aria-hidden="true" /></div>
-            <h1 className="font-display font-bold text-xl text-stone-900 mb-2">
-              All cleared
-            </h1>
-            <p className="text-stone-600 text-sm mb-6">
-              No wrong answers to review. Keep learning!
-            </p>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => router.push("/learn")}
-            >
-              Back to modules
-            </Button>
+          <div className="max-w-2xl mx-auto px-5 py-10 lg:py-16">
+            <div className="bg-green-light border border-green-mid rounded-2xl p-8 sm:p-10 text-center animate-fade-up">
+              <div className="flex justify-center mb-4">
+                <span className="size-16 rounded-full bg-green-mid/60 flex items-center justify-center">
+                  <Check size={34} className="text-green-dark" aria-hidden="true" />
+                </span>
+              </div>
+              <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2">
+                All cleared!
+              </h1>
+              <p className="text-stone-600 text-sm leading-relaxed max-w-sm mx-auto mb-6">
+                No mistakes to fix right now. Answer more questions in the modules —
+                anything you miss lands here.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button variant="primary" size="lg" onClick={() => router.push("/learn")}>
+                  Back to practice <ArrowRight size={16} aria-hidden="true" />
+                </Button>
+                <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
+                  Take the test
+                </Button>
+              </div>
+            </div>
           </div>
         </main>
       </AppShell>
@@ -332,21 +342,6 @@ export default function ReviewPage() {
     <AppShell wrongCount={queue.length}>
       <main className="min-h-dvh bg-stone-50">
         <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
-              Review
-            </h1>
-            <span className="font-mono text-xs uppercase tracking-wide text-red bg-red-light border border-red-mid rounded-full px-2.5 py-1">
-              {queue.length} to fix
-            </span>
-          </div>
-
-          {/* Hint */}
-          <div className="bg-orange-light border border-orange-mid rounded-xl p-3 mb-6 text-sm text-stone-700">
-            Get a question right and it disappears. Get it wrong again and it
-            stays. Your list shrinks as you fix mistakes.
-          </div>
-
           {activeQ ? (
             <div>
               <button
@@ -354,9 +349,9 @@ export default function ReviewPage() {
                   setActiveId(null);
                   setHasAnswered(false);
                 }}
-                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer py-2 -my-2 inline-block"
+                className="text-sm text-stone-400 hover:text-stone-900 mb-4 focus-visible:outline-none cursor-pointer py-2 -my-2 inline-flex items-center gap-1"
               >
-                <ArrowLeft size={14} aria-hidden="true" className="inline mr-1" />Back to list
+                <ArrowLeft size={14} aria-hidden="true" /> Back to list
               </button>
               <QuestionCard
                 key={activeQ.id}
@@ -402,35 +397,72 @@ export default function ReviewPage() {
                 })()}
             </div>
           ) : (
-            byModule.map(({ mod, questions }) => (
-              <div key={mod.id} className="mb-6">
-                <h2 className="font-display font-bold text-orange mb-2 flex items-center gap-2">
-                  {mod.title}
-                </h2>
-                <div className="flex flex-col gap-2">
-                  {questions.map((q, qi) => (
-                    <button
-                      key={q.id}
-                      onClick={() => openQuestion(q.id, queue.indexOf(q))}
-                      className={[
-                        "w-full text-left bg-white border-l-[3px] border-l-red border border-stone-200 rounded-xl px-4 py-3 cursor-pointer",
-                        "hover:border-l-red hover:shadow-sm transition-all duration-150",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
-                        "animate-fade-up",
-                      ].join(" ")}
-                      style={{ animationDelay: `${qi * 40}ms` }}
-                    >
-                      <p className="text-sm text-stone-900 leading-relaxed line-clamp-2">
-                        {q.prompt}
-                      </p>
-                      <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mt-1">
-                        {q.skill}
-                      </p>
-                    </button>
-                  ))}
+            <>
+              {/* Header band */}
+              <PageBanner
+                title="Review"
+                subtitle="Fix your mistakes — answer one right and it leaves the list."
+                right={
+                  <span className="font-mono text-xs uppercase tracking-wide text-red-dark bg-red-light border border-red-mid rounded-full px-3 py-1.5">
+                    {queue.length} to fix
+                  </span>
+                }
+              />
+
+              {/* Grouped by module */}
+              {byModule.map(({ mod, questions }, gi) => (
+                <div
+                  key={mod.id}
+                  className="mb-6 animate-fade-up"
+                  style={{ animationDelay: `${gi * 80}ms` }}
+                >
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <ModuleIcon icon={mod.icon} size="sm" />
+                    <h2 className="font-display font-bold text-stone-900">
+                      {mod.title}
+                    </h2>
+                    <span className="ml-auto font-mono text-xs uppercase tracking-wide text-red-dark">
+                      {questions.length} to fix
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2.5">
+                    {questions.map((q, qi) => (
+                      <button
+                        key={q.id}
+                        onClick={() => openQuestion(q.id, queue.indexOf(q))}
+                        className={[
+                          "group w-full text-left bg-white border border-stone-200 border-l-[3px] border-l-red rounded-xl px-4 py-3 flex items-start gap-3 cursor-pointer",
+                          "hover:border-stone-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
+                          "animate-fade-up",
+                        ].join(" ")}
+                        style={{ animationDelay: `${gi * 80 + qi * 40}ms` }}
+                      >
+                        <span className="flex-none mt-0.5 size-7 rounded-full bg-red-light text-red-dark flex items-center justify-center">
+                          <X size={15} aria-hidden="true" />
+                        </span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block text-sm font-medium text-stone-900 leading-snug line-clamp-2">
+                            {q.prompt}
+                          </span>
+                          <span className="flex items-center gap-2 mt-1.5 flex-wrap">
+                            <span className="font-mono text-[10px] uppercase tracking-wide text-stone-400">
+                              {q.skill}
+                            </span>
+                            <Badge variant={q.difficulty} label={q.difficulty} />
+                          </span>
+                        </span>
+                        <ChevronRight
+                          size={18}
+                          className="flex-none mt-1 text-stone-400 group-hover:text-orange group-hover:translate-x-0.5 transition-all duration-200"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </>
           )}
         </div>
       </main>
