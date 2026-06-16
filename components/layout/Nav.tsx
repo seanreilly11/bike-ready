@@ -6,7 +6,7 @@ import UserMenu from "@/components/layout/UserMenu";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
-import { TEST_ENABLED } from "@/lib/config";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 interface NavProps {
   currentRoute: string;
@@ -40,7 +40,7 @@ const navItems = [
   { href: "/learn", label: "Practice" },
   { href: "/review", label: "Review" },
   { href: "/guide", label: "Guide" },
-  ...(TEST_ENABLED ? [{ href: "/test", label: "Test" }] : []),
+  { href: "/test", label: "Test" },
 ];
 
 export default function Nav({
@@ -85,7 +85,7 @@ export default function Nav({
                     aria-hidden="true"
                   />
                 )}
-                {item.label === "Review" && wrongCount > 0 && (
+                {item.label === "Review" && wrongCount > 0 && PREMIUM_ENABLED && (
                   <span
                     className="absolute top-1.5 right-1 w-2 h-2 rounded-full bg-red animate-pulse"
                     aria-label={`${wrongCount} questions to review`}

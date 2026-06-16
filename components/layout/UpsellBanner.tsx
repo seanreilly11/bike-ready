@@ -3,7 +3,6 @@
 import Button from "@/components/ui/Button";
 import { APP_PRICE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { TEST_ENABLED } from "@/lib/config";
 
 interface UpsellBannerProps {
   moduleName: string;
@@ -27,9 +26,7 @@ export default function UpsellBanner({
         {moduleQuestionCount} questions in {moduleName} alone.
       </p>
       <p className="text-stone-500 text-sm mb-6">
-        {TEST_ENABLED
-          ? "All 6 modules, Review queue, and the BikeReady Test."
-          : "All 6 modules and the Review queue."}
+        All 6 modules, Review queue, and the BikeReady Test.
       </p>
       <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'upsell_banner' }); onUnlock(); }}>
         Unlock for {APP_PRICE}

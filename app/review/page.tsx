@@ -14,9 +14,10 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import PageBanner from "@/components/layout/PageBanner";
+import ComingSoon from "@/components/layout/ComingSoon";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
-import { TEST_ENABLED } from "@/lib/config";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -265,6 +266,15 @@ export default function ReviewPage() {
     questionShownAt.current = Date.now();
   }, [activeId]);
 
+  if (!PREMIUM_ENABLED) {
+    return (
+      <ComingSoon
+        title="Review — coming soon"
+        body="Soon you'll be able to fix every question you missed in one focused queue."
+      />
+    );
+  }
+
   if (!isPremium) {
     return <FreeReviewScreen />;
   }
@@ -320,11 +330,9 @@ export default function ReviewPage() {
                 <Button variant="primary" size="lg" onClick={() => router.push("/learn")}>
                   Back to practice <ArrowRight size={16} aria-hidden="true" />
                 </Button>
-                {TEST_ENABLED && (
-                  <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
-                    Take the test
-                  </Button>
-                )}
+                <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
+                  Take the test
+                </Button>
               </div>
             </div>
           </div>

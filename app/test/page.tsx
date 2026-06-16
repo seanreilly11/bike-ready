@@ -15,9 +15,11 @@ import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
+import ComingSoon from "@/components/layout/ComingSoon";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -145,6 +147,15 @@ export default function TestPage() {
   useEffect(() => {
     questionShownAt.current = Date.now();
   }, [index]);
+
+  if (!PREMIUM_ENABLED) {
+    return (
+      <ComingSoon
+        title="The Test — coming soon"
+        body="A timed run across all modules to prove you're ready for the road. Almost here."
+      />
+    );
+  }
 
   if (!isPremium) {
     return <FreeTestScreen />;

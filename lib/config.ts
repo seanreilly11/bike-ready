@@ -7,4 +7,3 @@
 const flag = (value: string | undefined) => value === "true";
 
 export const PREMIUM_ENABLED = flag(process.env.NEXT_PUBLIC_PREMIUM_ENABLED);
-export const TEST_ENABLED = flag(process.env.NEXT_PUBLIC_TEST_ENABLED);
