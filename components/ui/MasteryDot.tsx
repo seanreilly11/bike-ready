@@ -8,12 +8,13 @@ interface MasteryDotProps {
 }
 
 const stateClasses: Record<DotState, string> = {
-  unseen:   'bg-stone-200',
-  seen:     'bg-orange',
-  correct:  'bg-green',
-  active:   'bg-orange ring-2 ring-orange ring-offset-1',
-  locked:   'bg-stone-300',
-  mastered: 'bg-gold',
+  unseen:           'bg-stone-200',
+  seen:             'bg-orange',
+  correct:          'bg-green',
+  active:           'bg-orange ring-2 ring-orange ring-offset-1',
+  'active-correct': 'bg-green ring-2 ring-green ring-offset-1',
+  locked:           'bg-stone-300',
+  mastered:         'bg-gold',
 }
 
 export default function MasteryDot({ state }: MasteryDotProps) {
@@ -21,7 +22,8 @@ export default function MasteryDot({ state }: MasteryDotProps) {
   const [prevState, setPrevState] = useState<DotState>(state)
 
   if (state !== prevState) {
-    if (prevState !== 'correct' && state === 'correct') {
+    if (prevState !== 'correct' && prevState !== 'active-correct'
+      && (state === 'correct' || state === 'active-correct')) {
       setPopping(true)
     }
     setPrevState(state)

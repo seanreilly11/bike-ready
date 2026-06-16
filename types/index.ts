@@ -33,6 +33,7 @@ export type DotState =
   | "seen"
   | "correct"
   | "active"
+  | "active-correct"
   | "locked"
   | "mastered";
 

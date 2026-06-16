@@ -15,8 +15,8 @@ interface DotMapProps {
 }
 
 function getDotState(questionId: string, progress: LocalProgress, currentId: string): DotState {
-  if (questionId === currentId) return 'active'
   const p = progress[questionId]
+  if (questionId === currentId) return p?.correct ? 'active-correct' : 'active'
   if (!p) return 'unseen'
   if (p.correct) return 'correct'
   return 'seen'

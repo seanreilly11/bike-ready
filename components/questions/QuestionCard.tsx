@@ -15,6 +15,7 @@ interface QuestionCardProps {
   onAnswer:    (optionId: string, correct: boolean) => void
   answered:    boolean
   selectedId:  string | null
+  answeredCorrect?: boolean   // restored correctness on revisit (selectedId unknown)
   hideCorrect: boolean   // true in Test mode
   lessonHiddenOnDesktop?: boolean   // true when a study rail shows the lesson on lg
 }
@@ -25,6 +26,7 @@ export default function QuestionCard({
   onAnswer,
   answered,
   selectedId,
+  answeredCorrect,
   hideCorrect,
   lessonHiddenOnDesktop = false,
 }: QuestionCardProps) {
@@ -51,7 +53,10 @@ export default function QuestionCard({
     return 'unselected-after-answer'
   }
 
-  const isCorrect = localSelected === question.correct
+  const isCorrect =
+    localSelected !== null
+      ? localSelected === question.correct
+      : (answeredCorrect ?? false)
 
   return (
     <div className="animate-fade-up">

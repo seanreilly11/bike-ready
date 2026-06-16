@@ -43,6 +43,7 @@ export default function ModuleSessionPage() {
   const { questionsByModule } = useQuestions();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [answeredThisView, setAnsweredThisView] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const questionShownAt = useRef<number>(Date.now());
 
@@ -62,6 +63,7 @@ export default function ModuleSessionPage() {
 
   useEffect(() => {
     questionShownAt.current = Date.now();
+    setAnsweredThisView(false);
   }, [currentIndex]);
 
   const currentQuestion = moduleQuestions[currentIndex];
@@ -93,6 +95,7 @@ export default function ModuleSessionPage() {
   async function handleAnswer(_optionId: string, correct: boolean) {
     if (!currentQuestion) return;
     await progress.recordAnswer(currentQuestion.id, correct);
+    setAnsweredThisView(true);
     await badges.checkModuleBadge(moduleId);
 
     await track("question_answered", {
@@ -286,12 +289,13 @@ export default function ModuleSessionPage() {
                   key={currentQuestion.id}
                   question={currentQuestion}
                   onAnswer={handleAnswer}
-                  answered={!!progress.progress[currentQuestion.id]?.seen}
+                  answered={!!progress.progress[currentQuestion.id]?.correct}
                   selectedId={null}
+                  answeredCorrect={!!progress.progress[currentQuestion.id]?.correct}
                   hideCorrect={false}
                   lessonHiddenOnDesktop
                 />
-                {progress.progress[currentQuestion.id]?.seen && (
+                {(!!progress.progress[currentQuestion.id]?.correct || answeredThisView) && (
                   <div className="mt-4">
                     <Button
                       variant="primary"
