@@ -15,7 +15,6 @@ import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
-import ComingSoon from "@/components/layout/ComingSoon";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
@@ -27,6 +26,9 @@ function FreeTestScreen() {
   const openGate = useUIStore((s) => s.openGate);
   const { buildTestSet } = useQuestions();
   const testSet = buildTestSet();
+
+  // Premium not launched yet: same screen, "coming soon" copy, inert CTA.
+  const comingSoon = !PREMIUM_ENABLED;
 
   return (
     <AppShell wrongCount={0}>
@@ -82,17 +84,26 @@ function FreeTestScreen() {
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
             <LockOpen size={24} className="text-stone-500" aria-hidden="true" />
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
-              Unlock to take the BikeReady Test
+              {comingSoon
+                ? "The Test is coming soon"
+                : "Unlock to take the BikeReady Test"}
             </p>
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
-              Less than the fine for running a red light
+              {comingSoon
+                ? "We're putting the finishing touches on this."
+                : "Less than the fine for running a red light"}
             </p>
             <button
-              onClick={openGate}
-              aria-label="Unlock for €4.99"
-              className="w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+              onClick={comingSoon ? undefined : openGate}
+              disabled={comingSoon}
+              aria-label={comingSoon ? "Test coming soon" : "Unlock for €4.99"}
+              className={
+                comingSoon
+                  ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
+                  : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+              }
             >
-              Unlock for €4.99
+              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
             </button>
           </div>
         </div>
@@ -148,16 +159,7 @@ export default function TestPage() {
     questionShownAt.current = Date.now();
   }, [index]);
 
-  if (!PREMIUM_ENABLED) {
-    return (
-      <ComingSoon
-        title="The Test — coming soon"
-        body="A timed run across all modules to prove you're ready for the road. Almost here."
-      />
-    );
-  }
-
-  if (!isPremium) {
+  if (!PREMIUM_ENABLED || !isPremium) {
     return <FreeTestScreen />;
   }
 

@@ -14,7 +14,6 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import PageBanner from "@/components/layout/PageBanner";
-import ComingSoon from "@/components/layout/ComingSoon";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { PREMIUM_ENABLED } from "@/lib/config";
@@ -25,6 +24,9 @@ function FreeReviewScreen() {
   const progress = useProgress();
   const openGate = useUIStore((s) => s.openGate);
   const { allQuestions } = useQuestions();
+
+  // Premium not launched yet: same screen, "coming soon" copy, inert CTAs.
+  const comingSoon = !PREMIUM_ENABLED;
 
   const rawProgress = progress.progress;
 
@@ -92,16 +94,18 @@ function FreeReviewScreen() {
               <div className="absolute inset-0 bg-gradient-to-b from-[rgba(250,250,248,0.3)] to-[rgba(250,250,248,0.97)] flex flex-col items-center justify-end pb-4 gap-3">
                 <Lock size={28} className="text-stone-400" aria-hidden="true" />
                 <p className="text-sm text-stone-600 text-center max-w-xs">
-                  Answer questions in the modules to build your review list —
-                  then unlock to fix them.
+                  {comingSoon
+                    ? "Answer questions in the modules to build your review list — Review is coming soon."
+                    : "Answer questions in the modules to build your review list — then unlock to fix them."}
                 </p>
                 <Button
                   variant="primary"
                   size="md"
-                  onClick={openGate}
-                  aria-label="Unlock Review"
+                  onClick={comingSoon ? undefined : openGate}
+                  disabled={comingSoon}
+                  aria-label={comingSoon ? "Review coming soon" : "Unlock Review"}
                 >
-                  Unlock
+                  {comingSoon ? "Coming soon" : "Unlock"}
                 </Button>
               </div>
             </div>
@@ -127,28 +131,38 @@ function FreeReviewScreen() {
             <span className="font-bold text-stone-900">
               {total} question{total !== 1 ? "s" : ""}
             </span>{" "}
-            waiting for review. Go premium now to fix them before your next
-            ride.
+            waiting for review.{" "}
+            {comingSoon
+              ? "Review is coming soon — you'll be able to fix them shortly."
+              : "Go premium now to fix them before your next ride."}
           </p>
 
           {/* Orange banner */}
-          <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-between gap-3 mb-6">
-            <div>
+          {comingSoon ? (
+            <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-center mb-6">
               <p className="text-white font-bold text-sm leading-snug">
-                {total} question{total !== 1 ? "s" : ""} waiting for you
-              </p>
-              <p className="font-mono text-[11px] text-white/65 mt-0.5">
-                Fix these before your next ride
+                Coming soon
               </p>
             </div>
-            <button
-              onClick={openGate}
-              aria-label="Unlock Review"
-              className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
-            >
-              Unlock <ArrowRight size={14} aria-hidden="true" className="inline" />
-            </button>
-          </div>
+          ) : (
+            <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-between gap-3 mb-6">
+              <div>
+                <p className="text-white font-bold text-sm leading-snug">
+                  {total} question{total !== 1 ? "s" : ""} waiting for you
+                </p>
+                <p className="font-mono text-[11px] text-white/65 mt-0.5">
+                  Fix these before your next ride
+                </p>
+              </div>
+              <button
+                onClick={openGate}
+                aria-label="Unlock Review"
+                className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
+              >
+                Unlock <ArrowRight size={14} aria-hidden="true" className="inline" />
+              </button>
+            </div>
+          )}
 
           {/* Blurred question groups */}
           <div className="flex flex-col gap-4 relative">
@@ -216,17 +230,26 @@ function FreeReviewScreen() {
           <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
             <LockOpen size={24} className="text-stone-500" aria-hidden="true" />
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
-              Unlock to fix {total} mistake{total !== 1 ? "s" : ""}
+              {comingSoon
+                ? "Review is coming soon"
+                : `Unlock to fix ${total} mistake${total !== 1 ? "s" : ""}`}
             </p>
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
-              Less than the fine for running a red light
+              {comingSoon
+                ? "We're putting the finishing touches on this."
+                : "Less than the fine for running a red light"}
             </p>
             <button
-              onClick={openGate}
-              aria-label="Unlock Review for €4.99"
-              className="w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+              onClick={comingSoon ? undefined : openGate}
+              disabled={comingSoon}
+              aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
+              className={
+                comingSoon
+                  ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
+                  : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+              }
             >
-              Unlock for €4.99
+              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
             </button>
           </div>
         </div>
@@ -266,16 +289,7 @@ export default function ReviewPage() {
     questionShownAt.current = Date.now();
   }, [activeId]);
 
-  if (!PREMIUM_ENABLED) {
-    return (
-      <ComingSoon
-        title="Review — coming soon"
-        body="Soon you'll be able to fix every question you missed in one focused queue."
-      />
-    );
-  }
-
-  if (!isPremium) {
+  if (!PREMIUM_ENABLED || !isPremium) {
     return <FreeReviewScreen />;
   }
 
