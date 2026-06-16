@@ -6,6 +6,24 @@
     "seoTitle": "Cycling in the Netherlands: Essential Rules for Beginners",
     "h1": "Cycling in the Netherlands — the fundamentals",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "Do I need to wear a helmet to cycle in the Netherlands?",
+        "a": "No. There is no legal requirement to wear a helmet, and most Dutch people don't. The one exception is speed pedelec riders (fast e-bikes up to 45km/h), who are legally required to wear an approved helmet."
+      },
+      {
+        "q": "Can I use my phone while cycling in the Netherlands?",
+        "a": "Holding a phone while cycling is illegal regardless of speed and carries a fine of around €160, even at walking pace. A phone fixed to a handlebar mount is allowed — the distinction is whether it's in your hand."
+      },
+      {
+        "q": "Do I have to use the cycle path in the Netherlands?",
+        "a": "If a mandatory cycle path — marked with a round blue sign showing a white bicycle — runs alongside the road, you must use it. Optional paths, marked with a rectangular white sign with a blue border reading 'fietspad', are your choice."
+      },
+      {
+        "q": "When do bike lights become legally required?",
+        "a": "Active front (white or yellow) and rear (red) lights are legally required between sunset and sunrise. Reflectors are a separate requirement and must be fitted at all times, day or night."
+      }
+    ],
     "sections": [
       {
         "heading": "Which side of the road",
@@ -52,6 +70,24 @@
     "seoTitle": "Dutch Bike Priority Rules: Who Goes First at Junctions",
     "h1": "Dutch bike priority rules",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "Who has priority at an unmarked Dutch intersection?",
+        "a": "Right before left. Traffic approaching from your right has priority, and you yield to it. This is the default rule whenever there are no signs, road markings, or traffic lights."
+      },
+      {
+        "q": "What do shark teeth (haaientanden) mean on the road?",
+        "a": "Shark teeth are white triangles painted on the road surface meaning yield. If they're on your side of the crossing, you must give way — they override the right-before-left default."
+      },
+      {
+        "q": "Does being on a bigger or busier road give me priority?",
+        "a": "No. Without signs or markings, how the roads look means nothing. Only explicit signs and markings, or the right-before-left rule, grant priority — not road size or importance."
+      },
+      {
+        "q": "Does a priority road sign protect me from pedestrians?",
+        "a": "No. A yellow-diamond priority road sign only governs vehicle priority at junctions. You must still yield to pedestrians on a zebra crossing along your priority road."
+      }
+    ],
     "sections": [
       {
         "heading": "Right before left — the default rule",
@@ -94,6 +130,24 @@
     "seoTitle": "Trams, Trucks & Pedestrians: Sharing Dutch Roads by Bike",
     "h1": "Sharing the road",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "Do trams have priority over cyclists in the Netherlands?",
+        "a": "Yes, absolutely. A tram always has right of way — even when you have a green cyclist light, because the tram runs on its own independent signal. Always scan for trams before crossing tracks, even on green."
+      },
+      {
+        "q": "Who has priority when a car exits a driveway across a cycle path?",
+        "a": "You do — the car is crossing your path and must yield. But drivers' sightlines are often blocked by walls or parked cars, so slow down and stay cautious at driveway and car park exits."
+      },
+      {
+        "q": "Can two cyclists ride side by side in the Netherlands?",
+        "a": "Yes, riding two abreast is legal on most roads. You must fall into single file to let a car or faster cyclist overtake. Three abreast is not allowed — two is the legal maximum."
+      },
+      {
+        "q": "How should I cross tram tracks on a bike?",
+        "a": "Cross at 90 degrees, as perpendicular to the rails as possible. If your wheel enters a tram rail groove at a shallow angle it can get trapped and throw you off, so steer to cross diagonally-running tracks at a sharper angle."
+      }
+    ],
     "sections": [
       {
         "heading": "Trams have absolute priority",
@@ -136,6 +190,24 @@
     "seoTitle": "Dutch Roundabouts, Cycle Paths & Fietsstraten Explained",
     "h1": "Cycle paths, roundabouts & fietsstraten",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "Do cyclists have priority on Dutch roundabouts?",
+        "a": "On most modern roundabouts with a separate cycle ring, cyclists have priority over cars entering and exiting — but check for shark teeth at the car entry and exit points to confirm it. No teeth means cyclist priority isn't established and normal rules apply."
+      },
+      {
+        "q": "What is a fietsstraat (bike street)?",
+        "a": "A fietsstraat is a road where cyclists are the primary users and cars are guests ('auto te gast'). It has a red road surface, cars may not overtake you, and a car behind must follow at your pace. You don't need to pull over."
+      },
+      {
+        "q": "Can I cycle the wrong way down a one-way street?",
+        "a": "Only where a contraflow cycle lane is signed or marked. Many Dutch one-way streets are two-way for bikes, shown by a cycling sign or painted lane. Without a sign or marking, the one-way restriction applies to you too."
+      },
+      {
+        "q": "What should I do when a cycle path is blocked?",
+        "a": "Check over your shoulder, signal, merge into the road to pass the obstruction, then return to the cycle path when it's clear — just like a car changing lanes. Don't ride onto the pavement or wait indefinitely."
+      }
+    ],
     "sections": [
       {
         "heading": "Dutch roundabouts — the cycle ring",
@@ -182,6 +254,24 @@
     "seoTitle": "Dutch Cycling Laws: Fines, Lights, Alcohol & Phone Rules",
     "h1": "Dutch cycling laws and fines",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "What's the fine for running a red light on a bike in the Netherlands?",
+        "a": "Around €160 — the same as for car drivers. It applies to cyclist-specific traffic lights and at any time of day, regardless of how empty the road is."
+      },
+      {
+        "q": "What's the alcohol limit for cyclists in the Netherlands?",
+        "a": "0.5‰ (0.5 per mille), the same limit as for car drivers. For cyclists under 24 it's lower, at 0.2‰. Cycling over the limit is illegal, enforced during police checks, and can lead to your bike being impounded."
+      },
+      {
+        "q": "Is it illegal to wear earbuds while cycling in the Netherlands?",
+        "a": "Wearing earbuds or headphones in both ears is illegal, with a fine of around €160, because you must be able to hear traffic around you. One earbud is tolerated in practice."
+      },
+      {
+        "q": "Who is liable in a car–bike collision in the Netherlands?",
+        "a": "Under Article 185 of the Road Traffic Act, the motorist is presumed liable for at least 50% of the damage regardless of fault — and 100% if the cyclist is under 14. This protects cyclists as the more vulnerable road user."
+      }
+    ],
     "sections": [
       {
         "heading": "Lights — what you need and when",
@@ -232,6 +322,24 @@
     "seoTitle": "Dutch Road & Cycling Words Explained",
     "h1": "Dutch road words explained",
     "updatedAt": "2026-06-13",
+    "faqs": [
+      {
+        "q": "What does 'uitgezonderd' mean on a Dutch road sign?",
+        "a": "It means 'except' or 'exempt'. 'Uitgezonderd fietsers' below a no-entry sign means cyclists are exempt from the restriction — you may enter even though cars cannot."
+      },
+      {
+        "q": "What does 'haaientanden' mean?",
+        "a": "'Shark teeth' — the white triangular yield markings painted on the road surface that determine who gives way at a crossing. If they point toward you, you yield."
+      },
+      {
+        "q": "What does 'voorrang verlenen' mean?",
+        "a": "'To give way' or yield. You'll see it on triangular yield signs. 'Voorrang' alone means priority, and 'voorrangsweg' means a priority road marked by a yellow diamond sign."
+      },
+      {
+        "q": "What does 'fietsstraat' mean?",
+        "a": "'Bike street' — a road where cyclists are the primary users and cars are guests. The phrase 'auto te gast' ('car is guest') appears on fietsstraat signs."
+      }
+    ],
     "sections": [
       {
         "heading": "Priority and yielding",

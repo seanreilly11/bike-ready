@@ -13,6 +13,7 @@ export const metadata = {
     description:
       "The visual grammar of Dutch road signs explained, with every cycling sign illustrated.",
     url: "/guide/signs",
+    type: "article",
   },
 };
 

@@ -61,6 +61,23 @@ export function articleJsonLd({
   };
 }
 
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export function faqPageJsonLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.q,
+      acceptedAnswer: { "@type": "Answer", text: it.a },
+    })),
+  };
+}
+
 interface DefinedTerm {
   name: string;
   description: string;

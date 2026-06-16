@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
 import JsonLd from "@/components/seo/JsonLd";
-import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -25,6 +25,8 @@ export async function generateMetadata({
       title,
       description: guide.subtitle,
       url: path,
+      type: "article",
+      modifiedTime: guide.updatedAt,
     },
   };
 }
@@ -63,6 +65,7 @@ export default async function ModuleGuidePage({
             { name: "Guide", path: "/guide" },
             { name: guide.title, path },
           ]),
+          ...(guide.faqs?.length ? [faqPageJsonLd(guide.faqs)] : []),
         ]}
       />
 
@@ -89,6 +92,33 @@ export default async function ModuleGuidePage({
             </article>
           ))}
         </div>
+
+        {/* Frequently asked questions */}
+        {guide.faqs?.length ? (
+          <section
+            className="mt-12 pt-8 border-t border-stone-200 animate-fade-up"
+            aria-labelledby="faq-heading"
+          >
+            <h2
+              id="faq-heading"
+              className="font-display font-bold text-stone-900 text-lg mb-4"
+            >
+              Common questions
+            </h2>
+            <dl className="flex flex-col gap-5">
+              {guide.faqs.map((faq, i) => (
+                <div key={i}>
+                  <dt className="font-display font-semibold text-stone-900 text-sm mb-1">
+                    {faq.q}
+                  </dt>
+                  <dd className="text-stone-600 text-sm leading-relaxed">
+                    {faq.a}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ) : null}
 
         {/* Previous / Next navigation */}
         <nav
