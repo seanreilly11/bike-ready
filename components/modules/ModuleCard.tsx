@@ -69,7 +69,7 @@ export default function ModuleCard({ module, onClick }: ModuleCardProps) {
       style={{ borderLeft, background: bg }}
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2.5 min-w-0">
           <ModuleIcon icon={module.icon} size="sm" />
           <h3 className="font-display font-bold text-orange">{module.title}</h3>

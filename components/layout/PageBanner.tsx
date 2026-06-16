@@ -11,7 +11,7 @@ interface PageBannerProps {
 // right-aligned slot.
 export default function PageBanner({ title, subtitle, right }: PageBannerProps) {
   return (
-    <div className="bg-orange-light border border-stone-200 border-l-4 border-l-orange rounded-2xl px-5 py-4 sm:px-6 mb-6 flex items-center justify-between gap-4">
+    <div className="bg-orange-light border border-stone-200 border-l-4 border-l-orange rounded-2xl px-5 py-4 sm:px-6 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div>
         <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
           {title}
