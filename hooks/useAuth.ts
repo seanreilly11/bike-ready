@@ -5,11 +5,25 @@ import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
 import { useAppStore } from "@/stores/appStore";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { getStoredVariant, HERO_COPY_TEST } from "@/lib/abTest";
 import fetchProgress from "@/lib/queries/fetchProgress";
 import updateProgress from "@/lib/mutations/updateProgress";
 import type { LocalProgress } from "@/types";
 
 const LEGACY_STORAGE_KEY = "bikeready_progress";
+const SIGNUP_TRACKED_KEY = "bikeready_signup_tracked";
+
+// First-ever sign-in: the account row was created in the same flow as this
+// sign-in, so created_at and last_sign_in_at are within seconds of each other.
+// Returning logins advance last_sign_in_at well past created_at.
+function isFreshSignup(user: User): boolean {
+  if (!user.created_at) return false;
+  const created = new Date(user.created_at).getTime();
+  const lastSignIn = user.last_sign_in_at
+    ? new Date(user.last_sign_in_at).getTime()
+    : created;
+  return Math.abs(lastSignIn - created) < 60_000;
+}
 
 function loadLegacyProgress(): LocalProgress {
   if (typeof window === "undefined") return {};
@@ -42,7 +56,7 @@ export function useAuth(): {
 } {
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState(true);
-  const { track } = useAnalytics();
+  const { track, identify } = useAnalytics();
 
   const user = useAppStore((s) => s.user);
   const isPremium = useAppStore((s) => s.isPremium);
@@ -106,6 +120,22 @@ export function useAuth(): {
         useAppStore.getState().setUser(sessionUser);
         useAppStore.getState().setPremium(premium);
 
+        // Link the anonymous PostHog person to the authenticated user so
+        // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
+        identify(sessionUser.id);
+
+        // Fire once on first-ever sign-in so the hero variant → account funnel
+        // has a clean conversion event. localStorage guards against repeat fires.
+        if (
+          isFreshSignup(sessionUser) &&
+          localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
+        ) {
+          localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
+          track("account_created", {
+            hero_variant: getStoredVariant(HERO_COPY_TEST),
+          });
+        }
+
         // Migrate legacy localStorage progress to Supabase
         const legacy = loadLegacyProgress();
         const legacyEntries = Object.entries(legacy);
@@ -150,7 +180,7 @@ export function useAuth(): {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile, supabase.auth, verifyPremium, track]);
+  }, [fetchProfile, supabase.auth, verifyPremium, track, identify]);
 
   const refreshPremiumStatus = useCallback(async () => {
     const {

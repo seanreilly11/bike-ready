@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
 import { useAnalytics } from '@/hooks/useAnalytics'
+import { getStoredVariant, HERO_COPY_TEST } from '@/lib/abTest'
 
 const ONBOARDING_KEY = 'bikeready_onboarding_done'
 
@@ -25,7 +26,10 @@ export default function LandingButton({
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   function handleStart() {
-    track('cta_clicked', { source: variant === 'bottom' ? 'bottom' : 'hero' })
+    track('cta_clicked', {
+      source: variant === 'bottom' ? 'bottom' : 'hero',
+      hero_variant: getStoredVariant(HERO_COPY_TEST),
+    })
     if (localStorage.getItem(ONBOARDING_KEY) === 'true') {
       router.push('/learn')
     } else {

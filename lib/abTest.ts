@@ -1,6 +1,11 @@
 const AB_KEY_PREFIX = 'bikeready_ab'
 const ANON_ID_KEY   = 'bikeready_anon_id'
 
+// Hero copy A/B test — shared so the CTA + conversion events can tag the
+// variant the user was actually shown without re-declaring the test name.
+export const HERO_COPY_TEST = 'hero_copy'
+export const HERO_COPY_VARIANTS = ['control', 'variant_a', 'variant_b'] as const
+
 // djb2 variant: deterministic, same seed+testName → same bucket every time
 function deterministicIndex(seed: string, testName: string, count: number): number {
   const str = `${seed}:${testName}`

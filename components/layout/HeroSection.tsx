@@ -6,9 +6,9 @@ import LandingButton from "@/components/layout/LandingButton";
 import modules from "@/data/modules";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import { HERO_COPY_TEST, HERO_COPY_VARIANTS } from "@/lib/abTest";
 
-const variants = ["control", "variant_a", "variant_b"] as const;
-type HeroVariant = (typeof variants)[number];
+type HeroVariant = (typeof HERO_COPY_VARIANTS)[number];
 
 const heroContent: Record<
   HeroVariant,
@@ -32,7 +32,7 @@ const heroContent: Record<
 };
 
 export default function HeroSection() {
-  const variant = useABTest("hero_copy", variants);
+  const variant = useABTest(HERO_COPY_TEST, HERO_COPY_VARIANTS);
   const content = heroContent[variant ?? "control"];
 
   return (

@@ -181,7 +181,7 @@ export interface AnalyticsEvents {
   ab_variant_assigned: { test: string; variant: string };
 
   // --- acquisition ---
-  cta_clicked: { source: "hero" | "bottom" };
+  cta_clicked: { source: "hero" | "bottom"; hero_variant: string | null };
   onboarding_skipped: Record<string, never>;
 
   // --- learning engagement ---
@@ -227,6 +227,7 @@ export interface AnalyticsEvents {
     source: string;
   };
   magic_link_sent: { reason: "save_progress" | "upgrade" };
+  account_created: { hero_variant: string | null };
   return_banner_clicked: Record<string, never>;
   return_banner_dismissed: Record<string, never>;
   progress_migrated: { questions_count: number };
