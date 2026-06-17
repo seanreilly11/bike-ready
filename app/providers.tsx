@@ -1,28 +1,36 @@
 'use client'
 
-import posthog from 'posthog-js'
-import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
+import { ensurePostHog, phOptIn } from '@/lib/posthogClient'
 
-const CONSENT_KEY = 'bikeready_cookie_consent'
 const CONSENT_ACCEPTED_EVENT = 'bikeready:consent-accepted'
+
+type IdleWindow = Window & {
+  requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
+  cancelIdleCallback?: (handle: number) => void
+}
 
 export function PHProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const hasConsent = localStorage.getItem(CONSENT_KEY) === 'accepted'
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      ui_host: 'https://eu.posthog.com',
-      capture_pageview: false,
-      capture_pageleave: true,
-      opt_out_capturing_by_default: !hasConsent,
-      persistence: 'localStorage',
-    })
-
-    const handleConsentAccepted = () => posthog.opt_in_capturing()
+    const handleConsentAccepted = () => phOptIn()
     window.addEventListener(CONSENT_ACCEPTED_EVENT, handleConsentAccepted)
-    return () => window.removeEventListener(CONSENT_ACCEPTED_EVENT, handleConsentAccepted)
+
+    // Load PostHog off the critical path. Any event fired before this resolves
+    // triggers the load itself and is buffered (see lib/posthogClient).
+    const w = window as IdleWindow
+    let handle: number
+    if (w.requestIdleCallback) {
+      handle = w.requestIdleCallback(() => void ensurePostHog(), { timeout: 4000 })
+    } else {
+      handle = window.setTimeout(() => void ensurePostHog(), 2000)
+    }
+
+    return () => {
+      window.removeEventListener(CONSENT_ACCEPTED_EVENT, handleConsentAccepted)
+      if (w.cancelIdleCallback) w.cancelIdleCallback(handle)
+      else window.clearTimeout(handle)
+    }
   }, [])
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  return <>{children}</>
 }
