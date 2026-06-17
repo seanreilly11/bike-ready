@@ -34,6 +34,10 @@ export default function ModuleSessionPage() {
 
   const mod = modules.find((m) => m.id === moduleId);
 
+  // The signs module has no /guide/[id] page — it maps to the standalone
+  // /guide/signs reference instead.
+  const guideHref = moduleId === "signs" ? "/guide/signs" : `/guide/${moduleId}`;
+
   const { user, isPremium } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
@@ -230,6 +234,14 @@ export default function ModuleSessionPage() {
                       Next: {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
                     </Button>
                   )}
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    full
+                    onClick={() => router.push(guideHref)}
+                  >
+                    Read the full {mod.title} guide <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
                   <Button
                     variant="secondary"
                     size="lg"
