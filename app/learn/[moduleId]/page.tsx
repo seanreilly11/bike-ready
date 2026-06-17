@@ -34,9 +34,9 @@ export default function ModuleSessionPage() {
 
   const mod = modules.find((m) => m.id === moduleId);
 
-  // The signs module has no /guide/[id] page — it maps to the standalone
-  // /guide/signs reference instead.
-  const guideHref = moduleId === "signs" ? "/guide/signs" : `/guide/${moduleId}`;
+  // `/guide/signs` resolves to the standalone signs page (static route wins
+  // over the dynamic [moduleId] segment); every other id hits /guide/[moduleId].
+  const guideHref = `/guide/${moduleId}`;
 
   const { user, isPremium } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
