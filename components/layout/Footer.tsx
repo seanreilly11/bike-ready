@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { COOKIE_SETTINGS_EVENT } from "@/components/layout/CookieConsentBanner";
+import { PREMIUM_ENABLED } from "@/lib/config";
 
 export function Footer() {
   function openCookieSettings() {
@@ -21,12 +22,14 @@ export function Footer() {
           >
             Privacy policy
           </Link>
-          <Link
-            href="/terms"
-            className="text-xs text-stone-400 hover:text-stone-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
-          >
-            Terms of service
-          </Link>
+          {PREMIUM_ENABLED && (
+            <Link
+              href="/terms"
+              className="text-xs text-stone-400 hover:text-stone-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
+            >
+              Terms of service
+            </Link>
+          )}
           <Link
             href="/cookies"
             className="text-xs text-stone-400 hover:text-stone-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
