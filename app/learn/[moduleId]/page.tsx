@@ -34,7 +34,7 @@ export default function ModuleSessionPage() {
 
   const mod = modules.find((m) => m.id === moduleId);
 
-  const { user, isPremium } = useAuth();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
   const progress = useProgress();
@@ -136,7 +136,7 @@ export default function ModuleSessionPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      {!user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
+      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 

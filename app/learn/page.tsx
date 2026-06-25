@@ -209,7 +209,7 @@ export default function LearnIndexPage() {
         </div>
       )}
 
-      {!user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
+      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 
