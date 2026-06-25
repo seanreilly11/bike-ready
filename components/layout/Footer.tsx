@@ -10,7 +10,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-stone-200 py-5 px-5">
+    <footer className="border-t border-stone-200 py-5 px-5 pb-20 sm:pb-5">
       <div className="max-w-5xl mx-auto flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
         <p className="text-xs text-stone-400">
           © {new Date().getFullYear()} CycleDutch
