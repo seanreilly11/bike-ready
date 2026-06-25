@@ -9,6 +9,15 @@ const CONSENT_ACCEPTED_EVENT = "consent-accepted";
 
 export function PHProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    if (
+      !process.env.NEXT_PUBLIC_POSTHOG_KEY ||
+      !process.env.NEXT_PUBLIC_POSTHOG_HOST
+    ) {
+      console.warn(
+        "PostHog is not configured properly. Please check your environment variables.",
+      );
+      return;
+    }
     const hasConsent = localStorage.getItem(CONSENT_KEY) === "accepted";
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
