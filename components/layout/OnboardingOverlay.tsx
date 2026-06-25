@@ -35,7 +35,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
   const StepIcon = screen.icon;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-stone-900/80 backdrop-blur-sm"
@@ -47,7 +47,7 @@ export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-title"
-        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up"
+        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up"
       >
         {/* Step dots */}
         <div className="flex justify-center gap-1.5 mb-6">
