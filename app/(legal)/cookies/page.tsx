@@ -77,7 +77,7 @@ export default function CookiesPage() {
                   Stores your question progress in localStorage before you
                   create an account.{" "}
                   <span className="text-stone-400">
-                    Not a cookie — localStorage data.
+                    Not a cookie - localStorage data.
                   </span>
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top whitespace-nowrap">
@@ -91,7 +91,7 @@ export default function CookiesPage() {
                 <td className="px-4 py-3 text-stone-600 align-top">
                   Remembers whether you have completed the onboarding overlay.{" "}
                   <span className="text-stone-400">
-                    Not a cookie — localStorage data.
+                    Not a cookie - localStorage data.
                   </span>
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top whitespace-nowrap">
@@ -130,7 +130,7 @@ export default function CookiesPage() {
                   ph_[project]_posthog
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top">
-                  PostHog analytics. Tracks anonymised usage patterns — which
+                  PostHog analytics. Tracks anonymised usage patterns - which
                   modules are opened, question completion rates. No personally
                   identifiable data is collected.
                 </td>
@@ -218,7 +218,7 @@ export default function CookiesPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           We do not allow third-party advertisers to set cookies on CycleDutch.
           The only third-party cookies are from PostHog (analytics) and Stripe
-          (payment processing — only set on the checkout page).
+          (payment processing - only set on the checkout page).
         </p>
       </section>
     </>

@@ -3,7 +3,7 @@ import { colors } from "@/lib/tokens";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "CycleDutch — Cycle safely in the Netherlands",
+    name: "CycleDutch - Cycle safely in the Netherlands",
     short_name: "CycleDutch",
     description:
       "Learn Dutch road rules, signs, and bike priority before your first ride.",

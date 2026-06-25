@@ -44,7 +44,7 @@ const UitgezonderdSign = () => (
 );
 
 // ---------------------------------------------------------------------------
-// Registry — lookup by SignId
+// Registry - lookup by SignId
 // ---------------------------------------------------------------------------
 
 export const SIGN_REGISTRY = {

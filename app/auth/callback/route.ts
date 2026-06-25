@@ -1,35 +1,37 @@
-import { createClient } from '@/lib/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const ALLOWED_NEXT_PATHS = ['/learn', '/review', '/test', '/checkout']
+const ALLOWED_NEXT_PATHS = ["/learn", "/review", "/test", "/checkout"];
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
-  const rawNext = searchParams.get('next') ?? '/learn'
-  const next = ALLOWED_NEXT_PATHS.includes(rawNext) ? rawNext : '/learn'
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get("code");
+  const rawNext = searchParams.get("next") ?? "/learn";
+  const next = ALLOWED_NEXT_PATHS.includes(rawNext) ? rawNext : "/learn";
 
   if (code) {
-    const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
-      return NextResponse.redirect(new URL('/learn?auth_error=1', request.url))
+      return NextResponse.redirect(new URL("/learn?auth_error=1", request.url));
     }
 
-    if (next === '/checkout') {
+    if (next === "/checkout") {
       const res = await fetch(`${origin}/api/checkout`, {
-        method: 'POST',
-        headers: { cookie: request.headers.get('cookie') ?? '' },
-      })
+        method: "POST",
+        headers: { cookie: request.headers.get("cookie") ?? "" },
+      });
       if (!res.ok) {
-        return NextResponse.redirect(new URL('/learn?error=checkout_failed', request.url))
+        return NextResponse.redirect(
+          new URL("/learn?error=checkout_failed", request.url),
+        );
       }
-      const { url } = (await res.json()) as { url?: string }
-      // No url means alreadyPremium — nothing to pay for
-      return NextResponse.redirect(url ?? new URL('/learn', request.url))
+      const { url } = (await res.json()) as { url?: string };
+      // No url means alreadyPremium - nothing to pay for
+      return NextResponse.redirect(url ?? new URL("/learn", request.url));
     }
   }
 
-  return NextResponse.redirect(new URL(next, request.url))
+  return NextResponse.redirect(new URL(next, request.url));
 }

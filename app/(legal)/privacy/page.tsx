@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           Usage data
         </h3>
         <p className="text-sm text-stone-600 leading-relaxed mb-5">
-          We collect anonymous analytics about how you use CycleDutch — which
+          We collect anonymous analytics about how you use CycleDutch - which
           modules you open, how many questions you answer, and whether you
           complete modules. This data is anonymised before collection and cannot
           be traced back to you as an individual. We use PostHog for analytics.
@@ -212,7 +212,7 @@ export default function PrivacyPage() {
               >
                 {s.name} ({s.label})
               </a>{" "}
-              — {s.detail}
+              - {s.detail}
             </li>
           ))}
         </ul>
@@ -279,7 +279,7 @@ export default function PrivacyPage() {
               <span className="font-semibold text-stone-900 shrink-0">
                 {item.right}
               </span>
-              <span>— {item.detail}</span>
+              <span>- {item.detail}</span>
             </li>
           ))}
         </ul>

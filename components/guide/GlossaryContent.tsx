@@ -7,7 +7,7 @@ import PageBanner from "@/components/layout/PageBanner";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 const allTerms = glossaryData.categories.flatMap((c) =>
-  c.terms.map((t) => ({ ...t, categoryId: c.id, categoryTitle: c.title }))
+  c.terms.map((t) => ({ ...t, categoryId: c.id, categoryTitle: c.title })),
 );
 
 export default function GlossaryContent() {
@@ -31,7 +31,10 @@ export default function GlossaryContent() {
   useEffect(() => {
     if (!search) return;
     const timer = setTimeout(() => {
-      track("glossary_searched", { query: search, results_count: filteredTerms.length });
+      track("glossary_searched", {
+        query: search,
+        results_count: filteredTerms.length,
+      });
     }, 500);
     return () => clearTimeout(timer);
   }, [search, filteredTerms.length, track]);
@@ -53,7 +56,7 @@ export default function GlossaryContent() {
       {/* Header */}
       <PageBanner
         title="Dutch cycling glossary"
-        subtitle="Dutch cycling words you'll see on signs, roads, and paths — translated with pronunciation."
+        subtitle="Dutch cycling words you'll see on signs, roads, and paths - translated with pronunciation."
         right={
           <span className="font-mono text-xs uppercase tracking-wide text-orange bg-white border border-orange-mid rounded-full px-3 py-1.5">
             {allTerms.length} terms

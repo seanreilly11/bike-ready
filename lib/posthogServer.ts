@@ -3,7 +3,7 @@ import { logError } from "@/lib/logger";
 
 // Server-side PostHog capture for ground-truth events (e.g. completed
 // payments from the Stripe webhook) that can't rely on the browser still
-// being open. Uses the public ingestion endpoint — no extra dependency.
+// being open. Uses the public ingestion endpoint - no extra dependency.
 // Never throws: analytics must not break the caller.
 export async function captureServerEvent(
   distinctId: string,
@@ -11,7 +11,8 @@ export async function captureServerEvent(
   properties: Record<string, unknown> = {},
 ): Promise<void> {
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  const host = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://app.posthog.com";
+  const host =
+    process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://app.posthog.com";
   if (!key) return;
 
   try {

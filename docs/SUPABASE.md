@@ -1,6 +1,6 @@
-# SUPABASE.md — CycleDutch
+# SUPABASE.md - CycleDutch
 
-Everything needed to connect to Supabase, set up auth, and migrate localStorage progress. The database schema is run manually in the Supabase dashboard — no CLI or migrations folder needed.
+Everything needed to connect to Supabase, set up auth, and migrate localStorage progress. The database schema is run manually in the Supabase dashboard - no CLI or migrations folder needed.
 
 ---
 
@@ -15,8 +15,8 @@ SUPABASE_SECRET_KEY=sb_secret_xxx
 NEXT_PUBLIC_SUPABASE_REDIRECT_URL=http://localhost:3000
 ```
 
-- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — replaces the old `ANON_KEY`. Safe to expose client-side. Used to initialise the Supabase browser client.
-- `SUPABASE_SECRET_KEY` — replaces the old `SERVICE_ROLE_KEY`. Never expose this client-side. Used only in server-side API routes (e.g. Stripe webhook setting `is_premium = true`).
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` - replaces the old `ANON_KEY`. Safe to expose client-side. Used to initialise the Supabase browser client.
+- `SUPABASE_SECRET_KEY` - replaces the old `SERVICE_ROLE_KEY`. Never expose this client-side. Used only in server-side API routes (e.g. Stripe webhook setting `is_premium = true`).
 
 To find these: Supabase dashboard → Settings → API Keys → API Keys tab. If no publishable key exists yet, click "Create new API Keys".
 
@@ -24,7 +24,7 @@ To find these: Supabase dashboard → Settings → API Keys → API Keys tab. If
 
 ## Database schema
 
-**Run this SQL once in the Supabase dashboard → SQL Editor.** Do not create a migrations folder — just paste and run.
+**Run this SQL once in the Supabase dashboard → SQL Editor.** Do not create a migrations folder - just paste and run.
 
 ```sql
 -- Profiles (extends Supabase auth.users)
@@ -68,7 +68,7 @@ create table test_results (
   completed_at timestamptz not null default now()
 );
 
--- Row Level Security — users can only access their own rows
+-- Row Level Security - users can only access their own rows
 alter table profiles        enable row level security;
 alter table question_progress enable row level security;
 alter table badges          enable row level security;
@@ -122,7 +122,7 @@ create trigger on_auth_user_created
 
 **Why the trigger matters:** when a user signs up via magic link, Supabase creates a row in `auth.users` automatically. The trigger fires on that insert and creates the corresponding `profiles` row. Without it the app would need to create the profile row manually in code after every sign-up, which is fragile.
 
-**Why the unique constraints matter:** `question_progress` has a unique constraint on `(user_id, question_id)`. This means the database physically cannot create duplicate rows — every upsert either inserts or updates the single existing row. This is the foundation that keeps progress correct.
+**Why the unique constraints matter:** `question_progress` has a unique constraint on `(user_id, question_id)`. This means the database physically cannot create duplicate rows - every upsert either inserts or updates the single existing row. This is the foundation that keeps progress correct.
 
 ---
 
@@ -131,44 +131,46 @@ create trigger on_auth_user_created
 Use `@supabase/ssr` for all client and server-side usage in Next.js 16.
 
 ```ts
-// lib/supabase/client.ts — browser client
-import { createBrowserClient } from '@supabase/ssr'
+// lib/supabase/client.ts - browser client
+import { createBrowserClient } from "@supabase/ssr";
 
 export function createClient() {
   return createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-  )
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  );
 }
 ```
 
 ```ts
-// lib/supabase/server.ts — server component / route handler client
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+// lib/supabase/server.ts - server component / route handler client
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export async function createClient() {
-  const cookieStore = await cookies()
+  const cookieStore = await cookies();
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
-        getAll() { return cookieStore.getAll() },
+        getAll() {
+          return cookieStore.getAll();
+        },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
+            cookieStore.set(name, value, options),
+          );
         },
       },
-    }
-  )
+    },
+  );
 }
 ```
 
 ---
 
-## Auth — magic link flow
+## Auth - magic link flow
 
 Magic link is the only auth method. No passwords.
 
@@ -180,44 +182,47 @@ const { error } = await supabase.auth.signInWithOtp({
   options: {
     emailRedirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL}/auth/callback`,
   },
-})
+});
 ```
 
 **The `/auth/callback` route is required.** Without it, the magic link lands on a dead page. Create `app/auth/callback/route.ts`:
 
 ```ts
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const code = searchParams.get('code')
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
 
   if (code) {
-    const cookieStore = await cookies()
+    const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
       {
         cookies: {
-          getAll() { return cookieStore.getAll() },
+          getAll() {
+            return cookieStore.getAll();
+          },
           setAll(cookiesToSet) {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+              cookieStore.set(name, value, options),
+            );
           },
         },
-      }
-    )
-    await supabase.auth.exchangeCodeForSession(code)
+      },
+    );
+    await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(new URL('/learn', request.url))
+  return NextResponse.redirect(new URL("/learn", request.url));
 }
 ```
 
 **Dashboard configuration required:**
+
 - Authentication → URL Configuration → Site URL: `http://localhost:3000` (dev) / your production domain
 - Authentication → URL Configuration → Redirect URLs: add `http://localhost:3000/auth/callback` and `https://yourapp.com/auth/callback`
 
@@ -225,36 +230,36 @@ The `emailRedirectTo` in `signInWithOtp` must exactly match one of these registe
 
 **Reading the user:**
 
-Always use `auth.getUser()` for server-side auth checks — not `auth.getSession()`. `getSession()` reads from the cookie and can be tampered with. `getUser()` always makes a request to the Auth server and returns verified data.
+Always use `auth.getUser()` for server-side auth checks - not `auth.getSession()`. `getSession()` reads from the cookie and can be tampered with. `getUser()` always makes a request to the Auth server and returns verified data.
 
 ```ts
-const { data: { user } } = await supabase.auth.getUser()
-if (!user) redirect('/') // not authenticated
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+if (!user) redirect("/"); // not authenticated
 ```
 
 ---
 
 ## Upserting question progress
 
-Always use `.upsert()` not `.insert()`. The unique constraint on `(user_id, question_id)` means upsert either creates a new row or updates the existing one — never duplicates.
+Always use `.upsert()` not `.insert()`. The unique constraint on `(user_id, question_id)` means upsert either creates a new row or updates the existing one - never duplicates.
 
 ```ts
-await supabase
-  .from('question_progress')
-  .upsert(
-    {
-      user_id:          userId,
-      question_id:      questionId,
-      seen:             true,
-      correct:          answeredCorrectly,
-      attempts:         1,           // DB increments this via the upsert
-      last_answered_at: new Date().toISOString(),
-    },
-    { onConflict: 'user_id,question_id' }
-  )
+await supabase.from("question_progress").upsert(
+  {
+    user_id: userId,
+    question_id: questionId,
+    seen: true,
+    correct: answeredCorrectly,
+    attempts: 1, // DB increments this via the upsert
+    last_answered_at: new Date().toISOString(),
+  },
+  { onConflict: "user_id,question_id" },
+);
 ```
 
-The `correct` field is handled at the database level with the OR logic in the upsert — once `true` it never goes back to `false`. This is enforced by the schema, not just the app code.
+The `correct` field is handled at the database level with the OR logic in the upsert - once `true` it never goes back to `false`. This is enforced by the schema, not just the app code.
 
 ---
 
@@ -272,51 +277,51 @@ Free users accumulate progress in localStorage before creating an account. On si
 // hooks/useProgress.ts
 
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (event === 'SIGNED_IN' && session?.user) {
-    await migrateLocalProgress(session.user.id)
+  if (event === "SIGNED_IN" && session?.user) {
+    await migrateLocalProgress(session.user.id);
   }
-})
+});
 
 async function migrateLocalProgress(userId: string) {
-  const raw = localStorage.getItem('progress')
-  if (!raw) return
+  const raw = localStorage.getItem("progress");
+  if (!raw) return;
 
   const localProgress: Record<string, { seen: boolean; correct: boolean }> =
-    JSON.parse(raw)
+    JSON.parse(raw);
 
-  const entries = Object.entries(localProgress)
-  if (entries.length === 0) return
+  const entries = Object.entries(localProgress);
+  if (entries.length === 0) return;
 
   const rows = entries.map(([questionId, p]) => ({
-    user_id:          userId,
-    question_id:      questionId,
-    seen:             true,
-    correct:          p.correct,
-    attempts:         1,
+    user_id: userId,
+    question_id: questionId,
+    seen: true,
+    correct: p.correct,
+    attempts: 1,
     last_answered_at: new Date().toISOString(),
-  }))
+  }));
 
   const { error } = await supabase
-    .from('question_progress')
-    .upsert(rows, { onConflict: 'user_id,question_id' })
+    .from("question_progress")
+    .upsert(rows, { onConflict: "user_id,question_id" });
 
   if (error) {
-    console.error('localStorage migration failed:', error)
-    return
+    console.error("localStorage migration failed:", error);
+    return;
   }
 
-  // Supabase is now the source of truth — clear localStorage
-  localStorage.removeItem('progress')
+  // Supabase is now the source of truth - clear localStorage
+  localStorage.removeItem("progress");
 }
 ```
 
-**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in — the upsert handles it correctly. The unique constraint prevents duplicates, and the database-level `correct OR` logic means a previous correct answer is never downgraded by a new wrong answer.
+**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in - the upsert handles it correctly. The unique constraint prevents duplicates, and the database-level `correct OR` logic means a previous correct answer is never downgraded by a new wrong answer.
 
-**After migration:** the hook switches from reading localStorage to reading from Supabase. The rest of the app does not need to know migration happened — it just reads from the hook as normal.
+**After migration:** the hook switches from reading localStorage to reading from Supabase. The rest of the app does not need to know migration happened - it just reads from the hook as normal.
 
 ---
 
-## Stripe webhook — setting is_premium
+## Stripe webhook - setting is_premium
 
 The Stripe webhook runs server-side and needs to bypass RLS to update the user's profile. Use the `SUPABASE_SECRET_KEY` (not the publishable key) to create an admin client in the webhook route.
 
@@ -324,48 +329,48 @@ The Stripe webhook runs server-side and needs to bypass RLS to update the user's
 
 ```ts
 // app/api/stripe/webhook/route.ts
-import { createClient } from '@supabase/supabase-js'
-import Stripe from 'stripe'
+import { createClient } from "@supabase/supabase-js";
+import Stripe from "stripe";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
-)
+  process.env.SUPABASE_SECRET_KEY!,
+);
 
 export async function POST(request: Request) {
-  const body = await request.text()
-  const signature = request.headers.get('stripe-signature')!
+  const body = await request.text();
+  const signature = request.headers.get("stripe-signature")!;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
   } catch {
-    return new Response('Invalid signature', { status: 400 })
+    return new Response("Invalid signature", { status: 400 });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.CheckoutSession
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.CheckoutSession;
 
     // Get the Supabase user id stored in metadata when creating the checkout
-    const userId = session.metadata?.supabase_user_id
-    if (!userId) return new Response('No user id in metadata', { status: 400 })
+    const userId = session.metadata?.supabase_user_id;
+    if (!userId) return new Response("No user id in metadata", { status: 400 });
 
     await supabaseAdmin
-      .from('profiles')
+      .from("profiles")
       .update({
-        is_premium:         true,
-        premium_since:      new Date().toISOString(),
+        is_premium: true,
+        premium_since: new Date().toISOString(),
         stripe_customer_id: session.customer as string,
-        stripe_payment_id:  session.payment_intent as string,
+        stripe_payment_id: session.payment_intent as string,
       })
-      .eq('id', userId)
+      .eq("id", userId);
   }
 
-  return new Response('OK', { status: 200 })
+  return new Response("OK", { status: 200 });
 }
 ```
 
@@ -377,16 +382,16 @@ const session = await stripe.checkout.sessions.create({
   metadata: {
     supabase_user_id: user.id,
   },
-})
+});
 ```
 
-The secret key has full database access and bypasses RLS — only ever use it server-side in API routes, never in client code.
+The secret key has full database access and bypasses RLS - only ever use it server-side in API routes, never in client code.
 
 ---
 
 ## Webhook reliability and fallback
 
-Webhooks can fail — network blip, cold start, Stripe can't reach your server. If the webhook fails, the user has paid but `is_premium` is still `false` and they still see the gate.
+Webhooks can fail - network blip, cold start, Stripe can't reach your server. If the webhook fails, the user has paid but `is_premium` is still `false` and they still see the gate.
 
 **Stripe's retry behaviour:** Stripe automatically retries failed webhooks multiple times over 24 hours. Most failures resolve themselves without any action needed.
 
@@ -397,42 +402,44 @@ Webhooks can fail — network blip, cold start, Stripe can't reach your server. 
 // Called client-side on sign-in when is_premium is false
 
 export async function GET(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return new Response('Unauthorized', { status: 401 })
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return new Response("Unauthorized", { status: 401 });
 
   const { data: profile } = await supabaseAdmin
-    .from('profiles')
-    .select('stripe_customer_id, is_premium')
-    .eq('id', user.id)
-    .single()
+    .from("profiles")
+    .select("stripe_customer_id, is_premium")
+    .eq("id", user.id)
+    .single();
 
-  // Already premium — nothing to do
-  if (profile?.is_premium) return Response.json({ is_premium: true })
+  // Already premium - nothing to do
+  if (profile?.is_premium) return Response.json({ is_premium: true });
 
-  // No Stripe customer yet — definitely not premium
-  if (!profile?.stripe_customer_id) return Response.json({ is_premium: false })
+  // No Stripe customer yet - definitely not premium
+  if (!profile?.stripe_customer_id) return Response.json({ is_premium: false });
 
   // Check Stripe directly for completed payments
   const payments = await stripe.paymentIntents.list({
     customer: profile.stripe_customer_id,
     limit: 5,
-  })
+  });
 
-  const hasPaid = payments.data.some(p => p.status === 'succeeded')
+  const hasPaid = payments.data.some((p) => p.status === "succeeded");
 
   if (hasPaid) {
-    // Recover the missed webhook — set premium now
+    // Recover the missed webhook - set premium now
     await supabaseAdmin
-      .from('profiles')
+      .from("profiles")
       .update({ is_premium: true, premium_since: new Date().toISOString() })
-      .eq('id', user.id)
+      .eq("id", user.id);
   }
 
-  return Response.json({ is_premium: hasPaid })
+  return Response.json({ is_premium: hasPaid });
 }
 ```
 
-Call this route in `useAuth` after sign-in only when `is_premium` is `false` — not on every load. If it finds a completed payment it silently recovers and the user gets premium access without needing to contact support.
+Call this route in `useAuth` after sign-in only when `is_premium` is `false` - not on every load. If it finds a completed payment it silently recovers and the user gets premium access without needing to contact support.
 
 **Refunds:** `is_premium` does not revert automatically on a refund. Handle refunds manually in the Supabase dashboard (set `is_premium = false`, clear `stripe_payment_id`), or build a `charge.refunded` webhook handler if refund volume warrants it.

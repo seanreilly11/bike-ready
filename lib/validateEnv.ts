@@ -1,6 +1,6 @@
 // Validates required environment variables at startup.
 // Called from next.config.ts so it runs on every dev/build start.
-// Throws immediately if anything is missing — fail loudly, not silently.
+// Throws immediately if anything is missing - fail loudly, not silently.
 
 const requiredAlways = [
   "NEXT_PUBLIC_SUPABASE_URL",

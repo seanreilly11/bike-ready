@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { logError } from "@/lib/logger";
 import { VALID_QUESTION_IDS } from "@/lib/validIds";
 
-// GET /api/progress — fetch all progress rows for the authenticated user
+// GET /api/progress - fetch all progress rows for the authenticated user
 export async function GET() {
   const supabase = await createClient();
   const {
@@ -21,13 +21,16 @@ export async function GET() {
 
   if (error) {
     logError("progress GET", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ progress: data });
 }
 
-// POST /api/progress — upsert a single question answer
+// POST /api/progress - upsert a single question answer
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
   const {
@@ -59,7 +62,10 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     logError("progress POST", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ ok: true });

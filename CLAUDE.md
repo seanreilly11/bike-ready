@@ -1,4 +1,4 @@
-# CLAUDE.md — CycleDutch
+# CLAUDE.md - CycleDutch
 
 Instructions for Claude Code when working on this project.
 
@@ -14,11 +14,11 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 
 ## Stack
 
-- **Next.js 16** — App Router, TypeScript
-- **Tailwind CSS** — utility-first styling, no CSS modules
-- **Supabase** — Postgres + Auth (magic link) + Row Level Security
-- **Stripe** — one-time payment for premium unlock
-- **Posthog** — analytics and anonymous-to-identified user tracking
+- **Next.js 16** - App Router, TypeScript
+- **Tailwind CSS** - utility-first styling, no CSS modules
+- **Supabase** - Postgres + Auth (magic link) + Row Level Security
+- **Stripe** - one-time payment for premium unlock
+- **Posthog** - analytics and anonymous-to-identified user tracking
 
 ---
 
@@ -28,18 +28,18 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 
 - Functional components only. No class components.
 - Co-locate state as close to where it is used as possible. Lift only when necessary.
-- Prefer `useState` + `useReducer` for local state. Genuinely global state (progress, badges, auth/premium, modal/UI flags) lives in **Zustand stores** — `stores/appStore.ts` (domain state) and `stores/uiStore.ts` (UI state). Read/write it only through the hooks layer, never reach into Supabase or PostHog from a component.
+- Prefer `useState` + `useReducer` for local state. Genuinely global state (progress, badges, auth/premium, modal/UI flags) lives in **Zustand stores** - `stores/appStore.ts` (domain state) and `stores/uiStore.ts` (UI state). Read/write it only through the hooks layer, never reach into Supabase or PostHog from a component.
 - Never use `useEffect` to sync state that can be derived. Derive it inline instead.
 - Keep components small and focused. If a component exceeds ~80 lines it probably needs splitting.
 - Name components by what they render, not by where they are used. `QuestionCard`, not `ModulePageCard`.
 
 ### SOLID
 
-- **Single responsibility** — each component, hook, and utility does one thing. `QuestionCard` renders a question. `useProgress` manages progress state. They do not cross into each other's concerns.
-- **Open/closed** — question types (`multiple_choice`, `true_false`, `scenario_decision`) are extendable by adding new types to the data, not by modifying component logic. Use a map/registry pattern.
-- **Liskov** — if a component accepts a `question` prop, any question shape that satisfies the `Question` type should work without the component knowing the specific type.
-- **Interface segregation** — pass only what a component needs. Never spread entire state objects as props.
-- **Dependency inversion** — components depend on abstractions, not concrete implementations. `QuestionCard` receives `onAnswer` as a prop; it does not know about Supabase.
+- **Single responsibility** - each component, hook, and utility does one thing. `QuestionCard` renders a question. `useProgress` manages progress state. They do not cross into each other's concerns.
+- **Open/closed** - question types (`multiple_choice`, `true_false`, `scenario_decision`) are extendable by adding new types to the data, not by modifying component logic. Use a map/registry pattern.
+- **Liskov** - if a component accepts a `question` prop, any question shape that satisfies the `Question` type should work without the component knowing the specific type.
+- **Interface segregation** - pass only what a component needs. Never spread entire state objects as props.
+- **Dependency inversion** - components depend on abstractions, not concrete implementations. `QuestionCard` receives `onAnswer` as a prop; it does not know about Supabase.
 
 ### DRY
 
@@ -109,8 +109,8 @@ CycleDutch/
 │       └── health/route.ts       # Uptime health check
 ├── components/                   # As above
 ├── data/
-│   ├── questions.json            # Full question bank — single source of truth
-│   ├── lessons.json              # Skill lessons — single source of truth
+│   ├── questions.json            # Full question bank - single source of truth
+│   ├── lessons.json              # Skill lessons - single source of truth
 │   ├── modules.ts                # Module definitions (id, title, emoji, badgeId)
 │   ├── signs.tsx                 # SVG sign components + SIGN_REGISTRY
 │   └── badges.ts                 # Badge definitions
@@ -141,7 +141,7 @@ CycleDutch/
 
 ---
 
-## Data files — single source of truth
+## Data files - single source of truth
 
 ### `data/questions.json`
 
@@ -183,19 +183,19 @@ See `DATA_MODEL.md` for the full type definitions and all enums.
 
 **ID format:** `[module]_[number]` where number is zero-padded to three digits.
 
-| Module | Example IDs |
-|---|---|
-| priority | priority_009, priority_010 |
-| signs | signs_001, signs_006 |
-| roadusers | roadusers_006, roadusers_007 |
-| infrastructure | infrastructure_006, infrastructure_007 |
-| legal | legal_005, legal_006 |
-| vocabulary | vocabulary_006, vocabulary_007 |
-| mixed scenarios | mixed_001, mixed_002 |
+| Module          | Example IDs                            |
+| --------------- | -------------------------------------- |
+| priority        | priority_009, priority_010             |
+| signs           | signs_001, signs_006                   |
+| roadusers       | roadusers_006, roadusers_007           |
+| infrastructure  | infrastructure_006, infrastructure_007 |
+| legal           | legal_005, legal_006                   |
+| vocabulary      | vocabulary_006, vocabulary_007         |
+| mixed scenarios | mixed_001, mixed_002                   |
 
 ### `data/lessons.json`
 
-Skill lessons displayed in the collapsible accordion above each question. One entry per skill, three difficulty variants. Keyed by skill display name — must exactly match `question.skill`.
+Skill lessons displayed in the collapsible accordion above each question. One entry per skill, three difficulty variants. Keyed by skill display name - must exactly match `question.skill`.
 
 **Schema:**
 
@@ -236,13 +236,13 @@ Lookup: `lessons[question.skill]?.[question.difficulty]`. If no match found, the
 
 **localStorage before auth.** Free users get progress in localStorage: `{ [questionId]: { seen: boolean, correct: boolean } }`. Same shape as Supabase. Also store `anonymous_id` (UUID) from first visit. On sign-up, migrate localStorage to Supabase and clear it.
 
-**Per-module free limit.** `FREE_PER_MODULE = 3` (see `types/index.ts`). After 3 questions in a gated module the next question is replaced by the gate screen inline — no popup. Gate shows a next-module nudge card and an upgrade prompt. Modules flagged `alwaysFree` (Fundamentals) are never gated.
+**Per-module free limit.** `FREE_PER_MODULE = 3` (see `types/index.ts`). After 3 questions in a gated module the next question is replaced by the gate screen inline - no popup. Gate shows a next-module nudge card and an upgrade prompt. Modules flagged `alwaysFree` (Fundamentals) are never gated.
 
 **Preview-complete screen.** Once a free user has answered `FREE_PER_MODULE` questions in every gated module, the Learn index is replaced by a dedicated upsell screen: dark hero with exact progress shown, module cards with filled preview dots and the rest dimmed, and the unlock CTA.
 
 **TypeScript strictly.** No `any`. No type assertions unless absolutely unavoidable. All types in `types/index.ts`.
 
-**Tailwind only.** Tokens live in `lib/tokens.ts` (JS access) mirrored in `app/globals.css` `@theme` (Tailwind v4 utilities) — no `tailwind.config.ts`. Prefer token utility classes; inline `style` is only for genuinely dynamic values (animation delays, computed widths) and must reference `colors`/`fonts` from `lib/tokens.ts`, never raw hex.
+**Tailwind only.** Tokens live in `lib/tokens.ts` (JS access) mirrored in `app/globals.css` `@theme` (Tailwind v4 utilities) - no `tailwind.config.ts`. Prefer token utility classes; inline `style` is only for genuinely dynamic values (animation delays, computed widths) and must reference `colors`/`fonts` from `lib/tokens.ts`, never raw hex.
 
 ---
 
@@ -273,9 +273,9 @@ GateModal (opened from upgrade CTA or nav Unlock button)
 
 First-time visitors see a 3-screen overlay after clicking "Start learning" on the landing page:
 
-1. **Welcome** — what CycleDutch is, who it is for
-2. **How it works** — question → feedback loop explained
-3. **Suggested order** — start with Priority Rules
+1. **Welcome** - what CycleDutch is, who it is for
+2. **How it works** - question → feedback loop explained
+3. **Suggested order** - start with Priority Rules
 
 Animated step indicator dots. Skip option on screen 1. Stored in localStorage as `onboarding_done`. Never shown again once completed.
 
@@ -283,9 +283,9 @@ Animated step indicator dots. Skip option on screen 1. Stored in localStorage as
 
 ## Save progress nudges
 
-**Return visit banner** — below the nav, shown when `totalSeen >= 3` and no account. Dismissible. "Welcome back — sign in to keep your progress safe." Opens AuthModal.
+**Return visit banner** - below the nav, shown when `totalSeen >= 3` and no account. Dismissible. "Welcome back - sign in to keep your progress safe." Opens AuthModal.
 
-**Module complete nudge** — inside the module, after all questions are seen, free users only. "Sign in so you don't lose what you've done." Opens AuthModal.
+**Module complete nudge** - inside the module, after all questions are seen, free users only. "Sign in so you don't lose what you've done." Opens AuthModal.
 
 ---
 
@@ -293,19 +293,19 @@ Animated step indicator dots. Skip option on screen 1. Stored in localStorage as
 
 `anonymous_id` UUID generated on first load, stored in localStorage. On sign-up: `posthog.identify(userId, { anonymous_id })`.
 
-**The `AnalyticsEvents` type in `types/index.ts` is the source of truth** for the full event list and their property shapes — it is far richer than the table below (funnel, retention, test, review, guide events). All client events fire through the `useAnalytics` hook. Add new events to that type first.
+**The `AnalyticsEvents` type in `types/index.ts` is the source of truth** for the full event list and their property shapes - it is far richer than the table below (funnel, retention, test, review, guide events). All client events fire through the `useAnalytics` hook. Add new events to that type first.
 
 Core events (illustrative subset):
 
-| Event | Properties |
-|---|---|
-| `question_answered` | questionId, skill, difficulty, correct, moduleId |
-| `module_started` / `module_completed` | moduleId |
-| `gate_seen` | moduleId, source |
-| `checkout_started` / `gate_converted` | — |
-| `test_completed` | score_pct, passed |
-| `badge_earned` | badgeId |
-| `onboarding_completed` | — |
+| Event                                 | Properties                                       |
+| ------------------------------------- | ------------------------------------------------ |
+| `question_answered`                   | questionId, skill, difficulty, correct, moduleId |
+| `module_started` / `module_completed` | moduleId                                         |
+| `gate_seen`                           | moduleId, source                                 |
+| `checkout_started` / `gate_converted` | -                                                |
+| `test_completed`                      | score_pct, passed                                |
+| `badge_earned`                        | badgeId                                          |
+| `onboarding_completed`                | -                                                |
 
 Ground-truth revenue is captured **server-side** in the Stripe webhook via `lib/posthogServer.ts` (`purchase_completed`), since the browser may be closed by the time payment settles.
 
@@ -327,9 +327,9 @@ Session length: 30 days. Cookie-based via `@supabase/ssr`.
 ## Supabase
 
 - `@supabase/ssr` for the browser client (`lib/supabase.ts`) and server client (`lib/supabase/server.ts`)
-- All tables have RLS — users access only their own rows
+- All tables have RLS - users access only their own rows
 - `profiles` has **no client-side UPDATE policy**: `is_premium`/`stripe_*` are written only by the service-role client (`lib/supabase/admin.ts`) in the Stripe webhook and premium-verify routes
-- `upsert_question_progress` derives the user from `auth.uid()` — never pass a user id from the client
+- `upsert_question_progress` derives the user from `auth.uid()` - never pass a user id from the client
 - Magic link is the only auth method
 - See `lib/supabase/schema.sql` for full schema
 
@@ -361,20 +361,23 @@ NEXT_PUBLIC_SITE_URL=
 ## Operational guides
 
 ### Adding questions
+
 1. Add to `data/questions.json` following the schema exactly
-2. Set `status: "draft"` — review against `QUESTION_FRAMEWORK.md` checklist before changing to `"active"`
+2. Set `status: "draft"` - review against `QUESTION_FRAMEWORK.md` checklist before changing to `"active"`
 3. `skill` value must exactly match a key in `data/lessons.json`
 4. If the question has a `sign`, ensure the SVG exists in `data/signs.tsx` and is registered in `SIGN_REGISTRY`
 5. Use the correct ID prefix for the module
 
 ### Adding a new sign SVG
+
 1. Create the SVG component in `data/signs.tsx`
 2. Register it in `SIGN_REGISTRY` with a descriptive snake_case key
 3. Add the key to the `SignId` union type in `types/index.ts`
 4. Reference the key in the question's `sign` field
 
 ### Adding a new skill lesson
+
 1. Add entry to `data/lessons.json` under `lessons`
 2. Key must exactly match the `skill` display name used in questions
 3. Provide all three variants: `easy`, `medium`, `hard`
-4. Hard variants should be the most thorough — full rules, edge cases, all relevant detail
+4. Hard variants should be the most thorough - full rules, edge cases, all relevant detail

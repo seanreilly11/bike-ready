@@ -1,6 +1,6 @@
 // Per-key in-memory cooldown to protect upstream quotas (Stripe API) from
 // scripted hammering. Not a security control and not shared across serverless
-// instances — counters reset on cold start. That's acceptable here: the goal
+// instances - counters reset on cold start. That's acceptable here: the goal
 // is to blunt abusive bursts, not to enforce an exact limit.
 
 const lastSeen = new Map<string, number>();

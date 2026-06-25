@@ -76,9 +76,9 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "There is no Dutch law banning headphones or earbuds while cycling — wearing both is legal. But you are still responsible for cycling safely: if not hearing traffic causes a dangerous situation, you can be fined for that. Police strongly advise keeping one ear free.",
+      "body": "There is no Dutch law banning headphones or earbuds while cycling - wearing both is legal. But you are still responsible for cycling safely: if not hearing traffic causes a dangerous situation, you can be fined for that. Police strongly advise keeping one ear free.",
       "rule": "No RVV 1990 article prohibits headphones. The phone ban (Art. 61a) covers holding a device, not listening through earbuds.",
-      "tip": "Legal, but risky — leave one ear open so you can hear bells and sirens."
+      "tip": "Legal, but risky - leave one ear open so you can hear bells and sirens."
     },
     "status": "active"
   },
@@ -1953,7 +1953,7 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "The crossed-out yellow diamond (B02) means the priority road has ended. From this point, no sign gives you priority — right-before-left applies at all unmarked junctions again. It is easy to miss because the shape resembles the priority road sign, but the diagonal bar cancels it.",
+      "body": "The crossed-out yellow diamond (B02) means the priority road has ended. From this point, no sign gives you priority - right-before-left applies at all unmarked junctions again. It is easy to miss because the shape resembles the priority road sign, but the diagonal bar cancels it.",
       "rule": "B02 (einde voorrangsweg) - priority road status ends at this sign. Default rules resume.",
       "tip": "Crossed-out diamond = priority crossed out. Watch for it when roads change character."
     },
@@ -3537,7 +3537,10 @@
     "prompt": "What does Dutch law require for reflectors on a bicycle's wheels?",
     "options": [
       { "id": "a", "label": "None - wheel reflectors are optional" },
-      { "id": "b", "label": "White or yellow reflectors on the tyre or wheel rim - spoke reflectors do not count" },
+      {
+        "id": "b",
+        "label": "White or yellow reflectors on the tyre or wheel rim - spoke reflectors do not count"
+      },
       { "id": "c", "label": "Red reflectors on both wheels" },
       { "id": "d", "label": "Any colour, as long as they are visible" }
     ],
@@ -3557,7 +3560,10 @@
     "type": "multiple_choice",
     "prompt": "You want to wear your front light on your body rather than fix it to the bike. Where does Dutch law permit this?",
     "options": [
-      { "id": "a", "label": "Anywhere on your body, as long as it faces forward" },
+      {
+        "id": "a",
+        "label": "Anywhere on your body, as long as it faces forward"
+      },
       { "id": "b", "label": "Head or helmet only" },
       { "id": "c", "label": "Upper torso only - not head, wrists, or ankles" },
       { "id": "d", "label": "Never - lights must be fixed to the bike" }
@@ -3578,7 +3584,10 @@
     "type": "multiple_choice",
     "prompt": "What is the fine for riding on the road when a mandatory cycle path (G11 sign) runs alongside it?",
     "options": [
-      { "id": "a", "label": "No fine - the path is recommended but not enforced" },
+      {
+        "id": "a",
+        "label": "No fine - the path is recommended but not enforced"
+      },
       { "id": "b", "label": "€45" },
       { "id": "c", "label": "€75" },
       { "id": "d", "label": "€120" }

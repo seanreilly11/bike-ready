@@ -27,8 +27,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "CycleDutch — Cycle safely in the Netherlands",
-    template: "%s — CycleDutch",
+    default: "CycleDutch - Cycle safely in the Netherlands",
+    template: "%s - CycleDutch",
   },
   description:
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short preparation course for expats learning to cycle safely in the Netherlands.",

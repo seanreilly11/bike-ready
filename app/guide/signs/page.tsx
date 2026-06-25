@@ -6,7 +6,7 @@ import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 export const metadata = {
   title: "Dutch Road Signs Explained: Cyclist's Visual Guide",
   description:
-    "How to read Dutch road signs. Learn the visual grammar — blue circles are mandatory, red borders are prohibitions, diagonal sashes mean end-of — then browse every sign with descriptions and Dutch names.",
+    "How to read Dutch road signs. Learn the visual grammar - blue circles are mandatory, red borders are prohibitions, diagonal sashes mean end-of - then browse every sign with descriptions and Dutch names.",
   alternates: { canonical: "/guide/signs" },
   openGraph: {
     title: "Dutch Road Signs Explained: Cyclist's Visual Guide",
@@ -23,7 +23,7 @@ export default function SignsPage() {
       <JsonLd
         data={[
           articleJsonLd({
-            headline: "Dutch Road Signs for Cyclists — Complete Guide",
+            headline: "Dutch Road Signs for Cyclists - Complete Guide",
             description:
               "How to read Dutch road signs. The visual grammar explained with every cycling sign illustrated.",
             path: "/guide/signs",

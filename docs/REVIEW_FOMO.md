@@ -1,24 +1,24 @@
-# Review Page — Free User FOMO Screen
+# Review Page - Free User FOMO Screen
 
 ## Spec
 
 ### Overview
 
-The Review page for free users should not be a blank locked wall. Instead it should show the user exactly what they are missing — their real wrong answers, blurred so they can tell there is genuine content waiting but cannot interact with it. The goal is to create tangible FOMO: they can see their mistakes exist, they can see which modules they failed, they can see how many questions are waiting, but they cannot fix any of them without upgrading.
+The Review page for free users should not be a blank locked wall. Instead it should show the user exactly what they are missing - their real wrong answers, blurred so they can tell there is genuine content waiting but cannot interact with it. The goal is to create tangible FOMO: they can see their mistakes exist, they can see which modules they failed, they can see how many questions are waiting, but they cannot fix any of them without upgrading.
 
 ### Two states for free users
 
-**State 1 — No wrong answers yet**
+**State 1 - No wrong answers yet**
 
 The user is free and has not yet answered any questions incorrectly (or has not answered enough questions to generate any wrong answers).
 
-Show three ghost skeleton cards behind a blur and gradient overlay with a lock icon. The cards are not real questions — they are placeholder skeletons with grey bars. The purpose is to show what the review list looks like when populated, so the user understands what they are building toward.
+Show three ghost skeleton cards behind a blur and gradient overlay with a lock icon. The cards are not real questions - they are placeholder skeletons with grey bars. The purpose is to show what the review list looks like when populated, so the user understands what they are building toward.
 
 Copy below the header: "Answer more questions in the modules and any you get wrong will appear here."
 
-Lock overlay CTA: "Answer questions in the modules to build your review list — then unlock to fix them." + Unlock button.
+Lock overlay CTA: "Answer questions in the modules to build your review list - then unlock to fix them." + Unlock button.
 
-**State 2 — Has wrong answers**
+**State 2 - Has wrong answers**
 
 The user has real wrong answers in their progress. Show their actual question data, blurred and non-interactive, grouped by module.
 
@@ -35,13 +35,13 @@ Layout from top to bottom:
 
 ### Detailed behaviour
 
-**Module headers — not blurred**
+**Module headers - not blurred**
 
-The module name and emoji and the count of wrong questions for that module are shown at full opacity and without blur. The user can see exactly which modules they have failed questions in. This is intentional — knowing you have failed Priority Rules 3 times is the specific sting that motivates payment.
+The module name and emoji and the count of wrong questions for that module are shown at full opacity and without blur. The user can see exactly which modules they have failed questions in. This is intentional - knowing you have failed Priority Rules 3 times is the specific sting that motivates payment.
 
 Format: `[emoji] [Module Title]` left-aligned, `[N] to fix` right-aligned in orange.
 
-**Question cards — blurred and non-interactive**
+**Question cards - blurred and non-interactive**
 
 Each wrong question is shown as a card with:
 
@@ -51,7 +51,7 @@ Each wrong question is shown as a card with:
 - Skill tag and difficulty pill below the prompt
 - › chevron on the right
 
-The card has `filter: blur(4px)` applied. `pointer-events: none` and `user-select: none` — clicking or selecting does nothing.
+The card has `filter: blur(4px)` applied. `pointer-events: none` and `user-select: none` - clicking or selecting does nothing.
 
 The real question text IS present in the DOM (not replaced with skeleton bars) because the user should be able to make out that there is real content there, even if they cannot read it clearly.
 
@@ -104,7 +104,7 @@ The existing premium review experience is unchanged. Premium users see their rea
 | Orange banner title         | [N] question[s] waiting for you                                                                |
 | Orange banner sub           | Fix these before your next ride                                                                |
 | Orange banner button        | Unlock →                                                                                       |
-| Ghost overlay copy          | Answer questions in the modules to build your review list — then unlock to fix them.           |
+| Ghost overlay copy          | Answer questions in the modules to build your review list - then unlock to fix them.           |
 | Bottom CTA heading          | Unlock to fix [N] mistake[s]                                                                   |
 | Bottom CTA sub              | Less than the fine for running a red light                                                     |
 | Bottom CTA button           | Unlock for €4.99                                                                               |

@@ -1,44 +1,44 @@
 {
   "meta": {
-    "description": "Dutch cycling signs reference. Organised by the visual design system — shape and colour tell you the category and type. Each sign includes a component key for rendering the SVG."
+    "description": "Dutch cycling signs reference. Organised by the visual design system - shape and colour tell you the category and type. Each sign includes a component key for rendering the SVG."
   },
   "design_system": {
-    "intro": "Dutch road signs follow a strict visual grammar. The shape tells you the category, the colour tells you the type, and sub-signs modify the meaning. Learn the system once and every new sign becomes readable — even if you've never seen that specific sign before.",
+    "intro": "Dutch road signs follow a strict visual grammar. The shape tells you the category, the colour tells you the type, and sub-signs modify the meaning. Learn the system once and every new sign becomes readable - even if you've never seen that specific sign before.",
     "rules": [
       {
         "id": "shape_circle",
         "title": "Circles are commands",
-        "body": "Every circular sign is either an order or a ban. If it's blue, it's telling you what you must do. If it has a red border on white, it's telling you what you must not do. Circular signs are never just information — they always carry a binding instruction.",
+        "body": "Every circular sign is either an order or a ban. If it's blue, it's telling you what you must do. If it has a red border on white, it's telling you what you must not do. Circular signs are never just information - they always carry a binding instruction.",
         "examples": ["mandatory_cycle", "no_cycling", "no_entry"]
       },
       {
         "id": "shape_triangle",
         "title": "Triangles are warnings",
-        "body": "A triangular sign with the point facing up alerts you to something ahead — a junction, a hazard, a change in road conditions. Triangles don't give commands. They give you a heads-up so you can prepare. The inverted triangle (point down) is the yield sign specifically.",
+        "body": "A triangular sign with the point facing up alerts you to something ahead - a junction, a hazard, a change in road conditions. Triangles don't give commands. They give you a heads-up so you can prepare. The inverted triangle (point down) is the yield sign specifically.",
         "examples": []
       },
       {
         "id": "shape_rectangle",
         "title": "Rectangles are information",
-        "body": "Rectangular and square signs provide information. They tell you what kind of road you're on, what's nearby, or give you directions. They don't instruct you to do anything — they're purely informational. The fietspad sign, fietsstraat sign, and direction signs are all rectangular.",
+        "body": "Rectangular and square signs provide information. They tell you what kind of road you're on, what's nearby, or give you directions. They don't instruct you to do anything - they're purely informational. The fietspad sign, fietsstraat sign, and direction signs are all rectangular.",
         "examples": ["fietspad_optional", "fietsstraat", "cyclists_both_ways"]
       },
       {
         "id": "shape_diamond",
         "title": "The diamond is priority",
-        "body": "The yellow diamond is a unique shape in Dutch signage — it means you're on a priority road. You have right of way over all crossing traffic at every junction along this road, until you see the end-of-priority sign.",
+        "body": "The yellow diamond is a unique shape in Dutch signage - it means you're on a priority road. You have right of way over all crossing traffic at every junction along this road, until you see the end-of-priority sign.",
         "examples": ["priority_road"]
       },
       {
         "id": "colour_blue",
         "title": "Blue means mandatory",
-        "body": "A solid blue circle with a white symbol means you must follow the instruction. The mandatory cycle path sign is the most common example — when you see a blue circle with a white bike, you're required to use that path. Other blue circles include the footpath sign and the shared path sign.",
+        "body": "A solid blue circle with a white symbol means you must follow the instruction. The mandatory cycle path sign is the most common example - when you see a blue circle with a white bike, you're required to use that path. Other blue circles include the footpath sign and the shared path sign.",
         "examples": ["mandatory_cycle", "footpath", "cyclists_mopeds_route"]
       },
       {
         "id": "colour_red_border",
         "title": "Red border means prohibition",
-        "body": "A white circle with a red border prohibits whatever is shown inside. A bicycle inside means no cycling. A car means no motor vehicles. An empty white circle with just a red border means the road is closed in both directions to all traffic. The red is always the border, never the fill — that's what makes it a prohibition rather than a warning.",
+        "body": "A white circle with a red border prohibits whatever is shown inside. A bicycle inside means no cycling. A car means no motor vehicles. An empty white circle with just a red border means the road is closed in both directions to all traffic. The red is always the border, never the fill - that's what makes it a prohibition rather than a warning.",
         "examples": [
           "no_cycling",
           "no_cycling_mopeds",
@@ -49,25 +49,25 @@
       {
         "id": "colour_red_bar",
         "title": "The red bar means no entry",
-        "body": "A solid red circle with a white horizontal bar is the no-entry sign. This is the strongest prohibition — no vehicles may enter from this direction. You'll see it at the wrong end of one-way streets. It applies to cyclists unless there's an 'uitgezonderd fietsers' sub-sign below it.",
+        "body": "A solid red circle with a white horizontal bar is the no-entry sign. This is the strongest prohibition - no vehicles may enter from this direction. You'll see it at the wrong end of one-way streets. It applies to cyclists unless there's an 'uitgezonderd fietsers' sub-sign below it.",
         "examples": ["no_entry"]
       },
       {
         "id": "sash_red",
         "title": "Red diagonal sash means 'end of'",
-        "body": "When a sign appears with a red diagonal line drawn through it, it means the rule that sign represents has ended. A mandatory cycle path sign with a red sash means 'end of mandatory cycle path' — from this point you may choose to ride on the road. A speed limit sign with a red sash means the speed limit zone has ended. The sash always means termination of the rule, not contradiction of it.",
+        "body": "When a sign appears with a red diagonal line drawn through it, it means the rule that sign represents has ended. A mandatory cycle path sign with a red sash means 'end of mandatory cycle path' - from this point you may choose to ride on the road. A speed limit sign with a red sash means the speed limit zone has ended. The sash always means termination of the rule, not contradiction of it.",
         "examples": []
       },
       {
         "id": "sash_grey",
         "title": "Grey diagonal lines mean 'end of zone'",
-        "body": "Similar to the red sash, grey diagonal lines through a sign mark the end of a zone. The priority road sign with grey diagonals means 'end of priority road' — your automatic priority at junctions no longer applies from this point. Grey is used for zone endings rather than individual sign endings.",
+        "body": "Similar to the red sash, grey diagonal lines through a sign mark the end of a zone. The priority road sign with grey diagonals means 'end of priority road' - your automatic priority at junctions no longer applies from this point. Grey is used for zone endings rather than individual sign endings.",
         "examples": []
       },
       {
         "id": "sub_signs",
         "title": "Sub-signs modify the main sign",
-        "body": "Small rectangular signs mounted below a main sign change its meaning. The most important for cyclists is 'uitgezonderd' (except/exempt) — a no-entry sign with 'uitgezonderd fietsers' means cyclists may enter even though other traffic cannot. Another common one is 'bestemmingsverkeer' (destination traffic) — meaning the restriction doesn't apply to residents and deliveries. Always read the sub-sign together with the main sign above it.",
+        "body": "Small rectangular signs mounted below a main sign change its meaning. The most important for cyclists is 'uitgezonderd' (except/exempt) - a no-entry sign with 'uitgezonderd fietsers' means cyclists may enter even though other traffic cannot. Another common one is 'bestemmingsverkeer' (destination traffic) - meaning the restriction doesn't apply to residents and deliveries. Always read the sub-sign together with the main sign above it.",
         "examples": ["uitgezonderd"]
       }
     ]
@@ -75,7 +75,7 @@
   "sign_categories": [
     {
       "id": "mandatory",
-      "title": "Mandatory — blue circle signs",
+      "title": "Mandatory - blue circle signs",
       "description": "You must follow these instructions.",
       "signs": [
         {
@@ -109,7 +109,7 @@
     },
     {
       "id": "prohibition",
-      "title": "Prohibition — red border signs",
+      "title": "Prohibition - red border signs",
       "description": "These actions are forbidden.",
       "signs": [
         {
@@ -161,7 +161,7 @@
     },
     {
       "id": "information",
-      "title": "Information — rectangular signs",
+      "title": "Information - rectangular signs",
       "description": "These tell you facts about the road. No command, just information.",
       "signs": [
         {
@@ -170,7 +170,7 @@
           "name": "Optional cycle path",
           "dutch_name": "Onverplicht fietspad",
           "code": "G13",
-          "description": "A cycle path you may use but are not required to. You can choose to ride on the road instead. Recognisable by the rectangular white sign with blue border — distinct from the round mandatory sign.",
+          "description": "A cycle path you may use but are not required to. You can choose to ride on the road instead. Recognisable by the rectangular white sign with blue border - distinct from the round mandatory sign.",
           "end_variant": null
         },
         {
@@ -179,8 +179,8 @@
           "name": "Bicycle street",
           "dutch_name": "Fietsstraat",
           "code": "L51b",
-          "description": "Cyclists are the primary road users. Cars are guests (auto te gast) and may not overtake cyclists. Hold your position — the car behind you must wait.",
-          "end_variant": "A similar sign with grey diagonal lines means end of fietsstraat — normal traffic rules resume."
+          "description": "Cyclists are the primary road users. Cars are guests (auto te gast) and may not overtake cyclists. Hold your position - the car behind you must wait.",
+          "end_variant": "A similar sign with grey diagonal lines means end of fietsstraat - normal traffic rules resume."
         },
         {
           "id": "cyclists_both_ways",
@@ -238,7 +238,7 @@
           "name": "Cyclist traffic light",
           "dutch_name": "Verkeerslicht voor fietsers",
           "code": null,
-          "description": "A small traffic light with a bicycle symbol on the lens, positioned at handlebar height. This is your light — not the large car light next to it. When your cyclist light is red, you stop, even if the car light is green. Legally binding and independent from the car signal.",
+          "description": "A small traffic light with a bicycle symbol on the lens, positioned at handlebar height. This is your light - not the large car light next to it. When your cyclist light is red, you stop, even if the car light is green. Legally binding and independent from the car signal.",
           "end_variant": null
         }
       ]

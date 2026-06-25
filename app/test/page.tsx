@@ -8,7 +8,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Trophy, RotateCcw, ArrowRight, Check, X, LockOpen } from "lucide-react";
+import {
+  Trophy,
+  RotateCcw,
+  ArrowRight,
+  Check,
+  X,
+  LockOpen,
+} from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
@@ -40,7 +47,13 @@ function FreeTestScreen() {
         >
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
-              <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
+              <div className="flex justify-center mb-4">
+                <Trophy
+                  size={48}
+                  className="text-yellow-500"
+                  aria-hidden="true"
+                />
+              </div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
                 CycleDutch Test
               </h1>
@@ -136,11 +149,19 @@ export default function TestPage() {
 
   const testSet = buildTestSet();
 
-  const abandonRef = useRef({ phase, answeredCount: answers.length, totalCount: testSet.length });
+  const abandonRef = useRef({
+    phase,
+    answeredCount: answers.length,
+    totalCount: testSet.length,
+  });
   const questionShownAt = useRef<number>(0);
 
   useEffect(() => {
-    abandonRef.current = { phase, answeredCount: answers.length, totalCount: testSet.length };
+    abandonRef.current = {
+      phase,
+      answeredCount: answers.length,
+      totalCount: testSet.length,
+    };
   });
 
   useEffect(() => {
@@ -174,7 +195,13 @@ export default function TestPage() {
         <main className="min-h-dvh bg-stone-50">
           <div className="max-w-2xl mx-auto px-5 py-10">
             <div className="text-center mb-8">
-              <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
+              <div className="flex justify-center mb-4">
+                <Trophy
+                  size={48}
+                  className="text-yellow-500"
+                  aria-hidden="true"
+                />
+              </div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
                 CycleDutch Test
               </h1>
@@ -219,7 +246,14 @@ export default function TestPage() {
               ))}
             </div>
 
-            <Button full size="lg" onClick={() => { track("test_started", {}); setPhase("questions"); }}>
+            <Button
+              full
+              size="lg"
+              onClick={() => {
+                track("test_started", {});
+                setPhase("questions");
+              }}
+            >
               Start Test <ArrowRight size={16} aria-hidden="true" />
             </Button>
           </div>
@@ -257,7 +291,7 @@ export default function TestPage() {
     await checkModuleBadge(currentQ.module);
 
     if (index + 1 >= testSet.length) {
-      // Last question — go to results
+      // Last question - go to results
       const allAnswers = [...answers, newAnswer];
       setAnswers(allAnswers);
       const scorePct = Math.round(
@@ -351,10 +385,18 @@ export default function TestPage() {
   function handleShare() {
     const text = `I scored ${scorePct}% on the CycleDutch Test! 🚲 Ready to cycle in the Netherlands.`;
     if (navigator.share) {
-      track("test_share_clicked", { score_pct: scorePct, passed, platform: "native" });
+      track("test_share_clicked", {
+        score_pct: scorePct,
+        passed,
+        platform: "native",
+      });
       navigator.share({ text, url: "https://cycledutch.com" }).catch(() => {});
     } else {
-      track("test_share_clicked", { score_pct: scorePct, passed, platform: "clipboard" });
+      track("test_share_clicked", {
+        score_pct: scorePct,
+        passed,
+        platform: "clipboard",
+      });
       navigator.clipboard.writeText(text).catch(() => {});
     }
   }
@@ -373,7 +415,19 @@ export default function TestPage() {
             ].join(" ")}
           >
             <div className="flex justify-center mb-3">
-              {passed ? <Trophy size={48} className="text-yellow-500" aria-hidden="true" /> : <RotateCcw size={48} className="text-stone-500" aria-hidden="true" />}
+              {passed ? (
+                <Trophy
+                  size={48}
+                  className="text-yellow-500"
+                  aria-hidden="true"
+                />
+              ) : (
+                <RotateCcw
+                  size={48}
+                  className="text-stone-500"
+                  aria-hidden="true"
+                />
+              )}
             </div>
             <p className="font-display font-extrabold text-4xl sm:text-5xl text-stone-900 mb-1">
               {scorePct}%
@@ -388,7 +442,7 @@ export default function TestPage() {
             </p>
             <p className="text-stone-600 text-sm">
               {correctCount} of {answers.length} correct
-              {!passed && ` — need ${TEST_PASS_PCT}% to pass`}
+              {!passed && ` - need ${TEST_PASS_PCT}% to pass`}
             </p>
 
             {passed && (
@@ -407,28 +461,30 @@ export default function TestPage() {
               By module
             </h2>
             <div className="space-y-3">
-              {moduleBreakdown.map(({ mod, correct, total, pct: modPct }, i) => (
-                <div
-                  key={mod.id}
-                  className="bg-white border border-stone-200 rounded-xl px-4 py-3 animate-fade-up"
-                  style={{ animationDelay: `${i * 50}ms` }}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-display font-medium text-stone-900 flex items-center gap-2">
-                      <ModuleIcon icon={mod.icon} size="sm" />
-                      {mod.title}
-                    </span>
-                    <span className="font-mono text-xs text-stone-400">
-                      {correct}/{total}
-                    </span>
+              {moduleBreakdown.map(
+                ({ mod, correct, total, pct: modPct }, i) => (
+                  <div
+                    key={mod.id}
+                    className="bg-white border border-stone-200 rounded-xl px-4 py-3 animate-fade-up"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-display font-medium text-stone-900 flex items-center gap-2">
+                        <ModuleIcon icon={mod.icon} size="sm" />
+                        {mod.title}
+                      </span>
+                      <span className="font-mono text-xs text-stone-400">
+                        {correct}/{total}
+                      </span>
+                    </div>
+                    <ProgressBar
+                      value={modPct}
+                      color={modPct >= TEST_PASS_PCT ? "green" : "orange"}
+                      height={4}
+                    />
                   </div>
-                  <ProgressBar
-                    value={modPct}
-                    color={modPct >= TEST_PASS_PCT ? "green" : "orange"}
-                    height={4}
-                  />
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </div>
 
@@ -436,7 +492,7 @@ export default function TestPage() {
           {wrongAnswers.length > 0 && (
             <div className="mb-8">
               <h2 className="font-display font-bold text-lg text-stone-900 mb-3">
-                Review — {wrongAnswers.length} wrong
+                Review - {wrongAnswers.length} wrong
               </h2>
               <div className="space-y-4">
                 {wrongAnswers.map(({ question, selectedId: sid }, i) => (

@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       return new NextResponse("Database error", { status: 500 });
     }
 
-    // Ground-truth revenue event — the browser may already be closed.
+    // Ground-truth revenue event - the browser may already be closed.
     await captureServerEvent(userId, "purchase_completed", {
       amount_total: session.amount_total,
       currency: session.currency,

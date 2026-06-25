@@ -58,8 +58,16 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
         <div className="mb-6">
           <ProgressBar value={pct} color="orange" height={6} />
         </div>
-        <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'preview_complete' }); onUnlock(); }}>
-          Unlock full course — {APP_PRICE}
+        <Button
+          variant="primary"
+          size="lg"
+          full
+          onClick={() => {
+            track("upgrade_cta_clicked", { source: "preview_complete" });
+            onUnlock();
+          }}
+        >
+          Unlock full course - {APP_PRICE}
         </Button>
         <p className="text-stone-500 text-xs mt-2">
           One-time payment. No subscription.
@@ -102,8 +110,16 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 
       {/* Second CTA */}
       <div className="px-5 pb-16 max-w-sm mx-auto text-center">
-        <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'preview_complete' }); onUnlock(); }}>
-          Unlock full course — {APP_PRICE}
+        <Button
+          variant="primary"
+          size="lg"
+          full
+          onClick={() => {
+            track("upgrade_cta_clicked", { source: "preview_complete" });
+            onUnlock();
+          }}
+        >
+          Unlock full course - {APP_PRICE}
         </Button>
       </div>
     </div>
@@ -112,7 +128,7 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
 
 const NOTICES: Record<string, string> = {
   auth_error:
-    "We couldn't sign you in. The link may have expired — request a new one.",
+    "We couldn't sign you in. The link may have expired - request a new one.",
   checkout_failed: "Something went wrong starting checkout. Please try again.",
 };
 
@@ -134,7 +150,7 @@ function UpgradeHandler() {
     }
   }, [searchParams, router, refreshPremiumStatus, setUpgradeToast, track]);
 
-  // Derived from the URL — no state to keep in sync. Dismiss clears the param.
+  // Derived from the URL - no state to keep in sync. Dismiss clears the param.
   const errorKey =
     searchParams.get("auth_error") === "1"
       ? "auth_error"
@@ -166,16 +182,16 @@ export default function LearnIndexPage() {
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
 
-  const answeredCount = allQuestions.filter((q) => progress.progress[q.id]?.seen).length;
+  const answeredCount = allQuestions.filter(
+    (q) => progress.progress[q.id]?.seen,
+  ).length;
   const completionPct = allQuestions.length
     ? Math.round((answeredCount / allQuestions.length) * 100)
     : 0;
 
   // Don't show preview-complete screen while auth is still resolving
   if (!isAuthLoading && progress.isPreviewComplete(isPremium)) {
-    return (
-      <PreviewCompleteScreen onUnlock={handleUnlock} />
-    );
+    return <PreviewCompleteScreen onUnlock={handleUnlock} />;
   }
 
   return (
@@ -187,7 +203,9 @@ export default function LearnIndexPage() {
       {showUpgradeToast && (
         <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
           <span>🚲</span>
-          <span className="text-sm font-display font-medium">Welcome to CycleDutch Premium</span>
+          <span className="text-sm font-display font-medium">
+            Welcome to CycleDutch Premium
+          </span>
         </div>
       )}
 
@@ -206,10 +224,14 @@ export default function LearnIndexPage() {
           }
         />
 
-        {/* Module cards — progress is synchronous from store, no skeleton needed */}
+        {/* Module cards - progress is synchronous from store, no skeleton needed */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
           {modules.map((mod, i) => (
-            <div key={mod.id} className="animate-fade-up h-full" style={{ animationDelay: `${i * 60}ms` }}>
+            <div
+              key={mod.id}
+              className="animate-fade-up h-full"
+              style={{ animationDelay: `${i * 60}ms` }}
+            >
               <ModuleCard
                 module={mod}
                 onClick={() => router.push(`/learn/${mod.id}`)}
@@ -218,16 +240,20 @@ export default function LearnIndexPage() {
           ))}
         </div>
 
-        {/* Badge grid — shown only when user is premium or has earned at least one */}
+        {/* Badge grid - shown only when user is premium or has earned at least one */}
         {(isPremium || earnedIds.size > 0) && (
           <BadgeGrid
             badges={badges}
             earnedIds={earnedIds}
-            masteredIds={new Set(
-              modules
-                .filter((mod) => isMastered(mod.id, progress.progress, allQuestions))
-                .map((mod) => mod.badgeId)
-            )}
+            masteredIds={
+              new Set(
+                modules
+                  .filter((mod) =>
+                    isMastered(mod.id, progress.progress, allQuestions),
+                  )
+                  .map((mod) => mod.badgeId),
+              )
+            }
           />
         )}
       </main>
