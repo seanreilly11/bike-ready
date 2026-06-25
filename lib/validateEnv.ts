@@ -7,6 +7,7 @@ const requiredAlways = [
   "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
   "SUPABASE_SECRET_KEY",
   "NEXT_PUBLIC_SUPABASE_REDIRECT_URL",
+  "NEXT_PUBLIC_SITE_URL",
 ] as const;
 
 // Payments, analytics and error monitoring must be configured on the

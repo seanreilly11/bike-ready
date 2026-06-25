@@ -11,8 +11,7 @@ export async function captureServerEvent(
   properties: Record<string, unknown> = {},
 ): Promise<void> {
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  const host =
-    process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://app.posthog.com";
+  const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
   if (!key) return;
 
   try {
