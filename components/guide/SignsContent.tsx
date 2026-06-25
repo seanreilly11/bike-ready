@@ -272,9 +272,9 @@ export default function SignsContent({
             </div>
             {/* Mandatory vs optional callout */}
             <Card variant="muted">
-              <p className="font-display font-bold text-stone-900 text-sm mb-3">
+              <h3 className="font-display font-bold text-stone-900 text-sm mb-3">
                 Mandatory vs optional - the key distinction
-              </p>
+              </h3>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white rounded-lg px-3 py-3 text-center">
                   <p className="font-mono text-xs text-stone-400 mb-1">G11</p>

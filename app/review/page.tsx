@@ -147,7 +147,7 @@ function FreeReviewScreen() {
           <p className="font-mono text-[11px] font-medium tracking-widest uppercase text-orange mb-1.5">
             Review
           </p>
-          <h1 className="font-display text-[26px] font-extrabold tracking-tight text-stone-900 mb-2">
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-stone-900 mb-2">
             Fix your mistakes.
           </h1>
           <p className="text-[13px] text-stone-600 leading-relaxed mb-5">
@@ -199,7 +199,7 @@ function FreeReviewScreen() {
                 <div key={mod.id} style={{ opacity: groupOpacity }}>
                   {/* Module header - NOT blurred */}
                   <div className="flex items-center justify-between mb-2">
-                    <h2 className="font-display font-bold text-orange flex items-center gap-2">
+                    <h2 className="font-display font-bold text-sm text-orange flex items-center gap-2">
                       {mod.title}
                     </h2>
                     <span className="font-mono text-[11px] text-orange uppercase tracking-widest">
@@ -500,7 +500,7 @@ export default function ReviewPage() {
                 >
                   <div className="flex items-center gap-2.5 mb-3">
                     <ModuleIcon icon={mod.icon} size="sm" />
-                    <h2 className="font-display font-bold text-stone-900">
+                    <h2 className="font-display font-bold text-sm text-stone-900">
                       {mod.title}
                     </h2>
                     <span className="ml-auto font-mono text-xs uppercase tracking-wide text-red-dark">

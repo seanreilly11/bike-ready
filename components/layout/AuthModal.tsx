@@ -90,7 +90,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
         {sent ? (
           <div className="text-center py-4">
             <div className="mb-3 flex justify-center"><MailCheck size={40} className="text-orange" aria-hidden="true" /></div>
-            <h2 id="auth-modal-title" className="font-display font-bold text-xl text-stone-900 mb-2">
+            <h2 id="auth-modal-title" className="font-display font-extrabold text-xl text-stone-900 mb-2">
               Check your email
             </h2>
             <p className="text-stone-600 text-sm">
@@ -100,7 +100,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
           </div>
         ) : (
           <>
-            <h2 id="auth-modal-title" className="font-display font-bold text-xl text-stone-900 mb-1">
+            <h2 id="auth-modal-title" className="font-display font-extrabold text-xl text-stone-900 mb-1">
               {title}
             </h2>
             <p className="text-stone-600 text-sm mb-5">{body}</p>

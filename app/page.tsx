@@ -69,7 +69,7 @@ export default function LandingPage() {
                 <span className="font-mono text-xs uppercase tracking-wide text-stone-400 block mb-2">
                   Step {item.step}
                 </span>
-                <h3 className="font-display font-bold text-stone-900 mb-1">
+                <h3 className="font-display font-bold text-sm text-stone-900 mb-1">
                   {item.title}
                 </h3>
                 <p className="text-sm text-stone-600 leading-relaxed">

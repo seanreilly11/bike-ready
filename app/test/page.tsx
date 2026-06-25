@@ -432,14 +432,14 @@ export default function TestPage() {
             <p className="font-display font-extrabold text-4xl sm:text-5xl text-stone-900 mb-1">
               {scorePct}%
             </p>
-            <p
+            <h2
               className={[
                 "font-display font-bold text-lg mb-2",
                 passed ? "text-green-dark" : "text-red-dark",
               ].join(" ")}
             >
               {passed ? "CycleDutch!" : "Not quite there yet"}
-            </p>
+            </h2>
             <p className="text-stone-600 text-sm">
               {correctCount} of {answers.length} correct
               {!passed && ` - need ${TEST_PASS_PCT}% to pass`}
