@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import UserMenu from "@/components/layout/UserMenu";
+import LandingButton from "@/components/layout/LandingButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
@@ -12,6 +13,7 @@ interface NavProps {
   currentRoute: string;
   wrongCount: number;
   logoOnly?: boolean;
+  showStartLearning?: boolean;
 }
 
 function SignInIcon() {
@@ -47,6 +49,7 @@ export default function Nav({
   currentRoute,
   wrongCount,
   logoOnly = false,
+  showStartLearning = false,
 }: NavProps) {
   const { user, isPremium, isLoading, signOut } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
@@ -63,8 +66,13 @@ export default function Nav({
           CycleDutch
         </Link>
 
+        {/* Start learning CTA (home page only) */}
+        {showStartLearning && (
+          <LandingButton size="sm" buttonVariant="primary" />
+        )}
+
         {/* Nav items + auth */}
-        {!logoOnly && (
+        {!logoOnly && !showStartLearning && (
           <div className="flex items-center gap-1">
             {navItems.map((item) => (
               <Link

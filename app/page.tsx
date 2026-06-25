@@ -50,7 +50,7 @@ const howItWorks = [
 export default function LandingPage() {
   return (
     <>
-      <Nav currentRoute="/" wrongCount={0} logoOnly />
+      <Nav currentRoute="/" wrongCount={0} logoOnly showStartLearning />
       <main className="min-h-dvh bg-stone-50 overflow-x-hidden">
         {/* Hero */}
         <HeroSection />

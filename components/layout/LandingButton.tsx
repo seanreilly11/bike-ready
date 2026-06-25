@@ -12,12 +12,16 @@ const ONBOARDING_KEY = 'onboarding_done'
 
 interface LandingButtonProps {
   variant?: 'hero' | 'bottom'
+  size?: 'sm' | 'lg'
+  buttonVariant?: 'primary' | 'secondary'
   label?: string
   className?: string
 }
 
 export default function LandingButton({
   variant = 'hero',
+  size = 'lg',
+  buttonVariant,
   label = 'Start learning',
   className,
 }: LandingButtonProps) {
@@ -46,8 +50,8 @@ export default function LandingButton({
   return (
     <>
       <Button
-        variant={variant === 'bottom' ? 'primary' : 'secondary'}
-        size="lg"
+        variant={buttonVariant ?? (variant === 'bottom' ? 'primary' : 'secondary')}
+        size={size}
         full={variant === 'bottom'}
         onClick={handleStart}
         className={className}
