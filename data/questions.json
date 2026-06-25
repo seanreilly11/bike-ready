@@ -55,7 +55,7 @@
       "rule": "RVV 1990 Art. 35 - active lights required. €75 fine per light (from 1 January 2026).",
       "tip": "€75 front, €75 rear. Both active, not just reflectors."
     },
-    "status": "active"
+    "status": "draft"
   },
   {
     "id": "legal_007",
@@ -3016,7 +3016,7 @@
       "rule": "RVV 1990 - €120 fine for running a red light. Applies at all times.",
       "tip": "The fine is real. Follow the small bike light."
     },
-    "status": "active"
+    "status": "draft"
   },
   {
     "id": "vocabulary_001",
@@ -3227,7 +3227,7 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "A marked fietspad is mandatory for cyclists. If there is a cycle path, you must use it and are not allowed to ride on the adjacent road. This keeps cyclists separated from motor traffic.",
+      "body": "A marked fietspad is mandatory for cyclists. If there is a cycle path, you must use it and are not allowed to ride on the adjacent road. Choosing the road instead carries a €75 fine.",
       "rule": "Mandatory cycle path (verplicht fietspad) - identified by the round blue sign with a white bicycle (G11). Use of the cycle path is compulsory.",
       "tip": "Blue sign = must use. You do not get to choose the road instead."
     },
@@ -3368,7 +3368,7 @@
     ],
     "correct": "c",
     "feedback": {
-      "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night - active lights are required.",
+      "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night - active lights are required. Each missing light is a €75 fine.",
       "rule": "RVV 1990 Art. 35 - active front and rear lights required after dark. Fine: €75 per missing light.",
       "tip": "No front light = illegal, even with a working rear. Both are required."
     },
@@ -3589,6 +3589,6 @@
       "rule": "RVV 1990 - G11 mandatory cycle path. Fine for non-compliance: €75.",
       "tip": "G11 = compulsory. Road instead = €75 fine."
     },
-    "status": "active"
+    "status": "draft"
   }
 ]
