@@ -12,7 +12,7 @@ interface OnboardingOverlayProps {
 const screens = [
   {
     icon: Bike,
-    title: 'Welcome to BikeReady',
+    title: 'Welcome to CycleDutch',
     body: 'A short preparation course for expats cycling in Dutch cities. Not a habit app — a one-time reset of your cycling instincts for the Netherlands.',
   },
   {

@@ -1,4 +1,4 @@
-# AUTH_FLOWS.md — BikeReady
+# AUTH_FLOWS.md — CycleDutch
 
 Authentication and payment flows. Three distinct user journeys, each with different triggers and outcomes.
 
@@ -85,7 +85,7 @@ User taps "Unlock for €4.99"
   → User completes Stripe payment
   → Stripe webhook fires → profiles.is_premium = true
   → Stripe redirects to /learn?upgraded=true
-  → /learn shows a success toast: "Welcome to BikeReady Premium 🚲"
+  → /learn shows a success toast: "Welcome to CycleDutch Premium 🚲"
 ```
 
 ---
@@ -106,7 +106,7 @@ User taps "Unlock for €4.99"
   → User completes Stripe payment
   → Stripe webhook fires → profiles.is_premium = true
   → Stripe redirects to /learn?upgraded=true
-  → /learn shows a success toast: "Welcome to BikeReady Premium 🚲"
+  → /learn shows a success toast: "Welcome to CycleDutch Premium 🚲"
 ```
 
 ---
@@ -241,7 +241,7 @@ The same logic applies to every "Unlock" button across the app — gate screen, 
 
 After Stripe redirects to `/learn?upgraded=true`:
 
-1. Show a success toast: "Welcome to BikeReady Premium 🚲" (auto-dismiss after 5 seconds)
+1. Show a success toast: "Welcome to CycleDutch Premium 🚲" (auto-dismiss after 5 seconds)
 2. The `useAuth` hook re-fetches `is_premium` from Supabase profiles
 3. All gate screens, dimmed dots, and preview-done badges disappear
 4. Full course is accessible

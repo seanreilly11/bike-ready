@@ -1,6 +1,6 @@
-# ZUSTAND.md — BikeReady State Management
+# ZUSTAND.md — CycleDutch State Management
 
-BikeReady uses Zustand for global client-side state. This replaces all prop drilling of `prog`, `isPrem`, `earned`, `user`, and related callback props throughout the component tree.
+CycleDutch uses Zustand for global client-side state. This replaces all prop drilling of `prog`, `isPrem`, `earned`, `user`, and related callback props throughout the component tree.
 
 ---
 
@@ -95,7 +95,7 @@ export const useAppStore = create<AppState>()(
       resetProgress: () => set({ progress: {}, earned: [] }),
     }),
     {
-      name: 'bikeready_progress',   // localStorage key
+      name: 'progress',   // localStorage key
       partialize: (state) => ({     // only persist these fields
         progress: state.progress,
         earned: state.earned,

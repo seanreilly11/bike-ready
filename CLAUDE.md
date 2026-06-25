@@ -1,4 +1,4 @@
-# CLAUDE.md — BikeReady
+# CLAUDE.md — CycleDutch
 
 Instructions for Claude Code when working on this project.
 
@@ -6,7 +6,7 @@ Instructions for Claude Code when working on this project.
 
 ## What this project is
 
-BikeReady is a short one-time preparation course for expats learning to cycle safely in the Netherlands. It is a web app built with Next.js, Tailwind CSS, and Supabase. Users work through 6 modules of scenario-based questions, fix mistakes in a Review queue, then test themselves in a final Test. Progress is saved per-user in Supabase.
+CycleDutch is a short one-time preparation course for expats learning to cycle safely in the Netherlands. It is a web app built with Next.js, Tailwind CSS, and Supabase. Users work through 6 modules of scenario-based questions, fix mistakes in a Review queue, then test themselves in a final Test. Progress is saved per-user in Supabase.
 
 Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and `DATA_MODEL.md` for the complete data model before making any changes.
 
@@ -86,7 +86,7 @@ components/
 ## File structure
 
 ```
-bikeready/
+CycleDutch/
 ├── app/
 │   ├── page.tsx                  # Landing page (/)
 │   ├── learn/
@@ -273,11 +273,11 @@ GateModal (opened from upgrade CTA or nav Unlock button)
 
 First-time visitors see a 3-screen overlay after clicking "Start learning" on the landing page:
 
-1. **Welcome** — what BikeReady is, who it is for
+1. **Welcome** — what CycleDutch is, who it is for
 2. **How it works** — question → feedback loop explained
 3. **Suggested order** — start with Priority Rules
 
-Animated step indicator dots. Skip option on screen 1. Stored in localStorage as `bikeready_onboarding_done`. Never shown again once completed.
+Animated step indicator dots. Skip option on screen 1. Stored in localStorage as `onboarding_done`. Never shown again once completed.
 
 ---
 

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import guides from '@/data/guides.json'
 import modules from '@/data/modules'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bikeready.nl'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!
 
 // Static lastmod for pages without their own change date. Bump on meaningful
 // content edits — never `new Date()`, which churns lastmod on every build.

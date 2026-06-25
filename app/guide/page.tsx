@@ -33,7 +33,7 @@ export default function GuideLandingPage() {
               "Everything you need to know about cycling in the Netherlands.",
             provider: {
               "@type": "Organization",
-              name: "BikeReady",
+              name: "CycleDutch",
               url: SITE_URL,
             },
             hasCourseInstance: {

@@ -24,7 +24,7 @@ export default function OpengraphImage() {
       >
         <div style={{ fontSize: 160, display: "flex" }}>🚲</div>
         <div style={{ fontSize: 80, fontWeight: 700, marginTop: 24, display: "flex" }}>
-          BikeReady
+          CycleDutch
         </div>
         <div style={{ fontSize: 36, marginTop: 16, opacity: 0.9, display: "flex" }}>
           Cycle safely in the Netherlands

@@ -19,7 +19,7 @@ The UI feels like a single tabbed page with drill-down navigation, but each view
 /guide/signs                   → Signs page: teaching content + visual reference combined
 ```
 
-All routes share a common layout with the BikeReady nav bar and the bottom tab bar. The Guide section tabs (Guides / Glossary / Signs) appear at the top of the shared layout and use `next/link` for navigation — not client-side state.
+All routes share a common layout with the CycleDutch nav bar and the bottom tab bar. The Guide section tabs (Guides / Glossary / Signs) appear at the top of the shared layout and use `next/link` for navigation — not client-side state.
 
 ### Full URL list
 
@@ -48,35 +48,35 @@ Each route exports a `metadata` object (or `generateMetadata` for dynamic routes
 ```ts
 // /guide/page.tsx
 export const metadata = {
-  title: "Dutch Cycling Guide for Expats | BikeReady",
+  title: "Dutch Cycling Guide for Expats | CycleDutch",
   description: "Everything you need to know about cycling in the Netherlands. 6 in-depth guides covering priority rules, trams, roundabouts, legal requirements, and Dutch vocabulary, plus a visual signs reference.",
   openGraph: {
     title: "Dutch Cycling Guide for Expats",
     description: "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively — explained for newcomers.",
-    url: "https://bikeready.nl/guide",
+    url: "https://cycledutch.com/guide",
     type: "website",
   },
 }
 
 // /guide/glossary/page.tsx
 export const metadata = {
-  title: "Dutch Cycling Vocabulary — 74 Terms Translated | BikeReady",
+  title: "Dutch Cycling Vocabulary — 74 Terms Translated | CycleDutch",
   description: "Complete Dutch-English glossary for cyclists. Haaientanden, voorrang verlenen, fietsstraat, uitgezonderd — every term you'll see on Dutch roads, with pronunciation and context.",
   openGraph: {
     title: "Dutch Cycling Vocabulary — 74 Terms",
     description: "Every Dutch cycling term translated, with pronunciation guides and real-world context.",
-    url: "https://bikeready.nl/guide/glossary",
+    url: "https://cycledutch.com/guide/glossary",
   },
 }
 
 // /guide/signs/page.tsx
 export const metadata = {
-  title: "Dutch Road Signs for Cyclists — Complete Guide & Visual Reference | BikeReady",
+  title: "Dutch Road Signs for Cyclists — Complete Guide & Visual Reference | CycleDutch",
   description: "How to read Dutch road signs. Learn the visual grammar — blue circles are mandatory, red borders are prohibitions, diagonal sashes mean end-of — then browse every sign with descriptions and Dutch names.",
   openGraph: {
     title: "Dutch Road Signs for Cyclists — Guide & Reference",
     description: "The visual grammar of Dutch road signs explained, with every cycling sign illustrated.",
-    url: "https://bikeready.nl/guide/signs",
+    url: "https://cycledutch.com/guide/signs",
   },
 }
 ```
@@ -92,12 +92,12 @@ export async function generateMetadata({ params }: { params: { moduleId: string 
   if (!guide) return {}
 
   return {
-    title: `${guide.title} — Dutch Cycling Guide | BikeReady`,
+    title: `${guide.title} — Dutch Cycling Guide | CycleDutch`,
     description: guide.subtitle,
     openGraph: {
       title: `${guide.title} — Dutch Cycling Guide`,
       description: guide.subtitle,
-      url: `https://bikeready.nl/guide/${guide.moduleId}`,
+      url: `https://cycledutch.com/guide/${guide.moduleId}`,
     },
   }
 }
@@ -145,7 +145,7 @@ app/guide/layout.tsx
 
 The shared layout wraps all guide routes. It renders:
 
-1. The BikeReady top nav bar (logo + page context)
+1. The CycleDutch top nav bar (logo + page context)
 2. The three section tabs: Guides | Glossary | Signs
 3. The bottom tab bar (Practice / Review / Guide / Test)
 
@@ -298,7 +298,7 @@ Add JSON-LD structured data to the guide landing page, the glossary, each module
   "description": "Everything you need to know about cycling in the Netherlands.",
   "provider": {
     "@type": "Organization",
-    "name": "BikeReady"
+    "name": "CycleDutch"
   },
   "hasCourseInstance": {
     "@type": "CourseInstance",
@@ -335,8 +335,8 @@ Add JSON-LD structured data to the guide landing page, the glossary, each module
   "@type": "Article",
   "headline": `${guide.title} — Dutch Cycling Guide`,
   "description": guide.subtitle,
-  "author": { "@type": "Organization", "name": "BikeReady" },
-  "publisher": { "@type": "Organization", "name": "BikeReady" }
+  "author": { "@type": "Organization", "name": "CycleDutch" },
+  "publisher": { "@type": "Organization", "name": "CycleDutch" }
 })}
 </script>
 ```
@@ -350,8 +350,8 @@ Add JSON-LD structured data to the guide landing page, the glossary, each module
   "@type": "Article",
   "headline": "Dutch Road Signs for Cyclists — Complete Guide",
   "description": "How to read Dutch road signs. The visual grammar explained with every cycling sign illustrated.",
-  "author": { "@type": "Organization", "name": "BikeReady" },
-  "publisher": { "@type": "Organization", "name": "BikeReady" }
+  "author": { "@type": "Organization", "name": "CycleDutch" },
+  "publisher": { "@type": "Organization", "name": "CycleDutch" }
 })}
 </script>
 ```

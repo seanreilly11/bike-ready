@@ -1,4 +1,4 @@
-# DESIGN_AUDIT.md — BikeReady web design audit & change plan
+# DESIGN_AUDIT.md — CycleDutch web design audit & change plan
 
 > Status: **Fully approved (2026-06-14)** — all tiers signed off. Ready to implement.
 > Audited from live screenshots (mobile + desktop, Chrome) and component source.
@@ -26,7 +26,7 @@ context rail, progress legibility), 2.1 (lucide icons + emoji removal), 2.2, 2.3
 
 ## Context
 
-BikeReady's current design is **competent and calm** — disciplined color use (orange
+CycleDutch's current design is **competent and calm** — disciplined color use (orange
 accent + stone neutrals + semantic green/red/gold), a clear type system (Bricolage
 Grotesque display + DM Mono labels), consistent card language, honest UI states, SVG
 (lucide) icons, and the accessibility basics (focus rings, `aria-label`s,

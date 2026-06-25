@@ -1,4 +1,4 @@
--- BikeReady database schema
+-- CycleDutch database schema
 -- All tables have Row Level Security enabled.
 -- Users can only access their own rows.
 

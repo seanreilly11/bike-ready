@@ -1,4 +1,4 @@
-# SUPABASE.md — BikeReady
+# SUPABASE.md — CycleDutch
 
 Everything needed to connect to Supabase, set up auth, and migrate localStorage progress. The database schema is run manually in the Supabase dashboard — no CLI or migrations folder needed.
 
@@ -6,7 +6,7 @@ Everything needed to connect to Supabase, set up auth, and migrate localStorage 
 
 ## Keys
 
-BikeReady uses the new Supabase API keys (not the legacy anon/service_role JWT keys).
+CycleDutch uses the new Supabase API keys (not the legacy anon/service_role JWT keys).
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -278,7 +278,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 })
 
 async function migrateLocalProgress(userId: string) {
-  const raw = localStorage.getItem('bikeready_progress')
+  const raw = localStorage.getItem('progress')
   if (!raw) return
 
   const localProgress: Record<string, { seen: boolean; correct: boolean }> =
@@ -306,7 +306,7 @@ async function migrateLocalProgress(userId: string) {
   }
 
   // Supabase is now the source of truth — clear localStorage
-  localStorage.removeItem('bikeready_progress')
+  localStorage.removeItem('progress')
 }
 ```
 

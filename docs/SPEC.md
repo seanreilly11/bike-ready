@@ -1,10 +1,10 @@
-# SPEC.md — BikeReady Product Specification
+# SPEC.md — CycleDutch Product Specification
 
 ---
 
 ## What it is
 
-BikeReady is a short, one-time preparation course for expats and internationals who have recently arrived in the Netherlands and need to cycle safely in Dutch cities. It is not a habit app. It is not a Duolingo clone. It is a well-designed short course you complete over a week or two and leave feeling genuinely ready.
+CycleDutch is a short, one-time preparation course for expats and internationals who have recently arrived in the Netherlands and need to cycle safely in Dutch cities. It is not a habit app. It is not a Duolingo clone. It is a well-designed short course you complete over a week or two and leave feeling genuinely ready.
 
 **One-line summary:** The question is the lesson. You are dropped into a real cycling moment, make a call based on instinct, and the feedback confirms or corrects your mental model.
 
@@ -35,7 +35,7 @@ A personal queue of wrong answers. Get a question right and it disappears from t
 
 ### Test
 
-16–20 questions mixed across all modules. Feedback withheld until the results screen. Score ≥80% earns the BikeReady master badge. Gated behind premium.
+16–20 questions mixed across all modules. Feedback withheld until the results screen. Score ≥80% earns the CycleDutch master badge. Gated behind premium.
 
 ---
 
@@ -175,7 +175,7 @@ Badges mark completion milestones. Not retention mechanics — completion satisf
 | Roundabout Ready | 🔄 | All Infrastructure questions seen |
 | Law Abiding | ⚖️ | All Legal Rules questions seen |
 | Dutch Speaker | 🇳🇱 | All Vocabulary questions seen |
-| BikeReady | 🏆 | All modules complete + Test passed ≥80% |
+| CycleDutch | 🏆 | All modules complete + Test passed ≥80% |
 
 Badges trigger client-side after each answer. Written to `badges` Supabase table. Shown as locked on Learn index until earned. Toast notification on earn.
 
@@ -242,7 +242,7 @@ Orange hero, no nav. Structure:
 
 ## Onboarding
 
-First-time visitors see a 3-screen overlay triggered by clicking "Start learning". Steps: what BikeReady is → how it works → suggested order. Skip option on screen 1. Shown once, stored in localStorage.
+First-time visitors see a 3-screen overlay triggered by clicking "Start learning". Steps: what CycleDutch is → how it works → suggested order. Skip option on screen 1. Shown once, stored in localStorage.
 
 ---
 

@@ -8,7 +8,7 @@ import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
 import { useAnalytics } from '@/hooks/useAnalytics'
 import { getStoredVariant, HERO_COPY_TEST } from '@/lib/abTest'
 
-const ONBOARDING_KEY = 'bikeready_onboarding_done'
+const ONBOARDING_KEY = 'onboarding_done'
 
 interface LandingButtonProps {
   variant?: 'hero' | 'bottom'

@@ -10,12 +10,12 @@ import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "BikeReady — Cycle safely in the Netherlands",
+  title: "CycleDutch — Cycle safely in the Netherlands",
   description:
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short scenario-based course for expats. Know what to do before you ride.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "BikeReady — Cycle safely in the Netherlands",
+    title: "CycleDutch — Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
     url: "/",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BikeReady — Cycle safely in the Netherlands",
+    title: "CycleDutch — Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
   },
@@ -130,7 +130,7 @@ export default function LandingPage() {
             Built for foreigners, not Dutch people
           </h2>
           <p className="text-orange/90 text-sm leading-relaxed max-w-lg">
-            Dutch cyclists learn this stuff as kids. You didn&apos;t. BikeReady
+            Dutch cyclists learn this stuff as kids. You didn&apos;t. CycleDutch
             targets exactly the rules that differ from what you already know —
             so you recalibrate fast and stay safe.
           </p>

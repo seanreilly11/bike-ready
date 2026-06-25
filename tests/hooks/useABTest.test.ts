@@ -20,14 +20,14 @@ describe('useABTest', () => {
   // ── Core behaviour ─────────────────────────────────────────────────────────
 
   it('resolves to a valid variant from the provided list', async () => {
-    localStorage.setItem('bikeready_anon_id', 'user-valid')
+    localStorage.setItem('anon_id', 'user-valid')
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
     expect(VARIANTS).toContain(result.current)
   })
 
   it('returns the same variant on re-mount for the same user (stability)', async () => {
-    localStorage.setItem('bikeready_anon_id', 'stable-user')
+    localStorage.setItem('anon_id', 'stable-user')
 
     const { result: r1 } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(r1.current).not.toBeNull())
@@ -41,7 +41,7 @@ describe('useABTest', () => {
   })
 
   it('returns the pre-stored variant when one exists in localStorage', async () => {
-    localStorage.setItem('bikeready_ab_hero_copy', 'variant_a')
+    localStorage.setItem('ab_hero_copy', 'variant_a')
 
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
@@ -60,7 +60,7 @@ describe('useABTest', () => {
   // ── Tracking ───────────────────────────────────────────────────────────────
 
   it('fires ab_variant_assigned on first-ever assignment', async () => {
-    localStorage.setItem('bikeready_anon_id', 'new-user-track')
+    localStorage.setItem('anon_id', 'new-user-track')
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
 
@@ -73,7 +73,7 @@ describe('useABTest', () => {
 
   it('does NOT fire track event when variant was already stored', async () => {
     // Pre-assign — user is returning, not first assignment
-    localStorage.setItem('bikeready_ab_hero_copy', 'control')
+    localStorage.setItem('ab_hero_copy', 'control')
 
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
@@ -82,7 +82,7 @@ describe('useABTest', () => {
   })
 
   it('track payload contains the actual variant that was assigned', async () => {
-    localStorage.setItem('bikeready_anon_id', 'payload-check-user')
+    localStorage.setItem('anon_id', 'payload-check-user')
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
 
@@ -94,7 +94,7 @@ describe('useABTest', () => {
   // ── Test isolation ─────────────────────────────────────────────────────────
 
   it('different test names return independent variants for the same user', async () => {
-    localStorage.setItem('bikeready_anon_id', 'multi-test-user')
+    localStorage.setItem('anon_id', 'multi-test-user')
 
     const { result: r1 } = renderHook(() => useABTest('test_one', VARIANTS))
     const { result: r2 } = renderHook(() => useABTest('test_two', VARIANTS))
@@ -103,15 +103,15 @@ describe('useABTest', () => {
     await waitFor(() => expect(r2.current).not.toBeNull())
 
     // Each stored under its own key
-    expect(localStorage.getItem('bikeready_ab_test_one')).toBe(r1.current)
-    expect(localStorage.getItem('bikeready_ab_test_two')).toBe(r2.current)
+    expect(localStorage.getItem('ab_test_one')).toBe(r1.current)
+    expect(localStorage.getItem('ab_test_two')).toBe(r2.current)
   })
 
   it('persists the assigned variant to localStorage', async () => {
-    localStorage.setItem('bikeready_anon_id', 'persist-user')
+    localStorage.setItem('anon_id', 'persist-user')
     const { result } = renderHook(() => useABTest('hero_copy', VARIANTS))
     await waitFor(() => expect(result.current).not.toBeNull())
 
-    expect(localStorage.getItem('bikeready_ab_hero_copy')).toBe(result.current)
+    expect(localStorage.getItem('ab_hero_copy')).toBe(result.current)
   })
 })

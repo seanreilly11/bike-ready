@@ -187,7 +187,7 @@ export default function LearnIndexPage() {
       {showUpgradeToast && (
         <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
           <span>🚲</span>
-          <span className="text-sm font-display font-medium">Welcome to BikeReady Premium</span>
+          <span className="text-sm font-display font-medium">Welcome to CycleDutch Premium</span>
         </div>
       )}
 

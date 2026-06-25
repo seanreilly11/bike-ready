@@ -1,10 +1,10 @@
-# BikeReady — Question Writing Framework
+# CycleDutch — Question Writing Framework
 
 ---
 
 ## Purpose
 
-Every question in BikeReady should do one thing: build real cycling instinct. Not test memory of rules. Not catch people out. The question drops you into a real moment, you make a call, and the feedback either confirms or sharpens your mental model.
+Every question in CycleDutch should do one thing: build real cycling instinct. Not test memory of rules. Not catch people out. The question drops you into a real moment, you make a call, and the feedback either confirms or sharpens your mental model.
 
 ---
 

@@ -5,7 +5,7 @@
 
 ## Goal
 
-Add tasteful micro animations across BikeReady to improve perceived polish and user delight — without going overboard. All animations respect `prefers-reduced-motion`.
+Add tasteful micro animations across CycleDutch to improve perceived polish and user delight — without going overboard. All animations respect `prefers-reduced-motion`.
 
 ## Existing animation baseline
 

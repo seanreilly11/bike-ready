@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add tasteful micro animations across BikeReady to improve perceived polish — answer reveals, state pops, hover lifts, staggered entrances, and smooth accordion transitions.
+**Goal:** Add tasteful micro animations across CycleDutch to improve perceived polish — answer reveals, state pops, hover lifts, staggered entrances, and smooth accordion transitions.
 
 **Architecture:** All animations are CSS-driven via Tailwind utility classes and custom keyframes in `globals.css`. Animation state (pop/shake triggers) is handled with `useRef` + `useState` where components need to detect prop transitions. No external animation libraries needed.
 
@@ -415,7 +415,7 @@ Note: `animate-fade-up` is already on the outer card div. Add it here specifical
 
 - [ ] **Step 2: Verify visually**
 
-Trigger the onboarding overlay (clear `bikeready_onboarding_done` from localStorage, reload). Click Next — the emoji/title/body should fade up on each step transition.
+Trigger the onboarding overlay (clear `onboarding_done` from localStorage, reload). Click Next — the emoji/title/body should fade up on each step transition.
 
 - [ ] **Step 3: Commit**
 

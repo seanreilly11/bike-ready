@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "Skill lessons for BikeReady. One entry per skill, three difficulty variants. Keyed by the skill display name, which must exactly match the 'skill' field on Question objects. The variant is selected by matching the question's 'difficulty' field.",
+    "description": "Skill lessons for CycleDutch. One entry per skill, three difficulty variants. Keyed by the skill display name, which must exactly match the 'skill' field on Question objects. The variant is selected by matching the question's 'difficulty' field.",
     "schema": {
       "key": "skill display name — must exactly match Question.skill",
       "easy": "LessonVariant — full rule explanation, no hedging",

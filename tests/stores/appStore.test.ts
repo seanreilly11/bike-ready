@@ -115,11 +115,11 @@ describe('appStore', () => {
   })
 
   describe('persist partialize', () => {
-    it('store name is bikeready_store and only persists progress + earned', () => {
+    it('store name is store and only persists progress + earned', () => {
       useAppStore.setState({ isPremium: true })
       useAppStore.getState().answerQuestion('persist_test', true)
       useAppStore.getState().earnBadge('badge_priority')
-      const raw = localStorage.getItem('bikeready_store')
+      const raw = localStorage.getItem('store')
       expect(raw).not.toBeNull()
       const parsed = JSON.parse(raw!)
       expect(parsed).toHaveProperty('state')

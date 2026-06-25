@@ -1,12 +1,12 @@
-# BikeReady — Project Kickoff Prompt for Claude Code
+# CycleDutch — Project Kickoff Prompt for Claude Code
 
-Use this prompt when starting work on BikeReady from an empty repo. Copy and paste it as your first message to Claude Code.
+Use this prompt when starting work on CycleDutch from an empty repo. Copy and paste it as your first message to Claude Code.
 
 ---
 
 ## Prompt
 
-I'm building BikeReady — a short one-time preparation course for expats learning to cycle safely in the Netherlands. The app is fully designed and specced. Your job is to scaffold the project and build the foundation.
+I'm building CycleDutch — a short one-time preparation course for expats learning to cycle safely in the Netherlands. The app is fully designed and specced. Your job is to scaffold the project and build the foundation.
 
 **First, read these files in this order before writing a single line of code:**
 

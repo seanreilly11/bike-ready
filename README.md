@@ -1,4 +1,4 @@
-# BikeReady
+# CycleDutch
 
 A short preparation course for expats learning to cycle safely in the Netherlands. Users work through scenario-based questions, fix mistakes in a Review queue, and test themselves in a final Test.
 
@@ -34,7 +34,7 @@ SENTRY_ORG=
 SENTRY_PROJECT=
 SENTRY_AUTH_TOKEN=
 
-NEXT_PUBLIC_SITE_URL=https://bikeready.nl
+NEXT_PUBLIC_SITE_URL=https://cycledutch.com
 ```
 
 Stripe, PostHog and Sentry vars are required on production builds (enforced by `lib/validateEnv.ts`); local dev runs without them.

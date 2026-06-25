@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/auth/', '/review', '/test'],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bikeready.nl'}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
   }
 }

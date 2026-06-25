@@ -22,7 +22,7 @@ export async function captureServerEvent(
         api_key: key,
         event,
         distinct_id: distinctId,
-        properties: { ...properties, $lib: "bikeready-server" },
+        properties: { ...properties, $lib: "CycleDutch-server" },
       }),
     });
   } catch (err) {

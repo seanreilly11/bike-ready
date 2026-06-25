@@ -60,7 +60,7 @@ export default function Nav({
           href="/"
           className="font-display font-extrabold text-lg text-stone-900 tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
         >
-          BikeReady
+          CycleDutch
         </Link>
 
         {/* Nav items + auth */}

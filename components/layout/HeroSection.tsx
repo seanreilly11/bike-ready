@@ -17,12 +17,12 @@ const heroContent: Record<
   control: {
     eyebrow: "For expats cycling in the Netherlands",
     heading: "Go from uncertain to confident cycling on Dutch roads.",
-    body: "Dutch cycling is one of life's great joys — once you know how it works. BikeReady teaches you the rules before the road does, so every ride feels safe, natural, and yours.",
+    body: "Dutch cycling is one of life's great joys — once you know how it works. CycleDutch teaches you the rules before the road does, so every ride feels safe, natural, and yours.",
   },
   variant_a: {
     eyebrow: "Don't learn Dutch cycling rules the hard way",
     heading: "Know the rules before you ride. Not after.",
-    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules — and breaking them is expensive or dangerous. BikeReady gets you fluent in 30 minutes.",
+    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules — and breaking them is expensive or dangerous. CycleDutch gets you fluent in 30 minutes.",
   },
   variant_b: {
     eyebrow: "Join 2,400+ expats who've figured it out",

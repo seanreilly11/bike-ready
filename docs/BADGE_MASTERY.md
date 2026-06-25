@@ -433,7 +433,7 @@ When `moduleStatus === 'mastered'`, render all dots as `#f5a623` regardless of i
 - The `earned` array in the store — no new entries, no new structure
 - The `badges` table in Supabase — no schema changes
 - The `BadgeToast` timing and content — only the visual of the BadgeItem inside it changes
-- The master badge (BikeReady 🏆) — not affected by this system
+- The master badge (CycleDutch 🏆) — not affected by this system
 - The `preview_done` logic — unchanged
 - Any routing or navigation
 
@@ -462,7 +462,7 @@ type ModuleStatus =
 3. A module where no questions have been seen shows: default border, grey dots, "Not started" badge, locked badge at 0.4 opacity
 4. The star pip renders correctly at all three sizes (72px, 56px, 36px)
 5. No new toast fires when a module becomes mastered — only the existing "seen all" toast fires
-6. The master badge (BikeReady 🏆) is unaffected
+6. The master badge (CycleDutch 🏆) is unaffected
 7. Completing all questions in Review eventually turns a module mastered as the last wrong answer is fixed correctly
 8. isMastered returns false if any question in the module has correct: false or is absent from progress
 9. Fundamentals module correctly shows mastered when all 9 fundamentals questions are answered correctly

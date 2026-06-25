@@ -4,8 +4,8 @@ import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
 
-const CONSENT_KEY = 'bikeready_cookie_consent'
-const CONSENT_ACCEPTED_EVENT = 'bikeready:consent-accepted'
+const CONSENT_KEY = 'cookie_consent'
+const CONSENT_ACCEPTED_EVENT = 'consent-accepted'
 
 export function PHProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {

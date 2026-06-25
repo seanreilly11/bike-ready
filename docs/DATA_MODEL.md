@@ -1,4 +1,4 @@
-# DATA_MODEL.md — BikeReady
+# DATA_MODEL.md — CycleDutch
 
 Full data model for all static content and dynamic user data.
 
@@ -445,6 +445,6 @@ interface AnalyticsEvents {
 
 ```ts
 const FREE_PER_MODULE   = 2       // free questions per module before gate
-const TEST_PASS_PCT     = 80      // minimum % to earn BikeReady master badge
+const TEST_PASS_PCT     = 80      // minimum % to earn CycleDutch master badge
 const RETURN_BANNER_MIN = 3       // minimum questions seen before showing return banner
 ```

@@ -42,12 +42,12 @@ function FreeTestScreen() {
             <div className="text-center mb-8">
               <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
-                BikeReady Test
+                CycleDutch Test
               </h1>
               <p className="text-stone-600 text-base leading-relaxed max-w-md mx-auto">
                 {testSet.length} questions across all modules. Feedback is
                 withheld until the results screen. Score ≥{TEST_PASS_PCT}% to
-                earn the BikeReady badge.
+                earn the CycleDutch badge.
               </p>
             </div>
             <div className="grid gap-3 mb-8">
@@ -58,7 +58,7 @@ function FreeTestScreen() {
                 },
                 { label: "Feedback", value: "Shown after all questions" },
                 { label: "Pass mark", value: `${TEST_PASS_PCT}% or above` },
-                { label: "Badge", value: "BikeReady on pass" },
+                { label: "Badge", value: "CycleDutch on pass" },
               ].map((row) => (
                 <div
                   key={row.label}
@@ -86,7 +86,7 @@ function FreeTestScreen() {
             <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
               {comingSoon
                 ? "The Test is coming soon"
-                : "Unlock to take the BikeReady Test"}
+                : "Unlock to take the CycleDutch Test"}
             </p>
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
               {comingSoon
@@ -176,12 +176,12 @@ export default function TestPage() {
             <div className="text-center mb-8">
               <div className="flex justify-center mb-4"><Trophy size={48} className="text-yellow-500" aria-hidden="true" /></div>
               <h1 className="font-display font-extrabold text-3xl text-stone-900 tracking-tight mb-3">
-                BikeReady Test
+                CycleDutch Test
               </h1>
               <p className="text-stone-600 text-base leading-relaxed max-w-md mx-auto">
                 {testSet.length} questions across all modules. Feedback is
                 withheld until the results screen. Score ≥{TEST_PASS_PCT}% to
-                earn the BikeReady badge.
+                earn the CycleDutch badge.
               </p>
             </div>
 
@@ -201,7 +201,7 @@ export default function TestPage() {
                 },
                 {
                   label: "Badge",
-                  value: "BikeReady on pass",
+                  value: "CycleDutch on pass",
                 },
               ].map((row, i) => (
                 <div
@@ -349,10 +349,10 @@ export default function TestPage() {
     .filter((b) => b.total > 0);
 
   function handleShare() {
-    const text = `I scored ${scorePct}% on the BikeReady Test! 🚲 Ready to cycle in the Netherlands.`;
+    const text = `I scored ${scorePct}% on the CycleDutch Test! 🚲 Ready to cycle in the Netherlands.`;
     if (navigator.share) {
       track("test_share_clicked", { score_pct: scorePct, passed, platform: "native" });
-      navigator.share({ text, url: "https://bikeready.app" }).catch(() => {});
+      navigator.share({ text, url: "https://cycledutch.com" }).catch(() => {});
     } else {
       track("test_share_clicked", { score_pct: scorePct, passed, platform: "clipboard" });
       navigator.clipboard.writeText(text).catch(() => {});
@@ -384,7 +384,7 @@ export default function TestPage() {
                 passed ? "text-green-dark" : "text-red-dark",
               ].join(" ")}
             >
-              {passed ? "BikeReady!" : "Not quite there yet"}
+              {passed ? "CycleDutch!" : "Not quite there yet"}
             </p>
             <p className="text-stone-600 text-sm">
               {correctCount} of {answers.length} correct

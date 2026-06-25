@@ -1,8 +1,7 @@
 // Server-safe SEO helpers: structured-data (JSON-LD) builders and URL resolution.
 // No runtime deps. Keep schema objects plain so they JSON.stringify cleanly.
 
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 
 /** Absolute URL from a site-relative path ("/guide/legal"). */
 export function absoluteUrl(path: string): string {
@@ -56,8 +55,8 @@ export function articleJsonLd({
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     ...(datePublished ? { datePublished } : {}),
     ...(dateModified ? { dateModified } : {}),
-    author: { "@type": "Organization", name: "BikeReady", url: SITE_URL },
-    publisher: { "@type": "Organization", name: "BikeReady", url: SITE_URL },
+    author: { "@type": "Organization", name: "CycleDutch", url: SITE_URL },
+    publisher: { "@type": "Organization", name: "CycleDutch", url: SITE_URL },
   };
 }
 

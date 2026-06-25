@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs'
 import { usePostHog } from 'posthog-js/react'
 import type { AnalyticsEvents } from '@/types'
 
-const ANON_ID_KEY = 'bikeready_anon_id'
+const ANON_ID_KEY = 'anon_id'
 
 function getAnonId(): string {
   if (typeof window === 'undefined') return ''

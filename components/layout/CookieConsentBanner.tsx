@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Button from "@/components/ui/Button";
 
-const CONSENT_KEY = "bikeready_cookie_consent";
-export const COOKIE_SETTINGS_EVENT = "bikeready:open-cookie-settings";
+const CONSENT_KEY = "cookie_consent";
+export const COOKIE_SETTINGS_EVENT = "open-cookie-settings";
 
 export function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
@@ -31,7 +31,7 @@ export function CookieConsentBanner() {
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, "accepted");
-    window.dispatchEvent(new CustomEvent("bikeready:consent-accepted"));
+    window.dispatchEvent(new CustomEvent("consent-accepted"));
     setVisible(false);
   }
 

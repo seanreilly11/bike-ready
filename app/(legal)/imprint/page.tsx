@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Imprint",
-  description: "Legal information about the operator of BikeReady.",
+  description: "Legal information about the operator of CycleDutch.",
   alternates: { canonical: "/imprint" },
 };
 
@@ -114,9 +114,9 @@ export default function ImprintPage() {
           Liability for content
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          The content of BikeReady has been compiled with care. However, we
+          The content of CycleDutch has been compiled with care. However, we
           cannot guarantee the accuracy, completeness, or currency of the
-          content. BikeReady provides educational content for informational
+          content. CycleDutch provides educational content for informational
           purposes. For definitive legal information about Dutch traffic law,
           consult official government sources or a qualified legal professional.
         </p>
@@ -128,7 +128,7 @@ export default function ImprintPage() {
           Copyright
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          All content published on BikeReady is subject to Dutch and
+          All content published on CycleDutch is subject to Dutch and
           international copyright law. Any use, reproduction, or distribution of
           content without the express written permission of [YOUR FULL NAME] is
           prohibited.

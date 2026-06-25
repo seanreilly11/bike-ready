@@ -1,4 +1,4 @@
-# DESIGN.md — BikeReady Design System
+# DESIGN.md — CycleDutch Design System
 
 ---
 

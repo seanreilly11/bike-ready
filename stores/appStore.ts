@@ -51,7 +51,7 @@ export const useAppStore = create<AppState>()(
         })),
     }),
     {
-      name: 'bikeready_store',
+      name: 'store',
       partialize: (state) => ({ progress: state.progress, earned: state.earned }),
     },
   ),

@@ -22,18 +22,18 @@ import { PHProvider } from "./providers";
 import { Suspense } from "react";
 import { PostHogPageView } from "@/components/PostHogPageView";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikeready.nl";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "BikeReady — Cycle safely in the Netherlands",
-    template: "%s — BikeReady",
+    default: "CycleDutch — Cycle safely in the Netherlands",
+    template: "%s — CycleDutch",
   },
   description:
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short preparation course for expats learning to cycle safely in the Netherlands.",
   openGraph: {
-    siteName: "BikeReady",
+    siteName: "CycleDutch",
     locale: "en_US",
     type: "website",
   },
@@ -67,13 +67,13 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  name: "BikeReady",
+                  name: "CycleDutch",
                   url: SITE_URL,
                   logo: `${SITE_URL}/icon`,
                 },
                 {
                   "@type": "WebSite",
-                  name: "BikeReady",
+                  name: "CycleDutch",
                   url: SITE_URL,
                 },
               ],
