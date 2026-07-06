@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import type { User } from '@supabase/supabase-js'
 import type { LocalProgress } from '@/types'
 import { PREMIUM_ENABLED } from '@/lib/config'
+import { mergeProgress } from '@/lib/utils/progress'
 
 interface AppState {
   progress: LocalProgress
@@ -31,7 +32,8 @@ export const useAppStore = create<AppState>()(
         if (!PREMIUM_ENABLED) return
         set({ isPremium })
       },
-      hydrateProgress: (progress) => set({ progress }),
+      hydrateProgress: (progress) =>
+        set((state) => ({ progress: mergeProgress(state.progress, progress) })),
       resetProgress: () => set({ progress: {}, earned: [] }),
       answerQuestion: (id, isCorrect) =>
         set((state) => ({

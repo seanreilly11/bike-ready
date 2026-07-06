@@ -71,11 +71,24 @@ describe("appStore", () => {
   });
 
   describe("hydrateProgress", () => {
-    it("replaces progress with the provided object", () => {
+    it("merges server rows without dropping existing local progress", () => {
       useAppStore.getState().answerQuestion("q1", true);
-      const hydrated = { q2: { seen: true, correct: false } };
-      useAppStore.getState().hydrateProgress(hydrated);
-      expect(useAppStore.getState().progress).toEqual(hydrated);
+      useAppStore.getState().hydrateProgress({ q2: { seen: true, correct: false } });
+      const progress = useAppStore.getState().progress;
+      expect(progress["q1"]).toEqual({ seen: true, correct: true });
+      expect(progress["q2"]).toEqual({ seen: true, correct: false });
+    });
+
+    it("does not downgrade a locally-correct answer to wrong", () => {
+      useAppStore.getState().answerQuestion("q1", true);
+      useAppStore.getState().hydrateProgress({ q1: { seen: true, correct: false } });
+      expect(useAppStore.getState().progress["q1"].correct).toBe(true);
+    });
+
+    it("upgrades a locally-wrong answer when the server row is correct", () => {
+      useAppStore.getState().answerQuestion("q1", false);
+      useAppStore.getState().hydrateProgress({ q1: { seen: true, correct: true } });
+      expect(useAppStore.getState().progress["q1"].correct).toBe(true);
     });
   });
 

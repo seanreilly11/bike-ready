@@ -8,6 +8,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import { getStoredVariant, HERO_COPY_TEST } from "@/lib/abTest";
 import fetchProgress from "@/lib/queries/fetchProgress";
 import updateProgress from "@/lib/mutations/updateProgress";
+import { progressToUpload } from "@/lib/utils/progress";
 import type { LocalProgress } from "@/types";
 
 const LEGACY_STORAGE_KEY = "progress";
@@ -23,6 +24,32 @@ function isFreshSignup(user: User): boolean {
     ? new Date(user.last_sign_in_at).getTime()
     : created;
   return Math.abs(lastSignIn - created) < 60_000;
+}
+
+// Two-way sync with Supabase: upload local answers the server doesn't have
+// (progress made before this sign-in), then hydrate the store with the server
+// rows. hydrateProgress merges, so neither side's answers are lost.
+// Returns how many local answers were uploaded.
+async function syncProgressWithServer(): Promise<number> {
+  const data = await fetchProgress();
+  if (!data) return 0;
+  const server: LocalProgress = {};
+  for (const row of data) {
+    server[row.question_id] = { seen: row.seen, correct: row.correct };
+  }
+  const local = useAppStore.getState().progress;
+  const uploads = progressToUpload(local, server);
+  if (uploads.length > 0) {
+    // Best-effort: a failed upload keeps its answer in the local store and is
+    // retried on the next sync.
+    await Promise.allSettled(
+      uploads.map(({ questionId, correct }) =>
+        updateProgress(questionId, correct),
+      ),
+    );
+  }
+  useAppStore.getState().hydrateProgress(server);
+  return uploads.length;
 }
 
 function loadLegacyProgress(): LocalProgress {
@@ -92,16 +119,8 @@ export function useAuth(): {
       useAppStore.getState().setUser(sessionUser);
       useAppStore.getState().setPremium(premium);
       if (sessionUser) {
-        // Fetch Supabase progress and hydrate store
         try {
-          const data = await fetchProgress();
-          if (data) {
-            const merged: LocalProgress = {};
-            for (const row of data) {
-              merged[row.question_id] = { seen: row.seen, correct: row.correct };
-            }
-            useAppStore.getState().hydrateProgress(merged);
-          }
+          await syncProgressWithServer();
         } catch {
           // Non-fatal: store keeps whatever is in localStorage
         }
@@ -149,15 +168,11 @@ export function useAuth(): {
           track('progress_migrated', { questions_count: legacyEntries.length });
         }
 
-        // Fetch Supabase progress and hydrate store
+        // Upload pre-signup progress, then hydrate with the server rows
         try {
-          const data = await fetchProgress();
-          if (data) {
-            const merged: LocalProgress = {};
-            for (const row of data) {
-              merged[row.question_id] = { seen: row.seen, correct: row.correct };
-            }
-            useAppStore.getState().hydrateProgress(merged);
+          const uploaded = await syncProgressWithServer();
+          if (uploaded > 0) {
+            track("progress_migrated", { questions_count: uploaded });
           }
         } catch {
           // Non-fatal
