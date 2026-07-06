@@ -7,7 +7,9 @@ import { useAppStore } from "@/stores/appStore";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { getStoredVariant, HERO_COPY_TEST } from "@/lib/abTest";
 import fetchProgress from "@/lib/queries/fetchProgress";
+import fetchBadges from "@/lib/queries/fetchBadges";
 import updateProgress from "@/lib/mutations/updateProgress";
+import persistBadge from "@/lib/mutations/persistBadge";
 import { progressToUpload } from "@/lib/utils/progress";
 import type { LocalProgress } from "@/types";
 
@@ -50,6 +52,21 @@ async function syncProgressWithServer(): Promise<number> {
   }
   useAppStore.getState().hydrateProgress(server);
   return uploads.length;
+}
+
+// Same two-way sync for badges: push locally-earned badges the server is
+// missing, then hydrate the store with the server's list.
+async function syncBadgesWithServer(): Promise<void> {
+  const serverBadges = await fetchBadges();
+  if (!serverBadges) return;
+  const local = useAppStore.getState().earned;
+  const missing = local.filter((id) => !serverBadges.includes(id));
+  if (missing.length > 0) {
+    await Promise.allSettled(missing.map((id) => persistBadge(id)));
+  }
+  for (const id of serverBadges) {
+    useAppStore.getState().earnBadge(id);
+  }
 }
 
 function loadLegacyProgress(): LocalProgress {
@@ -121,6 +138,7 @@ export function useAuth(): {
       if (sessionUser) {
         try {
           await syncProgressWithServer();
+          await syncBadgesWithServer();
         } catch {
           // Non-fatal: store keeps whatever is in localStorage
         }
@@ -168,12 +186,13 @@ export function useAuth(): {
           track('progress_migrated', { questions_count: legacyEntries.length });
         }
 
-        // Upload pre-signup progress, then hydrate with the server rows
+        // Upload pre-signup progress and badges, then hydrate from the server
         try {
           const uploaded = await syncProgressWithServer();
           if (uploaded > 0) {
             track("progress_migrated", { questions_count: uploaded });
           }
+          await syncBadgesWithServer();
         } catch {
           // Non-fatal
         }

@@ -17,6 +17,7 @@ import {
   LockOpen,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import BadgeToast from "@/components/badges/BadgeToast";
 import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -137,7 +138,8 @@ export default function TestPage() {
   const router = useRouter();
   const { isPremium } = useAuth();
   const progress = useProgress();
-  const { checkModuleBadge } = useBadges();
+  const { checkModuleBadge, awardBadge, newBadge, dismissNewBadge } =
+    useBadges();
   const { track } = useAnalytics();
   const { buildTestSet } = useQuestions();
 
@@ -297,10 +299,14 @@ export default function TestPage() {
       const scorePct = Math.round(
         (allAnswers.filter((a) => a.correct).length / allAnswers.length) * 100,
       );
+      const didPass = scorePct >= TEST_PASS_PCT;
       await track("test_completed", {
         score_pct: scorePct,
-        passed: scorePct >= TEST_PASS_PCT,
+        passed: didPass,
       });
+      if (didPass) {
+        await awardBadge("badge_master");
+      }
       setPhase("results");
     } else {
       setAnswers((prev) => [...prev, newAnswer]);
@@ -404,6 +410,13 @@ export default function TestPage() {
   return (
     <AppShell wrongCount={reviewQueue.length}>
       <main className="min-h-dvh bg-stone-50">
+        {newBadge && (
+          <BadgeToast
+            badge={newBadge}
+            mastered={false}
+            onDismiss={dismissNewBadge}
+          />
+        )}
         <div className="max-w-2xl mx-auto px-5 py-8 lg:py-12">
           {/* Score hero */}
           <div
