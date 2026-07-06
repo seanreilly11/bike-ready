@@ -16,16 +16,18 @@ import type { LocalProgress } from "@/types";
 const LEGACY_STORAGE_KEY = "progress";
 const SIGNUP_TRACKED_KEY = "signup_tracked";
 
-// First-ever sign-in: the account row was created in the same flow as this
-// sign-in, so created_at and last_sign_in_at are within seconds of each other.
-// Returning logins advance last_sign_in_at well past created_at.
-function isFreshSignup(user: User): boolean {
-  if (!user.created_at) return false;
-  const created = new Date(user.created_at).getTime();
-  const lastSignIn = user.last_sign_in_at
-    ? new Date(user.last_sign_in_at).getTime()
-    : created;
-  return Math.abs(lastSignIn - created) < 60_000;
+// First-ever sign-in: with magic-link auth, email_confirmed_at is stamped the
+// moment the first link is clicked - the same moment last_sign_in_at is first
+// set, so the two coincide only on that first sign-in. Returning logins
+// advance last_sign_in_at past it. (Comparing against created_at instead
+// would miss anyone who opened the email late: created_at is when the link
+// was requested, not clicked.) Exported for tests.
+export function isFreshSignup(user: User): boolean {
+  const confirmedAt = user.email_confirmed_at ?? user.confirmed_at;
+  if (!confirmedAt || !user.last_sign_in_at) return false;
+  const confirmed = new Date(confirmedAt).getTime();
+  const lastSignIn = new Date(user.last_sign_in_at).getTime();
+  return Math.abs(lastSignIn - confirmed) < 60_000;
 }
 
 // Two-way sync with Supabase: upload local answers the server doesn't have
