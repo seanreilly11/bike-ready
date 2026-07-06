@@ -24,6 +24,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
+import saveTestResult from "@/lib/mutations/saveTestResult";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
 import { PREMIUM_ENABLED } from "@/lib/config";
@@ -136,7 +137,7 @@ interface Answer {
 
 export default function TestPage() {
   const router = useRouter();
-  const { isPremium } = useAuth();
+  const { user, isPremium } = useAuth();
   const progress = useProgress();
   const { checkModuleBadge, awardBadge, newBadge, dismissNewBadge } =
     useBadges();
@@ -306,6 +307,15 @@ export default function TestPage() {
       });
       if (didPass) {
         await awardBadge("badge_master");
+      }
+      if (user) {
+        // Background write - the results screen never blocks on it
+        const answerMap = Object.fromEntries(
+          allAnswers.map((a) => [a.question.id, a.selectedId]),
+        );
+        saveTestResult(scorePct, answerMap).catch(() => {
+          // Non-fatal - already logged in the mutation
+        });
       }
       setPhase("results");
     } else {
