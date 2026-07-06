@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         Privacy policy
       </h1>
       <p className="text-xs text-stone-400 font-mono mb-10">
-        Last updated: May 2026 · Applies to cycledutch.com
+        Last updated: July 2026 · Applies to cycledutch.com
       </p>
 
       {/* Who we are */}
@@ -233,6 +233,26 @@ export default function PrivacyPage() {
           address and progress data within 30 days. Payment records (Stripe
           customer ID and payment confirmation) are retained for 7 years for
           legal and tax purposes.
+        </p>
+      </section>
+
+      {/* Account deletion */}
+      <section className="mb-8">
+        <h2 className="font-display font-bold text-lg text-stone-900 mb-3">
+          Account deletion
+        </h2>
+        <p className="text-sm text-stone-600 leading-relaxed">
+          There is currently no in-app way to delete your account. To have your
+          account and all associated data deleted, email{" "}
+          <a
+            href="mailto:seanreilly123@hotmail.com"
+            className="text-orange hover:underline"
+          >
+            seanreilly123@hotmail.com
+          </a>{" "}
+          from the email address linked to your account. We will delete your
+          account, progress, and badges within 30 days and confirm by reply.
+          Payment records are retained as described under Data retention.
         </p>
       </section>
 
