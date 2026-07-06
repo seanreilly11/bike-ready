@@ -10,12 +10,9 @@ const requiredAlways = [
   "NEXT_PUBLIC_SITE_URL",
 ] as const;
 
-// Payments, analytics and error monitoring must be configured on the
-// production deploy, but local dev and CI can run without them.
+// Analytics and error monitoring must be configured on the production
+// deploy, but local dev and CI can run without them.
 const requiredInProduction = [
-  // "STRIPE_SECRET_KEY",
-  // "STRIPE_WEBHOOK_SECRET",
-  // "NEXT_PUBLIC_STRIPE_PRICE_ID",
   "NEXT_PUBLIC_POSTHOG_KEY",
   "NEXT_PUBLIC_SENTRY_DSN",
   "SENTRY_ORG",
@@ -23,11 +20,22 @@ const requiredInProduction = [
   "SENTRY_AUTH_TOKEN",
 ] as const;
 
+// Required only when the premium feature flag is on in production: checkout
+// and the webhook crash at runtime without them, so fail the build instead.
+const requiredForPremium = [
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "NEXT_PUBLIC_STRIPE_PRICE_ID",
+] as const;
+
 export function validateEnv() {
   const isProduction = process.env.VERCEL_ENV === "production";
-  const required: readonly string[] = isProduction
-    ? [...requiredAlways, ...requiredInProduction]
-    : requiredAlways;
+  const premiumEnabled = process.env.NEXT_PUBLIC_PREMIUM_ENABLED === "true";
+  const required: readonly string[] = [
+    ...requiredAlways,
+    ...(isProduction ? requiredInProduction : []),
+    ...(isProduction && premiumEnabled ? requiredForPremium : []),
+  ];
 
   const missing = required.filter((key) => !process.env[key]);
 
