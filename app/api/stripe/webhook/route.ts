@@ -26,12 +26,22 @@ export async function POST(request: NextRequest) {
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
+  if (
+    event.type === "checkout.session.completed" ||
+    event.type === "checkout.session.async_payment_succeeded"
+  ) {
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.metadata?.supabase_user_id;
 
     if (!userId) {
       return new NextResponse("No user id in metadata", { status: 400 });
+    }
+
+    // completed fires for async payment methods (SEPA, bank transfer) before
+    // the money arrives; grant only once paid. The async_payment_succeeded
+    // event re-delivers the same session with payment_status "paid".
+    if (session.payment_status !== "paid") {
+      return new NextResponse("OK - awaiting payment", { status: 200 });
     }
 
     const { error } = await supabaseAdmin

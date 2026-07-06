@@ -22,6 +22,7 @@ import modules from "@/data/modules";
 import badges from "@/data/badges";
 import { APP_PRICE } from "@/data/constants";
 import { isMastered } from "@/lib/utils/progress";
+import verifyPremium from "@/lib/mutations/verifyPremium";
 import { useUIStore } from "@/stores/uiStore";
 import { useState } from "react";
 
@@ -135,7 +136,6 @@ const NOTICES: Record<string, string> = {
 function UpgradeHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { refreshPremiumStatus } = useAuth();
   const setUpgradeToast = useUIStore((s) => s.setUpgradeToast);
   const { track } = useAnalytics();
 
@@ -143,12 +143,14 @@ function UpgradeHandler() {
     if (searchParams.get("upgraded") === "true") {
       setUpgradeToast(true);
       router.replace("/learn");
-      refreshPremiumStatus();
+      // Reconcile against Stripe directly - the webhook may not have landed
+      // yet when the user is redirected back from checkout.
+      verifyPremium();
       track("gate_converted", {});
       const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);
     }
-  }, [searchParams, router, refreshPremiumStatus, setUpgradeToast, track]);
+  }, [searchParams, router, setUpgradeToast, track]);
 
   // Derived from the URL - no state to keep in sync. Dismiss clears the param.
   const errorKey =

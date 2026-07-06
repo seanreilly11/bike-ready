@@ -39,17 +39,18 @@ function webhookRequest(): NextRequest {
   }) as unknown as NextRequest;
 }
 
+const paidSession = {
+  metadata: { supabase_user_id: "user_123" },
+  customer: "cus_1",
+  payment_intent: "pi_1",
+  amount_total: 499,
+  currency: "eur",
+  payment_status: "paid",
+};
+
 const completedEvent = {
   type: "checkout.session.completed",
-  data: {
-    object: {
-      metadata: { supabase_user_id: "user_123" },
-      customer: "cus_1",
-      payment_intent: "pi_1",
-      amount_total: 499,
-      currency: "eur",
-    },
-  },
+  data: { object: paidSession },
 };
 
 describe("POST /api/stripe/webhook", () => {
@@ -109,6 +110,34 @@ describe("POST /api/stripe/webhook", () => {
     const res = await POST(webhookRequest());
     expect(res.status).toBe(500);
     expect(captureServerEvent).not.toHaveBeenCalled();
+  });
+
+  it("does not grant premium when the session is completed but not yet paid", async () => {
+    // Async payment methods (SEPA, bank transfer) fire completed with
+    // payment_status "unpaid" - money hasn't arrived yet.
+    headersGet.mockReturnValue("sig");
+    constructEvent.mockReturnValue({
+      type: "checkout.session.completed",
+      data: { object: { ...paidSession, payment_status: "unpaid" } },
+    });
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(update).not.toHaveBeenCalled();
+    expect(captureServerEvent).not.toHaveBeenCalled();
+  });
+
+  it("grants premium when the async payment later succeeds", async () => {
+    headersGet.mockReturnValue("sig");
+    constructEvent.mockReturnValue({
+      type: "checkout.session.async_payment_succeeded",
+      data: { object: paidSession },
+    });
+    updateEq.mockResolvedValue({ error: null });
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({ is_premium: true }),
+    );
   });
 
   it("ignores unrelated event types with a 200", async () => {

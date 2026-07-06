@@ -10,6 +10,7 @@ import fetchProgress from "@/lib/queries/fetchProgress";
 import fetchBadges from "@/lib/queries/fetchBadges";
 import updateProgress from "@/lib/mutations/updateProgress";
 import persistBadge from "@/lib/mutations/persistBadge";
+import verifyPremiumStatus from "@/lib/mutations/verifyPremium";
 import { progressToUpload } from "@/lib/utils/progress";
 import type { LocalProgress } from "@/types";
 
@@ -119,15 +120,6 @@ export function useAuth(): {
     [supabase],
   );
 
-  const verifyPremium = useCallback(async () => {
-    const res = await fetch("/api/premium/verify");
-    if (!res.ok) return;
-    const { is_premium } = (await res.json()) as { is_premium: boolean };
-    if (is_premium) {
-      useAppStore.getState().setPremium(true);
-    }
-  }, []);
-
   useEffect(() => {
     let mounted = true;
 
@@ -199,7 +191,7 @@ export function useAuth(): {
           // Non-fatal
         }
 
-        if (!premium) verifyPremium();
+        if (!premium) verifyPremiumStatus();
         if (mounted) setIsLoading(false);
       } else if (event === "SIGNED_OUT") {
         useAppStore.getState().setUser(null);
@@ -216,7 +208,7 @@ export function useAuth(): {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile, supabase.auth, verifyPremium, track, identify]);
+  }, [fetchProfile, supabase.auth, track, identify]);
 
   const refreshPremiumStatus = useCallback(async () => {
     const {
