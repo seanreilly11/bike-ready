@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import OnboardingGate from "@/components/layout/OnboardingGate";
 
 export const metadata: Metadata = {
   title: { default: "Practice", template: "%s - CycleDutch" },
@@ -11,5 +12,10 @@ export default function LearnLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <OnboardingGate />
+      {children}
+    </>
+  );
 }

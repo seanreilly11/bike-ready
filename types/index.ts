@@ -178,6 +178,7 @@ export interface AnalyticsEvents {
   gate_converted: Record<string, never>;
   test_completed: { score_pct: number; passed: boolean };
   badge_earned: { badge_id: string };
+  onboarding_started: Record<string, never>;
   onboarding_completed: Record<string, never>;
   ab_variant_assigned: { test: string; variant: string };
 

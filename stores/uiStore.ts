@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { markOnboardingDone } from '@/lib/onboarding'
 
 export type AuthModalReason = 'save_progress' | 'upgrade'
 
@@ -38,6 +39,9 @@ export const useUIStore = create<UIState>()((set) => ({
   showBadge: (badgeId) => set({ newBadgeId: badgeId }),
   clearBadge: () => set({ newBadgeId: null }),
   setUpgradeToast: (show) => set({ showUpgradeToast: show }),
-  completeOnboarding: () => set({ onboardingDone: true }),
+  completeOnboarding: () => {
+    markOnboardingDone()
+    set({ onboardingDone: true })
+  },
   dismissReturnBanner: () => set({ showReturnBanner: false }),
 }))

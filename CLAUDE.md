@@ -271,13 +271,14 @@ GateModal (opened from upgrade CTA or nav Unlock button)
 
 ## Onboarding
 
-First-time visitors see a 3-screen overlay after clicking "Start learning" on the landing page:
+First-time visitors see a single-screen overlay (`OnboardingOverlay`): what CycleDutch is, how the question → feedback loop works, "no account needed", and a CTA that deep-links to the free Fundamentals module. The first Fundamentals question is the real onboarding.
 
-1. **Welcome** - what CycleDutch is, who it is for
-2. **How it works** - question → feedback loop explained
-3. **Suggested order** - start with Priority Rules
+Two triggers, one persistence path:
 
-Animated step indicator dots. Skip option on screen 1. Stored in localStorage as `onboarding_done`. Never shown again once completed.
+1. **Landing CTA** (`LandingButton`) - shows the overlay before navigating
+2. **First visit to any `/learn` page** (`OnboardingGate` in the learn layout) - covers visitors arriving via the guide or shared links; inside a module the CTA dismisses without redirecting
+
+Dismissible via Skip, Escape, or backdrop click; focus is trapped in the dialog and restored on close. Persisted through `lib/onboarding.ts` (guarded localStorage, key `onboarding_done`) mirrored by `uiStore.onboardingDone`. Analytics: `onboarding_started`, `onboarding_completed`, `onboarding_skipped`. Never shown again once completed or skipped.
 
 ---
 

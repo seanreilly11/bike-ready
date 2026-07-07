@@ -1,119 +1,125 @@
 "use client";
 
-import { useState } from "react";
-import { Bike, Lightbulb, ArrowRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Bike, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useUIStore } from "@/stores/uiStore";
 
 interface OnboardingOverlayProps {
-  onDone: () => void;
+  /** Primary CTA label - the caller decides where completing navigates. */
+  ctaLabel: string;
+  onComplete: () => void;
+  onSkip: () => void;
 }
 
-const screens = [
-  {
-    icon: Bike,
-    title: "Welcome to CycleDutch",
-    body: "A short preparation course for expats cycling in Dutch cities. Not a habit app - a one-time reset of your cycling instincts for the Netherlands.",
-  },
-  {
-    icon: Lightbulb,
-    title: "How it works",
-    body: "You're dropped into a real cycling moment. Make a call based on instinct. The feedback confirms or corrects your mental model. The question is the lesson.",
-  },
-  {
-    icon: Bike,
-    title: "Start here first",
-    body: "Begin with Fundamentals - it's free and covers the essential rules every cyclist needs before anything else. Then work through the other modules at your own pace.",
-  },
-];
-
-export default function OnboardingOverlay({ onDone }: OnboardingOverlayProps) {
-  const [step, setStep] = useState(0);
+// Single-screen intro. The real onboarding is the first Fundamentals
+// question - this just sets context and hands the user straight to it.
+export default function OnboardingOverlay({
+  ctaLabel,
+  onComplete,
+  onSkip,
+}: OnboardingOverlayProps) {
   const { track } = useAnalytics();
-  const isLast = step === screens.length - 1;
-  const screen = screens[step];
-  const StepIcon = screen.icon;
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  const finish = (skipped: boolean) => {
+    track(skipped ? "onboarding_skipped" : "onboarding_completed", {});
+    useUIStore.getState().completeOnboarding();
+    if (skipped) onSkip();
+    else onComplete();
+  };
+  // Latest-callback ref so the mount-once Escape listener never goes stale
+  const finishRef = useRef(finish);
+  useEffect(() => {
+    finishRef.current = finish;
+  });
+
+  useEffect(() => {
+    track("onboarding_started", {});
+  }, [track]);
+
+  // Move focus into the dialog on open, restore it on close, Escape to skip.
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") finishRef.current(true);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previous?.focus();
+    };
+  }, []);
+
+  // Keep Tab cycling inside the dialog.
+  function trapFocus(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== "Tab" || !dialogRef.current) return;
+    const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement;
+    if (e.shiftKey && (active === first || active === dialogRef.current)) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      {/* Backdrop */}
+      {/* Backdrop - clicking it skips, same as Escape */}
       <div
         className="absolute inset-0 bg-stone-900/80 backdrop-blur-sm"
+        onClick={() => finish(true)}
         aria-hidden
       />
 
       {/* Card */}
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-title"
-        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up"
+        onKeyDown={trapFocus}
+        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 pb-8 animate-fade-up focus-visible:outline-none"
       >
-        {/* Step dots */}
-        <div className="flex justify-center gap-1.5 mb-6">
-          {screens.map((_, i) => (
-            <div
-              key={i}
-              className={[
-                "h-1.5 rounded-full transition-[width] duration-300",
-                i === step ? "w-6 bg-orange" : "w-1.5 bg-stone-200",
-              ].join(" ")}
-            />
-          ))}
-        </div>
-
-        <div key={step} className="text-center mb-6 animate-fade-up">
+        <div className="text-center mb-6">
           <div className="mb-3 flex justify-center">
-            <StepIcon size={48} className="text-orange" aria-hidden="true" />
+            <Bike size={48} className="text-orange" aria-hidden="true" />
           </div>
           <h2
             id="onboarding-title"
             className="font-display font-extrabold text-xl text-stone-900 mb-2"
           >
-            {screen.title}
+            Welcome to CycleDutch
           </h2>
           <p className="text-stone-600 text-sm leading-relaxed">
-            {screen.body}
+            A short, one-time course for expats cycling in the Netherlands.
+            You&apos;re dropped into real cycling moments - answer on instinct,
+            and the feedback confirms or corrects your mental model. The
+            question is the lesson. Fundamentals is free and no account needed
+            to start.
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          size="lg"
-          full
-          onClick={() => {
-            if (isLast) {
-              track("onboarding_completed", {});
-              onDone();
-            } else {
-              setStep((s) => s + 1);
-            }
-          }}
-        >
-          {isLast ? (
-            <>
-              <span>Start learning</span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </>
-          ) : (
-            "Next"
-          )}
+        <Button variant="primary" size="lg" full onClick={() => finish(false)}>
+          <span>{ctaLabel}</span>
+          <ArrowRight size={16} aria-hidden="true" />
         </Button>
 
-        {step === 0 && (
-          <div className="flex justify-center mt-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                track("onboarding_skipped", {});
-                onDone();
-              }}
-            >
-              Skip
-            </Button>
-          </div>
-        )}
+        <div className="flex justify-center mt-3">
+          <Button variant="ghost" size="sm" onClick={() => finish(true)}>
+            Skip
+          </Button>
+        </div>
       </div>
     </div>
   );

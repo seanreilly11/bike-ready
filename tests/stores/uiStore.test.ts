@@ -68,6 +68,12 @@ describe('uiStore', () => {
       expect(useUIStore.getState().onboardingDone).toBe(true)
     })
 
+    it('completeOnboarding persists to localStorage', () => {
+      localStorage.clear()
+      useUIStore.getState().completeOnboarding()
+      expect(localStorage.getItem('onboarding_done')).toBe('true')
+    })
+
     it('dismissReturnBanner sets showReturnBanner false', () => {
       useUIStore.getState().dismissReturnBanner()
       expect(useUIStore.getState().showReturnBanner).toBe(false)
