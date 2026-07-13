@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
 import { FREE_PER_MODULE } from "@/types";
@@ -43,87 +44,110 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   }, [track]);
 
   return (
-    <div className="min-h-dvh bg-stone-900">
-      {/* Dark hero */}
-      <div className="px-5 pt-12 pb-10 max-w-2xl mx-auto text-center">
-        <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-3">
-          You&apos;re {pct}% of the way there
-        </p>
-        <h1 className="font-display font-extrabold text-3xl text-white tracking-tight mb-3">
-          Don&apos;t leave it unfinished
-        </h1>
-        <p className="text-stone-400 text-sm mb-6">
-          You&apos;ve seen all {gatedModules.length} previews. The full course
-          has {totalAll} questions.
-        </p>
-        <div className="mb-6">
-          <ProgressBar value={pct} color="orange" height={6} />
+    <AppShell wrongCount={0}>
+      <div className="min-h-dvh bg-stone-900">
+        {/* Dark hero */}
+        <div className="px-5 pt-12 pb-10 max-w-2xl mx-auto text-center">
+          <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-3">
+            You&apos;re {pct}% of the way there
+          </p>
+          <h1 className="font-display font-extrabold text-3xl text-white tracking-tight mb-3">
+            Don&apos;t leave it unfinished
+          </h1>
+          <p className="text-stone-400 text-sm mb-6">
+            You&apos;ve seen all {gatedModules.length} previews. The full
+            course has {totalAll} questions.
+          </p>
+          <div className="mb-6">
+            <ProgressBar value={pct} color="orange" height={6} />
+          </div>
+          <Button
+            variant="primary"
+            size="lg"
+            full
+            onClick={() => {
+              track("upgrade_cta_clicked", { source: "preview_complete" });
+              onUnlock();
+            }}
+          >
+            Unlock full course - {APP_PRICE}
+          </Button>
+          <p className="text-stone-500 text-xs mt-2">
+            One-time payment. No subscription.
+          </p>
         </div>
-        <Button
-          variant="primary"
-          size="lg"
-          full
-          onClick={() => {
-            track("upgrade_cta_clicked", { source: "preview_complete" });
-            onUnlock();
-          }}
-        >
-          Unlock full course - {APP_PRICE}
-        </Button>
-        <p className="text-stone-500 text-xs mt-2">
-          One-time payment. No subscription.
-        </p>
-      </div>
 
-      {/* Incomplete module cards */}
-      <div className="px-5 pb-12 max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {gatedModules.map((mod) => {
-            const qs = questionsByModule(mod.id as ModuleId);
-            return (
-              <div
-                key={mod.id}
-                className="bg-stone-800 border border-stone-700 rounded-xl p-4 opacity-80"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <ModuleIcon icon={mod.icon} size="sm" />
-                  <p className="font-display font-bold text-white text-sm">
-                    {mod.title}
-                  </p>
+        {/* Incomplete module cards */}
+        <div className="px-5 pb-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {gatedModules.map((mod) => {
+              const qs = questionsByModule(mod.id as ModuleId);
+              return (
+                <div
+                  key={mod.id}
+                  className="bg-stone-800 border border-stone-700 rounded-xl p-4 opacity-80"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <ModuleIcon icon={mod.icon} size="sm" />
+                    <p className="font-display font-bold text-white text-sm">
+                      {mod.title}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {qs.map((q, i) => (
+                      <div
+                        key={q.id}
+                        className={[
+                          "w-3 h-3 rounded-full",
+                          i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
+                          i >= FREE_PER_MODULE ? "opacity-35" : "",
+                        ].join(" ")}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {qs.map((q, i) => (
-                    <div
-                      key={q.id}
-                      className={[
-                        "w-3 h-3 rounded-full",
-                        i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
-                        i >= FREE_PER_MODULE ? "opacity-35" : "",
-                      ].join(" ")}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Free escape hatches - this screen must never be a dead end */}
+        <div className="px-5 pb-10 max-w-md mx-auto text-center">
+          <p className="font-mono text-xs uppercase tracking-wide text-stone-500 mb-3">
+            Keep practicing free
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/learn/fundamentals"
+              className="text-sm font-display font-bold text-white underline underline-offset-4 hover:text-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
+            >
+              Fundamentals - always free
+            </Link>
+            <Link
+              href="/guide"
+              className="text-sm font-display font-bold text-white underline underline-offset-4 hover:text-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
+            >
+              Read the Guide
+            </Link>
+          </div>
+        </div>
+
+        {/* Second CTA */}
+        <div className="px-5 pb-16 max-w-sm mx-auto text-center">
+          <Button
+            variant="primary"
+            size="lg"
+            full
+            onClick={() => {
+              track("upgrade_cta_clicked", { source: "preview_complete" });
+              onUnlock();
+            }}
+          >
+            Unlock full course - {APP_PRICE}
+          </Button>
         </div>
       </div>
-
-      {/* Second CTA */}
-      <div className="px-5 pb-16 max-w-sm mx-auto text-center">
-        <Button
-          variant="primary"
-          size="lg"
-          full
-          onClick={() => {
-            track("upgrade_cta_clicked", { source: "preview_complete" });
-            onUnlock();
-          }}
-        >
-          Unlock full course - {APP_PRICE}
-        </Button>
-      </div>
-    </div>
+    </AppShell>
   );
 }
 
