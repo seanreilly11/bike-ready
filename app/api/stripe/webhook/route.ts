@@ -44,6 +44,20 @@ export async function POST(request: NextRequest) {
       return new NextResponse("OK - awaiting payment", { status: 200 });
     }
 
+    // Idempotency: Stripe delivers events at least once, and /api/premium/verify
+    // may have already granted premium when the user returned from checkout.
+    // Grant and fire the revenue event only on the transition to premium, so a
+    // retry or a verify-then-webhook race never double-counts.
+    const { data: existing } = await supabaseAdmin
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    if (existing?.is_premium) {
+      return new NextResponse("OK - already premium", { status: 200 });
+    }
+
     const { error } = await supabaseAdmin
       .from("profiles")
       .update({

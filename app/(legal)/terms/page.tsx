@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { APP_PRICE } from "@/data/constants";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -69,8 +70,8 @@ export default function TermsPage() {
           Premium access and payment
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          CycleDutch Premium unlocks the full course for a one-time payment of
-          €4.99 (inclusive of any applicable taxes). Premium access is tied to
+          CycleDutch Premium unlocks the full course for a one-time payment of{" "}
+          {APP_PRICE} (inclusive of any applicable taxes). Premium access is tied to
           your account (email address) and does not expire. Payment is processed
           by Stripe. We accept major credit and debit cards.
         </p>
@@ -159,7 +160,7 @@ export default function TermsPage() {
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
           Our total liability to you in connection with these terms shall not
-          exceed the amount you paid for CycleDutch Premium (€4.99).
+          exceed the amount you paid for CycleDutch Premium ({APP_PRICE}).
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           Nothing in these terms limits liability for fraud, death or personal

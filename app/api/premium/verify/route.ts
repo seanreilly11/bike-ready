@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { isRateLimited } from "@/lib/cooldown";
+import { captureServerEvent } from "@/lib/posthogServer";
 
 export async function GET(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -50,6 +51,13 @@ export async function GET(request: NextRequest) {
             stripe_payment_id: session.payment_intent as string,
           })
           .eq("id", user.id);
+        // Ground-truth revenue event: the webhook was missed, so fire it here.
+        // The webhook guards on is_premium, so a late delivery won't double-count.
+        await captureServerEvent(user.id, "purchase_completed", {
+          amount_total: session.amount_total,
+          currency: session.currency,
+          stripe_payment_id: session.payment_intent,
+        });
         return NextResponse.json({ is_premium: true });
       }
     } catch {

@@ -8,6 +8,7 @@ const {
   paymentIntentsList,
   sessionRetrieve,
   isRateLimited,
+  captureServerEvent,
 } = vi.hoisted(() => ({
   getUser: vi.fn(),
   single: vi.fn(),
@@ -15,6 +16,7 @@ const {
   paymentIntentsList: vi.fn(),
   sessionRetrieve: vi.fn(),
   isRateLimited: vi.fn(),
+  captureServerEvent: vi.fn(),
 }));
 
 vi.mock("stripe", () => ({
@@ -38,6 +40,7 @@ vi.mock("@/lib/supabase/admin", () => ({
 }));
 
 vi.mock("@/lib/cooldown", () => ({ isRateLimited }));
+vi.mock("@/lib/posthogServer", () => ({ captureServerEvent }));
 
 import { GET } from "@/app/api/premium/verify/route";
 
@@ -56,6 +59,7 @@ describe("GET /api/premium/verify", () => {
     paymentIntentsList.mockReset();
     sessionRetrieve.mockReset();
     isRateLimited.mockReset().mockReturnValue(false);
+    captureServerEvent.mockReset();
   });
 
   it("returns 401 when not authenticated", async () => {
@@ -98,6 +102,9 @@ describe("GET /api/premium/verify", () => {
     const res = await GET(req());
     expect(await body(res)).toEqual({ is_premium: true });
     expect(updateEq).toHaveBeenCalled();
+    // The customer-fallback path only runs after a webhook stored the customer
+    // id (which already fired the event), so it must not emit again.
+    expect(captureServerEvent).not.toHaveBeenCalled();
   });
 
   it("stays non-premium when no payment has succeeded", async () => {
@@ -128,6 +135,12 @@ describe("GET /api/premium/verify", () => {
     expect(await body(res)).toEqual({ is_premium: true });
     expect(sessionRetrieve).toHaveBeenCalledWith("cs_123");
     expect(updateEq).toHaveBeenCalled();
+    // Missed-webhook reconciliation must still record the revenue event.
+    expect(captureServerEvent).toHaveBeenCalledWith(
+      "u1",
+      "purchase_completed",
+      expect.any(Object),
+    );
   });
 
   it("rejects a session that belongs to another user", async () => {

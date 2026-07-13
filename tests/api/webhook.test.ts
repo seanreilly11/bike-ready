@@ -1,16 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const { constructEvent, updateEq, update, headersGet, captureServerEvent } =
-  vi.hoisted(() => {
-    const updateEq = vi.fn();
-    return {
-      constructEvent: vi.fn(),
-      updateEq,
-      update: vi.fn(() => ({ eq: updateEq })),
-      headersGet: vi.fn(),
-      captureServerEvent: vi.fn(),
-    };
-  });
+const {
+  constructEvent,
+  updateEq,
+  update,
+  selectSingle,
+  headersGet,
+  captureServerEvent,
+} = vi.hoisted(() => {
+  const updateEq = vi.fn();
+  const selectSingle = vi.fn();
+  return {
+    constructEvent: vi.fn(),
+    updateEq,
+    update: vi.fn(() => ({ eq: updateEq })),
+    selectSingle,
+    headersGet: vi.fn(),
+    captureServerEvent: vi.fn(),
+  };
+});
 
 vi.mock("stripe", () => ({
   default: class {
@@ -19,7 +27,12 @@ vi.mock("stripe", () => ({
 }));
 
 vi.mock("@/lib/supabase/admin", () => ({
-  supabaseAdmin: { from: vi.fn(() => ({ update })) },
+  supabaseAdmin: {
+    from: vi.fn(() => ({
+      update,
+      select: vi.fn(() => ({ eq: vi.fn(() => ({ single: selectSingle })) })),
+    })),
+  },
 }));
 
 vi.mock("next/headers", () => ({
@@ -58,6 +71,8 @@ describe("POST /api/stripe/webhook", () => {
     constructEvent.mockReset();
     update.mockClear();
     updateEq.mockReset();
+    // Default: profile not yet premium, so the paid-session path proceeds.
+    selectSingle.mockReset().mockResolvedValue({ data: { is_premium: false } });
     headersGet.mockReset();
     captureServerEvent.mockReset();
   });
@@ -101,6 +116,16 @@ describe("POST /api/stripe/webhook", () => {
       "purchase_completed",
       expect.any(Object),
     );
+  });
+
+  it("is idempotent: skips update and event when already premium", async () => {
+    headersGet.mockReturnValue("sig");
+    constructEvent.mockReturnValue(completedEvent);
+    selectSingle.mockResolvedValue({ data: { is_premium: true } });
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(update).not.toHaveBeenCalled();
+    expect(captureServerEvent).not.toHaveBeenCalled();
   });
 
   it("returns 500 when the database update fails", async () => {
