@@ -9,8 +9,8 @@ import { APP_PRICE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface GateModalProps {
-  moduleId: ModuleId;
-  moduleName: string;
+  moduleId: ModuleId | null;
+  moduleName: string | null;
   nextModule: Module | null;
   onUnlock: () => void;
   onNextModule: (id: string) => void;
@@ -67,7 +67,7 @@ export default function GateModal({
         </div>
 
         <h2 id="gate-modal-title" className="font-display font-extrabold text-2xl text-stone-900 text-center mb-2">
-          Want to finish {moduleName}?
+          {moduleName ? `Want to finish ${moduleName}?` : "Want the full course?"}
         </h2>
         <p className="text-stone-600 text-sm text-center mb-5">
           Unlock the full course once and keep it forever.

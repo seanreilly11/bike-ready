@@ -109,7 +109,7 @@ function FreeTestScreen() {
                 : "Less than the fine for running a red light"}
             </p>
             <button
-              onClick={comingSoon ? undefined : openGate}
+              onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
               aria-label={comingSoon ? "Test coming soon" : "Unlock for €4.99"}
               className={

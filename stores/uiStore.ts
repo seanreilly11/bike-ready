@@ -1,10 +1,12 @@
 import { create } from 'zustand'
 import { markOnboardingDone } from '@/lib/onboarding'
+import type { ModuleId } from '@/types'
 
 export type AuthModalReason = 'save_progress' | 'upgrade'
 
 interface UIState {
   showGate: boolean
+  gateModuleId: ModuleId | null
   showAuth: boolean
   authReason: AuthModalReason | null
   newBadgeId: string | null
@@ -12,7 +14,7 @@ interface UIState {
   onboardingDone: boolean
   showReturnBanner: boolean
 
-  openGate: () => void
+  openGate: (moduleId?: ModuleId) => void
   closeGate: () => void
   openAuth: (reason: AuthModalReason) => void
   closeAuth: () => void
@@ -25,6 +27,7 @@ interface UIState {
 
 export const useUIStore = create<UIState>()((set) => ({
   showGate: false,
+  gateModuleId: null,
   showAuth: false,
   authReason: null,
   newBadgeId: null,
@@ -32,8 +35,8 @@ export const useUIStore = create<UIState>()((set) => ({
   onboardingDone: false,
   showReturnBanner: true,
 
-  openGate: () => set({ showGate: true }),
-  closeGate: () => set({ showGate: false }),
+  openGate: (moduleId) => set({ showGate: true, gateModuleId: moduleId ?? null }),
+  closeGate: () => set({ showGate: false, gateModuleId: null }),
   openAuth: (reason) => set({ showAuth: true, authReason: reason }),
   closeAuth: () => set({ showAuth: false }),
   showBadge: (badgeId) => set({ newBadgeId: badgeId }),

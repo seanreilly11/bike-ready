@@ -210,8 +210,8 @@ export interface AnalyticsEvents {
   };
 
   // --- conversion funnel ---
-  gate_dismissed: { module: ModuleId };
-  gate_next_module_clicked: { from_module: ModuleId; to_module: ModuleId };
+  gate_dismissed: { module: ModuleId | null };
+  gate_next_module_clicked: { from_module: ModuleId | null; to_module: ModuleId };
   upgrade_cta_clicked: {
     source:
       | "preview_complete"

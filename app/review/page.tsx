@@ -92,7 +92,7 @@ function FreeReviewScreen() {
                   </p>
                 </div>
                 <button
-                  onClick={openGate}
+                  onClick={() => openGate()}
                   aria-label="Unlock Review"
                   className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
                 >
@@ -154,7 +154,7 @@ function FreeReviewScreen() {
                   : "Less than the fine for running a red light"}
               </p>
               <button
-                onClick={comingSoon ? undefined : openGate}
+                onClick={comingSoon ? undefined : () => openGate()}
                 disabled={comingSoon}
                 aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
                 className={
@@ -212,7 +212,7 @@ function FreeReviewScreen() {
                 </p>
               </div>
               <button
-                onClick={openGate}
+                onClick={() => openGate()}
                 aria-label="Unlock Review"
                 className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
               >
@@ -306,7 +306,7 @@ function FreeReviewScreen() {
                 : "Less than the fine for running a red light"}
             </p>
             <button
-              onClick={comingSoon ? undefined : openGate}
+              onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
               aria-label={
                 comingSoon ? "Review coming soon" : "Unlock Review for €4.99"

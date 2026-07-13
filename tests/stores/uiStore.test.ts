@@ -4,6 +4,7 @@ import { useUIStore } from '@/stores/uiStore'
 function resetStore() {
   useUIStore.setState({
     showGate: false,
+    gateModuleId: null,
     showAuth: false,
     authReason: null,
     newBadgeId: null,
@@ -46,6 +47,23 @@ describe('uiStore', () => {
       useUIStore.getState().openGate()
       useUIStore.getState().closeGate()
       expect(useUIStore.getState().showGate).toBe(false)
+    })
+
+    it('openGate stores the module context', () => {
+      useUIStore.getState().openGate('priority')
+      expect(useUIStore.getState().gateModuleId).toBe('priority')
+    })
+
+    it('openGate without a module clears the context', () => {
+      useUIStore.getState().openGate('priority')
+      useUIStore.getState().openGate()
+      expect(useUIStore.getState().gateModuleId).toBeNull()
+    })
+
+    it('closeGate clears the module context', () => {
+      useUIStore.getState().openGate('priority')
+      useUIStore.getState().closeGate()
+      expect(useUIStore.getState().gateModuleId).toBeNull()
     })
   })
 
