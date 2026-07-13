@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { ModuleId } from "@/types";
-import { FREE_PER_MODULE } from "@/types";
+import { FREE_PER_MODULE, RETURN_BANNER_MIN } from "@/types";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
@@ -36,6 +36,8 @@ export default function ModuleSessionPage() {
 
   const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
+  const showReturnBanner = useUIStore((s) => s.showReturnBanner);
+  const dismissReturnBanner = useUIStore((s) => s.dismissReturnBanner);
   const handleUnlock = useUnlock();
   const progress = useProgress();
   const badges = useBadges();
@@ -44,7 +46,6 @@ export default function ModuleSessionPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredThisView, setAnsweredThisView] = useState(false);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const questionShownAt = useRef<number>(Date.now());
 
   const moduleQuestions = useMemo(
@@ -141,9 +142,12 @@ export default function ModuleSessionPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
-        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
-      )}
+      {!isAuthLoading &&
+        !user &&
+        showReturnBanner &&
+        progress.getTotalSeen() >= RETURN_BANNER_MIN && (
+          <ReturnBanner onDismiss={dismissReturnBanner} />
+        )}
 
       {/* Sticky sub-header */}
       <div className="sticky top-14 z-30 bg-white border-b border-stone-200 py-3">

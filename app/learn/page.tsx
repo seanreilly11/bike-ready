@@ -4,7 +4,7 @@ import { useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
-import { FREE_PER_MODULE } from "@/types";
+import { FREE_PER_MODULE, RETURN_BANNER_MIN } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
@@ -25,7 +25,6 @@ import { APP_PRICE } from "@/data/constants";
 import { isMastered } from "@/lib/utils/progress";
 import verifyPremium from "@/lib/mutations/verifyPremium";
 import { useUIStore } from "@/stores/uiStore";
-import { useState } from "react";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
@@ -206,8 +205,9 @@ export default function LearnIndexPage() {
   const { earnedIds } = useBadges();
   const { allQuestions } = useQuestions();
   const handleUnlock = useUnlock();
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
+  const showReturnBanner = useUIStore((s) => s.showReturnBanner);
+  const dismissReturnBanner = useUIStore((s) => s.dismissReturnBanner);
 
   const answeredCount = allQuestions.filter(
     (q) => progress.progress[q.id]?.seen,
@@ -236,9 +236,12 @@ export default function LearnIndexPage() {
         </div>
       )}
 
-      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
-        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
-      )}
+      {!isAuthLoading &&
+        !user &&
+        showReturnBanner &&
+        progress.getTotalSeen() >= RETURN_BANNER_MIN && (
+          <ReturnBanner onDismiss={dismissReturnBanner} />
+        )}
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <PageBanner
