@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_NEXT_PATHS = ["/learn", "/review", "/test", "/checkout"];
@@ -18,9 +19,17 @@ export async function GET(request: NextRequest) {
     }
 
     if (next === "/checkout") {
+      // The session cookies were just written during the code exchange - the
+      // incoming request header predates them. Rebuild the header from the
+      // mutated cookie store so /api/checkout sees the fresh session.
+      const cookieStore = await cookies();
+      const cookieHeader = cookieStore
+        .getAll()
+        .map(({ name, value }) => `${name}=${value}`)
+        .join("; ");
       const res = await fetch(`${origin}/api/checkout`, {
         method: "POST",
-        headers: { cookie: request.headers.get("cookie") ?? "" },
+        headers: { cookie: cookieHeader },
       });
       if (!res.ok) {
         return NextResponse.redirect(
