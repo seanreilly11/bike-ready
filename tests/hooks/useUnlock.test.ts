@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
+import { useUIStore } from "@/stores/uiStore";
 
 const { getUser, track, refreshPremiumStatus, logError } = vi.hoisted(() => ({
   getUser: vi.fn(),
@@ -31,6 +32,7 @@ describe("useUnlock", () => {
     refreshPremiumStatus.mockReset().mockResolvedValue(undefined);
     logError.mockReset();
     vi.unstubAllGlobals();
+    useUIStore.setState({ checkoutError: null });
   });
 
   it("does not throw when the checkout API returns an error response", async () => {
@@ -69,5 +71,20 @@ describe("useUnlock", () => {
     await result.current();
     expect(refreshPremiumStatus).toHaveBeenCalled();
     expect(track).toHaveBeenCalledWith("gate_converted", {});
+  });
+
+  it("sets a checkout error in the ui store when the request fails", async () => {
+    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("boom", { status: 500 })),
+    );
+
+    const { result } = renderHook(() => useUnlock());
+    await act(async () => {
+      await result.current();
+    });
+
+    expect(useUIStore.getState().checkoutError).toMatch(/checkout/i);
   });
 });

@@ -28,6 +28,8 @@ export default function AppShell({
   const showGate = useUIStore((s) => s.showGate);
   const gateModuleId = useUIStore((s) => s.gateModuleId);
   const closeGate = useUIStore((s) => s.closeGate);
+  const checkoutError = useUIStore((s) => s.checkoutError);
+  const setCheckoutError = useUIStore((s) => s.setCheckoutError);
   const handleUnlock = useUnlock(closeGate);
 
   const gateModuleIndex = modules.findIndex((m) => m.id === gateModuleId);
@@ -47,6 +49,20 @@ export default function AppShell({
         wrongCount={wrongCount}
         logoOnly={logoOnly}
       />
+      {checkoutError && (
+        <div className="bg-red-light border-b border-red text-red-dark px-5 py-3 flex items-center justify-between gap-3 animate-fade-up">
+          <span className="text-sm font-display font-medium">
+            {checkoutError}
+          </span>
+          <button
+            onClick={() => setCheckoutError(null)}
+            className="text-red-dark/70 hover:text-red-dark text-sm font-display shrink-0 focus-visible:outline-none"
+            aria-label="Dismiss"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       {showAuth && authReason && (
         <AuthModal reason={authReason} onClose={closeAuth} />
       )}

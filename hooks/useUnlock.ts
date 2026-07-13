@@ -10,9 +10,11 @@ import { logError } from '@/lib/logger'
 export function useUnlock(onClose?: () => void) {
   const { refreshPremiumStatus } = useAuth()
   const openAuth = useUIStore((s) => s.openAuth)
+  const setCheckoutError = useUIStore((s) => s.setCheckoutError)
   const { track } = useAnalytics()
 
   return useCallback(async () => {
+    setCheckoutError(null)
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -40,8 +42,8 @@ export function useUnlock(onClose?: () => void) {
       track('checkout_started', {})
       window.location.href = data.url
     } catch (err) {
-      // Swallow so the CTA doesn't crash the page; the user can retry.
       logError('useUnlock', err)
+      setCheckoutError("Couldn't start checkout. Please try again.")
     }
-  }, [refreshPremiumStatus, openAuth, onClose, track])
+  }, [refreshPremiumStatus, openAuth, onClose, track, setCheckoutError])
 }

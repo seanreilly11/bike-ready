@@ -13,6 +13,7 @@ interface UIState {
   showUpgradeToast: boolean
   onboardingDone: boolean
   showReturnBanner: boolean
+  checkoutError: string | null
 
   openGate: (moduleId?: ModuleId) => void
   closeGate: () => void
@@ -23,6 +24,7 @@ interface UIState {
   setUpgradeToast: (show: boolean) => void
   completeOnboarding: () => void
   dismissReturnBanner: () => void
+  setCheckoutError: (message: string | null) => void
 }
 
 export const useUIStore = create<UIState>()((set) => ({
@@ -34,6 +36,7 @@ export const useUIStore = create<UIState>()((set) => ({
   showUpgradeToast: false,
   onboardingDone: false,
   showReturnBanner: true,
+  checkoutError: null,
 
   openGate: (moduleId) => set({ showGate: true, gateModuleId: moduleId ?? null }),
   closeGate: () => set({ showGate: false, gateModuleId: null }),
@@ -47,4 +50,5 @@ export const useUIStore = create<UIState>()((set) => ({
     set({ onboardingDone: true })
   },
   dismissReturnBanner: () => set({ showReturnBanner: false }),
+  setCheckoutError: (message) => set({ checkoutError: message }),
 }))
