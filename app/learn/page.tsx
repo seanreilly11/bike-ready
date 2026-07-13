@@ -141,11 +141,12 @@ function UpgradeHandler() {
 
   useEffect(() => {
     if (searchParams.get("upgraded") === "true") {
+      const sessionId = searchParams.get("session_id") ?? undefined;
       setUpgradeToast(true);
       router.replace("/learn");
       // Reconcile against Stripe directly - the webhook may not have landed
       // yet when the user is redirected back from checkout.
-      verifyPremium();
+      verifyPremium(sessionId);
       track("gate_converted", {});
       const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);

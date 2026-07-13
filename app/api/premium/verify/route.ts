@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { isRateLimited } from "@/lib/cooldown";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const supabase = await createClient();
   const {
@@ -28,6 +28,33 @@ export async function GET() {
   // Already premium - nothing to do
   if (profile?.is_premium) {
     return NextResponse.json({ is_premium: true });
+  }
+
+  // Direct session check - covers a missed webhook, where no customer id has
+  // been stored yet. The id comes from Stripe's success_url redirect and is
+  // only trusted if the session's metadata names this user.
+  const sessionId = request.nextUrl.searchParams.get("session_id");
+  if (sessionId) {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (
+        session.metadata?.supabase_user_id === user.id &&
+        session.payment_status === "paid"
+      ) {
+        await supabaseAdmin
+          .from("profiles")
+          .update({
+            is_premium: true,
+            premium_since: new Date().toISOString(),
+            stripe_customer_id: session.customer as string,
+            stripe_payment_id: session.payment_intent as string,
+          })
+          .eq("id", user.id);
+        return NextResponse.json({ is_premium: true });
+      }
+    } catch {
+      // Unknown/foreign session id - fall through to the customer check
+    }
   }
 
   // No Stripe customer yet - definitely not premium

@@ -38,7 +38,7 @@ export async function POST() {
       line_items: [
         { price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!, quantity: 1 },
       ],
-      success_url: `${baseUrl}/learn?upgraded=true`,
+      success_url: `${baseUrl}/learn?upgraded=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/learn`,
       customer_email: user.email,
       // Payment-mode sessions don't create a Customer by default; without one

@@ -81,4 +81,21 @@ describe("POST /api/checkout", () => {
     expect(res.status).toBe(500);
     expect(logError).toHaveBeenCalled();
   });
+
+  it("puts the session id on the success_url for reconciliation", async () => {
+    getUser.mockResolvedValue({
+      data: { user: { id: "u1", email: "a@b.com" } },
+    });
+    single.mockResolvedValue({ data: { is_premium: false } });
+    sessionsCreate.mockResolvedValue({ url: "https://stripe.test/session" });
+
+    await POST();
+
+    expect(sessionsCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success_url:
+          "http://localhost:3000/learn?upgraded=true&session_id={CHECKOUT_SESSION_ID}",
+      }),
+    );
+  });
 });
