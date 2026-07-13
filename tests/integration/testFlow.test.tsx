@@ -97,4 +97,16 @@ describe("test flow", () => {
     ).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /true/i })).toBeEnabled();
   });
+
+  it("shows neither test nor upsell while auth is loading", () => {
+    authState.isPremium = false;
+    authState.isLoading = true;
+    render(<TestPage />);
+    expect(screen.queryByText(/unlock/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /start test/i }),
+    ).not.toBeInTheDocument();
+    authState.isPremium = true;
+    authState.isLoading = false;
+  });
 });

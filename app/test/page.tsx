@@ -137,7 +137,7 @@ interface Answer {
 
 export default function TestPage() {
   const router = useRouter();
-  const { user, isPremium } = useAuth();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
   const { checkModuleBadge, awardBadge, newBadge, dismissNewBadge } =
     useBadges();
@@ -183,7 +183,17 @@ export default function TestPage() {
     questionShownAt.current = Date.now();
   }, [index]);
 
-  if (!PREMIUM_ENABLED || !isPremium) {
+  if (!PREMIUM_ENABLED) {
+    return <FreeTestScreen />;
+  }
+  if (isAuthLoading) {
+    return (
+      <AppShell wrongCount={0}>
+        <main className="min-h-dvh bg-stone-50" />
+      </AppShell>
+    );
+  }
+  if (!isPremium) {
     return <FreeTestScreen />;
   }
 

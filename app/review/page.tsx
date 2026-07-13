@@ -330,7 +330,7 @@ function FreeReviewScreen() {
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { isPremium } = useAuth();
+  const { isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
   const { track } = useAnalytics();
   const { allQuestions } = useQuestions();
@@ -357,7 +357,17 @@ export default function ReviewPage() {
     questionShownAt.current = Date.now();
   }, [activeId]);
 
-  if (!PREMIUM_ENABLED || !isPremium) {
+  if (!PREMIUM_ENABLED) {
+    return <FreeReviewScreen />;
+  }
+  if (isAuthLoading) {
+    return (
+      <AppShell wrongCount={0}>
+        <main className="min-h-dvh bg-stone-50" />
+      </AppShell>
+    );
+  }
+  if (!isPremium) {
     return <FreeReviewScreen />;
   }
 

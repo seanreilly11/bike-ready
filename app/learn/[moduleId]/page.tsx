@@ -71,9 +71,14 @@ export default function ModuleSessionPage() {
   const allDone = currentIndex >= moduleQuestions.length;
   const moduleStatus = progress.getModuleStatus(moduleId, isPremium);
 
-  // Gate: free users after FREE_PER_MODULE questions, unless module is always free
+  // Gate: free users after FREE_PER_MODULE questions, unless module is always
+  // free. Waits for auth so premium users never see a gate flash (and no
+  // spurious gate_seen event fires while the profile is still loading).
   const hitGate =
-    !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
+    !isAuthLoading &&
+    !isPremium &&
+    !mod?.alwaysFree &&
+    currentIndex >= FREE_PER_MODULE;
 
   useEffect(() => {
     if (hitGate) {
