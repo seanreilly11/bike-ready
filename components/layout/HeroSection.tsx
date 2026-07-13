@@ -7,6 +7,7 @@ import modules from "@/data/modules";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
 import { HERO_COPY_TEST, HERO_COPY_VARIANTS } from "@/lib/abTest";
+import { SOCIAL_PROOF } from "@/data/constants";
 
 type HeroVariant = (typeof HERO_COPY_VARIANTS)[number];
 
@@ -27,7 +28,7 @@ const heroContent: Record<
   variant_b: {
     eyebrow: "Join 2,400+ expats who've figured it out",
     heading: "The Dutch cycling crash course for expats.",
-    body: "Six modules. Real scenarios. Instant feedback. Master the rules that actually matter in the Netherlands - from priority intersections to cycle path law.",
+    body: "Seven modules. Real scenarios. Instant feedback. Master the rules that actually matter in the Netherlands - from priority intersections to cycle path law.",
   },
 };
 
@@ -62,7 +63,7 @@ export default function HeroSection() {
 
           <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 mb-6">
             <span className="text-white/90 text-sm font-display">
-              2,400+ expats ready to ride
+              {SOCIAL_PROOF}
             </span>
           </div>
 

@@ -24,6 +24,7 @@ import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import { APP_PRICE } from "@/data/constants";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -156,14 +157,14 @@ function FreeReviewScreen() {
               <button
                 onClick={comingSoon ? undefined : () => openGate()}
                 disabled={comingSoon}
-                aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
+                aria-label={comingSoon ? "Review coming soon" : `Unlock Review for ${APP_PRICE}`}
                 className={
                   comingSoon
                     ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
                     : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
                 }
               >
-                {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+                {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
               </button>
             </div>
           </div>
@@ -309,7 +310,7 @@ function FreeReviewScreen() {
               onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
               aria-label={
-                comingSoon ? "Review coming soon" : "Unlock Review for €4.99"
+                comingSoon ? "Review coming soon" : `Unlock Review for ${APP_PRICE}`
               }
               className={
                 comingSoon
@@ -317,7 +318,7 @@ function FreeReviewScreen() {
                   : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
               }
             >
-              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+              {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
             </button>
           </div>
         </div>

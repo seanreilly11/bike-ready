@@ -4,7 +4,7 @@ import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, SOCIAL_PROOF } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useModalFocus } from "@/hooks/useModalFocus";
 
@@ -20,7 +20,7 @@ interface GateModalProps {
 const features = [
   "All questions in every module",
   "Shrinking Review queue",
-  "Timed Test with results breakdown",
+  "Final Test with results breakdown",
   "Module completion badges",
   "Progress saved across devices",
 ];
@@ -61,7 +61,7 @@ export default function GateModal({
         {/* Social proof */}
         <div className="flex justify-center mb-4">
           <span className="font-mono text-xs uppercase tracking-wide bg-orange-light text-orange border border-orange-mid rounded-full px-3 py-1">
-            2,400+ expats ready to ride
+            {SOCIAL_PROOF}
           </span>
         </div>
 

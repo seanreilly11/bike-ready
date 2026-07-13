@@ -28,6 +28,7 @@ import saveTestResult from "@/lib/mutations/saveTestResult";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import { APP_PRICE } from "@/data/constants";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -111,14 +112,14 @@ function FreeTestScreen() {
             <button
               onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
-              aria-label={comingSoon ? "Test coming soon" : "Unlock for €4.99"}
+              aria-label={comingSoon ? "Test coming soon" : `Unlock for ${APP_PRICE}`}
               className={
                 comingSoon
                   ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
                   : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
               }
             >
-              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+              {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
             </button>
           </div>
         </div>
@@ -412,7 +413,12 @@ export default function TestPage() {
         passed,
         platform: "native",
       });
-      navigator.share({ text, url: "https://cycledutch.com" }).catch(() => {});
+      navigator
+        .share({
+          text,
+          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cycledutch.com",
+        })
+        .catch(() => {});
     } else {
       track("test_share_clicked", {
         score_pct: scorePct,

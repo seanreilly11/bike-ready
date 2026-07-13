@@ -4,7 +4,7 @@ import OnboardingGate from "@/components/layout/OnboardingGate";
 export const metadata: Metadata = {
   title: { default: "Practice", template: "%s - CycleDutch" },
   description:
-    "Work through scenario-based questions across six modules and build safe Dutch cycling instincts.",
+    "Work through scenario-based questions across seven modules and build safe Dutch cycling instincts.",
 };
 
 export default function LearnLayout({
