@@ -315,7 +315,7 @@ async function migrateLocalProgress(userId: string) {
 }
 ```
 
-**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in - the upsert handles it correctly. The unique constraint prevents duplicates, and the database-level `correct OR` logic means a previous correct answer is never downgraded by a new wrong answer.
+**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in - the sign-in sync handles it correctly. The unique constraint prevents duplicates, and the sync layer (`progressToUpload` + `mergeProgress` in `lib/utils/progress.ts`) only uploads a guest answer that adds information - a locally-correct answer for a question the server has wrong - so a guest's new wrong answer is never pushed over an existing correct server row. (The `upsert_question_progress` rpc itself is last-answer-wins on conflict; the no-downgrade guarantee here comes from the merge layer, not the rpc.)
 
 **After migration:** the hook switches from reading localStorage to reading from Supabase. The rest of the app does not need to know migration happened - it just reads from the hook as normal.
 

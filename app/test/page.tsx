@@ -171,7 +171,9 @@ export default function TestPage() {
   useEffect(() => {
     return () => {
       const { phase: p, answeredCount, totalCount } = abandonRef.current;
-      if (p === "questions") {
+      // Answering the last question but not yet clicking "See results" leaves
+      // phase === "questions"; that's a finished attempt, not an abandoned one.
+      if (p === "questions" && answeredCount < totalCount) {
         track("test_abandoned", {
           progress_pct: Math.round((answeredCount / totalCount) * 100),
           questions_answered: answeredCount,

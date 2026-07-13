@@ -1,7 +1,8 @@
 import type { LocalProgress, Question } from '@/types'
 
-// Union of two progress maps. seen/correct are OR'd per question so syncing
-// can never downgrade an answer - mirrors upsert_question_progress in Postgres.
+// Union of two progress maps. seen/correct are OR'd per question so a sign-in
+// sync can never downgrade an answer. This is the sync-conflict merge only -
+// distinct from upsert_question_progress in Postgres, which is last-answer-wins.
 export function mergeProgress(
   local: LocalProgress,
   server: LocalProgress
