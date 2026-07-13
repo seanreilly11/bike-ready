@@ -43,23 +43,23 @@ describe("useQuestions", () => {
       expect(moduleIds.size).toBe(modules.length);
     });
 
-    it("contains at most 3 questions per module", () => {
+    it("returns exactly 3 questions per module with no duplicates", () => {
       const { result } = renderHook(() => useQuestions());
       const testSet = result.current.buildTestSet();
+      const ids = new Set(testSet.map((q) => q.id));
+      expect(ids.size).toBe(testSet.length);
       for (const mod of modules) {
         const count = testSet.filter((q) => q.module === mod.id).length;
-        expect(
-          count,
-          `${mod.id} should have at most 3 in test set`,
-        ).toBeLessThanOrEqual(3);
+        expect(count, `${mod.id} should have exactly 3 in test set`).toBe(3);
       }
     });
 
-    it("is deterministic - same result on repeated calls", () => {
+    it("only returns active questions from the module bank", () => {
       const { result } = renderHook(() => useQuestions());
-      const a = result.current.buildTestSet().map((q) => q.id);
-      const b = result.current.buildTestSet().map((q) => q.id);
-      expect(a).toEqual(b);
+      const activeIds = new Set(activeQuestions.map((q) => q.id));
+      for (const q of result.current.buildTestSet()) {
+        expect(activeIds.has(q.id)).toBe(true);
+      }
     });
   });
 });

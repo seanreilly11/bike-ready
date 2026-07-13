@@ -150,7 +150,7 @@ export default function TestPage() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const testSet = buildTestSet();
+  const [testSet, setTestSet] = useState<Question[]>(() => buildTestSet());
 
   const abandonRef = useRef({
     phase,
@@ -581,6 +581,7 @@ export default function TestPage() {
                   setIndex(0);
                   setSubmitted(false);
                   setSelectedId(null);
+                  setTestSet(buildTestSet());
                 }}
               >
                 Try again <ArrowRight size={16} aria-hidden="true" />

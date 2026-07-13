@@ -32,12 +32,22 @@ import userEvent from "@testing-library/user-event";
 import TestPage from "@/app/test/page";
 import { useAppStore } from "@/stores/appStore";
 import { useUIStore } from "@/stores/uiStore";
-import { useQuestions } from "@/hooks/useQuestions";
-import { renderHook } from "@testing-library/react";
+import { activeQuestions } from "@/hooks/useQuestions";
+import modules from "@/data/modules";
 
-function getTestSet() {
-  const { result } = renderHook(() => useQuestions());
-  return result.current.buildTestSet();
+const TEST_TOTAL = modules.length * 3;
+
+// The test set is sampled at random inside TestPage on mount, so this test
+// can't precompute it via a separate buildTestSet() call - that call would
+// draw a different sample. Instead, look up the currently rendered question
+// by its prompt text (unique per active question) to find the right answer.
+function findCurrentQuestion(promptEl: Element) {
+  const promptText = promptEl.textContent;
+  const question = activeQuestions.find((q) => q.prompt === promptText);
+  if (!question) {
+    throw new Error(`No active question matches rendered prompt: ${promptText}`);
+  }
+  return question;
 }
 
 describe("TestPage - passing the test", () => {
@@ -50,16 +60,21 @@ describe("TestPage - passing the test", () => {
 
   it("awards badge_master after answering every question correctly", async () => {
     const user = userEvent.setup();
-    const testSet = getTestSet();
-    render(<TestPage />);
+    const { container } = render(<TestPage />);
 
     await user.click(screen.getByRole("button", { name: /start test/i }));
 
-    for (let i = 0; i < testSet.length; i++) {
-      const q = testSet[i];
-      const correctOption = q.options.find((o) => o.id === q.correct)!;
+    for (let i = 0; i < TEST_TOTAL; i++) {
+      const promptEl = container.querySelector("p.font-display.text-base");
+      if (!promptEl) {
+        throw new Error("Question prompt not found in rendered output");
+      }
+      const question = findCurrentQuestion(promptEl);
+      const correctOption = question.options.find(
+        (o) => o.id === question.correct,
+      )!;
       await user.click(screen.getByText(correctOption.label));
-      if (i + 1 < testSet.length) {
+      if (i + 1 < TEST_TOTAL) {
         await user.click(
           screen.getByRole("button", { name: /next question/i }),
         );
