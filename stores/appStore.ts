@@ -41,7 +41,9 @@ export const useAppStore = create<AppState>()(
             ...state.progress,
             [id]: {
               seen: true,
-              correct: state.progress[id]?.correct || isCorrect,
+              // Last answer wins: missing a previously-correct question puts
+              // it back in the review queue.
+              correct: isCorrect,
             },
           },
         })),

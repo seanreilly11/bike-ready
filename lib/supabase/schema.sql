@@ -69,7 +69,8 @@ create policy "Users can update their own progress"
   on question_progress for update
   using (auth.uid() = user_id);
 
--- Upsert helper: correct is OR'd - never reverts once true.
+-- Upsert helper: last answer wins - missing a previously-correct question
+-- puts it back in the review queue.
 -- User identity comes from auth.uid(); callers cannot write other users' rows.
 create or replace function public.upsert_question_progress(
   p_question_id text,
@@ -82,7 +83,7 @@ begin
   insert into question_progress (user_id, question_id, seen, correct, attempts, last_answered_at)
   values (auth.uid(), p_question_id, true, p_correct, 1, now())
   on conflict (user_id, question_id) do update set
-    correct          = question_progress.correct or excluded.correct,
+    correct          = excluded.correct,
     attempts         = question_progress.attempts + 1,
     seen             = true,
     last_answered_at = now();

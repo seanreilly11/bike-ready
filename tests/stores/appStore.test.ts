@@ -30,13 +30,13 @@ describe("appStore", () => {
       expect(p.correct).toBe(false);
     });
 
-    it("sticky correct: once correct, stays correct even when re-answered wrong", () => {
+    it("last answer wins: once correct, reverts to wrong when re-answered wrong", () => {
       useAppStore.getState().answerQuestion("q1", true);
       useAppStore.getState().answerQuestion("q1", false);
-      expect(useAppStore.getState().progress["q1"].correct).toBe(true);
+      expect(useAppStore.getState().progress["q1"].correct).toBe(false);
     });
 
-    it("sticky correct: wrong then correct upgrades to correct", () => {
+    it("last answer wins: wrong then correct upgrades to correct", () => {
       useAppStore.getState().answerQuestion("q1", false);
       useAppStore.getState().answerQuestion("q1", true);
       expect(useAppStore.getState().progress["q1"].correct).toBe(true);
