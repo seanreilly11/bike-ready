@@ -63,6 +63,8 @@ describe("TestPage - passing the test", () => {
         await user.click(
           screen.getByRole("button", { name: /next question/i }),
         );
+      } else {
+        await user.click(screen.getByRole("button", { name: /see results/i }));
       }
     }
 

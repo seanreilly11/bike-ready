@@ -273,12 +273,10 @@ export default function TestPage() {
   async function handleAnswer(optionId: string, correct: boolean) {
     setSelectedId(optionId);
     setSubmitted(true);
-
-    const newAnswer: Answer = {
-      question: currentQ,
-      selectedId: optionId,
-      correct,
-    };
+    setAnswers((prev) => [
+      ...prev,
+      { question: currentQ, selectedId: optionId, correct },
+    ]);
 
     // Record progress in background
     await progress.recordAnswer(currentQ.id, correct);
@@ -292,35 +290,27 @@ export default function TestPage() {
       context: "test",
     });
     await checkModuleBadge(currentQ.module);
+  }
 
-    if (index + 1 >= testSet.length) {
-      // Last question - go to results
-      const allAnswers = [...answers, newAnswer];
-      setAnswers(allAnswers);
-      const scorePct = Math.round(
-        (allAnswers.filter((a) => a.correct).length / allAnswers.length) * 100,
-      );
-      const didPass = scorePct >= TEST_PASS_PCT;
-      await track("test_completed", {
-        score_pct: scorePct,
-        passed: didPass,
-      });
-      if (didPass) {
-        await awardBadge("badge_master");
-      }
-      if (user) {
-        // Background write - the results screen never blocks on it
-        const answerMap = Object.fromEntries(
-          allAnswers.map((a) => [a.question.id, a.selectedId]),
-        );
-        saveTestResult(scorePct, answerMap).catch(() => {
-          // Non-fatal - already logged in the mutation
-        });
-      }
-      setPhase("results");
-    } else {
-      setAnswers((prev) => [...prev, newAnswer]);
+  async function finishTest() {
+    const scorePct = Math.round(
+      (answers.filter((a) => a.correct).length / answers.length) * 100,
+    );
+    const didPass = scorePct >= TEST_PASS_PCT;
+    await track("test_completed", { score_pct: scorePct, passed: didPass });
+    if (didPass) {
+      await awardBadge("badge_master");
     }
+    if (user) {
+      // Background write - the results screen never blocks on it
+      const answerMap = Object.fromEntries(
+        answers.map((a) => [a.question.id, a.selectedId]),
+      );
+      saveTestResult(scorePct, answerMap).catch(() => {
+        // Non-fatal - already logged in the mutation
+      });
+    }
+    setPhase("results");
   }
 
   function handleNext() {
@@ -360,11 +350,17 @@ export default function TestPage() {
               hideCorrect // no feedback in Test mode
             />
 
-            {submitted && index + 1 < testSet.length && (
+            {submitted && (
               <div className="mt-4 animate-fade-up">
-                <Button full size="lg" onClick={handleNext}>
-                  Next question <ArrowRight size={16} aria-hidden="true" />
-                </Button>
+                {index + 1 < testSet.length ? (
+                  <Button full size="lg" onClick={handleNext}>
+                    Next question <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
+                ) : (
+                  <Button full size="lg" onClick={finishTest}>
+                    See results <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
+                )}
               </div>
             )}
           </div>
@@ -573,6 +569,8 @@ export default function TestPage() {
                   setPhase("intro");
                   setAnswers([]);
                   setIndex(0);
+                  setSubmitted(false);
+                  setSelectedId(null);
                 }}
               >
                 Try again <ArrowRight size={16} aria-hidden="true" />
