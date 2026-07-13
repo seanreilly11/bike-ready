@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import { APP_PRICE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useModalFocus } from "@/hooks/useModalFocus";
 
 interface GateModalProps {
   moduleId: ModuleId | null;
@@ -34,14 +34,10 @@ export default function GateModal({
   onDismiss,
 }: GateModalProps) {
   const { track } = useAnalytics();
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { track('gate_dismissed', { module: moduleId }); onDismiss(); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [moduleId, onDismiss, track]);
+  const { dialogRef, trapFocus } = useModalFocus(() => {
+    track("gate_dismissed", { module: moduleId });
+    onDismiss();
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
@@ -54,10 +50,13 @@ export default function GateModal({
 
       {/* Modal */}
       <div
+        ref={dialogRef}
+        tabIndex={-1}
+        onKeyDown={trapFocus}
         role="dialog"
         aria-modal="true"
         aria-labelledby="gate-modal-title"
-        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up"
+        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up focus-visible:outline-none"
       >
         {/* Social proof */}
         <div className="flex justify-center mb-4">

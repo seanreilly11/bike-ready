@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Bike, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useModalFocus } from "@/hooks/useModalFocus";
 import { useUIStore } from "@/stores/uiStore";
 
 interface OnboardingOverlayProps {
@@ -21,7 +22,6 @@ export default function OnboardingOverlay({
   onSkip,
 }: OnboardingOverlayProps) {
   const { track } = useAnalytics();
-  const dialogRef = useRef<HTMLDivElement>(null);
 
   const finish = (skipped: boolean) => {
     track(skipped ? "onboarding_skipped" : "onboarding_completed", {});
@@ -29,48 +29,12 @@ export default function OnboardingOverlay({
     if (skipped) onSkip();
     else onComplete();
   };
-  // Latest-callback ref so the mount-once Escape listener never goes stale
-  const finishRef = useRef(finish);
-  useEffect(() => {
-    finishRef.current = finish;
-  });
 
   useEffect(() => {
     track("onboarding_started", {});
   }, [track]);
 
-  // Move focus into the dialog on open, restore it on close, Escape to skip.
-  useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null;
-    dialogRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") finishRef.current(true);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      previous?.focus();
-    };
-  }, []);
-
-  // Keep Tab cycling inside the dialog.
-  function trapFocus(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.key !== "Tab" || !dialogRef.current) return;
-    const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-    if (focusables.length === 0) return;
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-    const active = document.activeElement;
-    if (e.shiftKey && (active === first || active === dialogRef.current)) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && active === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  }
+  const { dialogRef, trapFocus } = useModalFocus(() => finish(true));
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
