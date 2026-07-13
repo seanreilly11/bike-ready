@@ -146,7 +146,10 @@ export default function ModuleSessionPage() {
         !user &&
         showReturnBanner &&
         progress.getTotalSeen() >= RETURN_BANNER_MIN && (
-          <ReturnBanner onDismiss={dismissReturnBanner} />
+          <ReturnBanner
+            onDismiss={dismissReturnBanner}
+            seenCount={progress.getTotalSeen()}
+          />
         )}
 
       {/* Sticky sub-header */}
@@ -222,13 +225,16 @@ export default function ModuleSessionPage() {
                 </p>
                 {!user && (
                   <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
-                    Sign in so you don&apos;t lose what you&apos;ve done.{" "}
+                    You&apos;ve answered {progress.getTotalSeen()} question
+                    {progress.getTotalSeen() === 1 ? "" : "s"} - saved only on
+                    this device.{" "}
                     <button
                       onClick={() => openAuth("save_progress")}
                       className="font-bold text-orange underline underline-offset-2"
                     >
                       Sign in
-                    </button>
+                    </button>{" "}
+                    so you don&apos;t lose them.
                   </div>
                 )}
                 <div className="flex flex-col gap-3">

@@ -4,7 +4,7 @@ import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
-import { APP_PRICE, SOCIAL_PROOF } from "@/data/constants";
+import { APP_PRICE, SOCIAL_PROOF, RED_LIGHT_FINE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useModalFocus } from "@/hooks/useModalFocus";
 
@@ -112,7 +112,8 @@ export default function GateModal({
           Unlock for {APP_PRICE}
         </Button>
         <p className="text-center text-xs text-stone-400 mt-2">
-          Less than the fine for running a red light
+          Less than a red-light fine ({RED_LIGHT_FINE}). Pay once, keep it
+          forever.
         </p>
 
         <div className="flex justify-center mt-4">

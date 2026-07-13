@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface UpsellBannerProps {
@@ -32,7 +32,8 @@ export default function UpsellBanner({
         Unlock for {APP_PRICE}
       </Button>
       <p className="text-stone-400 text-xs mt-2">
-        One-time payment. No subscription.
+        Less than a red-light fine ({RED_LIGHT_FINE}). One-time, no
+        subscription.
       </p>
     </div>
   );

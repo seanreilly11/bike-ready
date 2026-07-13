@@ -5,7 +5,7 @@ import LandingButton from "@/components/layout/LandingButton";
 import HeroSection from "@/components/layout/HeroSection";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
 
@@ -140,7 +140,8 @@ export default function LandingPage() {
           <LandingButton variant="bottom" />
           {PREMIUM_ENABLED && (
             <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">
-              Full course {APP_PRICE} one-time · No subscription
+              Full course {APP_PRICE}, once · Less than a red-light fine (
+              {RED_LIGHT_FINE})
             </p>
           )}
         </section>

@@ -24,7 +24,7 @@ import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { PREMIUM_ENABLED } from "@/lib/config";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -152,7 +152,7 @@ function FreeReviewScreen() {
               <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
                 {comingSoon
                   ? "We're putting the finishing touches on this."
-                  : "Less than the fine for running a red light"}
+                  : `Less than a red-light fine (${RED_LIGHT_FINE})`}
               </p>
               <button
                 onClick={comingSoon ? undefined : () => openGate()}
@@ -304,7 +304,7 @@ function FreeReviewScreen() {
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
               {comingSoon
                 ? "We're putting the finishing touches on this."
-                : "Less than the fine for running a red light"}
+                : `Less than a red-light fine (${RED_LIGHT_FINE})`}
             </p>
             <button
               onClick={comingSoon ? undefined : () => openGate()}

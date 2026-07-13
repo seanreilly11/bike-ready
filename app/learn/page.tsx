@@ -21,7 +21,7 @@ import ModuleIcon from "@/components/ui/ModuleIcon";
 import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { isMastered } from "@/lib/utils/progress";
 import verifyPremium from "@/lib/mutations/verifyPremium";
 import { useUIStore } from "@/stores/uiStore";
@@ -72,7 +72,8 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
             Unlock full course - {APP_PRICE}
           </Button>
           <p className="text-stone-500 text-xs mt-2">
-            One-time payment. No subscription.
+            Less than a red-light fine ({RED_LIGHT_FINE}). One-time, no
+            subscription.
           </p>
         </div>
 
@@ -240,7 +241,10 @@ export default function LearnIndexPage() {
         !user &&
         showReturnBanner &&
         progress.getTotalSeen() >= RETURN_BANNER_MIN && (
-          <ReturnBanner onDismiss={dismissReturnBanner} />
+          <ReturnBanner
+            onDismiss={dismissReturnBanner}
+            seenCount={progress.getTotalSeen()}
+          />
         )}
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
