@@ -320,7 +320,7 @@ interface QuestionProgress {
   user_id: string; // uuid - references profiles.id
   question_id: string; // references Question.id in static data
   seen: boolean; // true once the user has answered at any time
-  correct: boolean; // true if ever answered correctly - sticky, never reverts
+  correct: boolean; // true if the most recent answer was correct - last answer wins, not sticky
   attempts: number; // total number of times answered
   last_answered_at: string; // ISO 8601 timestamp
 }
@@ -331,13 +331,13 @@ interface QuestionProgress {
 
 ```sql
 on conflict (user_id, question_id) do update set
-  correct          = question_progress.correct OR excluded.correct,
+  correct          = excluded.correct,
   attempts         = question_progress.attempts + 1,
   seen             = true,
   last_answered_at = now()
 ```
 
-`correct` is OR'd - once `true`, always `true`, even if the user answers incorrectly later in Review.
+`correct` reflects the most recent answer - last answer wins, so answering incorrectly later in Review flips it back to `false`.
 
 **Before auth - localStorage shape:**
 

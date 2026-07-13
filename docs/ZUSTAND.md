@@ -73,8 +73,9 @@ export const useAppStore = create<AppState>()(
             ...state.progress,
             [questionId]: {
               seen: true,
-              // correct is sticky - once true it never reverts to false
-              correct: state.progress[questionId]?.correct || isCorrect,
+              // Last answer wins: missing a previously-correct question puts
+              // it back in the review queue.
+              correct: isCorrect,
             },
           },
         })),
@@ -108,19 +109,24 @@ export const useAppStore = create<AppState>()(
 
 **The `persist` middleware** handles localStorage automatically. No manual `localStorage.getItem` / `setItem` calls needed anywhere in the app for progress. When a user creates an account, call `hydrateProgress` with their Supabase data and then remove the persisted localStorage entry.
 
-**The `correct` sticky logic** is enforced in the store - once a question is answered correctly it can never go back to false, matching the database upsert behaviour.
+**Last-answer-wins** is enforced in the store - `correct` reflects only the most recent answer, matching the database upsert behaviour. Missing a previously-correct question flips it back to `false` and puts it back in the Review queue.
 
 ### 2. useUIStore - transient UI state
 
 ```ts
 // stores/uiStore.ts
 import { create } from "zustand";
+import { markOnboardingDone } from "@/lib/onboarding";
+import type { ModuleId } from "@/types";
+
+export type AuthModalReason = "save_progress" | "upgrade";
 
 interface UIState {
   // Modal states
   showGate: boolean;
+  gateModuleId: ModuleId | null;
   showAuth: boolean;
-  authReason: "save_progress" | "upgrade" | null;
+  authReason: AuthModalReason | null;
 
   // Toast / notifications
   newBadgeId: string | null;
@@ -132,38 +138,50 @@ interface UIState {
   // Return banner
   showReturnBanner: boolean;
 
+  // Checkout
+  checkoutError: string | null;
+
   // Actions
-  openGate: () => void;
+  openGate: (moduleId?: ModuleId) => void;
   closeGate: () => void;
-  openAuth: (reason: "save_progress" | "upgrade") => void;
+  openAuth: (reason: AuthModalReason) => void;
   closeAuth: () => void;
   showBadge: (badgeId: string) => void;
   clearBadge: () => void;
   setUpgradeToast: (val: boolean) => void;
   completeOnboarding: () => void;
   dismissReturnBanner: () => void;
+  setCheckoutError: (message: string | null) => void;
 }
 
 export const useUIStore = create<UIState>()((set) => ({
   showGate: false,
+  gateModuleId: null,
   showAuth: false,
   authReason: null,
   newBadgeId: null,
   showUpgradeToast: false,
   onboardingDone: false,
-  showReturnBanner: false,
+  showReturnBanner: true,
+  checkoutError: null,
 
-  openGate: () => set({ showGate: true }),
-  closeGate: () => set({ showGate: false }),
+  openGate: (moduleId) => set({ showGate: true, gateModuleId: moduleId ?? null }),
+  closeGate: () => set({ showGate: false, gateModuleId: null }),
   openAuth: (reason) => set({ showAuth: true, authReason: reason }),
-  closeAuth: () => set({ showAuth: false, authReason: null }),
+  closeAuth: () => set({ showAuth: false }),
   showBadge: (badgeId) => set({ newBadgeId: badgeId }),
   clearBadge: () => set({ newBadgeId: null }),
   setUpgradeToast: (val) => set({ showUpgradeToast: val }),
-  completeOnboarding: () => set({ onboardingDone: true }),
+  completeOnboarding: () => {
+    markOnboardingDone();
+    set({ onboardingDone: true });
+  },
   dismissReturnBanner: () => set({ showReturnBanner: false }),
+  setCheckoutError: (message) => set({ checkoutError: message }),
 }));
 ```
+
+`openGate` accepts an optional `moduleId` so the gate screen can know which module triggered it (stored in `gateModuleId`, cleared again by `closeGate`). `checkoutError` holds a user-facing message when Stripe checkout fails, set via `setCheckoutError`.
 
 `onboardingDone` can also be persisted with the persist middleware if preferred, but since it's already stored in a separate localStorage key in the prototype it's fine to leave it in the UI store without persistence and set it from localStorage on mount.
 

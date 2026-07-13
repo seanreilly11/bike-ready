@@ -145,7 +145,7 @@ CycleDutch/
 
 ### `data/questions.json`
 
-The full question bank. Imported at build time. Never fetched at runtime. 117 questions currently, 73 of them `active` (the rest `draft`/`archived` and filtered out by `activeQuestions` in `hooks/useQuestions.ts`). All additions go here and nowhere else.
+The full question bank. Imported at build time. Never fetched at runtime. 122 questions currently, 77 of them `active` (the rest `draft`/`archived` and filtered out by `activeQuestions` in `hooks/useQuestions.ts`). All additions go here and nowhere else.
 
 **Schema:**
 
@@ -183,15 +183,15 @@ See `DATA_MODEL.md` for the full type definitions and all enums.
 
 **ID format:** `[module]_[number]` where number is zero-padded to three digits.
 
-| Module          | Example IDs                            |
-| --------------- | -------------------------------------- |
-| priority        | priority_009, priority_010             |
-| signs           | signs_001, signs_006                   |
-| roadusers       | roadusers_006, roadusers_007           |
-| infrastructure  | infrastructure_006, infrastructure_007 |
-| legal           | legal_005, legal_006                   |
-| vocabulary      | vocabulary_006, vocabulary_007         |
-| mixed scenarios | mixed_001, mixed_002                   |
+| Module          | Example IDs                                                               |
+| --------------- | -------------------------------------------------------------------------- |
+| priority        | priority_009, priority_010                                                |
+| signs           | signs_001, signs_006                                                      |
+| roadusers       | roadusers_006, roadusers_007                                              |
+| infrastructure  | infrastructure_006, infrastructure_007                                    |
+| legal           | legal_005, legal_006                                                      |
+| vocabulary      | vocabulary_006, vocabulary_007                                            |
+| mixed scenarios | mixed_001-mixed_008 (module field is "priority"; skill "Mixed Scenarios") |
 
 ### `data/lessons.json`
 
@@ -234,7 +234,7 @@ Lookup: `lessons[question.skill]?.[question.difficulty]`. If no match found, the
 
 **Optimistic updates always.** Update local state immediately on answer. Fire the Supabase upsert in the background.
 
-**localStorage before auth.** Free users get progress in localStorage: `{ [questionId]: { seen: boolean, correct: boolean } }`. Same shape as Supabase. Also store `anonymous_id` (UUID) from first visit. On sign-up, migrate localStorage to Supabase and clear it.
+**localStorage before auth.** Free users get progress in localStorage: `{ [questionId]: { seen: boolean, correct: boolean } }`. Same shape as Supabase. Also store an `anonymous_id` (UUID) from first visit, under the localStorage key `anon_id`. On sign-up, migrate localStorage to Supabase and clear it.
 
 **Per-module free limit.** `FREE_PER_MODULE = 3` (see `types/index.ts`). After 3 questions in a gated module the next question is replaced by the gate screen inline - no popup. Gate shows a next-module nudge card and an upgrade prompt. Modules flagged `alwaysFree` (Fundamentals) are never gated.
 
@@ -249,13 +249,13 @@ Lookup: `lessons[question.skill]?.[question.difficulty]`. If no match found, the
 ## Freemium gate behaviour
 
 ```
-User answers question 2 in a module (not premium)
+User answers question 3 in a module (not premium)
   → Next question replaced by gate screen (no popup)
   → Gate screen shows:
       1. Next module card with "Try it →" button (hidden on last module)
       2. Upgrade card: "Want to finish [module name]?" + €4.99 CTA
 
-User answers 2 questions in all 6 modules (12 total, not premium)
+User answers 3 questions in all 6 gated modules (18 total, not premium)
   → /learn replaced by PreviewCompleteScreen
   → Shows: dark hero + progress bar + 6 incomplete module cards + unlock CTA
 
@@ -292,7 +292,7 @@ Dismissible via Skip, Escape, or backdrop click; focus is trapped in the dialog 
 
 ## Analytics
 
-`anonymous_id` UUID generated on first load, stored in localStorage. On sign-up: `posthog.identify(userId, { anonymous_id })`.
+`anonymous_id` UUID generated on first load, stored in localStorage under the key `"anon_id"`. On sign-up: `posthog.identify(userId, { anonymous_id })`.
 
 **The `AnalyticsEvents` type in `types/index.ts` is the source of truth** for the full event list and their property shapes - it is far richer than the table below (funnel, retention, test, review, guide events). All client events fire through the `useAnalytics` hook. Add new events to that type first.
 

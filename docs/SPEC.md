@@ -156,11 +156,11 @@ Progress tracked per question. One row per user per question in Supabase.
 
 - Grey = not seen
 - Orange = seen, answered incorrectly at least once
-- Green = answered correctly at least once (`correct` is sticky)
+- Green = the most recent answer was correct (`correct` reflects the latest attempt, not sticky)
 
 **Module status labels:** Not started / In progress / Complete / Preview done (free, both free questions used)
 
-**Seen vs correct:** `correct` is OR'd on upsert - once true, always true, even if answered wrong in Review later.
+**Seen vs correct:** `correct` reflects the most recent answer on upsert - last answer wins, so answering wrong in Review later flips it back to false and puts the question back in the queue.
 
 **Storage:** `question_progress` table in Supabase. Before auth: localStorage with identical shape `{ [questionId]: { seen, correct } }`, migrated on sign-up.
 
@@ -193,7 +193,7 @@ profiles (id, is_premium, created_at)
 -- Per-question progress
 question_progress (user_id, question_id, seen, correct, attempts, last_answered_at)
 -- unique: (user_id, question_id)
--- upsert: correct = correct OR excluded.correct
+-- upsert: correct = excluded.correct (last answer wins)
 
 -- Earned badges
 badges (id, user_id, badge_id, earned_at)

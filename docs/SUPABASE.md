@@ -259,7 +259,7 @@ await supabase.from("question_progress").upsert(
 );
 ```
 
-The `correct` field is handled at the database level with the OR logic in the upsert - once `true` it never goes back to `false`. This is enforced by the schema, not just the app code.
+The `correct` field reflects the most recent answer on upsert - last answer wins on conflict, so a later wrong answer flips a previously-correct question back to `false`. This is enforced by the schema's `upsert_question_progress` function, not just the app code.
 
 ---
 
