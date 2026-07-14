@@ -19,7 +19,7 @@ export default function ImprintPage() {
           Operator
         </h2>
         <address className="not-italic text-sm text-stone-600 leading-relaxed space-y-0.5">
-          <p>[YOUR FULL NAME]</p>
+          <p>Sean Reilly</p>
           <p>Eenmanszaak (sole proprietorship)</p>
           <p>[STREET ADDRESS]</p>
           <p>[POSTCODE CITY]</p>
@@ -36,7 +36,7 @@ export default function ImprintPage() {
           {[
             {
               term: "KvK (Chamber of Commerce)",
-              detail: "[KVK NUMBER]",
+              detail: "42110285",
             },
             {
               term: "BTW (VAT)",
@@ -60,7 +60,7 @@ export default function ImprintPage() {
         </h2>
         <dl className="space-y-1.5">
           {[
-            { term: "Email", detail: "[YOUR EMAIL]" },
+            { term: "Email", detail: "seanreilly123@hotmail.com" },
             {
               term: "Response time",
               detail: "Within 5 business days",
@@ -82,7 +82,7 @@ export default function ImprintPage() {
           Responsible for content
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          [YOUR FULL NAME] (address as above)
+          Sean Reilly (address as above)
         </p>
       </section>
 
@@ -130,7 +130,7 @@ export default function ImprintPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           All content published on CycleDutch is subject to Dutch and
           international copyright law. Any use, reproduction, or distribution of
-          content without the express written permission of [YOUR FULL NAME] is
+          content without the express written permission of Sean Reilly is
           prohibited.
         </p>
       </section>

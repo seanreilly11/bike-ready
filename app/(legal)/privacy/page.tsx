@@ -22,10 +22,10 @@ export default function PrivacyPage() {
           Who we are
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          CycleDutch is operated by [YOUR FULL NAME], a sole proprietorship
-          (eenmanszaak) registered in the Netherlands with KvK number [KVK
-          NUMBER]. Our registered address is [YOUR ADDRESS]. You can contact us
-          at [YOUR EMAIL].
+          CycleDutch is operated by Sean Reilly, a sole proprietorship
+          (eenmanszaak) registered in the Netherlands with KvK number 42110285.
+          Our registered address is [YOUR ADDRESS]. You can contact us at
+          seanreilly123@hotmail.com.
         </p>
       </section>
 
@@ -304,10 +304,10 @@ export default function PrivacyPage() {
           ))}
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed">
-          To exercise any of these rights, email us at [YOUR EMAIL]. We will
-          respond within 30 days. You also have the right to lodge a complaint
-          with the Dutch Data Protection Authority (Autoriteit Persoonsgegevens)
-          at{" "}
+          To exercise any of these rights, email us at
+          seanreilly123@hotmail.com. We will respond within 30 days. You also
+          have the right to lodge a complaint with the Dutch Data Protection
+          Authority (Autoriteit Persoonsgegevens) at{" "}
           <a
             href="https://autoriteitpersoonsgegevens.nl"
             className="text-orange hover:underline"
