@@ -41,6 +41,8 @@ Turn the single-screen onboarding overlay into a short 4-step wizard that builds
 
 Every screen shows: a 4-dot progress indicator, a **Skip** control, and (steps 2–4) a **Back** control. Escape and backdrop click both skip. Focus stays trapped in the dialog (`useModalFocus`, already in place).
 
+**Skip copy carries weight on the final step (#5 Loss Aversion).** Steps 1–3 use a plain **Skip**. On step 4 — the moment of the ask, after the user has already invested two choices — the skip control reads **"No thanks, I'll wing it"** so dismissing has friction and names the cost (winging it). The `finish(true)` behavior is identical regardless of label; only the wording differs by step.
+
 **Step 1 · Intro**
 - Bike icon, heading "Welcome to CycleDutch".
 - Body: the question→feedback loop, "no account needed to start." (Reuse today's copy, trimmed.)
@@ -61,6 +63,7 @@ Every screen shows: a 4-dot progress indicator, a **Skip** control, and (steps 2
 - Personalized line = situation base + timeline clause (see copy map).
 - Reassurance line: the target module + "3 free questions, no account needed" (or "the essentials, all free" for the always-free Fundamentals target).
 - Primary CTA: **Start with {Module} →** — completes onboarding and deep-links to the mapped module.
+- Skip control here reads **"No thanks, I'll wing it"** (weightier than the plain "Skip" on steps 1–3).
 
 ### Situation → module map
 
@@ -190,6 +193,7 @@ export function setRidingTimeline(t: RidingTimeline): void;
   - completing the final CTA calls `onComplete("priority")` (for commuter) and fires `onboarding_profile_selected` with `{ profile, timeline }` and `onboarding_completed`.
   - Back from a later step returns to the previous step and preserves selections.
   - Skip on step 2 fires `onboarding_skipped` with `{ step: 1 }` and calls `onSkip`; Escape skips.
+  - the final step's skip control reads "No thanks, I'll wing it"; clicking it fires `onboarding_skipped` with `{ step: 3 }` and calls `onSkip`.
   - focus moves into the dialog on mount (retain existing assertion).
 - **`tests/components/OnboardingGate.test.tsx` (update):** new `onComplete(moduleId)` signature; remove `onLearnIndex`/`ctaLabel` assertions; a completed wizard navigates to the mapped module.
 - **`tests/stores/uiStore.test.ts` (extend):** `completeOnboarding({ profile, timeline })` sets `riderProfile`/`ridingTimeline`; `completeOnboarding()` leaves them `null`.
