@@ -6,13 +6,15 @@ import LandingButton from "@/components/layout/LandingButton";
 import modules from "@/data/modules";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
-import { HERO_COPY_TEST, HERO_COPY_VARIANTS } from "@/lib/abTest";
+import {
+  HERO_COPY_TEST,
+  HERO_COPY_VARIANTS,
+  type HeroCopyVariant,
+} from "@/lib/abTest";
 import { SOCIAL_PROOF } from "@/data/constants";
 
-type HeroVariant = (typeof HERO_COPY_VARIANTS)[number];
-
 const heroContent: Record<
-  HeroVariant,
+  HeroCopyVariant,
   { eyebrow: string; heading: string; body: string }
 > = {
   control: {
@@ -32,8 +34,12 @@ const heroContent: Record<
   },
 };
 
-export default function HeroSection() {
-  const variant = useABTest(HERO_COPY_TEST, HERO_COPY_VARIANTS);
+export default function HeroSection({
+  initialVariant,
+}: {
+  initialVariant: HeroCopyVariant;
+}) {
+  const variant = useABTest(HERO_COPY_TEST, HERO_COPY_VARIANTS, initialVariant);
   const content = heroContent[variant ?? "control"];
 
   return (

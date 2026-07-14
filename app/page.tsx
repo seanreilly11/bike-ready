@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Nav from "@/components/layout/Nav";
 import LandingButton from "@/components/layout/LandingButton";
 import HeroSection from "@/components/layout/HeroSection";
@@ -8,6 +9,11 @@ import modules from "@/data/modules";
 import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import {
+  HERO_COPY_TEST,
+  abCookieName,
+  isHeroCopyVariant,
+} from "@/lib/abTest";
 
 export const metadata: Metadata = {
   title: { absolute: "CycleDutch - Cycle safely in the Netherlands" },
@@ -47,13 +53,19 @@ const howItWorks = [
   },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const cookieStore = await cookies();
+  const cookieVariant = cookieStore.get(abCookieName(HERO_COPY_TEST))?.value;
+  const initialVariant = isHeroCopyVariant(cookieVariant)
+    ? cookieVariant
+    : "control";
+
   return (
     <>
       <Nav currentRoute="/" wrongCount={0} logoOnly showStartLearning />
       <main className="min-h-dvh bg-stone-50 overflow-x-hidden">
         {/* Hero */}
-        <HeroSection />
+        <HeroSection initialVariant={initialVariant} />
 
         {/* How it works */}
         <section className="px-5 py-12 max-w-5xl mx-auto">
