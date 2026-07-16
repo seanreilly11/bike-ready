@@ -549,15 +549,13 @@ describe("OnboardingOverlay wizard", () => {
     expect(onComplete).not.toHaveBeenCalled();
   });
 
-  it("final-step skip reads 'wing it' and records step 3", async () => {
+  it("skipping on the final step records step 3", async () => {
     const user = userEvent.setup();
     const { onSkip } = renderOverlay();
     await advance(user);
     await user.click(screen.getByRole("button", { name: /continue/i }));
     await user.click(screen.getByRole("button", { name: /continue/i }));
-    await user.click(
-      screen.getByRole("button", { name: /no thanks, i'll wing it/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /^skip$/i }));
     expect(track).toHaveBeenCalledWith("onboarding_skipped", { step: 3 });
     expect(onSkip).toHaveBeenCalled();
   });
@@ -808,7 +806,7 @@ export default function OnboardingOverlay({
             <span />
           )}
           <Button variant="ghost" size="sm" onClick={() => finish(true)}>
-            {isLastStep ? "No thanks, I'll wing it" : "Skip"}
+            Skip
           </Button>
         </div>
       </div>
@@ -1014,7 +1012,7 @@ Expected: all green (lint may show the one pre-existing `react-hooks/exhaustive-
 
 ## Self-Review Notes
 
-- **Spec coverage:** 4 screens (Task 3); situation→module map + copy map + defaults (Task 1); persistence keys + guarded helpers (Task 2); `uiStore` choices (Task 2); flow unification / dropped `onLearnIndex` + `ctaLabel` (Task 4); analytics `onboarding_profile_selected` + `onboarding_skipped {step}` (Tasks 1, 3); weighted final-step skip copy (Task 3); step dots (Task 3). All covered.
+- **Spec coverage:** 4 screens (Task 3); situation→module map + copy map + defaults (Task 1); persistence keys + guarded helpers (Task 2); `uiStore` choices (Task 2); flow unification / dropped `onLearnIndex` + `ctaLabel` (Task 4); analytics `onboarding_profile_selected` + `onboarding_skipped {step}` (Tasks 1, 3); uniform plain "Skip" on every step (Task 3); step dots (Task 3). All covered.
 - **Type consistency:** `onComplete: (moduleId: ModuleId) => void`, `completeOnboarding(choices?: { profile; timeline })`, `moduleForProfile`, `planLine`, `RiderProfile`/`RidingTimeline`, keys `rider_profile`/`riding_timeline` used consistently across tasks.
 - **Cross-task typecheck:** Task 3 intentionally leaves the two callers type-broken; Task 4 fixes them. The Task 3 step notes this so an engineer running tasks in order isn't alarmed. Anyone running out of order should do Task 4 alongside Task 3.
 - **Out of scope (per spec):** confidence step, difficulty-adaptive serving, consuming `ridingTimeline` in later nudges, re-onboarding returning users.
