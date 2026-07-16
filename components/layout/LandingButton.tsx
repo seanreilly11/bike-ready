@@ -53,8 +53,7 @@ export default function LandingButton({
       </Button>
       {showOnboarding && (
         <OnboardingOverlay
-          ctaLabel="Start Fundamentals"
-          onComplete={() => router.push('/learn/fundamentals')}
+          onComplete={(moduleId) => router.push(`/learn/${moduleId}`)}
           onSkip={() => {
             // They still clicked "Start learning" - take them to the index
             setShowOnboarding(false)

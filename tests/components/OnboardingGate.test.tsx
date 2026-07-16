@@ -14,12 +14,25 @@ import userEvent from "@testing-library/user-event";
 import OnboardingGate from "@/components/layout/OnboardingGate";
 import { useUIStore } from "@/stores/uiStore";
 
+async function completeWizard(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(await screen.findByRole("button", { name: /get started/i }));
+  await user.click(screen.getByRole("button", { name: /continue/i }));
+  await user.click(screen.getByRole("button", { name: /continue/i }));
+  await user.click(
+    screen.getByRole("button", { name: /start with fundamentals/i }),
+  );
+}
+
 describe("OnboardingGate", () => {
   beforeEach(() => {
     push.mockReset();
     getPathname.mockReturnValue("/learn");
     localStorage.clear();
-    useUIStore.setState({ onboardingDone: false });
+    useUIStore.setState({
+      onboardingDone: false,
+      riderProfile: null,
+      ridingTimeline: null,
+    });
   });
 
   it("shows the overlay on a first visit to /learn", async () => {
@@ -33,28 +46,25 @@ describe("OnboardingGate", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("deep-links to Fundamentals on complete from the learn index", async () => {
+  it("deep-links to the mapped module on complete (default -> fundamentals)", async () => {
     const user = userEvent.setup();
     render(<OnboardingGate />);
-    await user.click(
-      await screen.findByRole("button", { name: /start fundamentals/i }),
-    );
+    await completeWizard(user);
     expect(push).toHaveBeenCalledWith("/learn/fundamentals");
   });
 
-  it("does not redirect when completed inside a module the user chose", async () => {
-    getPathname.mockReturnValue("/learn/priority");
+  it("navigates to the mapped module even when opened inside another module", async () => {
+    getPathname.mockReturnValue("/learn/legal");
     const user = userEvent.setup();
     render(<OnboardingGate />);
-    const cta = await screen.findByRole("button", { name: /let's go/i });
-    await user.click(cta);
-    expect(push).not.toHaveBeenCalled();
+    await completeWizard(user);
+    expect(push).toHaveBeenCalledWith("/learn/fundamentals");
   });
 
   it("closes without navigating on skip", async () => {
     const user = userEvent.setup();
     render(<OnboardingGate />);
-    await user.click(await screen.findByRole("button", { name: /skip/i }));
+    await user.click(await screen.findByRole("button", { name: /^skip$/i }));
     expect(push).not.toHaveBeenCalled();
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
