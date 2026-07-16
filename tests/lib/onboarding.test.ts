@@ -1,5 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { isOnboardingDone, markOnboardingDone } from "@/lib/onboarding";
+import {
+  getRiderProfile,
+  setRiderProfile,
+  getRidingTimeline,
+  setRidingTimeline,
+} from "@/lib/onboarding";
 
 describe("onboarding storage", () => {
   beforeEach(() => {
@@ -38,5 +44,28 @@ describe("onboarding storage", () => {
     } as unknown as Storage);
     expect(() => markOnboardingDone()).not.toThrow();
     vi.unstubAllGlobals();
+  });
+});
+
+describe("rider profile persistence", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("round-trips a stored profile and timeline", () => {
+    setRiderProfile("commuter");
+    setRidingTimeline("this_week");
+    expect(getRiderProfile()).toBe("commuter");
+    expect(getRidingTimeline()).toBe("this_week");
+  });
+
+  it("returns null when nothing is stored", () => {
+    expect(getRiderProfile()).toBeNull();
+    expect(getRidingTimeline()).toBeNull();
+  });
+
+  it("returns null for an unrecognised stored value", () => {
+    localStorage.setItem("rider_profile", "astronaut");
+    localStorage.setItem("riding_timeline", "someday");
+    expect(getRiderProfile()).toBeNull();
+    expect(getRidingTimeline()).toBeNull();
   });
 });
