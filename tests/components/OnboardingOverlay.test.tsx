@@ -12,42 +12,39 @@ import { useUIStore } from "@/stores/uiStore";
 
 function renderOverlay(
   overrides: Partial<{
-    ctaLabel: string;
-    onComplete: () => void;
+    onComplete: (moduleId: string) => void;
     onSkip: () => void;
   }> = {},
 ) {
   const onComplete = overrides.onComplete ?? vi.fn();
   const onSkip = overrides.onSkip ?? vi.fn();
-  render(
-    <OnboardingOverlay
-      ctaLabel={overrides.ctaLabel ?? "Start Fundamentals"}
-      onComplete={onComplete}
-      onSkip={onSkip}
-    />,
-  );
+  render(<OnboardingOverlay onComplete={onComplete} onSkip={onSkip} />);
   return { onComplete, onSkip };
 }
 
-describe("OnboardingOverlay", () => {
+async function advance(user: ReturnType<typeof userEvent.setup>) {
+  // step 0 -> 1
+  await user.click(screen.getByRole("button", { name: /get started/i }));
+}
+
+describe("OnboardingOverlay wizard", () => {
   beforeEach(() => {
     track.mockReset();
     localStorage.clear();
-    useUIStore.setState({ onboardingDone: false });
+    useUIStore.setState({
+      onboardingDone: false,
+      riderProfile: null,
+      ridingTimeline: null,
+    });
   });
 
-  it("is a single screen with no Next step", () => {
+  it("opens on the intro step with no choice pills yet", () => {
     renderOverlay();
-    expect(
-      screen.queryByRole("button", { name: /^next$/i }),
-    ).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /start fundamentals/i }))
-      .toBeInTheDocument();
-  });
-
-  it("mentions that no account is needed", () => {
-    renderOverlay();
+    expect(screen.getByText(/welcome to cycledutch/i)).toBeInTheDocument();
     expect(screen.getByText(/no account needed/i)).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /just moved here/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("tracks onboarding_started on mount", () => {
@@ -57,30 +54,88 @@ describe("OnboardingOverlay", () => {
 
   it("moves focus into the dialog on open", () => {
     renderOverlay();
-    const dialog = screen.getByRole("dialog");
-    expect(dialog.contains(document.activeElement)).toBe(true);
+    expect(screen.getByRole("dialog").contains(document.activeElement)).toBe(
+      true,
+    );
   });
 
-  it("completes: marks done, tracks, and calls onComplete", async () => {
+  it("defaults the situation pill to Just moved here", async () => {
+    const user = userEvent.setup();
+    renderOverlay();
+    await advance(user);
+    expect(
+      screen.getByRole("button", { name: /just moved here/i }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("completes with defaults: fundamentals + this_month", async () => {
     const user = userEvent.setup();
     const { onComplete } = renderOverlay();
+    await advance(user); // -> situation
+    await user.click(screen.getByRole("button", { name: /continue/i })); // -> timeline
+    await user.click(screen.getByRole("button", { name: /continue/i })); // -> plan
     await user.click(
-      screen.getByRole("button", { name: /start fundamentals/i }),
+      screen.getByRole("button", { name: /start with fundamentals/i }),
     );
+    expect(track).toHaveBeenCalledWith("onboarding_profile_selected", {
+      profile: "just_moved",
+      timeline: "this_month",
+    });
     expect(track).toHaveBeenCalledWith("onboarding_completed", {});
+    expect(onComplete).toHaveBeenCalledWith("fundamentals");
     expect(useUIStore.getState().onboardingDone).toBe(true);
-    expect(localStorage.getItem("onboarding_done")).toBe("true");
-    expect(onComplete).toHaveBeenCalled();
+    expect(localStorage.getItem("rider_profile")).toBe("just_moved");
   });
 
-  it("skips via the Skip button: marks done and calls onSkip", async () => {
+  it("routes a commuter riding this week to Priority Rules", async () => {
+    const user = userEvent.setup();
+    const { onComplete } = renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /commute daily/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(screen.getByRole("button", { name: /this week/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(
+      screen.getByRole("button", { name: /start with priority rules/i }),
+    );
+    expect(onComplete).toHaveBeenCalledWith("priority");
+    expect(track).toHaveBeenCalledWith("onboarding_profile_selected", {
+      profile: "commuter",
+      timeline: "this_week",
+    });
+  });
+
+  it("Back preserves the situation selection", async () => {
+    const user = userEvent.setup();
+    renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /commute daily/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i })); // timeline
+    await user.click(screen.getByRole("button", { name: /back/i })); // situation
+    expect(
+      screen.getByRole("button", { name: /commute daily/i }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("Skip on the situation step records step 1", async () => {
     const user = userEvent.setup();
     const { onSkip, onComplete } = renderOverlay();
-    await user.click(screen.getByRole("button", { name: /skip/i }));
-    expect(track).toHaveBeenCalledWith("onboarding_skipped", {});
-    expect(useUIStore.getState().onboardingDone).toBe(true);
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /^skip$/i }));
+    expect(track).toHaveBeenCalledWith("onboarding_skipped", { step: 1 });
     expect(onSkip).toHaveBeenCalled();
     expect(onComplete).not.toHaveBeenCalled();
+  });
+
+  it("skipping on the final step records step 3", async () => {
+    const user = userEvent.setup();
+    const { onSkip } = renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(screen.getByRole("button", { name: /^skip$/i }));
+    expect(track).toHaveBeenCalledWith("onboarding_skipped", { step: 3 });
+    expect(onSkip).toHaveBeenCalled();
   });
 
   it("skips via Escape", async () => {
@@ -95,7 +150,6 @@ describe("OnboardingOverlay", () => {
     const user = userEvent.setup();
     renderOverlay();
     const dialog = screen.getByRole("dialog");
-    // Tab through every focusable element; focus must stay in the dialog
     for (let i = 0; i < 5; i++) {
       await user.tab();
       expect(dialog.contains(document.activeElement)).toBe(true);
