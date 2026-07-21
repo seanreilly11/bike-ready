@@ -3491,6 +3491,56 @@
     "status": "active"
   },
   {
+    "id": "signs_021",
+    "module": "signs",
+    "skill": "Signs",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "You are about to cross a cycle path. This sub-sign is fixed below the sign at the junction. What is it telling you?",
+    "sign": "both_directions",
+    "options": [
+      {
+        "id": "a",
+        "label": "Cyclists and mopeds may travel in both directions on this path"
+      },
+      { "id": "b", "label": "Cyclists use one lane, mopeds the other" },
+      { "id": "c", "label": "The path is closed to mopeds coming toward you" },
+      {
+        "id": "d",
+        "label": "Cyclists and mopeds must give way to you from both sides"
+      }
+    ],
+    "correct": "a",
+    "feedback": {
+      "body": "The two arrows point opposite ways - the path carries cyclists and mopeds in both directions. It is not one-way. Look both ways before crossing or joining, because traffic legitimately comes from the side you are not expecting.",
+      "rule": "Opposing arrows on a sub-sign mark two-way cycle and moped traffic (fietsers/bromfietsers in twee richtingen).",
+      "tip": "Two arrows, two directions. Look both ways."
+    },
+    "status": "active"
+  },
+  {
+    "id": "signs_022",
+    "module": "signs",
+    "skill": "Dutch Words",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "prompt": "You approach a junction and see this blue board. What is it warning you about?",
+    "sign": "let_op",
+    "options": [
+      { "id": "a", "label": "Let other traffic go first - you must give way" },
+      { "id": "b", "label": "Stop and wait here" },
+      { "id": "c", "label": "Watch out - a hazard ahead" },
+      { "id": "d", "label": "Slow down - lower speed limit ahead" }
+    ],
+    "correct": "c",
+    "feedback": {
+      "body": "'Let op' is Dutch for 'watch out' or 'pay attention'. Boards like this are municipal warnings, not RVV traffic signs - they flag a danger but create no rule of their own. Here the arrow and exclamation mark warn about turning right across the crossing.",
+      "rule": "Let op = pay attention. A warning board flags a hazard; the normal traffic rules still decide who yields.",
+      "tip": "Let op = look out, not 'let them go'."
+    },
+    "status": "active"
+  },
+  {
     "id": "legal_015",
     "module": "legal",
     "skill": "Legal",
