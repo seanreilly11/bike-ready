@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
+import { Bike } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
@@ -229,11 +230,13 @@ export default function LearnIndexPage() {
       </Suspense>
       {/* Upgrade success toast */}
       {showUpgradeToast && (
-        <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
-          <span>🚲</span>
-          <span className="text-sm font-display font-medium">
-            Welcome to CycleDutch Premium
-          </span>
+        <div className="bg-green-light border-b border-green text-green-dark animate-fade-up">
+          <div className="max-w-5xl mx-auto px-5 py-3 flex items-center gap-2">
+            <Bike size={16} aria-hidden="true" />
+            <span className="text-sm font-display font-medium">
+              Welcome to CycleDutch Premium
+            </span>
+          </div>
         </div>
       )}
 
