@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           CycleDutch is operated by Sean Reilly, a sole proprietorship
           (eenmanszaak) registered in the Netherlands with KvK number 42110285.
           Our registered address is [YOUR ADDRESS]. You can contact us at
-          seanreilly123@hotmail.com.
+          dovedaledev@gmail.com.
         </p>
       </section>
 
@@ -245,10 +245,10 @@ export default function PrivacyPage() {
           There is currently no in-app way to delete your account. To have your
           account and all associated data deleted, email{" "}
           <a
-            href="mailto:seanreilly123@hotmail.com"
+            href="mailto:dovedaledev@gmail.com"
             className="text-orange hover:underline"
           >
-            seanreilly123@hotmail.com
+            dovedaledev@gmail.com
           </a>{" "}
           from the email address linked to your account. We will delete your
           account, progress, and badges within 30 days and confirm by reply.
@@ -304,10 +304,10 @@ export default function PrivacyPage() {
           ))}
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed">
-          To exercise any of these rights, email us at
-          seanreilly123@hotmail.com. We will respond within 30 days. You also
-          have the right to lodge a complaint with the Dutch Data Protection
-          Authority (Autoriteit Persoonsgegevens) at{" "}
+          To exercise any of these rights, email us at dovedaledev@gmail.com. We
+          will respond within 30 days. You also have the right to lodge a
+          complaint with the Dutch Data Protection Authority (Autoriteit
+          Persoonsgegevens) at{" "}
           <a
             href="https://autoriteitpersoonsgegevens.nl"
             className="text-orange hover:underline"

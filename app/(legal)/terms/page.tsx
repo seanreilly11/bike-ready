@@ -101,9 +101,9 @@ export default function TermsPage() {
         </p>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
           If you have not accessed any premium content, you may request a full
-          refund within 14 days of purchase by emailing
-          seanreilly123@hotmail.com with your purchase confirmation. Refunds are
-          processed within 10 business days.
+          refund within 14 days of purchase by emailing dovedaledev@gmail.com
+          with your purchase confirmation. Refunds are processed within 10
+          business days.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           If you have accessed premium content and believe there is a genuine
@@ -200,7 +200,7 @@ export default function TermsPage() {
           Contact
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          Questions about these terms: seanreilly123@hotmail.com
+          Questions about these terms: dovedaledev@gmail.com
         </p>
       </section>
     </>

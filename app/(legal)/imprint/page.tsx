@@ -60,7 +60,7 @@ export default function ImprintPage() {
         </h2>
         <dl className="space-y-1.5">
           {[
-            { term: "Email", detail: "seanreilly123@hotmail.com" },
+            { term: "Email", detail: "dovedaledev@gmail.com" },
             {
               term: "Response time",
               detail: "Within 5 business days",
