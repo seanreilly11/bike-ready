@@ -1004,7 +1004,7 @@ Expected: all green (lint may show the one pre-existing `react-hooks/exhaustive-
 
 - [ ] **Step 2: Manual smoke (optional, if a dev server is run)**
 
-`npm run dev`, then in a fresh browser profile (or clear localStorage): the landing "Start learning" CTA opens the 4-step wizard; defaults let you click straight through to Fundamentals; picking "Commute daily" changes the final CTA to "Start with Priority Rules" and lands there; the final step's skip reads "No thanks, I'll wing it"; reloading `/learn` does not show the wizard again; `localStorage.rider_profile` / `riding_timeline` are set.
+`npm run dev`, then in a fresh browser profile (or clear localStorage): the landing "Start learning" CTA opens the 4-step wizard; defaults let you click straight through to Fundamentals; picking "Commute daily" changes the final CTA to "Start with Priority Rules" and lands there; every step's skip control reads a plain "Skip"; reloading `/learn` does not show the wizard again; `localStorage.rider_profile` / `riding_timeline` are set.
 
 - [ ] **Step 3: Report the verification output.**
 
