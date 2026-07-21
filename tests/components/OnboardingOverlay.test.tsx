@@ -9,10 +9,11 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import OnboardingOverlay from "@/components/layout/OnboardingOverlay";
 import { useUIStore } from "@/stores/uiStore";
+import type { ModuleId } from "@/types";
 
 function renderOverlay(
   overrides: Partial<{
-    onComplete: (moduleId: string) => void;
+    onComplete: (moduleId: ModuleId) => void;
     onSkip: () => void;
   }> = {},
 ) {
@@ -154,5 +155,38 @@ describe("OnboardingOverlay wizard", () => {
       await user.tab();
       expect(dialog.contains(document.activeElement)).toBe(true);
     }
+  });
+
+  it("renders the personalized plan line for the chosen answers", async () => {
+    const user = userEvent.setup();
+    renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /commute daily/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(screen.getByRole("button", { name: /this week/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    expect(
+      screen.getByText(
+        /right-of-way is where most near-misses happen[\s\S]*you ride this week/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the all-free line for an always-free target module", async () => {
+    const user = userEvent.setup();
+    renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+    expect(screen.getByText(/the essentials, all free/i)).toBeInTheDocument();
+  });
+
+  it("Escape records the step the user was on", async () => {
+    const user = userEvent.setup();
+    renderOverlay();
+    await advance(user);
+    await user.click(screen.getByRole("button", { name: /continue/i })); // step 2
+    await user.keyboard("{Escape}");
+    expect(track).toHaveBeenCalledWith("onboarding_skipped", { step: 2 });
   });
 });

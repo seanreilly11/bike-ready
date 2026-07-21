@@ -1,11 +1,9 @@
-const { push, getPathname } = vi.hoisted(() => ({
+const { push } = vi.hoisted(() => ({
   push: vi.fn(),
-  getPathname: vi.fn(() => "/learn"),
 }));
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push, replace: vi.fn() }),
-  usePathname: () => getPathname(),
 }));
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -26,7 +24,6 @@ async function completeWizard(user: ReturnType<typeof userEvent.setup>) {
 describe("OnboardingGate", () => {
   beforeEach(() => {
     push.mockReset();
-    getPathname.mockReturnValue("/learn");
     localStorage.clear();
     useUIStore.setState({
       onboardingDone: false,
@@ -47,14 +44,6 @@ describe("OnboardingGate", () => {
   });
 
   it("deep-links to the mapped module on complete (default -> fundamentals)", async () => {
-    const user = userEvent.setup();
-    render(<OnboardingGate />);
-    await completeWizard(user);
-    expect(push).toHaveBeenCalledWith("/learn/fundamentals");
-  });
-
-  it("navigates to the mapped module even when opened inside another module", async () => {
-    getPathname.mockReturnValue("/learn/legal");
     const user = userEvent.setup();
     render(<OnboardingGate />);
     await completeWizard(user);

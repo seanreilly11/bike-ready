@@ -56,13 +56,22 @@ export default function OnboardingOverlay({
 
   const { dialogRef, trapFocus } = useModalFocus(() => finish(true));
 
+  // Refocus the dialog whenever the step changes. The Back control unmounts on
+  // the way back to step 0, which would drop focus to <body> and bypass the
+  // trap; refocusing also makes screen readers announce the new step's heading
+  // via aria-labelledby.
+  useEffect(() => {
+    dialogRef.current?.focus();
+  }, [step, dialogRef]);
+
   const targetModule = modules.find((m) => m.id === moduleForProfile(profile));
   const isLastStep = step === TOTAL_STEPS - 1;
 
   const pillClass = (selected: boolean) =>
     [
       "w-full text-left rounded-xl border px-4 py-3 text-sm font-display transition-colors",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange",
+      "min-h-[44px] cursor-pointer",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
       selected
         ? "border-orange bg-orange-light text-stone-900 font-bold"
         : "border-stone-200 text-stone-700 hover:border-stone-400",
@@ -126,7 +135,11 @@ export default function OnboardingOverlay({
             >
               What brings you to Dutch cycling?
             </h2>
-            <div className="flex flex-col gap-2">
+            <div
+              role="group"
+              aria-labelledby="onboarding-title"
+              className="flex flex-col gap-2"
+            >
               {RIDER_PROFILES.map((p) => (
                 <button
                   key={p.id}
@@ -149,7 +162,11 @@ export default function OnboardingOverlay({
             >
               When do you start riding?
             </h2>
-            <div className="flex flex-col gap-2">
+            <div
+              role="group"
+              aria-labelledby="onboarding-title"
+              className="flex flex-col gap-2"
+            >
               {RIDING_TIMELINES.map((t) => (
                 <button
                   key={t.id}

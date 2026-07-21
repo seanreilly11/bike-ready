@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { isOnboardingDone, markOnboardingDone } from "@/lib/onboarding";
 import {
+  isOnboardingDone,
+  markOnboardingDone,
   getRiderProfile,
   setRiderProfile,
   getRidingTimeline,

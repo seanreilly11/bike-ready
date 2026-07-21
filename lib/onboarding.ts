@@ -4,6 +4,7 @@
 // nor nag on every visit, so a failed read counts as done.
 
 import type { RiderProfile, RidingTimeline } from "@/types";
+import { RIDER_PROFILES, RIDING_TIMELINES } from "@/data/onboardingProfiles";
 
 const ONBOARDING_KEY = "onboarding_done";
 
@@ -27,16 +28,14 @@ export function markOnboardingDone(): void {
 const RIDER_PROFILE_KEY = "rider_profile";
 const RIDING_TIMELINE_KEY = "riding_timeline";
 
-const RIDER_PROFILE_VALUES: Set<string> = new Set([
-  "just_moved",
-  "commuter",
-  "occasional",
-]);
-const RIDING_TIMELINE_VALUES: Set<string> = new Set([
-  "this_week",
-  "this_month",
-  "exploring",
-]);
+// Derived from the data module so adding a profile can't silently fail
+// validation here.
+const RIDER_PROFILE_VALUES: Set<string> = new Set(
+  RIDER_PROFILES.map((p) => p.id),
+);
+const RIDING_TIMELINE_VALUES: Set<string> = new Set(
+  RIDING_TIMELINES.map((t) => t.id),
+);
 
 export function getRiderProfile(): RiderProfile | null {
   if (typeof window === "undefined") return null;

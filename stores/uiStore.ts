@@ -12,6 +12,10 @@ interface UIState {
   newBadgeId: string | null
   showUpgradeToast: boolean
   onboardingDone: boolean
+  // Session-only mirrors of the onboarding choices. Nothing rehydrates these
+  // on load - for a durable read (e.g. a returning user) use getRiderProfile /
+  // getRidingTimeline from lib/onboarding, the same way the gate reads
+  // isOnboardingDone.
   riderProfile: RiderProfile | null
   ridingTimeline: RidingTimeline | null
   showReturnBanner: boolean
