@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { APP_PRICE } from "@/data/constants";
+import { FREE_PER_MODULE } from "@/types";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -58,8 +59,8 @@ export default function TermsPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           The Fundamentals module is available free of charge without an
           account. Free users may also access a limited preview of each paid
-          module (currently 2 questions per module). No payment or account is
-          required to access free content.
+          module (currently {FREE_PER_MODULE} questions per module). No payment
+          or account is required to access free content.
         </p>
       </section>
 
