@@ -5,6 +5,8 @@ import Card from "@/components/ui/Card";
 import PageBanner from "@/components/layout/PageBanner";
 import SignCard from "@/components/guide/SignCard";
 import RuleCard from "@/components/guide/RuleCard";
+import SignThumb from "@/components/guide/SignThumb";
+import { SIGN_IMAGES } from "@/data/signImages";
 
 interface SignsContentProps {
   designSystem: SignsDesignSystem;
@@ -81,19 +83,8 @@ export default function SignsContent({
           <h2 className="font-display font-bold text-stone-900 text-lg mb-4">
             How to read any sign
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            {shapeRules.map((rule, i) => (
-              <div
-                key={rule.id}
-                className="animate-fade-up h-full"
-                style={{ animationDelay: `${i * 50}ms` }}
-              >
-                <RuleCard rule={rule} />
-              </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            {colourRules.map((rule, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+            {[...shapeRules, ...colourRules].map((rule, i) => (
               <div
                 key={rule.id}
                 className="animate-fade-up h-full"
@@ -145,6 +136,45 @@ export default function SignsContent({
           <h2 className="font-display font-bold text-stone-900 text-lg mb-2">
             The end-of pattern
           </h2>
+          <Card className="mb-3">
+            <div className="flex items-center justify-center gap-4 sm:gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <SignThumb
+                  image={SIGN_IMAGES.priority_road}
+                  alt="Priority road sign (B1)"
+                  size="lg"
+                />
+                <p className="font-display font-medium text-xs text-stone-900 text-center">
+                  Priority road
+                </p>
+              </div>
+              <svg
+                viewBox="0 0 24 24"
+                className="w-6 h-6 flex-shrink-0 text-stone-400"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d="M4 12h15m0 0l-5-5m5 5l-5 5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="flex flex-col items-center gap-2">
+                <SignThumb
+                  image={SIGN_IMAGES.priority_end}
+                  alt="End of priority road sign (B2)"
+                  size="lg"
+                />
+                <p className="font-display font-medium text-xs text-stone-900 text-center">
+                  End of priority road
+                </p>
+              </div>
+            </div>
+          </Card>
           <div className="flex flex-col gap-3">
             {sashRules.map((rule, i) => (
               <div
@@ -191,9 +221,16 @@ export default function SignsContent({
               Sub-signs
             </h2>
             <Card>
-              <p className="text-sm text-stone-600 leading-relaxed">
-                {subSignRule.body}
-              </p>
+              <div className="flex items-start gap-4">
+                <SignThumb
+                  image={SIGN_IMAGES.uitgezonderd_entry}
+                  alt="No entry sign (C2) with an 'uitgezonderd fietsers' sub-sign mounted below it"
+                  size="lg"
+                />
+                <p className="text-sm text-stone-600 leading-relaxed">
+                  {subSignRule.body}
+                </p>
+              </div>
             </Card>
           </section>
         )}
@@ -276,15 +313,29 @@ export default function SignsContent({
                 Mandatory vs optional - the key distinction
               </h3>
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white rounded-lg px-3 py-3 text-center">
-                  <p className="font-mono text-xs text-stone-400 mb-1">G11</p>
+                <div className="bg-white rounded-lg px-3 py-3 text-center flex flex-col items-center justify-center">
+                  <SignThumb
+                    image={SIGN_IMAGES.mandatory_cycle}
+                    alt="Mandatory cycle path sign (G11)"
+                    size="md"
+                  />
+                  <p className="font-mono text-xs text-stone-400 mb-1 mt-2">
+                    G11
+                  </p>
                   <p className="font-display font-bold text-sm text-stone-900 mb-0.5">
                     Round blue sign
                   </p>
                   <p className="text-xs text-orange font-medium">Must use</p>
                 </div>
-                <div className="bg-white rounded-lg px-3 py-3 text-center">
-                  <p className="font-mono text-xs text-stone-400 mb-1">G13</p>
+                <div className="bg-white rounded-lg px-3 py-3 text-center flex flex-col items-center justify-center">
+                  <SignThumb
+                    component="fietspad_optional"
+                    alt="Optional cycle path sign (G13)"
+                    size="md"
+                  />
+                  <p className="font-mono text-xs text-stone-400 mb-1 mt-2">
+                    G13
+                  </p>
                   <p className="font-display font-bold text-sm text-stone-900 mb-0.5">
                     White rectangle
                   </p>
