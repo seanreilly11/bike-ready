@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
-    "stripe:webhook": "node scripts/stripe-webhook-test.mjs"
+    "paddle:webhook": "node scripts/paddle-webhook-replay.mjs"
   },
   "dependencies": {
     "@paddle/paddle-js": "^1.6.4",
