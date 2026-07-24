@@ -7,12 +7,12 @@
 -- ---------------------------------------------------------------------------
 
 create table if not exists profiles (
-  id                  uuid        primary key references auth.users(id) on delete cascade,
-  is_premium          boolean     not null default false,
-  premium_since       timestamptz,
-  stripe_customer_id  text,
-  stripe_payment_id   text,
-  created_at          timestamptz not null default now()
+  id                      uuid        primary key references auth.users(id) on delete cascade,
+  is_premium              boolean     not null default false,
+  premium_since           timestamptz,
+  provider_customer_id    text,
+  provider_transaction_id text,
+  created_at              timestamptz not null default now()
 );
 
 alter table profiles enable row level security;
@@ -21,8 +21,8 @@ create policy "Users can read their own profile"
   on profiles for select
   using (auth.uid() = id);
 
--- No user-facing update policy: is_premium / stripe_* are written only by
--- the service-role client (Stripe webhook + premium verify). A client-side
+-- No user-facing update policy: is_premium / provider_* are written only by
+-- the service-role client (Paddle webhook + premium verify). A client-side
 -- update policy would let users set is_premium themselves.
 
 -- Auto-create profile on user sign-up
