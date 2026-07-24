@@ -5,19 +5,26 @@ import { validateEnv } from "./lib/validateEnv";
 validateEnv();
 
 // Allowed remote origins: Supabase (REST + realtime), PostHog (EU + US
-// clouds, incl. lazily-loaded recorder script), Sentry ingest, Google Fonts.
-// Next.js inline bootstrap scripts require 'unsafe-inline' without nonces.
-// Dev (Turbopack) needs 'unsafe-eval' for source maps and React's debug
-// features; production keeps a strict script-src - React never uses eval there.
+// clouds, incl. lazily-loaded recorder script), Sentry ingest, Google Fonts,
+// Paddle (checkout overlay). Next.js inline bootstrap scripts require
+// 'unsafe-inline' without nonces. Dev (Turbopack) needs 'unsafe-eval' for
+// source maps and React's debug features; production keeps a strict script-src
+// - React never uses eval there.
+//
+// Paddle: Paddle.js loads from cdn.paddle.com and the overlay checkout renders
+// in an iframe from *.paddle.com (buy./sandbox-buy.) with API calls to
+// *.paddle.com. frame-src must be set explicitly or the iframe falls back to
+// default-src 'self' and is blocked. See developer.paddle.com/paddle-js.
 const isDev = process.env.NODE_ENV !== "production";
 
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.i.posthog.com https://*.posthog.com`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: blob:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.i.posthog.com https://*.posthog.com https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.i.posthog.com https://*.posthog.com https://*.paddle.com`,
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.paddle.com",
+  "font-src 'self' https://fonts.gstatic.com https://*.paddle.com",
+  "img-src 'self' data: blob: https://*.paddle.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.i.posthog.com https://*.posthog.com https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io https://*.paddle.com",
+  "frame-src 'self' https://*.paddle.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",

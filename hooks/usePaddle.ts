@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import { initializePaddle, type Paddle } from "@paddle/paddle-js";
 
-// Initializes Paddle.js once with the sandbox/production client token. The
-// environment and token are read from NEXT_PUBLIC_* vars — never the server key.
-export function usePaddle(): Paddle | undefined {
-  const [paddle, setPaddle] = useState<Paddle>();
+// Module-level singleton so every usePaddle() consumer shares ONE
+// initializePaddle call. Both the overlay hook (useUnlock) and the post-auth
+// auto-open effect use it; without this they would each load Paddle.js.
+// The environment and token are read from NEXT_PUBLIC_* vars — never the
+// server key.
+let paddlePromise: Promise<Paddle | undefined> | null = null;
 
-  useEffect(() => {
+function loadPaddle(): Promise<Paddle | undefined> {
+  if (!paddlePromise) {
     const environment = process.env.NEXT_PUBLIC_PADDLE_ENV as
       | "sandbox"
       | "production"
@@ -16,10 +19,19 @@ export function usePaddle(): Paddle | undefined {
 
     if (!environment || !token) {
       console.error("Paddle client env vars missing");
-      return;
+      return Promise.resolve(undefined);
     }
 
-    initializePaddle({ environment, token }).then(setPaddle);
+    paddlePromise = initializePaddle({ environment, token });
+  }
+  return paddlePromise;
+}
+
+export function usePaddle(): Paddle | undefined {
+  const [paddle, setPaddle] = useState<Paddle>();
+
+  useEffect(() => {
+    loadPaddle().then(setPaddle);
   }, []);
 
   return paddle;

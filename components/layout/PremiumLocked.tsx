@@ -1,8 +1,10 @@
+"use client";
+
 import { Lock } from "lucide-react";
 import AppShell from "./AppShell";
 import Button from "../ui/Button";
-import { useRouter } from "next/navigation";
 import { APP_PRICE } from "@/data/constants";
+import { useUnlock } from "@/hooks/useUnlock";
 
 type Props = {
   title: string;
@@ -10,7 +12,7 @@ type Props = {
 };
 
 const PremiumLocked = ({ title, body }: Props) => {
-  const router = useRouter();
+  const unlock = useUnlock();
 
   return (
     <AppShell wrongCount={0}>
@@ -21,7 +23,7 @@ const PremiumLocked = ({ title, body }: Props) => {
             {title}
           </h1>
           <p className="text-stone-600 text-sm mb-6">{body}</p>
-          <Button size="lg" onClick={() => router.push("/api/checkout")}>
+          <Button size="lg" onClick={() => unlock()}>
             Unlock for {APP_PRICE}
           </Button>
         </div>

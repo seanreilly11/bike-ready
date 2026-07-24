@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { Bike } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,6 +11,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUnlock } from "@/hooks/useUnlock";
+import { usePaddle } from "@/hooks/usePaddle";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
@@ -166,12 +167,11 @@ function UpgradeHandler() {
 
   useEffect(() => {
     if (searchParams.get("upgraded") === "true") {
-      const sessionId = searchParams.get("session_id") ?? undefined;
       setUpgradeToast(true);
       router.replace("/learn");
-      // Reconcile against Stripe directly - the webhook may not have landed
-      // yet when the user is redirected back from checkout.
-      verifyPremium(sessionId);
+      // Reconcile against Paddle directly - the webhook may not have landed
+      // yet when the overlay redirects back.
+      verifyPremium();
       track("gate_converted", {});
       const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);
@@ -198,6 +198,29 @@ function UpgradeHandler() {
       </button>
     </div>
   );
+}
+
+// After a magic-link sign-in with upgrade intent, auth/callback lands the user
+// on /learn?checkout=1. Open the Paddle overlay once - but only after Paddle.js
+// has finished initializing, or useUnlock would fail with "not ready". Gating on
+// the shared (memoized) usePaddle instance avoids that race; useRef guards
+// against a double open.
+function PostAuthCheckout() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const paddle = usePaddle();
+  const unlock = useUnlock();
+  const fired = useRef(false);
+
+  useEffect(() => {
+    if (searchParams.get("checkout") === "1" && paddle && !fired.current) {
+      fired.current = true;
+      router.replace("/learn");
+      unlock();
+    }
+  }, [searchParams, router, unlock, paddle]);
+
+  return null;
 }
 
 export default function LearnIndexPage() {
@@ -227,6 +250,7 @@ export default function LearnIndexPage() {
     <AppShell wrongCount={progress.getReviewQueue().length}>
       <Suspense>
         <UpgradeHandler />
+        <PostAuthCheckout />
       </Suspense>
       {/* Upgrade success toast */}
       {showUpgradeToast && (
