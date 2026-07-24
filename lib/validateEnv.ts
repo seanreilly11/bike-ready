@@ -23,9 +23,12 @@ const requiredInProduction = [
 // Required only when the premium feature flag is on in production: checkout
 // and the webhook crash at runtime without them, so fail the build instead.
 const requiredForPremium = [
-  "STRIPE_SECRET_KEY",
-  "STRIPE_WEBHOOK_SECRET",
-  "NEXT_PUBLIC_STRIPE_PRICE_ID",
+  "PADDLE_ENV",
+  "PADDLE_API_KEY",
+  "PADDLE_WEBHOOK_SECRET",
+  "NEXT_PUBLIC_PADDLE_PRICE_ID",
+  "NEXT_PUBLIC_PADDLE_ENV",
+  "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN",
 ] as const;
 
 export function validateEnv() {
