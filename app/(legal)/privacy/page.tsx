@@ -60,17 +60,17 @@ export default function PrivacyPage() {
         </h3>
         <p className="text-sm text-stone-600 leading-relaxed mb-5">
           If you purchase CycleDutch Premium, your payment is processed by
-          Stripe. We do not store your card number, bank details, or any full
-          payment information. Stripe shares with us only: confirmation that
-          payment was successful, the Stripe customer ID, and the payment intent
-          ID. See Stripe&apos;s privacy policy at{" "}
+          Paddle, our Merchant of Record. We do not store your card number, bank
+          details, or any full payment information. Paddle shares with us only:
+          confirmation that payment was successful, the Paddle customer ID, and
+          the transaction ID. See Paddle&apos;s privacy policy at{" "}
           <a
-            href="https://stripe.com/privacy"
+            href="https://www.paddle.com/legal/privacy"
             className="text-orange hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            stripe.com/privacy
+            paddle.com/legal/privacy
           </a>
           .
         </p>
@@ -179,11 +179,11 @@ export default function PrivacyPage() {
                 "Authentication and database hosting. Data is stored in the EU. Supabase processes your email address and progress data on our behalf.",
             },
             {
-              name: "Stripe",
-              href: "https://stripe.com",
-              label: "stripe.com",
+              name: "Paddle",
+              href: "https://www.paddle.com",
+              label: "paddle.com",
               detail:
-                "Payment processing. Stripe is an independent data controller for payment data. See Stripe’s privacy policy.",
+                "Payment processing as our Merchant of Record. Paddle is an independent data controller for payment and tax data. See Paddle’s privacy policy.",
             },
             {
               name: "PostHog",
@@ -230,7 +230,7 @@ export default function PrivacyPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           We retain your account and progress data for as long as your account
           is active. If you request account deletion, we will delete your email
-          address and progress data within 30 days. Payment records (Stripe
+          address and progress data within 30 days. Payment records (Paddle
           customer ID and payment confirmation) are retained for 7 years for
           legal and tax purposes.
         </p>

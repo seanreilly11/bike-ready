@@ -73,7 +73,8 @@ export default function TermsPage() {
           CycleDutch Premium unlocks the full course for a one-time payment of{" "}
           {APP_PRICE} (inclusive of any applicable taxes). Premium access is
           tied to your account (email address) and does not expire. Payment is
-          processed by Stripe. We accept major credit and debit cards.
+          processed by Paddle, our Merchant of Record. We accept major credit
+          and debit cards.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           By completing a purchase you confirm that you are at least 18 years

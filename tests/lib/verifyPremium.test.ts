@@ -19,7 +19,8 @@ describe("verifyPremium", () => {
     vi.stubGlobal("fetch", fetchMock);
     expect(await verifyPremium()).toBe(true);
     expect(useAppStore.getState().isPremium).toBe(true);
-    // Reconcile is a plain GET with no query string (no Stripe session_id).
+    // Reconcile is a plain GET with no query string - Paddle verify resolves
+    // the customer server-side, so there is no session id to forward.
     expect(fetchMock).toHaveBeenCalledWith("/api/premium/verify");
   });
 
