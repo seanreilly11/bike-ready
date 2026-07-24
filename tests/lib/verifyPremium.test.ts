@@ -15,12 +15,12 @@ describe("verifyPremium", () => {
   });
 
   it("sets premium in the store when the server confirms it", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () => Response.json({ is_premium: true })),
-    );
+    const fetchMock = vi.fn(async () => Response.json({ is_premium: true }));
+    vi.stubGlobal("fetch", fetchMock);
     expect(await verifyPremium()).toBe(true);
     expect(useAppStore.getState().isPremium).toBe(true);
+    // Reconcile is a plain GET with no query string (no Stripe session_id).
+    expect(fetchMock).toHaveBeenCalledWith("/api/premium/verify");
   });
 
   it("leaves the store alone when not premium", async () => {
