@@ -1,177 +1,89 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { NextRequest } from "next/server";
 
-const {
-  getUser,
-  single,
-  updateEq,
-  paymentIntentsList,
-  sessionRetrieve,
-  isRateLimited,
-  captureServerEvent,
-} = vi.hoisted(() => ({
-  getUser: vi.fn(),
-  single: vi.fn(),
-  updateEq: vi.fn(),
-  paymentIntentsList: vi.fn(),
-  sessionRetrieve: vi.fn(),
-  isRateLimited: vi.fn(),
-  captureServerEvent: vi.fn(),
-}));
-
-vi.mock("stripe", () => ({
-  default: class {
-    paymentIntents = { list: paymentIntentsList };
-    checkout = { sessions: { retrieve: sessionRetrieve } };
-  },
-}));
+const { getUser, isRateLimited, isUserPremium, getProviderCustomerId, grant, transactionsList, captureServerEvent } =
+  vi.hoisted(() => ({
+    getUser: vi.fn(),
+    isRateLimited: vi.fn(),
+    isUserPremium: vi.fn(),
+    getProviderCustomerId: vi.fn(),
+    grant: vi.fn(),
+    transactionsList: vi.fn(),
+    captureServerEvent: vi.fn(),
+  }));
 
 vi.mock("@/lib/supabase/server", () => ({
-  createClient: vi.fn(async () => ({ auth: { getUser } })),
+  createClient: async () => ({ auth: { getUser } }),
 }));
-
-vi.mock("@/lib/supabase/admin", () => ({
-  supabaseAdmin: {
-    from: vi.fn(() => ({
-      select: vi.fn(() => ({ eq: vi.fn(() => ({ single })) })),
-      update: vi.fn(() => ({ eq: updateEq })),
-    })),
-  },
-}));
-
 vi.mock("@/lib/cooldown", () => ({ isRateLimited }));
+vi.mock("@/lib/paddle/data", () => ({
+  isUserPremium,
+  getProviderCustomerId,
+  grantPremiumByProviderCustomerId: grant,
+}));
+vi.mock("@/lib/paddle/paddle", () => ({
+  getPaddle: () => ({ transactions: { list: transactionsList } }),
+}));
 vi.mock("@/lib/posthogServer", () => ({ captureServerEvent }));
 
 import { GET } from "@/app/api/premium/verify/route";
+import type { NextRequest } from "next/server";
 
-const req = (qs = "") =>
-  new NextRequest(`http://localhost:3000/api/premium/verify${qs}`);
-
-async function body(res: Response) {
-  return (await res.json()) as { is_premium?: boolean; error?: string };
+function req(): NextRequest {
+  return { nextUrl: { searchParams: new URLSearchParams() } } as unknown as NextRequest;
+}
+function asyncIterableOf<T>(items: T[]) {
+  return { async *[Symbol.asyncIterator]() { for (const i of items) yield i; } };
 }
 
 describe("GET /api/premium/verify", () => {
   beforeEach(() => {
-    getUser.mockReset();
-    single.mockReset();
-    updateEq.mockReset().mockResolvedValue({ error: null });
-    paymentIntentsList.mockReset();
-    sessionRetrieve.mockReset();
+    getUser.mockReset().mockResolvedValue({ data: { user: { id: "u1" } } });
     isRateLimited.mockReset().mockReturnValue(false);
+    isUserPremium.mockReset();
+    getProviderCustomerId.mockReset();
+    grant.mockReset();
+    transactionsList.mockReset();
     captureServerEvent.mockReset();
   });
 
-  it("returns 401 when not authenticated", async () => {
+  it("returns 401 when unauthenticated", async () => {
     getUser.mockResolvedValue({ data: { user: null } });
     const res = await GET(req());
     expect(res.status).toBe(401);
   });
 
-  it("returns 429 when rate limited", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    isRateLimited.mockReturnValue(true);
+  it("short-circuits true when already premium", async () => {
+    isUserPremium.mockResolvedValue(true);
     const res = await GET(req());
-    expect(res.status).toBe(429);
+    expect(await res.json()).toEqual({ is_premium: true });
+    expect(transactionsList).not.toHaveBeenCalled();
   });
 
-  it("short-circuits to premium when the profile is already premium", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({ data: { is_premium: true } });
+  it("returns false when there is no Paddle customer mapping", async () => {
+    isUserPremium.mockResolvedValue(false);
+    getProviderCustomerId.mockResolvedValue(null);
     const res = await GET(req());
-    expect(await body(res)).toEqual({ is_premium: true });
-    expect(paymentIntentsList).not.toHaveBeenCalled();
+    expect(await res.json()).toEqual({ is_premium: false });
   });
 
-  it("returns false when there is no Stripe customer", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: null },
-    });
-    const res = await GET(req());
-    expect(await body(res)).toEqual({ is_premium: false });
-    expect(paymentIntentsList).not.toHaveBeenCalled();
-  });
-
-  it("grants premium when Stripe shows a succeeded payment", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: "cus_1" },
-    });
-    paymentIntentsList.mockResolvedValue({ data: [{ status: "succeeded" }] });
-    const res = await GET(req());
-    expect(await body(res)).toEqual({ is_premium: true });
-    expect(updateEq).toHaveBeenCalled();
-    // The customer-fallback path only runs after a webhook stored the customer
-    // id (which already fired the event), so it must not emit again.
-    expect(captureServerEvent).not.toHaveBeenCalled();
-  });
-
-  it("stays non-premium when no payment has succeeded", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: "cus_1" },
-    });
-    paymentIntentsList.mockResolvedValue({
-      data: [{ status: "requires_payment_method" }],
-    });
-    const res = await GET(req());
-    expect(await body(res)).toEqual({ is_premium: false });
-    expect(updateEq).not.toHaveBeenCalled();
-  });
-
-  it("grants premium from a paid session id when no customer is stored", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: null },
-    });
-    sessionRetrieve.mockResolvedValue({
-      metadata: { supabase_user_id: "u1" },
-      payment_status: "paid",
-      customer: "cus_1",
-      payment_intent: "pi_1",
-    });
-    const res = await GET(req("?session_id=cs_123"));
-    expect(await body(res)).toEqual({ is_premium: true });
-    expect(sessionRetrieve).toHaveBeenCalledWith("cs_123");
-    expect(updateEq).toHaveBeenCalled();
-    // Missed-webhook reconciliation must still record the revenue event.
-    expect(captureServerEvent).toHaveBeenCalledWith(
-      "u1",
-      "purchase_completed",
-      expect.any(Object),
+  it("grants and returns true when a completed transaction exists", async () => {
+    isUserPremium.mockResolvedValue(false);
+    getProviderCustomerId.mockResolvedValue("ctm_1");
+    transactionsList.mockReturnValue(
+      asyncIterableOf([{ id: "txn_1", currencyCode: "EUR", details: { totals: { total: "499" } } }]),
     );
+    grant.mockResolvedValue({ granted: true, userId: "u1" });
+    const res = await GET(req());
+    expect(await res.json()).toEqual({ is_premium: true });
+    expect(grant).toHaveBeenCalledWith("ctm_1", { transactionId: "txn_1" });
+    expect(captureServerEvent).toHaveBeenCalled();
   });
 
-  it("rejects a session that belongs to another user", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: null },
-    });
-    sessionRetrieve.mockResolvedValue({
-      metadata: { supabase_user_id: "someone-else" },
-      payment_status: "paid",
-      customer: "cus_1",
-      payment_intent: "pi_1",
-    });
-    const res = await GET(req("?session_id=cs_123"));
-    expect(await body(res)).toEqual({ is_premium: false });
-    expect(updateEq).not.toHaveBeenCalled();
-  });
-
-  it("rejects an unpaid session", async () => {
-    getUser.mockResolvedValue({ data: { user: { id: "u1" } } });
-    single.mockResolvedValue({
-      data: { is_premium: false, stripe_customer_id: null },
-    });
-    sessionRetrieve.mockResolvedValue({
-      metadata: { supabase_user_id: "u1" },
-      payment_status: "unpaid",
-      customer: "cus_1",
-      payment_intent: null,
-    });
-    const res = await GET(req("?session_id=cs_123"));
-    expect(await body(res)).toEqual({ is_premium: false });
-    expect(updateEq).not.toHaveBeenCalled();
+  it("returns false when the customer has no completed transaction", async () => {
+    isUserPremium.mockResolvedValue(false);
+    getProviderCustomerId.mockResolvedValue("ctm_1");
+    transactionsList.mockReturnValue(asyncIterableOf([]));
+    const res = await GET(req());
+    expect(await res.json()).toEqual({ is_premium: false });
   });
 });
