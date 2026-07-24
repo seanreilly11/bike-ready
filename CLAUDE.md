@@ -17,7 +17,7 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 - **Next.js 16** - App Router, TypeScript
 - **Tailwind CSS** - utility-first styling, no CSS modules
 - **Supabase** - Postgres + Auth (magic link) + Row Level Security
-- **Stripe** - one-time payment for premium unlock
+- **Paddle** - Merchant of Record; one-time overlay payment for premium unlock
 - **Posthog** - analytics and anonymous-to-identified user tracking
 
 ---
@@ -103,9 +103,8 @@ CycleDutch/
 │   └── api/
 │       ├── progress/route.ts     # POST answers, GET progress
 │       ├── badges/route.ts       # GET/POST badge state
-│       ├── checkout/route.ts     # Create Stripe Checkout session
-│       ├── stripe/webhook/route.ts  # Stripe webhook → grant premium
-│       ├── premium/verify/route.ts  # Reconcile premium from Stripe
+│       ├── paddle/webhook/route.ts  # Paddle webhook → grant premium
+│       ├── premium/verify/route.ts  # Reconcile premium from Paddle
 │       └── health/route.ts       # Uptime health check
 ├── components/                   # As above
 ├── data/
@@ -119,7 +118,8 @@ CycleDutch/
 │   ├── useProgress.ts            # Question progress read/write + localStorage fallback
 │   ├── useBadges.ts              # Badge state + trigger logic
 │   ├── useQuestions.ts           # Active question bank + test-set builder
-│   ├── useUnlock.ts              # Premium unlock / checkout entry point
+│   ├── useUnlock.ts              # Premium unlock / opens Paddle overlay
+│   ├── usePaddle.ts              # Paddle.js init (client overlay)
 │   ├── useABTest.ts              # A/B variant assignment
 │   └── useAnalytics.ts           # Posthog event tracking
 ├── stores/
@@ -132,7 +132,8 @@ CycleDutch/
 │   ├── validIds.ts               # Server-safe valid question/badge id sets
 │   ├── cooldown.ts               # In-memory per-user rate limiting for API routes
 │   ├── posthogServer.ts          # Server-side PostHog capture (webhook revenue events)
-│   └── stripe.ts                 # Stripe checkout helper
+│   ├── actions/billing.ts        # startCheckoutAction server action (customer + priceId)
+│   └── paddle/                   # env, config, paddle (SDK), data (writer), webhook, checkout
 ├── types/
 │   └── index.ts                  # All TypeScript types
 └── lib/supabase/
@@ -308,7 +309,7 @@ Core events (illustrative subset):
 | `badge_earned`                        | badgeId                                          |
 | `onboarding_completed`                | -                                                |
 
-Ground-truth revenue is captured **server-side** in the Stripe webhook via `lib/posthogServer.ts` (`purchase_completed`), since the browser may be closed by the time payment settles.
+Ground-truth revenue is captured **server-side** in the Paddle webhook via `lib/posthogServer.ts` (`purchase_completed`), since the browser may be closed by the time payment settles.
 
 ---
 
@@ -318,7 +319,7 @@ Magic link only via Supabase. No passwords.
 
 1. User enters email in AuthModal → Supabase sends magic link
 2. User clicks link → session created
-3. If not yet premium → Stripe checkout → webhook sets `is_premium = true`
+3. If not yet premium → Paddle overlay checkout → webhook sets `is_premium = true`
 4. On first authenticated load → migrate localStorage progress to Supabase
 
 Session length: 30 days. Cookie-based via `@supabase/ssr`.
@@ -329,7 +330,7 @@ Session length: 30 days. Cookie-based via `@supabase/ssr`.
 
 - `@supabase/ssr` for the browser client (`lib/supabase.ts`) and server client (`lib/supabase/server.ts`)
 - All tables have RLS - users access only their own rows
-- `profiles` has **no client-side UPDATE policy**: `is_premium`/`stripe_*` are written only by the service-role client (`lib/supabase/admin.ts`) in the Stripe webhook and premium-verify routes
+- `profiles` has **no client-side UPDATE policy**: `is_premium`/`provider_*` are written only by the service-role client (`lib/supabase/admin.ts`) in the Paddle webhook and premium-verify routes
 - `upsert_question_progress` derives the user from `auth.uid()` - never pass a user id from the client
 - Magic link is the only auth method
 - See `lib/supabase/schema.sql` for full schema
@@ -338,16 +339,19 @@ Session length: 30 days. Cookie-based via `@supabase/ssr`.
 
 ## Environment variables
 
-See `.env.local.example` for the full list. Validated at build time by `lib/validateEnv.ts`: the Supabase vars are always required; Stripe, PostHog and Sentry vars are required only on production (`VERCEL_ENV === "production"`).
+See `.env.local.example` for the full list. Validated at build time by `lib/validateEnv.ts`: the Supabase vars are always required; PostHog and Sentry vars are required on production, and the Paddle vars only when premium is enabled on production (`VERCEL_ENV === "production"` + `NEXT_PUBLIC_PREMIUM_ENABLED === "true"`). `PADDLE_ENV` and `NEXT_PUBLIC_PADDLE_ENV` must match.
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SECRET_KEY=
 NEXT_PUBLIC_SUPABASE_REDIRECT_URL=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PRICE_ID=
+PADDLE_ENV=
+PADDLE_API_KEY=
+PADDLE_WEBHOOK_SECRET=
+NEXT_PUBLIC_PADDLE_PRICE_ID=
+NEXT_PUBLIC_PADDLE_ENV=
+NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=
 NEXT_PUBLIC_POSTHOG_KEY=
 NEXT_PUBLIC_POSTHOG_HOST=
 NEXT_PUBLIC_SENTRY_DSN=

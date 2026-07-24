@@ -278,7 +278,7 @@ Shows: score percentage, by-module breakdown with progress bars, full feedback b
 - Freemium gate (2 per module, inline, no popup) + next-module nudge
 - GateModal with social proof
 - Magic link auth (Supabase)
-- Stripe one-time payment
+- Paddle one-time payment (Merchant of Record)
 - Return visit banner + module complete nudge
 - Badges (module completion + master)
 - `question_progress` tracking

@@ -4,13 +4,15 @@
 // checkout) — never custom_data, which the overlay does not send.
 
 // Minimal shape we depend on from an unmarshalled Paddle event. The Node SDK
-// returns camelCase entities (transaction.customerId, transaction.currencyCode).
+// returns camelCase entities (transaction.customerId, transaction.currencyCode,
+// transaction.items[].price.id).
 export interface PaddleEventLike {
   eventType: string;
   data: {
     id?: string;
     customerId?: string;
     currencyCode?: string;
+    items?: Array<{ price?: { id?: string | null } | null }> | null;
     details?: { totals?: { total?: string } } | null;
   };
 }
@@ -44,14 +46,32 @@ const NO_GRANT: HandleResult = {
   transactionId: null,
 };
 
+// True when the transaction contains a line item for the given price. Shared by
+// the webhook handler and the verify route so both scope grants identically.
+export function transactionHasPrice(
+  data: { items?: Array<{ price?: { id?: string | null } | null }> | null },
+  expectedPriceId: string,
+): boolean {
+  return (data.items ?? []).some((item) => item.price?.id === expectedPriceId);
+}
+
 export async function handlePaddleEvent(
   event: PaddleEventLike,
   writer: BillingWriter,
+  expectedPriceId: string | undefined,
 ): Promise<HandleResult> {
   if (!GRANT_EVENTS.has(event.eventType)) return NO_GRANT;
 
   const customerId = event.data.customerId;
   if (!customerId) return NO_GRANT; // not resolvable to an account
+
+  // Scope the grant to THIS app's price. The Paddle account is shared with other
+  // apps, and customers/transactions are account-wide - so a customer who bought
+  // a sibling app's product (same email -> same Paddle customer) would otherwise
+  // be granted premium here for free. Fail closed if the price id is unset.
+  if (!expectedPriceId || !transactionHasPrice(event.data, expectedPriceId)) {
+    return NO_GRANT;
+  }
 
   const transactionId = event.data.id ?? null;
   const { granted, userId } = await writer.grantPremiumByProviderCustomerId(

@@ -11,10 +11,9 @@ let paddlePromise: Promise<Paddle | undefined> | null = null;
 
 function loadPaddle(): Promise<Paddle | undefined> {
   if (!paddlePromise) {
-    const environment = process.env.NEXT_PUBLIC_PADDLE_ENV as
-      | "sandbox"
-      | "production"
-      | undefined;
+    const rawEnv = process.env.NEXT_PUBLIC_PADDLE_ENV;
+    const environment =
+      rawEnv === "sandbox" || rawEnv === "production" ? rawEnv : undefined;
     const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
 
     if (!environment || !token) {

@@ -2,6 +2,16 @@
 
 Authentication and payment flows. Three distinct user journeys, each with different triggers and outcomes.
 
+> **Payment provider note (2026-07):** billing has migrated from Stripe to
+> **Paddle** (Merchant of Record). The auth journeys below are still accurate,
+> but the payment mechanics have changed: checkout is a **Paddle overlay** opened
+> client-side (not a redirect to a hosted Stripe page), initiated by the
+> `startCheckoutAction` server action (`lib/actions/billing.ts`) rather than
+> `/api/checkout`; the magic-link `next=/checkout` hand-off now redirects to
+> `/learn?checkout=1` and the client opens the overlay. The webhook is
+> `/api/paddle/webhook`. See `docs/superpowers/specs/2026-07-24-paddle-checkout-migration-design.md`
+> for the current design; treat the Stripe specifics below as historical.
+
 ---
 
 ## Overview

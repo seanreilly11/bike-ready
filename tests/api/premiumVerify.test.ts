@@ -44,6 +44,7 @@ describe("GET /api/premium/verify", () => {
     grant.mockReset();
     transactionsList.mockReset();
     captureServerEvent.mockReset();
+    process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
   });
 
   it("returns 401 when unauthenticated", async () => {
@@ -66,17 +67,35 @@ describe("GET /api/premium/verify", () => {
     expect(await res.json()).toEqual({ is_premium: false });
   });
 
-  it("grants and returns true when a completed transaction exists", async () => {
+  it("grants and returns true when a completed transaction for our price exists", async () => {
     isUserPremium.mockResolvedValue(false);
     getProviderCustomerId.mockResolvedValue("ctm_1");
     transactionsList.mockReturnValue(
-      asyncIterableOf([{ id: "txn_1", currencyCode: "EUR", details: { totals: { total: "499" } } }]),
+      asyncIterableOf([
+        {
+          id: "txn_1",
+          currencyCode: "EUR",
+          items: [{ price: { id: "pri_test" } }],
+          details: { totals: { total: "499" } },
+        },
+      ]),
     );
     grant.mockResolvedValue({ granted: true, userId: "u1" });
     const res = await GET(req());
     expect(await res.json()).toEqual({ is_premium: true });
     expect(grant).toHaveBeenCalledWith("ctm_1", { transactionId: "txn_1" });
     expect(captureServerEvent).toHaveBeenCalled();
+  });
+
+  it("does NOT grant for a completed transaction on a different price (shared account)", async () => {
+    isUserPremium.mockResolvedValue(false);
+    getProviderCustomerId.mockResolvedValue("ctm_1");
+    transactionsList.mockReturnValue(
+      asyncIterableOf([{ id: "txn_sibling", currencyCode: "EUR", items: [{ price: { id: "pri_other" } }] }]),
+    );
+    const res = await GET(req());
+    expect(await res.json()).toEqual({ is_premium: false });
+    expect(grant).not.toHaveBeenCalled();
   });
 
   it("returns false when the customer has no completed transaction", async () => {

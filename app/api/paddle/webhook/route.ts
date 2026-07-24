@@ -13,7 +13,7 @@ import { captureServerEvent } from "@/lib/posthogServer";
 // Node SDK types transaction.* event `.data` as.
 export type _TxnFieldGuard = Pick<
   TransactionNotification,
-  "id" | "customerId" | "currencyCode" | "details"
+  "id" | "customerId" | "currencyCode" | "items" | "details"
 >;
 
 export async function POST(req: NextRequest) {
@@ -40,7 +40,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const result = await handlePaddleEvent(event, billingWriter);
+    const result = await handlePaddleEvent(
+      event,
+      billingWriter,
+      process.env.NEXT_PUBLIC_PADDLE_PRICE_ID,
+    );
     // Ground-truth revenue event — fired once, only on the transition to premium,
     // so a retry or a verify-then-webhook race never double-counts.
     if (result.granted && result.userId) {

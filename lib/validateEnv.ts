@@ -47,4 +47,15 @@ export function validateEnv() {
       `Missing required environment variables:\n${missing.map((k) => `  • ${k}`).join("\n")}\n\nCopy .env.local.example → .env.local and fill in the values.`,
     );
   }
+
+  // Server and client must target the same Paddle environment. A split (server
+  // production, client sandbox) would create charges the production webhook
+  // never sees. Only checked when both are present.
+  const serverEnv = process.env.PADDLE_ENV;
+  const clientEnv = process.env.NEXT_PUBLIC_PADDLE_ENV;
+  if (serverEnv && clientEnv && serverEnv !== clientEnv) {
+    throw new Error(
+      `PADDLE_ENV ("${serverEnv}") and NEXT_PUBLIC_PADDLE_ENV ("${clientEnv}") must match.`,
+    );
+  }
 }

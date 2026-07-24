@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
+import { isRateLimited } from "@/lib/cooldown";
 import { isUserPremium } from "@/lib/paddle/data";
 import { getOrCreateProviderCustomer } from "@/lib/paddle/checkout";
 
@@ -19,6 +20,12 @@ export async function startCheckoutAction(): Promise<
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
+
+  // Throttle per user: guards the Paddle quota and narrows the window where two
+  // rapid first-time calls both create a Paddle customer before the mapping lands.
+  if (isRateLimited(`checkout:${user.id}`, 5_000)) {
+    throw new Error("Too many requests");
+  }
 
   if (await isUserPremium(user.id)) return { alreadyPremium: true };
 

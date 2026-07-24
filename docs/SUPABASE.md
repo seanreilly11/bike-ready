@@ -2,6 +2,16 @@
 
 Everything needed to connect to Supabase, set up auth, and migrate localStorage progress. The database schema is run manually in the Supabase dashboard - no CLI or migrations folder needed.
 
+> **Payment provider note (2026-07):** billing has migrated from Stripe to
+> **Paddle**. The `profiles` columns `stripe_customer_id` / `stripe_payment_id`
+> are now `provider_customer_id` / `provider_transaction_id`, and the webhook is
+> `/api/paddle/webhook` (grants on `transaction.completed`/`transaction.paid`,
+> keyed by `provider_customer_id` and scoped to `NEXT_PUBLIC_PADDLE_PRICE_ID`).
+> The "Stripe webhook" and "Fallback on sign-in" code samples below are
+> **historical**; see `lib/paddle/*`, `app/api/paddle/webhook/route.ts`, and
+> `docs/superpowers/specs/2026-07-24-paddle-checkout-migration-design.md` for the
+> current implementation.
+
 ---
 
 ## Keys

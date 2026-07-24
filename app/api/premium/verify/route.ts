@@ -7,6 +7,7 @@ import {
   getProviderCustomerId,
   grantPremiumByProviderCustomerId,
 } from "@/lib/paddle/data";
+import { transactionHasPrice } from "@/lib/paddle/webhook";
 import { captureServerEvent } from "@/lib/posthogServer";
 
 // Reconciles premium against Paddle — covers a missed webhook. Lists the
@@ -35,11 +36,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ is_premium: false });
   }
 
-  // Find a completed one-time transaction for this customer.
+  // Scope to THIS app's price: the Paddle account is shared with other apps and
+  // a customer's transactions are account-wide, so an unscoped match would grant
+  // premium for a sibling app's purchase. Fail closed if the price id is unset.
+  const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+  if (!priceId) {
+    return NextResponse.json({ is_premium: false });
+  }
+
+  // Find a completed one-time transaction for THIS app's price on this customer.
   for await (const txn of getPaddle().transactions.list({
     customerId: [customerId],
     status: ["completed"],
   })) {
+    if (!transactionHasPrice(txn, priceId)) continue;
     const result = await grantPremiumByProviderCustomerId(customerId, {
       transactionId: txn.id,
     });

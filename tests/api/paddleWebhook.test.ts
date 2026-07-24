@@ -32,6 +32,7 @@ const completed = {
     id: "txn_1",
     customerId: "ctm_1",
     currencyCode: "EUR",
+    items: [{ price: { id: "pri_test" } }],
     details: { totals: { total: "499" } },
   },
 };
@@ -43,6 +44,7 @@ describe("POST /api/paddle/webhook", () => {
     captureServerEvent.mockReset();
     headersGet.mockReset().mockReturnValue("ts=1;h1=abc");
     process.env.PADDLE_WEBHOOK_SECRET = "whsec";
+    process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
   });
 
   it("returns 400 when the signature header is missing", async () => {
@@ -83,6 +85,17 @@ describe("POST /api/paddle/webhook", () => {
     const res = await POST(req());
     expect(res.status).toBe(200);
     expect(grant).not.toHaveBeenCalled();
+  });
+
+  it("returns 200 without granting for a transaction on a different price", async () => {
+    unmarshal.mockResolvedValue({
+      ...completed,
+      data: { ...completed.data, items: [{ price: { id: "pri_other" } }] },
+    });
+    const res = await POST(req());
+    expect(res.status).toBe(200);
+    expect(grant).not.toHaveBeenCalled();
+    expect(captureServerEvent).not.toHaveBeenCalled();
   });
 
   it("returns 500 when the writer throws (Paddle will retry)", async () => {

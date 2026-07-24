@@ -15,6 +15,13 @@ create table if not exists profiles (
   created_at              timestamptz not null default now()
 );
 
+-- A Paddle customer maps to at most one profile, so the grant/reconcile paths
+-- can resolve the account with .single() on provider_customer_id. Partial: free
+-- users have a null id.
+create unique index if not exists profiles_provider_customer_id_key
+  on profiles (provider_customer_id)
+  where provider_customer_id is not null;
+
 alter table profiles enable row level security;
 
 create policy "Users can read their own profile"

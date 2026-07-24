@@ -1,14 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const { getUser, isUserPremium, getOrCreateProviderCustomer } = vi.hoisted(() => ({
-  getUser: vi.fn(),
-  isUserPremium: vi.fn(),
-  getOrCreateProviderCustomer: vi.fn(),
-}));
+const { getUser, isUserPremium, getOrCreateProviderCustomer, isRateLimited } =
+  vi.hoisted(() => ({
+    getUser: vi.fn(),
+    isUserPremium: vi.fn(),
+    getOrCreateProviderCustomer: vi.fn(),
+    isRateLimited: vi.fn(),
+  }));
 
 vi.mock("@/lib/supabase/server", () => ({
   createClient: async () => ({ auth: { getUser } }),
 }));
+vi.mock("@/lib/cooldown", () => ({ isRateLimited }));
 vi.mock("@/lib/paddle/data", () => ({ isUserPremium }));
 vi.mock("@/lib/paddle/checkout", () => ({ getOrCreateProviderCustomer }));
 
@@ -19,6 +22,7 @@ describe("startCheckoutAction", () => {
     getUser.mockReset();
     isUserPremium.mockReset();
     getOrCreateProviderCustomer.mockReset();
+    isRateLimited.mockReset().mockReturnValue(false);
     process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
   });
 
@@ -49,5 +53,13 @@ describe("startCheckoutAction", () => {
     getUser.mockResolvedValue({ data: { user: { id: "u1", email: "a@b.com" } } });
     isUserPremium.mockResolvedValue(false);
     await expect(startCheckoutAction()).rejects.toThrow(/not configured/i);
+  });
+
+  it("throws Too many requests when rate limited, before touching Paddle", async () => {
+    getUser.mockResolvedValue({ data: { user: { id: "u1", email: "a@b.com" } } });
+    isRateLimited.mockReturnValue(true);
+    await expect(startCheckoutAction()).rejects.toThrow(/too many requests/i);
+    expect(isUserPremium).not.toHaveBeenCalled();
+    expect(getOrCreateProviderCustomer).not.toHaveBeenCalled();
   });
 });

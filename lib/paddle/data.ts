@@ -31,34 +31,37 @@ export async function setProviderCustomerId(
   if (error) throw new Error(`Failed to persist provider_customer_id: ${error.message}`);
 }
 
-// Grants premium for the account mapped to this Paddle customer id. Idempotent:
-// returns granted:false (no write) when the row is already premium or no row
-// maps to the customer, so a retried/duplicate webhook never double-grants or
-// double-fires the revenue event.
+// Grants premium for the account mapped to this Paddle customer id. Idempotent
+// under concurrency: the false->true transition is a single conditional UPDATE
+// (WHERE is_premium = false), and `granted` is derived from whether THIS call
+// flipped the row. Two racing calls (transaction.completed + transaction.paid,
+// or webhook + verify) therefore grant once and fire one revenue event; a
+// retried/duplicate event, or no matching row, updates nothing.
 export async function grantPremiumByProviderCustomerId(
   customerId: string,
   args: { transactionId: string | null },
 ): Promise<{ granted: boolean; userId: string | null }> {
   const { data: profile } = await supabaseAdmin
     .from("profiles")
-    .select("id, is_premium")
+    .select("id")
     .eq("provider_customer_id", customerId)
     .single();
 
   if (!profile) return { granted: false, userId: null };
-  if (profile.is_premium) return { granted: false, userId: profile.id };
 
-  const { error } = await supabaseAdmin
+  const { data: updated, error } = await supabaseAdmin
     .from("profiles")
     .update({
       is_premium: true,
       premium_since: new Date().toISOString(),
       provider_transaction_id: args.transactionId,
     })
-    .eq("id", profile.id);
+    .eq("id", profile.id)
+    .eq("is_premium", false)
+    .select("id");
   if (error) throw new Error(`Failed to grant premium: ${error.message}`);
 
-  return { granted: true, userId: profile.id };
+  return { granted: (updated?.length ?? 0) > 0, userId: profile.id };
 }
 
 // Concrete writer injected into the webhook route (pure handler in webhook.ts).

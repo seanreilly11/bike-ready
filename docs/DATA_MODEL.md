@@ -303,7 +303,7 @@ One row per user. Extends Supabase `auth.users`.
 ```ts
 interface Profile {
   id: string; // uuid - matches auth.users.id
-  is_premium: boolean; // true after successful Stripe payment
+  is_premium: boolean; // true after successful Paddle payment
   created_at: string; // ISO 8601 timestamp
 }
 ```
