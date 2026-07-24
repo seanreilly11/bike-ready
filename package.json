@@ -13,6 +13,8 @@
     "stripe:webhook": "node scripts/stripe-webhook-test.mjs"
   },
   "dependencies": {
+    "@paddle/paddle-js": "^1.6.4",
+    "@paddle/paddle-node-sdk": "^3.8.0",
     "@sentry/nextjs": "^10.57.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
