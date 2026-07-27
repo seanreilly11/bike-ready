@@ -34,6 +34,10 @@ export default function ModuleSessionPage() {
 
   const mod = modules.find((m) => m.id === moduleId);
 
+  // `/guide/signs` resolves to the standalone signs page (static route wins
+  // over the dynamic [moduleId] segment); every other id hits /guide/[moduleId].
+  const guideHref = `/guide/${moduleId}`;
+
   const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
@@ -234,6 +238,14 @@ export default function ModuleSessionPage() {
                       <ArrowRight size={16} aria-hidden="true" />
                     </Button>
                   )}
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    full
+                    onClick={() => router.push(guideHref)}
+                  >
+                    Read the full {mod.title} guide <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
                   <Button
                     variant="secondary"
                     size="lg"
