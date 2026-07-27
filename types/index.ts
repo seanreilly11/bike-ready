@@ -1,4 +1,4 @@
-// All TypeScript types for BikeReady.
+// All TypeScript types for CycleDutch.
 // This is the single source of truth for all type definitions.
 
 import { SIGN_REGISTRY } from "@/data/signs";

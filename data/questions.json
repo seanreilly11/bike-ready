@@ -55,7 +55,7 @@
       "rule": "RVV 1990 Art. 35 - active lights required. €75 fine per light (from 1 January 2026).",
       "tip": "€75 front, €75 rear. Both active, not just reflectors."
     },
-    "status": "active"
+    "status": "draft"
   },
   {
     "id": "legal_007",
@@ -76,9 +76,9 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "There is no Dutch law banning headphones or earbuds while cycling — wearing both is legal. But you are still responsible for cycling safely: if not hearing traffic causes a dangerous situation, you can be fined for that. Police strongly advise keeping one ear free.",
+      "body": "There is no Dutch law banning headphones or earbuds while cycling - wearing both is legal. But you are still responsible for cycling safely: if not hearing traffic causes a dangerous situation, you can be fined for that. Police strongly advise keeping one ear free.",
       "rule": "No RVV 1990 article prohibits headphones. The phone ban (Art. 61a) covers holding a device, not listening through earbuds.",
-      "tip": "Legal, but risky — leave one ear open so you can hear bells and sirens."
+      "tip": "Legal, but risky - leave one ear open so you can hear bells and sirens."
     },
     "status": "active"
   },
@@ -187,7 +187,7 @@
       },
       {
         "id": "c",
-        "label": "Illegal - same €160 fine as at any other time"
+        "label": "Illegal - same €120 fine as at any other time"
       },
       {
         "id": "d",
@@ -196,9 +196,9 @@
     ],
     "correct": "c",
     "feedback": {
-      "body": "Running a red cyclist light is illegal at all times, regardless of traffic conditions. The €160 fine applies 24 hours a day. There are no exemptions based on time or traffic.",
-      "rule": "RVV 1990 Art. 68 - red lights are mandatory at all times. €160 fine.",
-      "tip": "Red means stop. Always. €160 doesn't care what time it is."
+      "body": "Running a red cyclist light is illegal at all times, regardless of traffic conditions. The €120 fine applies 24 hours a day. There are no exemptions based on time or traffic.",
+      "rule": "RVV 1990 Art. 68 - red lights are mandatory at all times. €120 fine.",
+      "tip": "Red means stop. Always. €120 regardless of time."
     },
     "status": "active"
   },
@@ -1953,7 +1953,7 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "The crossed-out yellow diamond (B02) means the priority road has ended. From this point, no sign gives you priority — right-before-left applies at all unmarked junctions again. It is easy to miss because the shape resembles the priority road sign, but the diagonal bar cancels it.",
+      "body": "The crossed-out yellow diamond (B02) means the priority road has ended. From this point, no sign gives you priority - right-before-left applies at all unmarked junctions again. It is easy to miss because the shape resembles the priority road sign, but the diagonal bar cancels it.",
       "rule": "B02 (einde voorrangsweg) - priority road status ends at this sign. Default rules resume.",
       "tip": "Crossed-out diamond = priority crossed out. Watch for it when roads change character."
     },
@@ -2946,11 +2946,11 @@
     ],
     "correct": "b",
     "feedback": {
-      "body": "Using a handheld phone while cycling is illegal at any speed. The fine is €160. Speed makes no difference - if you need to use your phone, stop your bike first.",
+      "body": "Using a handheld phone while cycling is illegal at any speed. The fine is €170. Speed makes no difference - if you need to use your phone, stop your bike first.",
       "rule": "RVV 1990 Art. 61a - handheld phone use is prohibited while cycling, regardless of speed.",
       "tip": "Speed doesn't matter. Stop your bike if you need to use your phone."
     },
-    "status": "draft"
+    "status": "active"
   },
   {
     "id": "legal_003",
@@ -3003,7 +3003,7 @@
       },
       {
         "id": "c",
-        "label": "€160"
+        "label": "€120"
       },
       {
         "id": "d",
@@ -3012,8 +3012,8 @@
     ],
     "correct": "c",
     "feedback": {
-      "body": "Running a red cyclist light carries a €160 fine - the same as for car drivers. The fine applies regardless of the time of day or whether any traffic is present.",
-      "rule": "RVV 1990 - €160 fine for running a red light. Applies at all times.",
+      "body": "Running a red cyclist light carries a €120 fine. The fine applies regardless of the time of day or whether any traffic is present.",
+      "rule": "RVV 1990 - €120 fine for running a red light. Applies at all times.",
       "tip": "The fine is real. Follow the small bike light."
     },
     "status": "draft"
@@ -3227,7 +3227,7 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "A marked fietspad is mandatory for cyclists. If there is a cycle path, you must use it and are not allowed to ride on the adjacent road. This keeps cyclists separated from motor traffic.",
+      "body": "A marked fietspad is mandatory for cyclists. If there is a cycle path, you must use it and are not allowed to ride on the adjacent road. Choosing the road instead carries a €75 fine.",
       "rule": "Mandatory cycle path (verplicht fietspad) - identified by the round blue sign with a white bicycle (G11). Use of the cycle path is compulsory.",
       "tip": "Blue sign = must use. You do not get to choose the road instead."
     },
@@ -3310,7 +3310,7 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "Cyclists must stop at red lights, including the smaller cyclist-specific traffic lights shown with a bicycle symbol. Running a red light is illegal and carries a fine of around 160 euros.",
+      "body": "Cyclists must stop at red lights, including the smaller cyclist-specific traffic lights shown with a bicycle symbol. Running a red light is illegal and carries a fine of €120.",
       "rule": "All traffic signals apply to cyclists. Running a red light is a violation.",
       "tip": "The small cyclist light at the post near the stop line is the one that applies to you."
     },
@@ -3335,8 +3335,8 @@
     ],
     "correct": "a",
     "feedback": {
-      "body": "Since 2019, holding or using a mobile phone while cycling has been illegal in the Netherlands. The fine is 95 euros. Earphones in both ears are also not permitted.",
-      "rule": "Mobile phone use while cycling is prohibited. Fine: 95 euros. This includes holding the phone for any purpose.",
+      "body": "Since 2019, holding or using a mobile phone while cycling has been illegal in the Netherlands. The fine is €170. Stop your bike if you need to use your phone.",
+      "rule": "RVV 1990 Art. 61a - holding a phone while cycling is prohibited. Fine: €170.",
       "tip": "Mount your phone on your handlebars before you set off - do not hold it while riding."
     },
     "status": "active"
@@ -3368,8 +3368,8 @@
     ],
     "correct": "c",
     "feedback": {
-      "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night - active lights are required.",
-      "rule": "Lighting requirements: white/yellow front, red rear. Required from sunset to sunrise and in poor visibility. Fine for no lights: around 55 euros.",
+      "body": "Dutch law requires a white or yellow front light and a red rear light when cycling in the dark. Reflectors alone are not enough at night - active lights are required. Each missing light is a €75 fine.",
+      "rule": "RVV 1990 Art. 35 - active front and rear lights required after dark. Fine: €75 per missing light.",
       "tip": "No front light = illegal, even with a working rear. Both are required."
     },
     "status": "active"
@@ -3489,5 +3489,115 @@
       "tip": "No parking = no bike either. Look for a designated rack nearby."
     },
     "status": "active"
+  },
+  {
+    "id": "legal_015",
+    "module": "legal",
+    "skill": "Legal",
+    "difficulty": "easy",
+    "type": "true_false",
+    "prompt": "You cycle at night with a rear light that flashes. This satisfies the Dutch lighting requirement.",
+    "options": [
+      { "id": "a", "label": "True" },
+      { "id": "b", "label": "False" }
+    ],
+    "correct": "b",
+    "feedback": {
+      "body": "Dutch law requires steady lights, not flashing ones. A flashing rear light does not legally satisfy the lighting requirement, even though it is visible. Your rear light must emit a constant red beam.",
+      "rule": "RVV 1990 Art. 35 - lights must be steady. Flashing lights do not comply.",
+      "tip": "Flashing = not legal. Steady red rear, steady white front."
+    },
+    "status": "active"
+  },
+  {
+    "id": "legal_016",
+    "module": "legal",
+    "skill": "Legal",
+    "difficulty": "easy",
+    "type": "true_false",
+    "prompt": "Dutch law requires yellow reflectors on your bicycle's pedals at all times, day and night.",
+    "options": [
+      { "id": "a", "label": "True" },
+      { "id": "b", "label": "False" }
+    ],
+    "correct": "a",
+    "feedback": {
+      "body": "Pedal reflectors are a permanent equipment requirement in the Netherlands - not just a night rule. Your pedals must have yellow reflectors fitted at all times. This is separate from the active lighting requirement that only applies after dark.",
+      "rule": "Voertuigreglement Art. 5.9 - yellow pedal reflectors required at all times.",
+      "tip": "Pedal reflectors = always required. Not just at night."
+    },
+    "status": "active"
+  },
+  {
+    "id": "legal_017",
+    "module": "legal",
+    "skill": "Legal",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "What does Dutch law require for reflectors on a bicycle's wheels?",
+    "options": [
+      { "id": "a", "label": "None - wheel reflectors are optional" },
+      {
+        "id": "b",
+        "label": "White or yellow reflectors on the tyre or wheel rim - spoke reflectors do not count"
+      },
+      { "id": "c", "label": "Red reflectors on both wheels" },
+      { "id": "d", "label": "Any colour, as long as they are visible" }
+    ],
+    "correct": "b",
+    "feedback": {
+      "body": "Dutch law requires white or yellow reflectors fitted to the tyres or wheel rims. Spoke-mounted reflectors do not satisfy the requirement because they do not provide consistent visibility at all angles. Check that your reflectors are on the tyre sidewall or rim, not just clipped to the spokes.",
+      "rule": "Voertuigreglement Art. 5.9 - tyre or rim-mounted white/yellow wheel reflectors required. Spoke reflectors insufficient.",
+      "tip": "Tyre or rim = legal. Spokes only = not enough."
+    },
+    "status": "active"
+  },
+  {
+    "id": "legal_018",
+    "module": "legal",
+    "skill": "Legal",
+    "difficulty": "hard",
+    "type": "multiple_choice",
+    "prompt": "You want to wear your front light on your body rather than fix it to the bike. Where does Dutch law permit this?",
+    "options": [
+      {
+        "id": "a",
+        "label": "Anywhere on your body, as long as it faces forward"
+      },
+      { "id": "b", "label": "Head or helmet only" },
+      { "id": "c", "label": "Upper torso only - not head, wrists, or ankles" },
+      { "id": "d", "label": "Never - lights must be fixed to the bike" }
+    ],
+    "correct": "c",
+    "feedback": {
+      "body": "RVV 1990 Art. 35 permits lights to be mounted on the rider rather than the bike, but restricts them to the upper body. Head lamps, wrist lights, and ankle lights do not comply. The upper torso position keeps the light at a height and angle that is useful to other road users.",
+      "rule": "RVV 1990 Art. 35 - rider-worn lights permitted on upper torso only. Head, wrists, and ankles excluded.",
+      "tip": "Body light = torso only. Not head, not ankles."
+    },
+    "status": "active"
+  },
+  {
+    "id": "legal_019",
+    "module": "legal",
+    "skill": "Legal",
+    "difficulty": "medium",
+    "type": "multiple_choice",
+    "prompt": "What is the fine for riding on the road when a mandatory cycle path (G11 sign) runs alongside it?",
+    "options": [
+      {
+        "id": "a",
+        "label": "No fine - the path is recommended but not enforced"
+      },
+      { "id": "b", "label": "€45" },
+      { "id": "c", "label": "€75" },
+      { "id": "d", "label": "€120" }
+    ],
+    "correct": "c",
+    "feedback": {
+      "body": "Ignoring a mandatory cycle path carries a €75 fine. The G11 sign (round blue with white bicycle) makes the adjacent path compulsory - you are not permitted to choose the road instead. The fine is the same as for a missing light.",
+      "rule": "RVV 1990 - G11 mandatory cycle path. Fine for non-compliance: €75.",
+      "tip": "G11 = compulsory. Road instead = €75 fine."
+    },
+    "status": "draft"
   }
 ]

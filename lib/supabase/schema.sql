@@ -1,4 +1,4 @@
--- BikeReady database schema
+-- CycleDutch database schema
 -- All tables have Row Level Security enabled.
 -- Users can only access their own rows.
 
@@ -69,7 +69,7 @@ create policy "Users can update their own progress"
   on question_progress for update
   using (auth.uid() = user_id);
 
--- Upsert helper: correct is OR'd — never reverts once true.
+-- Upsert helper: correct is OR'd - never reverts once true.
 -- User identity comes from auth.uid(); callers cannot write other users' rows.
 create or replace function public.upsert_question_progress(
   p_question_id text,

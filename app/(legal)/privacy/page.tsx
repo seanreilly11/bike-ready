@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How BikeReady collects, uses, and protects your data.",
+  description: "How CycleDutch collects, uses, and protects your data.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         Privacy policy
       </h1>
       <p className="text-xs text-stone-400 font-mono mb-10">
-        Last updated: May 2026 · Applies to bikeready.nl
+        Last updated: May 2026 · Applies to cycledutch.com
       </p>
 
       {/* Who we are */}
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           Who we are
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          BikeReady is operated by [YOUR FULL NAME], a sole proprietorship
+          CycleDutch is operated by [YOUR FULL NAME], a sole proprietorship
           (eenmanszaak) registered in the Netherlands with KvK number [KVK
           NUMBER]. Our registered address is [YOUR ADDRESS]. You can contact us
           at [YOUR EMAIL].
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           Usage data
         </h3>
         <p className="text-sm text-stone-600 leading-relaxed mb-5">
-          We collect anonymous analytics about how you use BikeReady — which
+          We collect anonymous analytics about how you use CycleDutch - which
           modules you open, how many questions you answer, and whether you
           complete modules. This data is anonymised before collection and cannot
           be traced back to you as an individual. We use PostHog for analytics.
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
           Payment data
         </h3>
         <p className="text-sm text-stone-600 leading-relaxed mb-5">
-          If you purchase BikeReady Premium, your payment is processed by
+          If you purchase CycleDutch Premium, your payment is processed by
           Stripe. We do not store your card number, bank details, or any full
           payment information. Stripe shares with us only: confirmation that
           payment was successful, the Stripe customer ID, and the payment intent
@@ -166,7 +166,7 @@ export default function PrivacyPage() {
           Third-party services
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          BikeReady uses the following third-party services that may process
+          CycleDutch uses the following third-party services that may process
           personal data:
         </p>
         <ul className="space-y-3 mb-4">
@@ -212,7 +212,7 @@ export default function PrivacyPage() {
               >
                 {s.name} ({s.label})
               </a>{" "}
-              — {s.detail}
+              - {s.detail}
             </li>
           ))}
         </ul>
@@ -279,7 +279,7 @@ export default function PrivacyPage() {
               <span className="font-semibold text-stone-900 shrink-0">
                 {item.right}
               </span>
-              <span>— {item.detail}</span>
+              <span>- {item.detail}</span>
             </li>
           ))}
         </ul>

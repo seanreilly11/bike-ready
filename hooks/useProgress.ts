@@ -20,7 +20,7 @@ export function useProgress() {
       // Background write to Supabase if authenticated
       if (user) {
         updateProgress(questionId, correct).catch(() => {
-          // Non-fatal — store already updated optimistically
+          // Non-fatal - store already updated optimistically
         });
       }
     },
@@ -48,7 +48,7 @@ export function useProgress() {
     const mod = modules.find((m) => m.id === moduleId);
 
     if (seen.length === 0) return "not_started";
-    // Mastered: every question correct — takes priority over complete
+    // Mastered: every question correct - takes priority over complete
     if (
       moduleQuestions.length > 0 &&
       moduleQuestions.every((q) => progress[q.id]?.correct === true)

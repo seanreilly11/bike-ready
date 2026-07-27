@@ -117,11 +117,11 @@ export default function SignsContent({
         {mandatory && (
           <section id="blue-circles" className="mb-12 scroll-mt-40">
             <h2 className="font-display font-bold text-stone-900 text-lg mb-2">
-              Blue circles — mandatory
+              Blue circles - mandatory
             </h2>
             <p className="text-stone-600 text-sm mb-4 leading-relaxed">
               {mandatory.description} A solid blue circle with a white symbol
-              means you must follow the instruction — no exceptions unless a
+              means you must follow the instruction - no exceptions unless a
               sub-sign says otherwise. The most important for cyclists is the
               mandatory cycle path (G11): when you see it, you must use that
               path. Riding on the adjacent road is a violation.
@@ -162,7 +162,7 @@ export default function SignsContent({
         {prohibition && (
           <section id="red-borders" className="mb-12 scroll-mt-40">
             <h2 className="font-display font-bold text-stone-900 text-lg mb-2">
-              Red borders — prohibition
+              Red borders - prohibition
             </h2>
             <p className="text-stone-600 text-sm mb-4 leading-relaxed">
               {prohibition.description} A white circle with a red border
@@ -232,7 +232,7 @@ export default function SignsContent({
             <p className="text-stone-600 text-sm mb-4 leading-relaxed">
               {signals.description} The cyclist traffic light is positioned at
               handlebar height, not at car height. It is legally independent
-              from the car signal — your red is your red, regardless of what the
+              from the car signal - your red is your red, regardless of what the
               large light shows.
             </p>
             <div className="flex flex-col gap-3">
@@ -257,7 +257,7 @@ export default function SignsContent({
             </h2>
             <p className="text-stone-600 text-sm mb-4 leading-relaxed">
               {information.description} These rectangular signs tell you facts
-              about the road — they carry no command.
+              about the road - they carry no command.
             </p>
             <div className="flex flex-col gap-3 mb-6">
               {information.signs.map((sign, i) => (
@@ -272,9 +272,9 @@ export default function SignsContent({
             </div>
             {/* Mandatory vs optional callout */}
             <Card variant="muted">
-              <p className="font-display font-bold text-stone-900 text-sm mb-3">
-                Mandatory vs optional — the key distinction
-              </p>
+              <h3 className="font-display font-bold text-stone-900 text-sm mb-3">
+                Mandatory vs optional - the key distinction
+              </h3>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white rounded-lg px-3 py-3 text-center">
                   <p className="font-mono text-xs text-stone-400 mb-1">G11</p>

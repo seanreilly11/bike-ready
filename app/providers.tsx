@@ -1,9 +1,12 @@
-'use client'
+"use client";
 
 import { useEffect } from 'react'
 import { ensurePostHog, phOptIn } from '@/lib/posthogClient'
+import posthog from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
 
-const CONSENT_ACCEPTED_EVENT = 'bikeready:consent-accepted'
+const CONSENT_KEY = "cookie_consent";
+const CONSENT_ACCEPTED_EVENT = "consent-accepted";
 
 type IdleWindow = Window & {
   requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number

@@ -39,13 +39,13 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
           "relative w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center",
           "text-sm font-display font-bold text-stone-700",
           "cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
-          isPremium
+          PREMIUM_ENABLED && isPremium
             ? "bg-orange/10 hover:bg-orange/20"
             : "bg-stone-100 hover:bg-stone-200",
         ].join(" ")}
       >
         {initial}
-        {isPremium && (
+        {PREMIUM_ENABLED && isPremium && (
           <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center">
             <Star size={10} fill="currentColor" className="text-yellow-500" aria-hidden="true" />
           </span>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import UserMenu from "@/components/layout/UserMenu";
+import LandingButton from "@/components/layout/LandingButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useUIStore } from "@/stores/uiStore";
 import { useUnlock } from "@/hooks/useUnlock";
@@ -12,6 +13,7 @@ interface NavProps {
   currentRoute: string;
   wrongCount: number;
   logoOnly?: boolean;
+  showStartLearning?: boolean;
 }
 
 function SignInIcon() {
@@ -47,6 +49,7 @@ export default function Nav({
   currentRoute,
   wrongCount,
   logoOnly = false,
+  showStartLearning = false,
 }: NavProps) {
   const { user, isPremium, isLoading, signOut } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
@@ -60,18 +63,23 @@ export default function Nav({
           href="/"
           className="font-display font-extrabold text-lg text-stone-900 tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
         >
-          BikeReady
+          CycleDutch
         </Link>
 
+        {/* Start learning CTA (home page only) */}
+        {showStartLearning && (
+          <LandingButton size="sm" buttonVariant="primary" />
+        )}
+
         {/* Nav items + auth */}
-        {!logoOnly && (
+        {!logoOnly && !showStartLearning && (
           <div className="flex items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={[
-                  "relative px-3 py-2 rounded-lg text-sm font-display font-medium transition-colors duration-150 cursor-pointer",
+                  "hidden sm:flex relative px-3 py-2 rounded-lg text-sm font-display font-medium transition-colors duration-150 cursor-pointer",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
                   currentRoute.startsWith(item.href)
                     ? "text-orange"

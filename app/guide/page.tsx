@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Dutch Cycling Rules & Guides for Expats",
     description:
-      "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively — explained for newcomers.",
+      "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively - explained for newcomers.",
     url: "/guide",
     type: "website",
   },
@@ -33,7 +33,7 @@ export default function GuideLandingPage() {
               "Everything you need to know about cycling in the Netherlands.",
             provider: {
               "@type": "Organization",
-              name: "BikeReady",
+              name: "CycleDutch",
               url: SITE_URL,
             },
             hasCourseInstance: {
@@ -68,7 +68,10 @@ export default function GuideLandingPage() {
                     <h2 className="font-display font-bold text-stone-900 text-sm group-hover:text-orange transition-colors duration-150">
                       {guide.title}
                     </h2>
-                    <p className="text-stone-500 text-xs mt-0.5 line-clamp-1" title={guide.subtitle}>
+                    <p
+                      className="text-stone-500 text-xs mt-0.5 line-clamp-1"
+                      title={guide.subtitle}
+                    >
                       {guide.subtitle}
                     </p>
                   </div>
@@ -76,7 +79,11 @@ export default function GuideLandingPage() {
                     <span className="text-xs text-stone-400">
                       {guide.sections.length} topics
                     </span>
-                    <ChevronRight size={16} className="text-stone-400 group-hover:text-orange transition-colors duration-150" aria-hidden="true" />
+                    <ChevronRight
+                      size={16}
+                      className="text-stone-400 group-hover:text-orange transition-colors duration-150"
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
               </Card>

@@ -13,6 +13,7 @@
 ### Task 1: Add `typecheck` npm script
 
 **Files:**
+
 - Modify: `package.json:9` (scripts block)
 
 - [ ] **Step 1: Add the script**
@@ -61,6 +62,7 @@ git commit -m "chore: add typecheck script"
 ### Task 2: Fix `@next/next/no-html-link-for-pages` in error boundaries
 
 **Files:**
+
 - Modify: `app/error.tsx`
 - Modify: `app/global-error.tsx`
 
@@ -116,7 +118,7 @@ export default function Error({
 
 - [ ] **Step 2: Update `app/global-error.tsx`**
 
-Same change — add the `Link` import and replace the `<a>` tag. The full file becomes:
+Same change - add the `Link` import and replace the `<a>` tag. The full file becomes:
 
 ```tsx
 "use client";
@@ -185,6 +187,7 @@ git commit -m "fix: use next/link in error boundary back-to-modules links"
 ### Task 3: Fix `react-hooks/set-state-in-effect` in `LessonAccordion`
 
 **Files:**
+
 - Modify: `components/questions/LessonAccordion.tsx`
 
 - [ ] **Step 1: Replace the reset effect with render-time state adjustment**
@@ -272,6 +275,7 @@ git commit -m "fix: reset LessonAccordion open state during render, not in effec
 ### Task 4: Fix `react-hooks/set-state-in-effect` in `OptionButton`
 
 **Files:**
+
 - Modify: `components/questions/OptionButton.tsx`
 
 - [ ] **Step 1: Replace the ref+effect with render-time state adjustment**
@@ -379,6 +383,7 @@ git commit -m "fix: compute OptionButton burst animation during render, not in e
 ### Task 5: Fix `react-hooks/set-state-in-effect` in `MasteryDot`
 
 **Files:**
+
 - Modify: `components/ui/MasteryDot.tsx`
 
 - [ ] **Step 1: Replace the ref+effect with render-time state adjustment**
@@ -386,88 +391,88 @@ git commit -m "fix: compute OptionButton burst animation during render, not in e
 Current file:
 
 ```tsx
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import type { DotState } from '@/types'
+import { useEffect, useRef, useState } from "react";
+import type { DotState } from "@/types";
 
 interface MasteryDotProps {
-  state: DotState
+  state: DotState;
 }
 
 const stateClasses: Record<DotState, string> = {
-  unseen:  'bg-stone-200',
-  seen:    'bg-orange',
-  correct: 'bg-green',
-  active:  'bg-orange ring-2 ring-orange ring-offset-1',
-  locked:  'bg-stone-300',
-}
+  unseen: "bg-stone-200",
+  seen: "bg-orange",
+  correct: "bg-green",
+  active: "bg-orange ring-2 ring-orange ring-offset-1",
+  locked: "bg-stone-300",
+};
 
 export default function MasteryDot({ state }: MasteryDotProps) {
-  const prevState = useRef<DotState>(state)
-  const [popping, setPopping] = useState(false)
+  const prevState = useRef<DotState>(state);
+  const [popping, setPopping] = useState(false);
 
   useEffect(() => {
-    if (prevState.current !== 'correct' && state === 'correct') {
-      setPopping(true)
+    if (prevState.current !== "correct" && state === "correct") {
+      setPopping(true);
     }
-    prevState.current = state
-  }, [state])
+    prevState.current = state;
+  }, [state]);
 
   return (
     <div
       className={[
-        'w-2.5 h-2.5 rounded-full transition-colors duration-200',
+        "w-2.5 h-2.5 rounded-full transition-colors duration-200",
         stateClasses[state],
-        popping ? 'animate-pop' : '',
-      ].join(' ')}
+        popping ? "animate-pop" : "",
+      ].join(" ")}
       onAnimationEnd={() => setPopping(false)}
     />
-  )
+  );
 }
 ```
 
 Replace with:
 
 ```tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
-import type { DotState } from '@/types'
+import { useState } from "react";
+import type { DotState } from "@/types";
 
 interface MasteryDotProps {
-  state: DotState
+  state: DotState;
 }
 
 const stateClasses: Record<DotState, string> = {
-  unseen:  'bg-stone-200',
-  seen:    'bg-orange',
-  correct: 'bg-green',
-  active:  'bg-orange ring-2 ring-orange ring-offset-1',
-  locked:  'bg-stone-300',
-}
+  unseen: "bg-stone-200",
+  seen: "bg-orange",
+  correct: "bg-green",
+  active: "bg-orange ring-2 ring-orange ring-offset-1",
+  locked: "bg-stone-300",
+};
 
 export default function MasteryDot({ state }: MasteryDotProps) {
-  const [popping, setPopping] = useState(false)
-  const [prevState, setPrevState] = useState<DotState>(state)
+  const [popping, setPopping] = useState(false);
+  const [prevState, setPrevState] = useState<DotState>(state);
 
   if (state !== prevState) {
-    if (prevState !== 'correct' && state === 'correct') {
-      setPopping(true)
+    if (prevState !== "correct" && state === "correct") {
+      setPopping(true);
     }
-    setPrevState(state)
+    setPrevState(state);
   }
 
   return (
     <div
       className={[
-        'w-2.5 h-2.5 rounded-full transition-colors duration-200',
+        "w-2.5 h-2.5 rounded-full transition-colors duration-200",
         stateClasses[state],
-        popping ? 'animate-pop' : '',
-      ].join(' ')}
+        popping ? "animate-pop" : "",
+      ].join(" ")}
       onAnimationEnd={() => setPopping(false)}
     />
-  )
+  );
 }
 ```
 
@@ -493,6 +498,7 @@ git commit -m "fix: compute MasteryDot pop animation during render, not in effec
 ### Task 6: Fix `@typescript-eslint/no-explicit-any` in `DotMap.test.tsx`
 
 **Files:**
+
 - Modify: `tests/components/DotMap.test.tsx:4-16`
 
 - [ ] **Step 1: Type `moduleId` as `ModuleId` instead of casting**
@@ -559,6 +565,7 @@ git commit -m "fix: type DotMap test moduleId as ModuleId instead of any"
 ### Task 7: Fix `@typescript-eslint/no-explicit-any` in `questions.test.ts`
 
 **Files:**
+
 - Modify: `tests/data/questions.test.ts:57`
 
 - [ ] **Step 1: Replace the `any` cast**
@@ -566,13 +573,19 @@ git commit -m "fix: type DotMap test moduleId as ModuleId instead of any"
 Current (line 57):
 
 ```ts
-        expect((q.feedback as any).title, `${q.id} still has deprecated feedback.title`).toBeUndefined()
+expect(
+  (q.feedback as any).title,
+  `${q.id} still has deprecated feedback.title`,
+).toBeUndefined();
 ```
 
 Replace with:
 
 ```ts
-        expect((q.feedback as Record<string, unknown>).title, `${q.id} still has deprecated feedback.title`).toBeUndefined()
+expect(
+  (q.feedback as Record<string, unknown>).title,
+  `${q.id} still has deprecated feedback.title`,
+).toBeUndefined();
 ```
 
 - [ ] **Step 2: Verify the lint error is gone**
@@ -597,6 +610,7 @@ git commit -m "fix: avoid any in questions.test feedback.title check"
 ### Task 8: Fix `@typescript-eslint/no-explicit-any` in `appStore.test.ts`
 
 **Files:**
+
 - Modify: `tests/stores/appStore.test.ts:1`, `:99`
 
 - [ ] **Step 1: Add the `User` type import**
@@ -604,28 +618,28 @@ git commit -m "fix: avoid any in questions.test feedback.title check"
 Current (line 1):
 
 ```ts
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from "vitest";
 ```
 
 Replace with:
 
 ```ts
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { User } from '@supabase/supabase-js'
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { User } from "@supabase/supabase-js";
 ```
 
 - [ ] **Step 2: Replace the `any` cast**
 
-Current (line 100, after the import is added it shifts down by one — search for this exact line):
+Current (line 100, after the import is added it shifts down by one - search for this exact line):
 
 ```ts
-      const fakeUser = { id: 'u1', email: 'test@example.com' } as any
+const fakeUser = { id: "u1", email: "test@example.com" } as any;
 ```
 
 Replace with:
 
 ```ts
-      const fakeUser = { id: 'u1', email: 'test@example.com' } as unknown as User
+const fakeUser = { id: "u1", email: "test@example.com" } as unknown as User;
 ```
 
 - [ ] **Step 3: Verify the lint error is gone**
@@ -654,7 +668,7 @@ git commit -m "fix: avoid any in appStore test fake user"
 - [ ] **Step 1: Lint the whole project**
 
 Run: `npm run lint`
-Expected: `✖ 11 problems (0 errors, 11 warnings)` — 0 errors. (The 11 pre-existing warnings, e.g. `useAuth.ts:153` missing `track` dependency, are out of scope and expected to remain.)
+Expected: `✖ 11 problems (0 errors, 11 warnings)` - 0 errors. (The 11 pre-existing warnings, e.g. `useAuth.ts:153` missing `track` dependency, are out of scope and expected to remain.)
 
 - [ ] **Step 2: Typecheck the whole project**
 
@@ -680,13 +694,14 @@ npm run build
 
 Expected: build completes with `✓ Compiled successfully` and the route table printed, no errors.
 
-No commit for this task — it's a checkpoint before adding the workflow.
+No commit for this task - it's a checkpoint before adding the workflow.
 
 ---
 
 ### Task 10: Add the GitHub Actions CI workflow
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 1: Create the workflow file**

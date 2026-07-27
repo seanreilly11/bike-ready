@@ -34,7 +34,7 @@ export default function ModuleSessionPage() {
 
   const mod = modules.find((m) => m.id === moduleId);
 
-  const { user, isPremium } = useAuth();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
   const handleUnlock = useUnlock();
   const progress = useProgress();
@@ -72,7 +72,8 @@ export default function ModuleSessionPage() {
   const moduleStatus = progress.getModuleStatus(moduleId, isPremium);
 
   // Gate: free users after FREE_PER_MODULE questions, unless module is always free
-  const hitGate = !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
+  const hitGate =
+    !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
 
   useEffect(() => {
     if (hitGate) {
@@ -135,7 +136,7 @@ export default function ModuleSessionPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      {!user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
+      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
         <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
       )}
 
@@ -176,7 +177,7 @@ export default function ModuleSessionPage() {
           <BadgeToast
             badge={badges.newBadge}
             mastered={isMastered(
-              badges.newBadge.moduleId ?? '',
+              badges.newBadge.moduleId ?? "",
               progress.progress,
               activeQuestions,
             )}
@@ -200,7 +201,9 @@ export default function ModuleSessionPage() {
 
             {allDone ? (
               <div className="text-center py-10">
-                <div className="flex justify-center mb-3"><ModuleIcon icon={mod.icon} size="lg" /></div>
+                <div className="flex justify-center mb-3">
+                  <ModuleIcon icon={mod.icon} size="lg" />
+                </div>
                 <h2 className="font-display font-bold text-xl text-stone-900 mb-2">
                   Module complete
                 </h2>
@@ -212,7 +215,7 @@ export default function ModuleSessionPage() {
                   <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
                     Sign in so you don&apos;t lose what you&apos;ve done.{" "}
                     <button
-                      onClick={() => openAuth('save_progress')}
+                      onClick={() => openAuth("save_progress")}
                       className="font-bold text-orange underline underline-offset-2"
                     >
                       Sign in
@@ -227,7 +230,8 @@ export default function ModuleSessionPage() {
                       full
                       onClick={() => router.push(`/learn/${nextModule.id}`)}
                     >
-                      Next: {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
+                      Next: {nextModule.title}{" "}
+                      <ArrowRight size={16} aria-hidden="true" />
                     </Button>
                   )}
                   <Button
@@ -254,7 +258,8 @@ export default function ModuleSessionPage() {
                     full
                     onClick={() => router.push(`/learn/${nextModule.id}`)}
                   >
-                    Next module: {nextModule.title} <ArrowRight size={16} aria-hidden="true" />
+                    Next module: {nextModule.title}{" "}
+                    <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 )}
 
@@ -269,11 +274,11 @@ export default function ModuleSessionPage() {
             )}
           </div>
         ) : currentQuestion ? (
-          /* Active question — reading column + desktop context rail */
+          /* Active question - reading column + desktop context rail */
           <StudyLayout
             reading={
               <div>
-                {/* Dot map — mobile only; the rail shows progress on desktop */}
+                {/* Dot map - mobile only; the rail shows progress on desktop */}
                 <div className="mb-6 lg:hidden">
                   <DotMap
                     questions={moduleQuestions}
@@ -291,11 +296,14 @@ export default function ModuleSessionPage() {
                   onAnswer={handleAnswer}
                   answered={!!progress.progress[currentQuestion.id]?.correct}
                   selectedId={null}
-                  answeredCorrect={!!progress.progress[currentQuestion.id]?.correct}
+                  answeredCorrect={
+                    !!progress.progress[currentQuestion.id]?.correct
+                  }
                   hideCorrect={false}
                   lessonHiddenOnDesktop
                 />
-                {(!!progress.progress[currentQuestion.id]?.correct || answeredThisView) && (
+                {(!!progress.progress[currentQuestion.id]?.correct ||
+                  answeredThisView) && (
                   <div className="mt-4">
                     <Button
                       variant="primary"
@@ -303,9 +311,17 @@ export default function ModuleSessionPage() {
                       full
                       onClick={handleNext}
                     >
-                      {currentIndex === moduleQuestions.length - 1
-                        ? <><span>Complete module</span><ArrowRight size={16} aria-hidden="true" /></>
-                        : <><span>Next question</span><ArrowRight size={16} aria-hidden="true" /></>}
+                      {currentIndex === moduleQuestions.length - 1 ? (
+                        <>
+                          <span>Complete module</span>
+                          <ArrowRight size={16} aria-hidden="true" />
+                        </>
+                      ) : (
+                        <>
+                          <span>Next question</span>
+                          <ArrowRight size={16} aria-hidden="true" />
+                        </>
+                      )}
                     </Button>
                   </div>
                 )}

@@ -1,71 +1,98 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fonts — families injected by next/font (see app/layout.tsx) */
-  --font-display: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
-  --font-mono:    var(--font-dm-mono), 'DM Mono', monospace;
+  /* Fonts - families injected by next/font (see app/layout.tsx) */
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", sans-serif;
+  --font-mono: var(--font-dm-mono), "DM Mono", monospace;
 
   /* Primary accent */
-  --color-orange:       #E8500A;
-  --color-orange-light: #FDF0E8;
-  --color-orange-mid:   #FAD5B8;
+  --color-orange: #e8500a;
+  --color-orange-light: #fdf0e8;
+  --color-orange-mid: #fad5b8;
 
   /* Page backgrounds and surfaces */
-  --color-stone-50:  #FAFAF8;
-  --color-stone-100: #F4F2EE;
-  --color-stone-200: #E8E4DC;
-  --color-stone-400: #A89D8C;
-  --color-stone-600: #6B6055;
-  --color-stone-900: #1C1915;
+  --color-stone-50: #fafaf8;
+  --color-stone-100: #f4f2ee;
+  --color-stone-200: #e8e4dc;
+  --color-stone-400: #a89d8c;
+  --color-stone-600: #6b6055;
+  --color-stone-900: #1c1915;
 
   /* Correct states */
-  --color-green:       #4ade80;
+  --color-green: #4ade80;
   --color-green-light: #f0fdf4;
-  --color-green-mid:   #bbf7d0;
-  --color-green-dark:  #166534;
+  --color-green-mid: #bbf7d0;
+  --color-green-dark: #166534;
 
   /* Incorrect / needs-work states */
-  --color-red:       #f87171;
+  --color-red: #f87171;
   --color-red-light: #fef2f2;
-  --color-red-mid:   #fecaca;
-  --color-red-dark:  #991b1b;
+  --color-red-mid: #fecaca;
+  --color-red-dark: #991b1b;
 
   /* Badge states */
-  --color-yellow:       #fde68a;
+  --color-yellow: #fde68a;
   --color-yellow-light: #fef9c3;
-  --color-yellow-dark:  #854d0e;
+  --color-yellow-dark: #854d0e;
 
   /* Mastery (gold) */
-  --color-gold:       #f5a623;
+  --color-gold: #f5a623;
   --color-gold-light: #fffbea;
 
   /* Animations */
   --animate-fade-up: fadeUp 0.25s ease-out both;
-  --animate-pop:     pop 0.3s ease-out both;
-  --animate-shake:   shake 0.3s ease-out both;
+  --animate-pop: pop 0.3s ease-out both;
+  --animate-shake: shake 0.3s ease-out both;
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes pop {
-    0%   { transform: scale(0.94); opacity: 0; }
-    60%  { transform: scale(1.03); }
-    100% { transform: scale(1);    opacity: 1; }
+    0% {
+      transform: scale(0.94);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.03);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%      { transform: translateX(-3px); }
-    40%      { transform: translateX(3px); }
-    60%      { transform: translateX(-2px); }
-    80%      { transform: translateX(2px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-3px);
+    }
+    40% {
+      transform: translateX(3px);
+    }
+    60% {
+      transform: translateX(-2px);
+    }
+    80% {
+      transform: translateX(2px);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
@@ -73,12 +100,18 @@
 }
 
 /* Base styles */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 /* Reserve space for the fixed cookie consent banner while it is shown */
-body.cookie-banner-open { padding-bottom: 8.5rem; }
+body.cookie-banner-open {
+  padding-bottom: 8.5rem;
+}
 @media (min-width: 640px) {
-  body.cookie-banner-open { padding-bottom: 5rem; }
+  body.cookie-banner-open {
+    padding-bottom: 5rem;
+  }
 }
 body {
   overflow-x: hidden;

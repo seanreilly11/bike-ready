@@ -10,12 +10,12 @@ import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "BikeReady — Cycle safely in the Netherlands",
+  title: { absolute: "CycleDutch - Cycle safely in the Netherlands" },
   description:
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short scenario-based course for expats. Know what to do before you ride.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "BikeReady — Cycle safely in the Netherlands",
+    title: "CycleDutch - Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
     url: "/",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BikeReady — Cycle safely in the Netherlands",
+    title: "CycleDutch - Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
   },
@@ -50,7 +50,7 @@ const howItWorks = [
 export default function LandingPage() {
   return (
     <>
-      <Nav currentRoute="/" wrongCount={0} logoOnly />
+      <Nav currentRoute="/" wrongCount={0} logoOnly showStartLearning />
       <main className="min-h-dvh bg-stone-50 overflow-x-hidden">
         {/* Hero */}
         <HeroSection />
@@ -69,7 +69,7 @@ export default function LandingPage() {
                 <span className="font-mono text-xs uppercase tracking-wide text-stone-400 block mb-2">
                   Step {item.step}
                 </span>
-                <h3 className="font-display font-bold text-stone-900 mb-1">
+                <h3 className="font-display font-bold text-sm text-stone-900 mb-1">
                   {item.title}
                 </h3>
                 <p className="text-sm text-stone-600 leading-relaxed">
@@ -108,8 +108,8 @@ export default function LandingPage() {
                     {mod.description}
                   </p>
                 </div>
-                {PREMIUM_ENABLED && (
-                  mod.alwaysFree ? (
+                {PREMIUM_ENABLED &&
+                  (mod.alwaysFree ? (
                     <p className="text-xs text-green font-mono uppercase tracking-wide">
                       Entire module free
                     </p>
@@ -117,8 +117,7 @@ export default function LandingPage() {
                     <p className="text-xs text-stone-400 font-mono uppercase tracking-wide">
                       {FREE_PER_MODULE} free questions
                     </p>
-                  )
-                )}
+                  ))}
               </Link>
             ))}
           </div>
@@ -130,8 +129,8 @@ export default function LandingPage() {
             Built for foreigners, not Dutch people
           </h2>
           <p className="text-orange/90 text-sm leading-relaxed max-w-lg">
-            Dutch cyclists learn this stuff as kids. You didn&apos;t. BikeReady
-            targets exactly the rules that differ from what you already know —
+            Dutch cyclists learn this stuff as kids. You didn&apos;t. CycleDutch
+            targets exactly the rules that differ from what you already know -
             so you recalibrate fast and stay safe.
           </p>
         </section>

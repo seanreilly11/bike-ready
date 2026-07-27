@@ -17,17 +17,17 @@ const heroContent: Record<
   control: {
     eyebrow: "For expats cycling in the Netherlands",
     heading: "Go from uncertain to confident cycling on Dutch roads.",
-    body: "Dutch cycling is one of life's great joys — once you know how it works. BikeReady teaches you the rules before the road does, so every ride feels safe, natural, and yours.",
+    body: "Dutch cycling is one of life's great joys - once you know how it works. CycleDutch teaches you the rules before the road does, so every ride feels safe, natural, and yours.",
   },
   variant_a: {
     eyebrow: "Don't learn Dutch cycling rules the hard way",
     heading: "Know the rules before you ride. Not after.",
-    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules — and breaking them is expensive or dangerous. BikeReady gets you fluent in 30 minutes.",
+    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules - and breaking them is expensive or dangerous. CycleDutch gets you fluent in 30 minutes.",
   },
   variant_b: {
     eyebrow: "Join 2,400+ expats who've figured it out",
     heading: "The Dutch cycling crash course for expats.",
-    body: "Six modules. Real scenarios. Instant feedback. Master the rules that actually matter in the Netherlands — from priority intersections to cycle path law.",
+    body: "Six modules. Real scenarios. Instant feedback. Master the rules that actually matter in the Netherlands - from priority intersections to cycle path law.",
   },
 };
 
@@ -38,8 +38,14 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-orange pt-12 pb-14 md:pt-20 md:pb-20">
       {/* Flat background shapes for depth (no gradient) */}
-      <div className="absolute -top-24 right-[18%] w-80 h-80 rounded-full bg-white/[0.07] pointer-events-none" aria-hidden="true" />
-      <div className="absolute -bottom-28 -left-12 w-64 h-64 rounded-full bg-white/[0.06] pointer-events-none" aria-hidden="true" />
+      <div
+        className="absolute -top-24 right-[18%] w-80 h-80 rounded-full bg-white/[0.07] pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute -bottom-28 -left-12 w-64 h-64 rounded-full bg-white/[0.06] pointer-events-none"
+        aria-hidden="true"
+      />
 
       <div className="relative z-[1] max-w-2xl lg:max-w-5xl mx-auto px-5 grid lg:grid-cols-2 lg:gap-12 lg:items-center">
         {/* Text */}
@@ -68,12 +74,12 @@ export default function HeroSection() {
           </div>
           {PREMIUM_ENABLED && (
             <p className="text-white/60 text-xs mt-3 font-mono uppercase tracking-wide">
-              {FREE_PER_MODULE} free questions per module — no account needed
+              {FREE_PER_MODULE} free questions per module - no account needed
             </p>
           )}
         </div>
 
-        {/* Visual — flat tiles of the modules you'll master (desktop only) */}
+        {/* Visual - flat tiles of the modules you'll master (desktop only) */}
         <div className="hidden lg:block">
           <div className="bg-white/[0.12] border border-white/25 rounded-2xl p-6 animate-fade-up">
             <p className="font-mono text-xs uppercase tracking-wide text-white/80 mb-4 flex items-center gap-2">

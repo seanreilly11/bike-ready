@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
 
   const supabase = await createClient();
 
-  // Refresh the session — must not be removed.
+  // Refresh the session - must not be removed.
   await supabase.auth.getUser();
 
   return supabaseResponse;

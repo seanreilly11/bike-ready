@@ -25,12 +25,12 @@ export async function GET() {
     .eq("id", user.id)
     .single();
 
-  // Already premium — nothing to do
+  // Already premium - nothing to do
   if (profile?.is_premium) {
     return NextResponse.json({ is_premium: true });
   }
 
-  // No Stripe customer yet — definitely not premium
+  // No Stripe customer yet - definitely not premium
   if (!profile?.stripe_customer_id) {
     return NextResponse.json({ is_premium: false });
   }
