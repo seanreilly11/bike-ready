@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms and conditions for using BikeReady.",
+  description: "Terms and conditions for using CycleDutch.",
   alternates: { canonical: "/terms" },
 };
 
@@ -13,7 +13,7 @@ export default function TermsPage() {
         Terms of service
       </h1>
       <p className="text-xs text-stone-400 font-mono mb-10">
-        Last updated: May 2026 · Applies to bikeready.nl
+        Last updated: May 2026 · Applies to cycledutch.com
       </p>
 
       {/* Parties */}
@@ -22,9 +22,10 @@ export default function TermsPage() {
           Parties
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          These terms govern your use of BikeReady, operated by [YOUR FULL NAME]
-          (KvK: [KVK NUMBER]), referred to as &quot;we&quot;, &quot;us&quot;, or
-          &quot;BikeReady&quot;. By using BikeReady you agree to these terms.
+          These terms govern your use of CycleDutch, operated by [YOUR FULL
+          NAME] (KvK: [KVK NUMBER]), referred to as &quot;we&quot;,
+          &quot;us&quot;, or &quot;CycleDutch&quot;. By using CycleDutch you
+          agree to these terms.
         </p>
       </section>
 
@@ -34,16 +35,16 @@ export default function TermsPage() {
           The product
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          BikeReady is a digital cycling education course designed for expats
+          CycleDutch is a digital cycling education course designed for expats
           learning to cycle in the Netherlands. The course consists of modules
           containing questions, feedback, and educational content about Dutch
           cycling rules.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
-          BikeReady provides educational content for informational purposes
+          CycleDutch provides educational content for informational purposes
           only. While we make every effort to ensure accuracy, we cannot
           guarantee that the content reflects the most current version of Dutch
-          traffic law. Do not rely solely on BikeReady for legal compliance —
+          traffic law. Do not rely solely on CycleDutch for legal compliance -
           always consult official sources (RVV 1990, CROW guidelines) for
           definitive legal information.
         </p>
@@ -68,7 +69,7 @@ export default function TermsPage() {
           Premium access and payment
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          BikeReady Premium unlocks the full course for a one-time payment of
+          CycleDutch Premium unlocks the full course for a one-time payment of
           €4.99 (inclusive of any applicable taxes). Premium access is tied to
           your account (email address) and does not expire. Payment is processed
           by Stripe. We accept major credit and debit cards.
@@ -128,8 +129,8 @@ export default function TermsPage() {
           Intellectual property
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          All content on BikeReady — including question text, feedback,
-          illustrations, and interface design — is owned by [YOUR FULL NAME] and
+          All content on CycleDutch - including question text, feedback,
+          illustrations, and interface design - is owned by [YOUR FULL NAME] and
           protected by copyright. You may not copy, reproduce, distribute, or
           create derivative works from our content without written permission.
         </p>
@@ -141,13 +142,13 @@ export default function TermsPage() {
           Limitation of liability
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          BikeReady provides educational content on a best-efforts basis. To the
-          fullest extent permitted by law, we exclude liability for:
+          CycleDutch provides educational content on a best-efforts basis. To
+          the fullest extent permitted by law, we exclude liability for:
         </p>
         <ul className="space-y-2 mb-4 pl-4 border-l-2 border-stone-200">
           {[
             "Any inaccuracy in the educational content",
-            "Any loss or damage arising from reliance on BikeReady content",
+            "Any loss or damage arising from reliance on CycleDutch content",
             "Service interruptions, data loss, or technical failures",
             "Any indirect, consequential, or incidental losses",
           ].map((item) => (
@@ -158,7 +159,7 @@ export default function TermsPage() {
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
           Our total liability to you in connection with these terms shall not
-          exceed the amount you paid for BikeReady Premium (€4.99).
+          exceed the amount you paid for CycleDutch Premium (€4.99).
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           Nothing in these terms limits liability for fraud, death or personal

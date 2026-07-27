@@ -41,7 +41,7 @@ export default async function GuideOpengraphImage({
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <div style={{ fontSize: 64, display: "flex" }}>🚲</div>
           <div style={{ fontSize: 36, fontWeight: 700, display: "flex" }}>
-            BikeReady
+            CycleDutch
           </div>
         </div>
 

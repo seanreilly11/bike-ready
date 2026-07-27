@@ -7,7 +7,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useUIStore } from "@/stores/uiStore";
-import { X, Check, ChevronRight, ArrowLeft, ArrowRight, Lock, LockOpen } from "lucide-react";
+import {
+  X,
+  Check,
+  ChevronRight,
+  ArrowLeft,
+  ArrowRight,
+  LockOpen,
+} from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import QuestionCard from "@/components/questions/QuestionCard";
 import Badge from "@/components/ui/Badge";
@@ -46,68 +53,118 @@ function FreeReviewScreen() {
 
   // ── State 1: no wrong answers yet ──────────────────────────────────────────
   if (total === 0) {
-    const skeletonCards = [
-      { w1: "75%", w2: "55%", opacityClass: "opacity-100" },
-      { w1: "65%", w2: "45%", opacityClass: "opacity-80" },
-      { w1: "80%", w2: "50%", opacityClass: "opacity-60" },
-    ];
+    const previewGroups = modules
+      .map((mod) => ({
+        mod,
+        qs: allQuestions.filter((q) => q.module === mod.id).slice(0, 2),
+      }))
+      .filter((g) => g.qs.length > 0)
+      .slice(0, 2);
 
     return (
       <AppShell wrongCount={0}>
-        <main className="min-h-dvh bg-stone-50">
-          <div className="max-w-2xl mx-auto px-5 py-6 lg:py-10">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight lg:text-3xl">
-                Review
-              </h1>
-            </div>
-
-            <p className="text-sm text-stone-600 mb-6">
-              Answer more questions in the modules and any you get wrong will
-              appear here.
+        <main className="min-h-dvh bg-stone-50 pb-40">
+          <div className="max-w-2xl mx-auto px-5 pt-6 pb-0">
+            <p className="font-mono text-[11px] font-medium tracking-widest uppercase text-orange mb-1.5">
+              Review
+            </p>
+            <h1 className="font-display text-2xl font-extrabold tracking-tight text-stone-900 mb-2">
+              Fix your mistakes.
+            </h1>
+            <p className="text-[13px] text-stone-600 leading-relaxed mb-5">
+              Answer questions in the modules — anything you get wrong lands here to fix.
             </p>
 
-            <div className="relative">
-              {/* Ghost skeleton cards */}
-              <div className="flex flex-col gap-3" aria-hidden="true">
-                {skeletonCards.map((card, i) => (
-                  <div
-                    key={i}
-                    className={[
-                      "bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red",
-                      "rounded-xl px-[15px] py-3 flex items-center gap-3",
-                      "blur-sm pointer-events-none select-none",
-                      card.opacityClass,
-                    ].join(" ")}
-                  >
-                    <X size={14} className="text-red shrink-0" aria-hidden="true" />
-                    <div className="flex-1 flex flex-col gap-1.5">
-                      <div className="h-3 rounded-full bg-stone-200" style={{ width: card.w1 }} />
-                      <div className="h-2.5 rounded-full bg-stone-200" style={{ width: card.w2 }} />
-                    </div>
-                    <ChevronRight size={16} className="text-stone-400 shrink-0" aria-hidden="true" />
-                  </div>
-                ))}
-              </div>
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[rgba(250,250,248,0.3)] to-[rgba(250,250,248,0.97)] flex flex-col items-center justify-end pb-4 gap-3">
-                <Lock size={28} className="text-stone-400" aria-hidden="true" />
-                <p className="text-sm text-stone-600 text-center max-w-xs">
-                  {comingSoon
-                    ? "Answer questions in the modules to build your review list — Review is coming soon."
-                    : "Answer questions in the modules to build your review list — then unlock to fix them."}
+            {comingSoon ? (
+              <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-center mb-6">
+                <p className="text-white font-bold text-sm leading-snug">
+                  Coming soon
                 </p>
-                <Button
-                  variant="primary"
-                  size="md"
-                  onClick={comingSoon ? undefined : openGate}
-                  disabled={comingSoon}
-                  aria-label={comingSoon ? "Review coming soon" : "Unlock Review"}
-                >
-                  {comingSoon ? "Coming soon" : "Unlock"}
-                </Button>
               </div>
+            ) : (
+              <div className="bg-orange rounded-xl px-4 py-3.5 flex items-center justify-between gap-3 mb-6">
+                <div>
+                  <p className="text-white font-bold text-sm leading-snug">
+                    Your mistakes will appear here
+                  </p>
+                  <p className="font-mono text-[11px] text-white/65 mt-0.5">
+                    Fix these before your next ride
+                  </p>
+                </div>
+                <button
+                  onClick={openGate}
+                  aria-label="Unlock Review"
+                  className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
+                >
+                  Unlock{" "}
+                  <ArrowRight size={14} aria-hidden="true" className="inline" />
+                </button>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-4">
+              {previewGroups.map(({ mod, qs }, groupIndex) => (
+                <div key={mod.id} style={{ opacity: groupIndex === 0 ? 1 : 0.7 }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="font-display font-bold text-sm text-orange flex items-center gap-2">
+                      {mod.title}
+                    </h2>
+                    <span className="font-mono text-[11px] text-orange uppercase tracking-widest">
+                      {qs.length} to fix
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {qs.map((q, cardIndex) => (
+                      <div
+                        key={q.id}
+                        aria-hidden="true"
+                        className="bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red rounded-xl px-[15px] py-3 flex items-start gap-3 blur-sm pointer-events-none select-none"
+                        style={{ opacity: cardIndex === 1 ? 0.6 : 1 }}
+                      >
+                        <X size={14} className="text-red shrink-0 mt-px" aria-hidden="true" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[13px] text-stone-900 font-medium leading-snug mb-1">
+                            {q.prompt.length > 82 ? q.prompt.slice(0, 82) + "…" : q.prompt}
+                          </p>
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-mono text-[9px] text-stone-400 uppercase tracking-widest">
+                              {q.skill}
+                            </span>
+                            <Badge variant={q.difficulty} label={q.difficulty} />
+                          </div>
+                        </div>
+                        <ChevronRight size={16} className="text-stone-400 shrink-0 mt-px" aria-hidden="true" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="sticky bottom-0 text-center bg-gradient-to-b from-transparent to-[rgba(250,250,248,0.95)] pt-10 -mt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+            <div className="inline-flex flex-col items-center gap-2.5 bg-white border border-stone-200 rounded-2xl px-5 py-[18px] shadow-lg min-w-[260px]">
+              <LockOpen size={24} className="text-stone-500" aria-hidden="true" />
+              <p className="font-display font-bold text-[15px] text-stone-900 tracking-tight leading-snug text-center">
+                {comingSoon ? "Review is coming soon" : "Unlock to fix your mistakes"}
+              </p>
+              <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
+                {comingSoon
+                  ? "We're putting the finishing touches on this."
+                  : "Less than the fine for running a red light"}
+              </p>
+              <button
+                onClick={comingSoon ? undefined : openGate}
+                disabled={comingSoon}
+                aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
+                className={
+                  comingSoon
+                    ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
+                    : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
+                }
+              >
+                {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+              </button>
             </div>
           </div>
         </main>
@@ -123,7 +180,7 @@ function FreeReviewScreen() {
           <p className="font-mono text-[11px] font-medium tracking-widest uppercase text-orange mb-1.5">
             Review
           </p>
-          <h1 className="font-display text-[26px] font-extrabold tracking-tight text-stone-900 mb-2">
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-stone-900 mb-2">
             Fix your mistakes.
           </h1>
           <p className="text-[13px] text-stone-600 leading-relaxed mb-5">
@@ -133,7 +190,7 @@ function FreeReviewScreen() {
             </span>{" "}
             waiting for review.{" "}
             {comingSoon
-              ? "Review is coming soon — you'll be able to fix them shortly."
+              ? "Review is coming soon - you'll be able to fix them shortly."
               : "Go premium now to fix them before your next ride."}
           </p>
 
@@ -159,7 +216,8 @@ function FreeReviewScreen() {
                 aria-label="Unlock Review"
                 className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
               >
-                Unlock <ArrowRight size={14} aria-hidden="true" className="inline" />
+                Unlock{" "}
+                <ArrowRight size={14} aria-hidden="true" className="inline" />
               </button>
             </div>
           )}
@@ -172,9 +230,9 @@ function FreeReviewScreen() {
 
               return (
                 <div key={mod.id} style={{ opacity: groupOpacity }}>
-                  {/* Module header — NOT blurred */}
+                  {/* Module header - NOT blurred */}
                   <div className="flex items-center justify-between mb-2">
-                    <h2 className="font-display font-bold text-orange flex items-center gap-2">
+                    <h2 className="font-display font-bold text-sm text-orange flex items-center gap-2">
                       {mod.title}
                     </h2>
                     <span className="font-mono text-[11px] text-orange uppercase tracking-widest">
@@ -182,7 +240,7 @@ function FreeReviewScreen() {
                     </span>
                   </div>
 
-                  {/* Question cards — blurred */}
+                  {/* Question cards - blurred */}
                   <div className="flex flex-col gap-2">
                     {qs.map((q, cardIndex) => {
                       const cardOpacity =
@@ -197,7 +255,11 @@ function FreeReviewScreen() {
                           className="bg-white border-[1.5px] border-red-mid border-l-[3px] border-l-red rounded-xl px-[15px] py-3 flex items-start gap-3 blur-sm pointer-events-none select-none"
                           style={{ opacity: cardOpacity }}
                         >
-                          <X size={14} className="text-red shrink-0 mt-px" aria-hidden="true" />
+                          <X
+                            size={14}
+                            className="text-red shrink-0 mt-px"
+                            aria-hidden="true"
+                          />
                           <div className="flex-1 min-w-0">
                             <p className="text-[13px] text-stone-900 font-medium leading-snug mb-1">
                               {q.prompt.length > 82
@@ -214,7 +276,11 @@ function FreeReviewScreen() {
                               />
                             </div>
                           </div>
-                          <ChevronRight size={16} className="text-stone-400 shrink-0 mt-px" aria-hidden="true" />
+                          <ChevronRight
+                            size={16}
+                            className="text-stone-400 shrink-0 mt-px"
+                            aria-hidden="true"
+                          />
                         </div>
                       );
                     })}
@@ -242,7 +308,9 @@ function FreeReviewScreen() {
             <button
               onClick={comingSoon ? undefined : openGate}
               disabled={comingSoon}
-              aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
+              aria-label={
+                comingSoon ? "Review coming soon" : "Unlock Review for €4.99"
+              }
               className={
                 comingSoon
                   ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
@@ -302,7 +370,11 @@ export default function ReviewPage() {
   function openQuestion(id: string, position: number) {
     const question = allQuestions.find((q) => q.id === id);
     if (question) {
-      track("review_question_opened", { question_id: question.id, module: question.module, position });
+      track("review_question_opened", {
+        question_id: question.id,
+        module: question.module,
+        position,
+      });
     }
     setActiveId(id);
     setHasAnswered(false);
@@ -330,21 +402,33 @@ export default function ReviewPage() {
             <div className="bg-green-light border border-green-mid rounded-2xl p-8 sm:p-10 text-center animate-fade-up">
               <div className="flex justify-center mb-4">
                 <span className="size-16 rounded-full bg-green-mid/60 flex items-center justify-center">
-                  <Check size={34} className="text-green-dark" aria-hidden="true" />
+                  <Check
+                    size={34}
+                    className="text-green-dark"
+                    aria-hidden="true"
+                  />
                 </span>
               </div>
               <h1 className="font-display font-extrabold text-2xl text-stone-900 tracking-tight mb-2">
                 All cleared!
               </h1>
               <p className="text-stone-600 text-sm leading-relaxed max-w-sm mx-auto mb-6">
-                No mistakes to fix right now. Answer more questions in the modules —
-                anything you miss lands here.
+                No mistakes to fix right now. Answer more questions in the
+                modules - anything you miss lands here.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button variant="primary" size="lg" onClick={() => router.push("/learn")}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => router.push("/learn")}
+                >
                   Back to practice <ArrowRight size={16} aria-hidden="true" />
                 </Button>
-                <Button variant="secondary" size="lg" onClick={() => router.push("/test")}>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => router.push("/test")}
+                >
                   Take the test
                 </Button>
               </div>
@@ -401,9 +485,15 @@ export default function ReviewPage() {
                           variant="primary"
                           size="lg"
                           full
-                          onClick={() => openQuestion(nextInModule.id, queue.indexOf(nextInModule))}
+                          onClick={() =>
+                            openQuestion(
+                              nextInModule.id,
+                              queue.indexOf(nextInModule),
+                            )
+                          }
                         >
-                          Next question <ArrowRight size={16} aria-hidden="true" />
+                          Next question{" "}
+                          <ArrowRight size={16} aria-hidden="true" />
                         </Button>
                       )}
                       <Button
@@ -426,7 +516,7 @@ export default function ReviewPage() {
               {/* Header band */}
               <PageBanner
                 title="Review"
-                subtitle="Fix your mistakes — answer one right and it leaves the list."
+                subtitle="Fix your mistakes - answer one right and it leaves the list."
                 right={
                   <span className="font-mono text-xs uppercase tracking-wide text-red-dark bg-red-light border border-red-mid rounded-full px-3 py-1.5">
                     {queue.length} to fix
@@ -443,7 +533,7 @@ export default function ReviewPage() {
                 >
                   <div className="flex items-center gap-2.5 mb-3">
                     <ModuleIcon icon={mod.icon} size="sm" />
-                    <h2 className="font-display font-bold text-stone-900">
+                    <h2 className="font-display font-bold text-sm text-stone-900">
                       {mod.title}
                     </h2>
                     <span className="ml-auto font-mono text-xs uppercase tracking-wide text-red-dark">
@@ -474,7 +564,10 @@ export default function ReviewPage() {
                             <span className="font-mono text-[10px] uppercase tracking-wide text-stone-400">
                               {q.skill}
                             </span>
-                            <Badge variant={q.difficulty} label={q.difficulty} />
+                            <Badge
+                              variant={q.difficulty}
+                              label={q.difficulty}
+                            />
                           </span>
                         </span>
                         <ChevronRight

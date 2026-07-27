@@ -1,21 +1,23 @@
-import '@testing-library/jest-dom'
-import { afterEach, vi } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import "@testing-library/jest-dom";
+import { afterEach, vi } from "vitest";
+import { cleanup } from "@testing-library/react";
 
-// Mock next/navigation — used by hooks that call useRouter/useParams
-vi.mock('next/navigation', () => ({
+// Mock next/navigation - used by hooks that call useRouter/useParams
+vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
   useParams: () => ({}),
-  usePathname: () => '/',
+  usePathname: () => "/",
   useSearchParams: () => new URLSearchParams(),
-}))
+}));
 
-// Mock Supabase client — prevent real network calls
-vi.mock('@/lib/supabase', () => ({
+// Mock Supabase client - prevent real network calls
+vi.mock("@/lib/supabase", () => ({
   createClient: () => ({
     auth: {
       getSession: vi.fn().mockResolvedValue({ data: { session: null } }),
-      onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
+      onAuthStateChange: vi
+        .fn()
+        .mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
       signInWithOtp: vi.fn().mockResolvedValue({ error: null }),
       signOut: vi.fn().mockResolvedValue({ error: null }),
     },
@@ -27,24 +29,30 @@ vi.mock('@/lib/supabase', () => ({
       single: vi.fn().mockResolvedValue({ data: null, error: null }),
     }),
   }),
-}))
+}));
 
 // Mock localStorage with a real in-memory implementation that resets each test.
 // Zustand persist middleware writes to localStorage; clearing it prevents state
 // bleed between tests.
 const localStorageMock = (() => {
-  let store: Record<string, string> = {}
+  let store: Record<string, string> = {};
   return {
     getItem: (key: string) => store[key] ?? null,
-    setItem: (key: string, value: string) => { store[key] = value },
-    removeItem: (key: string) => { delete store[key] },
-    clear: () => { store = {} },
-  }
-})()
-Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+    setItem: (key: string, value: string) => {
+      store[key] = value;
+    },
+    removeItem: (key: string) => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
+  };
+})();
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
 // Auto-cleanup RTL DOM and reset localStorage after each test
 afterEach(() => {
-  cleanup()
-  localStorageMock.clear()
-})
+  cleanup();
+  localStorageMock.clear();
+});

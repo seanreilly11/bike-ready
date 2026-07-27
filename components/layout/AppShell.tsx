@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Nav from "@/components/layout/Nav";
+import BottomNav from "@/components/layout/BottomNav";
 import AuthModal from "@/components/layout/AuthModal";
 import { useUIStore } from "@/stores/uiStore";
 
@@ -21,6 +22,9 @@ export default function AppShell({
   const authReason = useUIStore((s) => s.authReason);
   const closeAuth = useUIStore((s) => s.closeAuth);
 
+  // Hide bottom nav during module sessions — back button handles navigation there
+  const showBottomNav = !pathname.startsWith("/learn/");
+
   return (
     <>
       <Nav
@@ -32,6 +36,9 @@ export default function AppShell({
         <AuthModal reason={authReason} onClose={closeAuth} />
       )}
       {children}
+      {showBottomNav && (
+        <BottomNav currentRoute={pathname} wrongCount={wrongCount} />
+      )}
     </>
   );
 }

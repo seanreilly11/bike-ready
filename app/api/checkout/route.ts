@@ -5,7 +5,9 @@ import { isRateLimited } from "@/lib/cooldown";
 
 export async function POST() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -15,7 +17,7 @@ export async function POST() {
     return new Response("Too many requests", { status: 429 });
   }
 
-  // Check if already premium — don't create a duplicate session
+  // Check if already premium - don't create a duplicate session
   const { data: profile } = await supabaseAdmin
     .from("profiles")
     .select("is_premium")

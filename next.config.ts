@@ -8,7 +8,7 @@ validateEnv();
 // clouds, incl. lazily-loaded recorder script), Sentry ingest, Google Fonts.
 // Next.js inline bootstrap scripts require 'unsafe-inline' without nonces.
 // Dev (Turbopack) needs 'unsafe-eval' for source maps and React's debug
-// features; production keeps a strict script-src — React never uses eval there.
+// features; production keeps a strict script-src - React never uses eval there.
 const isDev = process.env.NODE_ENV !== "production";
 
 const csp = [

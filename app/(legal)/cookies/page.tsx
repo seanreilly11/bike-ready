@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: "What cookies BikeReady uses and why.",
+  description: "What cookies CycleDutch uses and why.",
   alternates: { canonical: "/cookies" },
 };
 
@@ -13,7 +13,7 @@ export default function CookiesPage() {
         Cookie policy
       </h1>
       <p className="text-xs text-stone-400 font-mono mb-10">
-        Last updated: May 2026 · Applies to bikeready.nl
+        Last updated: May 2026 · Applies to cycledutch.com
       </p>
 
       {/* What are cookies */}
@@ -24,7 +24,7 @@ export default function CookiesPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           Cookies are small text files stored on your device when you visit a
           website. We use cookies and similar local storage technologies to make
-          BikeReady work and to understand how it is used.
+          CycleDutch work and to understand how it is used.
         </p>
       </section>
 
@@ -71,13 +71,13 @@ export default function CookiesPage() {
               </tr>
               <tr>
                 <td className="px-4 py-3 text-stone-600 align-top font-mono text-xs">
-                  bikeready_progress
+                  progress
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top">
                   Stores your question progress in localStorage before you
                   create an account.{" "}
                   <span className="text-stone-400">
-                    Not a cookie — localStorage data.
+                    Not a cookie - localStorage data.
                   </span>
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top whitespace-nowrap">
@@ -86,12 +86,12 @@ export default function CookiesPage() {
               </tr>
               <tr>
                 <td className="px-4 py-3 text-stone-600 align-top font-mono text-xs">
-                  bikeready_onboarding_done
+                  onboarding_done
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top">
                   Remembers whether you have completed the onboarding overlay.{" "}
                   <span className="text-stone-400">
-                    Not a cookie — localStorage data.
+                    Not a cookie - localStorage data.
                   </span>
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top whitespace-nowrap">
@@ -130,7 +130,7 @@ export default function CookiesPage() {
                   ph_[project]_posthog
                 </td>
                 <td className="px-4 py-3 text-stone-600 align-top">
-                  PostHog analytics. Tracks anonymised usage patterns — which
+                  PostHog analytics. Tracks anonymised usage patterns - which
                   modules are opened, question completion rates. No personally
                   identifiable data is collected.
                 </td>
@@ -216,9 +216,9 @@ export default function CookiesPage() {
           Third-party cookies
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          We do not allow third-party advertisers to set cookies on BikeReady.
+          We do not allow third-party advertisers to set cookies on CycleDutch.
           The only third-party cookies are from PostHog (analytics) and Stripe
-          (payment processing — only set on the checkout page).
+          (payment processing - only set on the checkout page).
         </p>
       </section>
     </>

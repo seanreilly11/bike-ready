@@ -39,18 +39,18 @@ export default function StudyRail({
       <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-1.5">
         What you&apos;re learning
       </p>
-      <p className="font-display font-extrabold text-lg text-stone-900 leading-tight">
+      <h2 className="font-display font-extrabold text-lg text-stone-900 leading-tight">
         {question.skill}
-      </p>
+      </h2>
       <div className="mt-2">
         <Badge variant={question.difficulty} label={question.difficulty} />
       </div>
 
       {lesson && (
         <div className="mt-4">
-          <p className="font-display font-bold text-sm text-orange mb-1">
+          <h3 className="font-display font-bold text-sm text-orange mb-1">
             {lesson.title}
-          </p>
+          </h3>
           <p className="text-sm text-stone-600 leading-relaxed">{lesson.body}</p>
         </div>
       )}
