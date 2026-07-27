@@ -10,10 +10,12 @@ import type { PostHog } from 'posthog-js'
 //
 // Only `import type` references posthog-js here, which is erased at build time.
 
-const CONSENT_KEY = 'bikeready_cookie_consent'
+// Must match the key written by components/layout/CookieConsentBanner.
+const CONSENT_KEY = 'cookie_consent'
 
 let instance: PostHog | null = null
 let loading: Promise<PostHog | null> | null = null
+let disabled = false
 const queue: Array<(ph: PostHog) => void> = []
 
 /** Begins loading + initialising PostHog. Idempotent. */
@@ -22,10 +24,22 @@ export function ensurePostHog(): Promise<PostHog | null> {
   if (loading) return loading
   if (typeof window === 'undefined') return Promise.resolve(null)
 
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const apiHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
+  if (!key || !apiHost) {
+    console.warn(
+      'PostHog is not configured properly. Please check your environment variables.',
+    )
+    disabled = true
+    queue.length = 0
+    loading = Promise.resolve(null)
+    return loading
+  }
+
   loading = import('posthog-js').then(({ default: posthog }) => {
     const hasConsent = localStorage.getItem(CONSENT_KEY) === 'accepted'
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    posthog.init(key, {
+      api_host: apiHost,
       ui_host: 'https://eu.posthog.com',
       capture_pageview: false,
       capture_pageleave: true,
@@ -46,6 +60,7 @@ function withPostHog(fn: (ph: PostHog) => void): void {
     fn(instance)
     return
   }
+  if (disabled) return
   queue.push(fn)
   void ensurePostHog()
 }
