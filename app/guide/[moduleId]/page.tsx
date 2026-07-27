@@ -5,6 +5,7 @@ import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
 import JsonLd from "@/components/seo/JsonLd";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/seo";
+import { linkifyTerms } from "@/lib/linkifyTerms";
 
 export async function generateMetadata({
   params,
@@ -50,6 +51,9 @@ export default async function ModuleGuidePage({
 
   const path = `/guide/${guide.moduleId}`;
 
+  // Shared across the whole page so each glossary term auto-links only once.
+  const linkedTerms = new Set<string>();
+
   return (
     <>
       <JsonLd
@@ -90,7 +94,7 @@ export default async function ModuleGuidePage({
               </h2>
               <div className="text-stone-600 text-sm leading-relaxed space-y-3">
                 {section.body.split("\n\n").map((para, j) => (
-                  <p key={j}>{para}</p>
+                  <p key={j}>{linkifyTerms(para, linkedTerms)}</p>
                 ))}
               </div>
             </article>
@@ -123,6 +127,22 @@ export default async function ModuleGuidePage({
             </dl>
           </section>
         ) : null}
+
+        {/* Practice CTA — send guide readers into the matching question set */}
+        <section className="mt-12 pt-8 border-t border-stone-200 animate-fade-up">
+          <Link
+            href={`/learn/${guide.moduleId}`}
+            className="block group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-xl"
+          >
+            <Card hover>
+              <span className="text-xs text-stone-400">Ready to practise?</span>
+              <p className="text-sm font-display font-semibold text-stone-900 group-hover:text-orange transition-colors duration-150 mt-0.5 flex items-center gap-1">
+                Practise {guide.title} questions
+                <ArrowRight size={14} aria-hidden="true" />
+              </p>
+            </Card>
+          </Link>
+        </section>
 
         {/* Previous / Next navigation */}
         <nav
