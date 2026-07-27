@@ -217,8 +217,8 @@ export default function CookiesPage() {
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
           We do not allow third-party advertisers to set cookies on CycleDutch.
-          The only third-party cookies are from PostHog (analytics) and Stripe
-          (payment processing - only set on the checkout page).
+          The only third-party cookies are from PostHog (analytics) and Paddle
+          (payment processing - only set when the checkout overlay opens).
         </p>
       </section>
     </>

@@ -2,7 +2,7 @@ import "server-only";
 import { logError } from "@/lib/logger";
 
 // Server-side PostHog capture for ground-truth events (e.g. completed
-// payments from the Stripe webhook) that can't rely on the browser still
+// payments from the Paddle webhook) that can't rely on the browser still
 // being open. Uses the public ingestion endpoint - no extra dependency.
 // Never throws: analytics must not break the caller.
 export async function captureServerEvent(

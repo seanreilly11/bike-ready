@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { ModuleId } from "@/types";
-import { FREE_PER_MODULE } from "@/types";
+import { FREE_PER_MODULE, RETURN_BANNER_MIN } from "@/types";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
@@ -40,6 +40,8 @@ export default function ModuleSessionPage() {
 
   const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const openAuth = useUIStore((s) => s.openAuth);
+  const showReturnBanner = useUIStore((s) => s.showReturnBanner);
+  const dismissReturnBanner = useUIStore((s) => s.dismissReturnBanner);
   const handleUnlock = useUnlock();
   const progress = useProgress();
   const badges = useBadges();
@@ -48,7 +50,6 @@ export default function ModuleSessionPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredThisView, setAnsweredThisView] = useState(false);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const questionShownAt = useRef<number>(Date.now());
 
   const moduleQuestions = useMemo(
@@ -75,9 +76,14 @@ export default function ModuleSessionPage() {
   const allDone = currentIndex >= moduleQuestions.length;
   const moduleStatus = progress.getModuleStatus(moduleId, isPremium);
 
-  // Gate: free users after FREE_PER_MODULE questions, unless module is always free
+  // Gate: free users after FREE_PER_MODULE questions, unless module is always
+  // free. Waits for auth so premium users never see a gate flash (and no
+  // spurious gate_seen event fires while the profile is still loading).
   const hitGate =
-    !isPremium && !mod?.alwaysFree && currentIndex >= FREE_PER_MODULE;
+    !isAuthLoading &&
+    !isPremium &&
+    !mod?.alwaysFree &&
+    currentIndex >= FREE_PER_MODULE;
 
   useEffect(() => {
     if (hitGate) {
@@ -140,9 +146,15 @@ export default function ModuleSessionPage() {
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
-        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
-      )}
+      {!isAuthLoading &&
+        !user &&
+        showReturnBanner &&
+        progress.getTotalSeen() >= RETURN_BANNER_MIN && (
+          <ReturnBanner
+            onDismiss={dismissReturnBanner}
+            seenCount={progress.getTotalSeen()}
+          />
+        )}
 
       {/* Sticky sub-header */}
       <div className="sticky top-14 z-30 bg-white border-b border-stone-200 py-3">
@@ -217,13 +229,16 @@ export default function ModuleSessionPage() {
                 </p>
                 {!user && (
                   <div className="bg-orange-light border border-orange-mid rounded-xl p-4 mb-6 text-sm text-stone-700">
-                    Sign in so you don&apos;t lose what you&apos;ve done.{" "}
+                    You&apos;ve answered {progress.getTotalSeen()} question
+                    {progress.getTotalSeen() === 1 ? "" : "s"} - saved only on
+                    this device.{" "}
                     <button
                       onClick={() => openAuth("save_progress")}
                       className="font-bold text-orange underline underline-offset-2"
                     >
                       Sign in
-                    </button>
+                    </button>{" "}
+                    so you don&apos;t lose them.
                   </div>
                 )}
                 <div className="flex flex-col gap-3">

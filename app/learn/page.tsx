@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
+import { Bike } from "lucide-react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ModuleId } from "@/types";
-import { FREE_PER_MODULE } from "@/types";
+import { FREE_PER_MODULE, RETURN_BANNER_MIN } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useProgress } from "@/hooks/useProgress";
 import { useBadges } from "@/hooks/useBadges";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUnlock } from "@/hooks/useUnlock";
+import { usePaddle } from "@/hooks/usePaddle";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import AppShell from "@/components/layout/AppShell";
 import ReturnBanner from "@/components/layout/ReturnBanner";
@@ -20,10 +23,10 @@ import ModuleIcon from "@/components/ui/ModuleIcon";
 import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import badges from "@/data/badges";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { isMastered } from "@/lib/utils/progress";
+import verifyPremium from "@/lib/mutations/verifyPremium";
 import { useUIStore } from "@/stores/uiStore";
-import { useState } from "react";
 
 function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   const { allQuestions, questionsByModule } = useQuestions();
@@ -42,87 +45,111 @@ function PreviewCompleteScreen({ onUnlock }: { onUnlock: () => void }) {
   }, [track]);
 
   return (
-    <div className="min-h-dvh bg-stone-900">
-      {/* Dark hero */}
-      <div className="px-5 pt-12 pb-10 max-w-2xl mx-auto text-center">
-        <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-3">
-          You&apos;re {pct}% of the way there
-        </p>
-        <h1 className="font-display font-extrabold text-3xl text-white tracking-tight mb-3">
-          Don&apos;t leave it unfinished
-        </h1>
-        <p className="text-stone-400 text-sm mb-6">
-          You&apos;ve seen all {gatedModules.length} previews. The full course
-          has {totalAll} questions.
-        </p>
-        <div className="mb-6">
-          <ProgressBar value={pct} color="orange" height={6} />
+    <AppShell wrongCount={0}>
+      <div className="min-h-dvh bg-stone-900">
+        {/* Dark hero */}
+        <div className="px-5 pt-12 pb-10 max-w-2xl mx-auto text-center">
+          <p className="font-mono text-xs uppercase tracking-wide text-stone-400 mb-3">
+            You&apos;re {pct}% of the way there
+          </p>
+          <h1 className="font-display font-extrabold text-3xl text-white tracking-tight mb-3">
+            Don&apos;t leave it unfinished
+          </h1>
+          <p className="text-stone-400 text-sm mb-6">
+            You&apos;ve seen all {gatedModules.length} previews. The full
+            course has {totalAll} questions.
+          </p>
+          <div className="mb-6">
+            <ProgressBar value={pct} color="orange" height={6} />
+          </div>
+          <Button
+            variant="primary"
+            size="lg"
+            full
+            onClick={() => {
+              track("upgrade_cta_clicked", { source: "preview_complete" });
+              onUnlock();
+            }}
+          >
+            Unlock full course - {APP_PRICE}
+          </Button>
+          <p className="text-stone-500 text-xs mt-2">
+            Less than a red-light fine ({RED_LIGHT_FINE}). One-time, no
+            subscription.
+          </p>
         </div>
-        <Button
-          variant="primary"
-          size="lg"
-          full
-          onClick={() => {
-            track("upgrade_cta_clicked", { source: "preview_complete" });
-            onUnlock();
-          }}
-        >
-          Unlock full course - {APP_PRICE}
-        </Button>
-        <p className="text-stone-500 text-xs mt-2">
-          One-time payment. No subscription.
-        </p>
-      </div>
 
-      {/* Incomplete module cards */}
-      <div className="px-5 pb-12 max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {gatedModules.map((mod) => {
-            const qs = questionsByModule(mod.id as ModuleId);
-            return (
-              <div
-                key={mod.id}
-                className="bg-stone-800 border border-stone-700 rounded-xl p-4 opacity-80"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <ModuleIcon icon={mod.icon} size="sm" />
-                  <p className="font-display font-bold text-white text-sm">
-                    {mod.title}
-                  </p>
+        {/* Incomplete module cards */}
+        <div className="px-5 pb-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {gatedModules.map((mod) => {
+              const qs = questionsByModule(mod.id as ModuleId);
+              return (
+                <div
+                  key={mod.id}
+                  className="bg-stone-800 border border-stone-700 rounded-xl p-4 opacity-80"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <ModuleIcon icon={mod.icon} size="sm" />
+                    <p className="font-display font-bold text-white text-sm">
+                      {mod.title}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {qs.map((q, i) => (
+                      <div
+                        key={q.id}
+                        className={[
+                          "w-3 h-3 rounded-full",
+                          i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
+                          i >= FREE_PER_MODULE ? "opacity-35" : "",
+                        ].join(" ")}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {qs.map((q, i) => (
-                    <div
-                      key={q.id}
-                      className={[
-                        "w-3 h-3 rounded-full",
-                        i < FREE_PER_MODULE ? "bg-orange" : "bg-stone-600",
-                        i >= FREE_PER_MODULE ? "opacity-35" : "",
-                      ].join(" ")}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Free escape hatches - this screen must never be a dead end */}
+        <div className="px-5 pb-10 max-w-md mx-auto text-center">
+          <p className="font-mono text-xs uppercase tracking-wide text-stone-500 mb-3">
+            Keep practicing free
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/learn/fundamentals"
+              className="text-sm font-display font-bold text-white underline underline-offset-4 hover:text-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
+            >
+              Fundamentals - always free
+            </Link>
+            <Link
+              href="/guide"
+              className="text-sm font-display font-bold text-white underline underline-offset-4 hover:text-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
+            >
+              Read the Guide
+            </Link>
+          </div>
+        </div>
+
+        {/* Second CTA */}
+        <div className="px-5 pb-16 max-w-sm mx-auto text-center">
+          <Button
+            variant="primary"
+            size="lg"
+            full
+            onClick={() => {
+              track("upgrade_cta_clicked", { source: "preview_complete" });
+              onUnlock();
+            }}
+          >
+            Unlock full course - {APP_PRICE}
+          </Button>
         </div>
       </div>
-
-      {/* Second CTA */}
-      <div className="px-5 pb-16 max-w-sm mx-auto text-center">
-        <Button
-          variant="primary"
-          size="lg"
-          full
-          onClick={() => {
-            track("upgrade_cta_clicked", { source: "preview_complete" });
-            onUnlock();
-          }}
-        >
-          Unlock full course - {APP_PRICE}
-        </Button>
-      </div>
-    </div>
+    </AppShell>
   );
 }
 
@@ -135,7 +162,6 @@ const NOTICES: Record<string, string> = {
 function UpgradeHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { refreshPremiumStatus } = useAuth();
   const setUpgradeToast = useUIStore((s) => s.setUpgradeToast);
   const { track } = useAnalytics();
 
@@ -143,12 +169,14 @@ function UpgradeHandler() {
     if (searchParams.get("upgraded") === "true") {
       setUpgradeToast(true);
       router.replace("/learn");
-      refreshPremiumStatus();
+      // Reconcile against Paddle directly - the webhook may not have landed
+      // yet when the overlay redirects back.
+      verifyPremium();
       track("gate_converted", {});
       const timer = setTimeout(() => setUpgradeToast(false), 5000);
       return () => clearTimeout(timer);
     }
-  }, [searchParams, router, refreshPremiumStatus, setUpgradeToast, track]);
+  }, [searchParams, router, setUpgradeToast, track]);
 
   // Derived from the URL - no state to keep in sync. Dismiss clears the param.
   const errorKey =
@@ -172,6 +200,29 @@ function UpgradeHandler() {
   );
 }
 
+// After a magic-link sign-in with upgrade intent, auth/callback lands the user
+// on /learn?checkout=1. Open the Paddle overlay once - but only after Paddle.js
+// has finished initializing, or useUnlock would fail with "not ready". Gating on
+// the shared (memoized) usePaddle instance avoids that race; useRef guards
+// against a double open.
+function PostAuthCheckout() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const paddle = usePaddle();
+  const unlock = useUnlock();
+  const fired = useRef(false);
+
+  useEffect(() => {
+    if (searchParams.get("checkout") === "1" && paddle && !fired.current) {
+      fired.current = true;
+      router.replace("/learn");
+      unlock();
+    }
+  }, [searchParams, router, unlock, paddle]);
+
+  return null;
+}
+
 export default function LearnIndexPage() {
   const router = useRouter();
   const { user, isPremium, isLoading: isAuthLoading } = useAuth();
@@ -179,8 +230,9 @@ export default function LearnIndexPage() {
   const { earnedIds } = useBadges();
   const { allQuestions } = useQuestions();
   const handleUnlock = useUnlock();
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const showUpgradeToast = useUIStore((s) => s.showUpgradeToast);
+  const showReturnBanner = useUIStore((s) => s.showReturnBanner);
+  const dismissReturnBanner = useUIStore((s) => s.dismissReturnBanner);
 
   const answeredCount = allQuestions.filter(
     (q) => progress.progress[q.id]?.seen,
@@ -198,20 +250,29 @@ export default function LearnIndexPage() {
     <AppShell wrongCount={progress.getReviewQueue().length}>
       <Suspense>
         <UpgradeHandler />
+        <PostAuthCheckout />
       </Suspense>
       {/* Upgrade success toast */}
       {showUpgradeToast && (
-        <div className="bg-green-light border border-green text-green-dark px-5 py-3 flex items-center gap-2 animate-fade-up">
-          <span>🚲</span>
-          <span className="text-sm font-display font-medium">
-            Welcome to CycleDutch Premium
-          </span>
+        <div className="bg-green-light border-b border-green text-green-dark animate-fade-up">
+          <div className="max-w-5xl mx-auto px-5 py-3 flex items-center gap-2">
+            <Bike size={16} aria-hidden="true" />
+            <span className="text-sm font-display font-medium">
+              Welcome to CycleDutch Premium
+            </span>
+          </div>
         </div>
       )}
 
-      {!isAuthLoading && !user && !bannerDismissed && progress.getTotalSeen() >= 3 && (
-        <ReturnBanner onDismiss={() => setBannerDismissed(true)} />
-      )}
+      {!isAuthLoading &&
+        !user &&
+        showReturnBanner &&
+        progress.getTotalSeen() >= RETURN_BANNER_MIN && (
+          <ReturnBanner
+            onDismiss={dismissReturnBanner}
+            seenCount={progress.getTotalSeen()}
+          />
+        )}
 
       <main className="min-h-dvh bg-stone-50 px-5 py-6 lg:py-10 max-w-5xl mx-auto">
         <PageBanner

@@ -36,18 +36,20 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
         aria-label="Account menu"
         aria-expanded={isOpen}
         className={[
-          "relative w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center",
-          "text-sm font-display font-bold text-stone-700",
+          "relative w-8 h-8 rounded-full border flex items-center justify-center",
+          "text-sm font-display font-bold text-stone-900",
           "cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
           PREMIUM_ENABLED && isPremium
-            ? "bg-orange/10 hover:bg-orange/20"
-            : "bg-stone-100 hover:bg-stone-200",
+            ? "bg-gold-light border-gold hover:bg-gold/25"
+            : "bg-stone-100 border-stone-200 hover:bg-stone-200",
         ].join(" ")}
       >
         {initial}
         {PREMIUM_ENABLED && isPremium && (
-          <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center">
-            <Star size={10} fill="currentColor" className="text-yellow-500" aria-hidden="true" />
+          // Ring matches the nav background so the star reads as a separate
+          // element rather than a smudge on the avatar edge.
+          <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-full bg-white ring-2 ring-white">
+            <Star size={10} fill="currentColor" className="text-gold" aria-hidden="true" />
           </span>
         )}
       </button>
@@ -66,10 +68,16 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
           {PREMIUM_ENABLED && (
             <>
               {isPremium ? (
-                <div className="px-3 py-2.5">
-                  <span className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide bg-yellow-light text-yellow-dark border border-yellow rounded-full px-2 py-1">
-                    <Star size={11} fill="currentColor" aria-hidden="true" /> Premium
-                  </span>
+                // Status, not an action - same rhythm as the menu buttons but
+                // no hover or cursor affordance.
+                <div className="flex items-center gap-2 px-3 py-2.5 text-sm font-display font-medium text-stone-900">
+                  <Star
+                    size={14}
+                    fill="currentColor"
+                    className="text-gold"
+                    aria-hidden="true"
+                  />
+                  Premium
                 </div>
               ) : (
                 <button

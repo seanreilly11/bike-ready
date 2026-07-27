@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { APP_PRICE } from "@/data/constants";
+import { FREE_PER_MODULE } from "@/types";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -22,10 +24,9 @@ export default function TermsPage() {
           Parties
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          These terms govern your use of CycleDutch, operated by [YOUR FULL
-          NAME] (KvK: [KVK NUMBER]), referred to as &quot;we&quot;,
-          &quot;us&quot;, or &quot;CycleDutch&quot;. By using CycleDutch you
-          agree to these terms.
+          These terms govern your use of CycleDutch, operated by Sean Reilly
+          (KvK: 42110285), referred to as &quot;we&quot;, &quot;us&quot;, or
+          &quot;CycleDutch&quot;. By using CycleDutch you agree to these terms.
         </p>
       </section>
 
@@ -58,8 +59,8 @@ export default function TermsPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           The Fundamentals module is available free of charge without an
           account. Free users may also access a limited preview of each paid
-          module (currently 2 questions per module). No payment or account is
-          required to access free content.
+          module (currently {FREE_PER_MODULE} questions per module). No payment
+          or account is required to access free content.
         </p>
       </section>
 
@@ -69,10 +70,11 @@ export default function TermsPage() {
           Premium access and payment
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          CycleDutch Premium unlocks the full course for a one-time payment of
-          €4.99 (inclusive of any applicable taxes). Premium access is tied to
-          your account (email address) and does not expire. Payment is processed
-          by Stripe. We accept major credit and debit cards.
+          CycleDutch Premium unlocks the full course for a one-time payment of{" "}
+          {APP_PRICE} (inclusive of any applicable taxes). Premium access is
+          tied to your account (email address) and does not expire. Payment is
+          processed by Paddle, our Merchant of Record. We accept major credit
+          and debit cards.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           By completing a purchase you confirm that you are at least 18 years
@@ -101,8 +103,9 @@ export default function TermsPage() {
         </p>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
           If you have not accessed any premium content, you may request a full
-          refund within 14 days of purchase by emailing [YOUR EMAIL] with your
-          purchase confirmation. Refunds are processed within 10 business days.
+          refund within 14 days of purchase by emailing dovedaledev@gmail.com
+          with your purchase confirmation. Refunds are processed within 10
+          business days.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           If you have accessed premium content and believe there is a genuine
@@ -130,7 +133,7 @@ export default function TermsPage() {
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
           All content on CycleDutch - including question text, feedback,
-          illustrations, and interface design - is owned by [YOUR FULL NAME] and
+          illustrations, and interface design - is owned by Sean Reilly and
           protected by copyright. You may not copy, reproduce, distribute, or
           create derivative works from our content without written permission.
         </p>
@@ -159,7 +162,7 @@ export default function TermsPage() {
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
           Our total liability to you in connection with these terms shall not
-          exceed the amount you paid for CycleDutch Premium (€4.99).
+          exceed the amount you paid for CycleDutch Premium ({APP_PRICE}).
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           Nothing in these terms limits liability for fraud, death or personal
@@ -199,7 +202,7 @@ export default function TermsPage() {
           Contact
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          Questions about these terms: [YOUR EMAIL]
+          Questions about these terms: dovedaledev@gmail.com
         </p>
       </section>
     </>

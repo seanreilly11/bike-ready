@@ -17,6 +17,9 @@ export type ModuleId =
   | "legal"
   | "vocabulary";
 
+export type RiderProfile = "just_moved" | "commuter" | "occasional";
+export type RidingTimeline = "this_week" | "this_month" | "exploring";
+
 export type Difficulty = "easy" | "medium" | "hard";
 
 export type QuestionType =
@@ -178,12 +181,14 @@ export interface AnalyticsEvents {
   gate_converted: Record<string, never>;
   test_completed: { score_pct: number; passed: boolean };
   badge_earned: { badge_id: string };
+  onboarding_started: Record<string, never>;
   onboarding_completed: Record<string, never>;
+  onboarding_profile_selected: { profile: RiderProfile; timeline: RidingTimeline };
   ab_variant_assigned: { test: string; variant: string };
 
   // --- acquisition ---
   cta_clicked: { source: "hero" | "bottom"; hero_variant: string | null };
-  onboarding_skipped: Record<string, never>;
+  onboarding_skipped: { step: number };
 
   // --- learning engagement ---
   lesson_accordion_toggled: {
@@ -209,8 +214,8 @@ export interface AnalyticsEvents {
   };
 
   // --- conversion funnel ---
-  gate_dismissed: { module: ModuleId };
-  gate_next_module_clicked: { from_module: ModuleId; to_module: ModuleId };
+  gate_dismissed: { module: ModuleId | null };
+  gate_next_module_clicked: { from_module: ModuleId | null; to_module: ModuleId };
   upgrade_cta_clicked: {
     source:
       | "preview_complete"

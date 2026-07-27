@@ -38,6 +38,18 @@ export const colors = {
   goldLight: "#fffbea",
 } as const;
 
+// Physical Dutch signage colours. Used only to draw the abstract "how to read
+// a sign" diagrams - they describe real road signs, not the UI, so they are
+// deliberately not mirrored into @theme as Tailwind utilities.
+export const signColors = {
+  blue: "#0057B8",
+  red: "#D52B1E",
+  yellow: "#FFD200",
+  grey: "#8A8A8A",
+  outline: "#1C1915",
+  white: "#FFFFFF",
+} as const;
+
 export const fonts = {
   display: ["Bricolage Grotesque", "sans-serif"],
   mono: ["DM Mono", "monospace"],

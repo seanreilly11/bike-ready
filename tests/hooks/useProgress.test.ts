@@ -137,6 +137,20 @@ describe('useProgress', () => {
       const { result } = renderHook(() => useProgress())
       expect(result.current.getReviewQueue().map((q) => q.id)).not.toContain(priorityQuestions[0].id)
     })
+
+    it('re-adds a previously-correct question when answered wrong again', () => {
+      useAppStore.getState().answerQuestion(priorityQuestions[0].id, true)
+      useAppStore.getState().answerQuestion(priorityQuestions[0].id, false)
+      const { result } = renderHook(() => useProgress())
+      expect(result.current.getReviewQueue().map((q) => q.id)).toContain(priorityQuestions[0].id)
+    })
+
+    it('removes a question once the latest answer is correct', () => {
+      useAppStore.getState().answerQuestion(priorityQuestions[0].id, false)
+      useAppStore.getState().answerQuestion(priorityQuestions[0].id, true)
+      const { result } = renderHook(() => useProgress())
+      expect(result.current.getReviewQueue().map((q) => q.id)).not.toContain(priorityQuestions[0].id)
+    })
   })
 
   describe('isPreviewComplete', () => {

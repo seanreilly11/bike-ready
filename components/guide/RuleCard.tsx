@@ -1,5 +1,6 @@
 import type { SignsDesignRule } from "@/types";
 import Card from "@/components/ui/Card";
+import RuleGlyph from "@/components/guide/RuleGlyph";
 
 type CardAccent = "orange" | "red" | "yellow" | null;
 
@@ -25,10 +26,15 @@ export default function RuleCard({ rule }: RuleCardProps) {
 
   return (
     <Card accent={accent} className="h-full">
-      <h3 className="font-display font-bold text-stone-900 text-sm mb-1.5">
-        {rule.title}
-      </h3>
-      <p className="text-xs text-stone-600 leading-relaxed">{rule.body}</p>
+      <div className="flex items-start gap-3">
+        <RuleGlyph ruleId={rule.id} />
+        <div className="min-w-0">
+          <h3 className="font-display font-bold text-stone-900 text-sm mb-1.5">
+            {rule.title}
+          </h3>
+          <p className="text-xs text-stone-600 leading-relaxed">{rule.body}</p>
+        </div>
+      </div>
     </Card>
   );
 }

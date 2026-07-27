@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface UpsellBannerProps {
@@ -26,13 +26,14 @@ export default function UpsellBanner({
         {moduleQuestionCount} questions in {moduleName} alone.
       </p>
       <p className="text-stone-500 text-sm mb-6">
-        All 6 modules, Review queue, and the CycleDutch Test.
+        All 7 modules, Review queue, and the CycleDutch Test.
       </p>
       <Button variant="primary" size="lg" full onClick={() => { track('upgrade_cta_clicked', { source: 'upsell_banner' }); onUnlock(); }}>
         Unlock for {APP_PRICE}
       </Button>
       <p className="text-stone-400 text-xs mt-2">
-        One-time payment. No subscription.
+        Less than a red-light fine ({RED_LIGHT_FINE}). One-time, no
+        subscription.
       </p>
     </div>
   );

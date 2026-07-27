@@ -7,8 +7,7 @@ import Button from '@/components/ui/Button'
 import OnboardingOverlay from '@/components/layout/OnboardingOverlay'
 import { useAnalytics } from '@/hooks/useAnalytics'
 import { getStoredVariant, HERO_COPY_TEST } from '@/lib/abTest'
-
-const ONBOARDING_KEY = 'onboarding_done'
+import { isOnboardingDone } from '@/lib/onboarding'
 
 interface LandingButtonProps {
   variant?: 'hero' | 'bottom'
@@ -34,17 +33,11 @@ export default function LandingButton({
       source: variant === 'bottom' ? 'bottom' : 'hero',
       hero_variant: getStoredVariant(HERO_COPY_TEST),
     })
-    if (localStorage.getItem(ONBOARDING_KEY) === 'true') {
+    if (isOnboardingDone()) {
       router.push('/learn')
     } else {
       setShowOnboarding(true)
     }
-  }
-
-  function handleOnboardingDone() {
-    localStorage.setItem(ONBOARDING_KEY, 'true')
-    setShowOnboarding(false)
-    router.push('/learn')
   }
 
   return (
@@ -58,7 +51,16 @@ export default function LandingButton({
       >
         {label} <ArrowRight size={16} aria-hidden="true" />
       </Button>
-      {showOnboarding && <OnboardingOverlay onDone={handleOnboardingDone} />}
+      {showOnboarding && (
+        <OnboardingOverlay
+          onComplete={(moduleId) => router.push(`/learn/${moduleId}`)}
+          onSkip={() => {
+            // They still clicked "Start learning" - take them to the index
+            setShowOnboarding(false)
+            router.push('/learn')
+          }}
+        />
+      )}
     </>
   )
 }

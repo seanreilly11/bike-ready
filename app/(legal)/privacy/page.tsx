@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         Privacy policy
       </h1>
       <p className="text-xs text-stone-400 font-mono mb-10">
-        Last updated: May 2026 · Applies to cycledutch.com
+        Last updated: July 2026 · Applies to cycledutch.com
       </p>
 
       {/* Who we are */}
@@ -22,10 +22,10 @@ export default function PrivacyPage() {
           Who we are
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          CycleDutch is operated by [YOUR FULL NAME], a sole proprietorship
-          (eenmanszaak) registered in the Netherlands with KvK number [KVK
-          NUMBER]. Our registered address is [YOUR ADDRESS]. You can contact us
-          at [YOUR EMAIL].
+          CycleDutch is operated by Sean Reilly, a sole proprietorship
+          (eenmanszaak) registered in the Netherlands with KvK number 42110285.
+          Our registered address is [YOUR ADDRESS]. You can contact us at
+          dovedaledev@gmail.com.
         </p>
       </section>
 
@@ -60,17 +60,17 @@ export default function PrivacyPage() {
         </h3>
         <p className="text-sm text-stone-600 leading-relaxed mb-5">
           If you purchase CycleDutch Premium, your payment is processed by
-          Stripe. We do not store your card number, bank details, or any full
-          payment information. Stripe shares with us only: confirmation that
-          payment was successful, the Stripe customer ID, and the payment intent
-          ID. See Stripe&apos;s privacy policy at{" "}
+          Paddle, our Merchant of Record. We do not store your card number, bank
+          details, or any full payment information. Paddle shares with us only:
+          confirmation that payment was successful, the Paddle customer ID, and
+          the transaction ID. See Paddle&apos;s privacy policy at{" "}
           <a
-            href="https://stripe.com/privacy"
+            href="https://www.paddle.com/legal/privacy"
             className="text-orange hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            stripe.com/privacy
+            paddle.com/legal/privacy
           </a>
           .
         </p>
@@ -179,11 +179,11 @@ export default function PrivacyPage() {
                 "Authentication and database hosting. Data is stored in the EU. Supabase processes your email address and progress data on our behalf.",
             },
             {
-              name: "Stripe",
-              href: "https://stripe.com",
-              label: "stripe.com",
+              name: "Paddle",
+              href: "https://www.paddle.com",
+              label: "paddle.com",
               detail:
-                "Payment processing. Stripe is an independent data controller for payment data. See Stripe’s privacy policy.",
+                "Payment processing as our Merchant of Record. Paddle is an independent data controller for payment and tax data. See Paddle’s privacy policy.",
             },
             {
               name: "PostHog",
@@ -230,9 +230,29 @@ export default function PrivacyPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           We retain your account and progress data for as long as your account
           is active. If you request account deletion, we will delete your email
-          address and progress data within 30 days. Payment records (Stripe
+          address and progress data within 30 days. Payment records (Paddle
           customer ID and payment confirmation) are retained for 7 years for
           legal and tax purposes.
+        </p>
+      </section>
+
+      {/* Account deletion */}
+      <section className="mb-8">
+        <h2 className="font-display font-bold text-lg text-stone-900 mb-3">
+          Account deletion
+        </h2>
+        <p className="text-sm text-stone-600 leading-relaxed">
+          There is currently no in-app way to delete your account. To have your
+          account and all associated data deleted, email{" "}
+          <a
+            href="mailto:dovedaledev@gmail.com"
+            className="text-orange hover:underline"
+          >
+            dovedaledev@gmail.com
+          </a>{" "}
+          from the email address linked to your account. We will delete your
+          account, progress, and badges within 30 days and confirm by reply.
+          Payment records are retained as described under Data retention.
         </p>
       </section>
 
@@ -284,10 +304,10 @@ export default function PrivacyPage() {
           ))}
         </ul>
         <p className="text-sm text-stone-600 leading-relaxed">
-          To exercise any of these rights, email us at [YOUR EMAIL]. We will
-          respond within 30 days. You also have the right to lodge a complaint
-          with the Dutch Data Protection Authority (Autoriteit Persoonsgegevens)
-          at{" "}
+          To exercise any of these rights, email us at dovedaledev@gmail.com. We
+          will respond within 30 days. You also have the right to lodge a
+          complaint with the Dutch Data Protection Authority (Autoriteit
+          Persoonsgegevens) at{" "}
           <a
             href="https://autoriteitpersoonsgegevens.nl"
             className="text-orange hover:underline"

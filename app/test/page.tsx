@@ -17,15 +17,18 @@ import {
   LockOpen,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import BadgeToast from "@/components/badges/BadgeToast";
 import QuestionCard from "@/components/questions/QuestionCard";
 import FeedbackPanel from "@/components/questions/FeedbackPanel";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
 import modules from "@/data/modules";
+import saveTestResult from "@/lib/mutations/saveTestResult";
 import { useQuestions } from "@/hooks/useQuestions";
 import { useUIStore } from "@/stores/uiStore";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -104,19 +107,19 @@ function FreeTestScreen() {
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
               {comingSoon
                 ? "We're putting the finishing touches on this."
-                : "Less than the fine for running a red light"}
+                : `Less than a red-light fine (${RED_LIGHT_FINE})`}
             </p>
             <button
-              onClick={comingSoon ? undefined : openGate}
+              onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
-              aria-label={comingSoon ? "Test coming soon" : "Unlock for €4.99"}
+              aria-label={comingSoon ? "Test coming soon" : `Unlock for ${APP_PRICE}`}
               className={
                 comingSoon
                   ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
                   : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
               }
             >
-              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+              {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
             </button>
           </div>
         </div>
@@ -135,9 +138,10 @@ interface Answer {
 
 export default function TestPage() {
   const router = useRouter();
-  const { isPremium } = useAuth();
+  const { user, isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
-  const { checkModuleBadge } = useBadges();
+  const { checkModuleBadge, awardBadge, newBadge, dismissNewBadge } =
+    useBadges();
   const { track } = useAnalytics();
   const { buildTestSet } = useQuestions();
 
@@ -147,7 +151,7 @@ export default function TestPage() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const testSet = buildTestSet();
+  const [testSet, setTestSet] = useState<Question[]>(() => buildTestSet());
 
   const abandonRef = useRef({
     phase,
@@ -167,7 +171,9 @@ export default function TestPage() {
   useEffect(() => {
     return () => {
       const { phase: p, answeredCount, totalCount } = abandonRef.current;
-      if (p === "questions") {
+      // Answering the last question but not yet clicking "See results" leaves
+      // phase === "questions"; that's a finished attempt, not an abandoned one.
+      if (p === "questions" && answeredCount < totalCount) {
         track("test_abandoned", {
           progress_pct: Math.round((answeredCount / totalCount) * 100),
           questions_answered: answeredCount,
@@ -180,7 +186,17 @@ export default function TestPage() {
     questionShownAt.current = Date.now();
   }, [index]);
 
-  if (!PREMIUM_ENABLED || !isPremium) {
+  if (!PREMIUM_ENABLED) {
+    return <FreeTestScreen />;
+  }
+  if (isAuthLoading) {
+    return (
+      <AppShell wrongCount={0}>
+        <main className="min-h-dvh bg-stone-50" />
+      </AppShell>
+    );
+  }
+  if (!isPremium) {
     return <FreeTestScreen />;
   }
 
@@ -270,12 +286,10 @@ export default function TestPage() {
   async function handleAnswer(optionId: string, correct: boolean) {
     setSelectedId(optionId);
     setSubmitted(true);
-
-    const newAnswer: Answer = {
-      question: currentQ,
-      selectedId: optionId,
-      correct,
-    };
+    setAnswers((prev) => [
+      ...prev,
+      { question: currentQ, selectedId: optionId, correct },
+    ]);
 
     // Record progress in background
     await progress.recordAnswer(currentQ.id, correct);
@@ -289,22 +303,27 @@ export default function TestPage() {
       context: "test",
     });
     await checkModuleBadge(currentQ.module);
+  }
 
-    if (index + 1 >= testSet.length) {
-      // Last question - go to results
-      const allAnswers = [...answers, newAnswer];
-      setAnswers(allAnswers);
-      const scorePct = Math.round(
-        (allAnswers.filter((a) => a.correct).length / allAnswers.length) * 100,
-      );
-      await track("test_completed", {
-        score_pct: scorePct,
-        passed: scorePct >= TEST_PASS_PCT,
-      });
-      setPhase("results");
-    } else {
-      setAnswers((prev) => [...prev, newAnswer]);
+  async function finishTest() {
+    const scorePct = Math.round(
+      (answers.filter((a) => a.correct).length / answers.length) * 100,
+    );
+    const didPass = scorePct >= TEST_PASS_PCT;
+    await track("test_completed", { score_pct: scorePct, passed: didPass });
+    if (didPass) {
+      await awardBadge("badge_master");
     }
+    if (user) {
+      // Background write - the results screen never blocks on it
+      const answerMap = Object.fromEntries(
+        answers.map((a) => [a.question.id, a.selectedId]),
+      );
+      saveTestResult(scorePct, answerMap).catch(() => {
+        // Non-fatal - already logged in the mutation
+      });
+    }
+    setPhase("results");
   }
 
   function handleNext() {
@@ -344,11 +363,17 @@ export default function TestPage() {
               hideCorrect // no feedback in Test mode
             />
 
-            {submitted && index + 1 < testSet.length && (
+            {submitted && (
               <div className="mt-4 animate-fade-up">
-                <Button full size="lg" onClick={handleNext}>
-                  Next question <ArrowRight size={16} aria-hidden="true" />
-                </Button>
+                {index + 1 < testSet.length ? (
+                  <Button full size="lg" onClick={handleNext}>
+                    Next question <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
+                ) : (
+                  <Button full size="lg" onClick={finishTest}>
+                    See results <ArrowRight size={16} aria-hidden="true" />
+                  </Button>
+                )}
               </div>
             )}
           </div>
@@ -390,7 +415,12 @@ export default function TestPage() {
         passed,
         platform: "native",
       });
-      navigator.share({ text, url: "https://cycledutch.com" }).catch(() => {});
+      navigator
+        .share({
+          text,
+          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cycledutch.com",
+        })
+        .catch(() => {});
     } else {
       track("test_share_clicked", {
         score_pct: scorePct,
@@ -404,6 +434,13 @@ export default function TestPage() {
   return (
     <AppShell wrongCount={reviewQueue.length}>
       <main className="min-h-dvh bg-stone-50">
+        {newBadge && (
+          <BadgeToast
+            badge={newBadge}
+            mastered={false}
+            onDismiss={dismissNewBadge}
+          />
+        )}
         <div className="max-w-2xl mx-auto px-5 py-8 lg:py-12">
           {/* Score hero */}
           <div
@@ -550,6 +587,9 @@ export default function TestPage() {
                   setPhase("intro");
                   setAnswers([]);
                   setIndex(0);
+                  setSubmitted(false);
+                  setSelectedId(null);
+                  setTestSet(buildTestSet());
                 }}
               >
                 Try again <ArrowRight size={16} aria-hidden="true" />

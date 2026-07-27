@@ -24,6 +24,7 @@ import PageBanner from "@/components/layout/PageBanner";
 import modules from "@/data/modules";
 import { useQuestions } from "@/hooks/useQuestions";
 import { PREMIUM_ENABLED } from "@/lib/config";
+import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
 
 // ─── Free user FOMO screen ────────────────────────────────────────────────────
 
@@ -92,7 +93,7 @@ function FreeReviewScreen() {
                   </p>
                 </div>
                 <button
-                  onClick={openGate}
+                  onClick={() => openGate()}
                   aria-label="Unlock Review"
                   className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
                 >
@@ -151,19 +152,19 @@ function FreeReviewScreen() {
               <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
                 {comingSoon
                   ? "We're putting the finishing touches on this."
-                  : "Less than the fine for running a red light"}
+                  : `Less than a red-light fine (${RED_LIGHT_FINE})`}
               </p>
               <button
-                onClick={comingSoon ? undefined : openGate}
+                onClick={comingSoon ? undefined : () => openGate()}
                 disabled={comingSoon}
-                aria-label={comingSoon ? "Review coming soon" : "Unlock Review for €4.99"}
+                aria-label={comingSoon ? "Review coming soon" : `Unlock Review for ${APP_PRICE}`}
                 className={
                   comingSoon
                     ? "w-full bg-stone-200 text-stone-500 font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-not-allowed"
                     : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
                 }
               >
-                {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+                {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
               </button>
             </div>
           </div>
@@ -212,7 +213,7 @@ function FreeReviewScreen() {
                 </p>
               </div>
               <button
-                onClick={openGate}
+                onClick={() => openGate()}
                 aria-label="Unlock Review"
                 className="bg-white text-orange font-bold text-[13px] rounded-full py-1.5 px-3.5 cursor-pointer whitespace-nowrap hover:bg-orange-light transition-colors"
               >
@@ -303,13 +304,13 @@ function FreeReviewScreen() {
             <p className="font-mono text-[10px] text-stone-400 tracking-wide text-center">
               {comingSoon
                 ? "We're putting the finishing touches on this."
-                : "Less than the fine for running a red light"}
+                : `Less than a red-light fine (${RED_LIGHT_FINE})`}
             </p>
             <button
-              onClick={comingSoon ? undefined : openGate}
+              onClick={comingSoon ? undefined : () => openGate()}
               disabled={comingSoon}
               aria-label={
-                comingSoon ? "Review coming soon" : "Unlock Review for €4.99"
+                comingSoon ? "Review coming soon" : `Unlock Review for ${APP_PRICE}`
               }
               className={
                 comingSoon
@@ -317,7 +318,7 @@ function FreeReviewScreen() {
                   : "w-full bg-orange text-white font-bold text-[14px] rounded-[10px] py-[11px] px-7 cursor-pointer"
               }
             >
-              {comingSoon ? "Coming soon" : "Unlock for €4.99"}
+              {comingSoon ? "Coming soon" : `Unlock for ${APP_PRICE}`}
             </button>
           </div>
         </div>
@@ -330,7 +331,7 @@ function FreeReviewScreen() {
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { isPremium } = useAuth();
+  const { isPremium, isLoading: isAuthLoading } = useAuth();
   const progress = useProgress();
   const { track } = useAnalytics();
   const { allQuestions } = useQuestions();
@@ -357,7 +358,17 @@ export default function ReviewPage() {
     questionShownAt.current = Date.now();
   }, [activeId]);
 
-  if (!PREMIUM_ENABLED || !isPremium) {
+  if (!PREMIUM_ENABLED) {
+    return <FreeReviewScreen />;
+  }
+  if (isAuthLoading) {
+    return (
+      <AppShell wrongCount={0}>
+        <main className="min-h-dvh bg-stone-50" />
+      </AppShell>
+    );
+  }
+  if (!isPremium) {
     return <FreeReviewScreen />;
   }
 

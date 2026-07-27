@@ -2,6 +2,16 @@
 
 Everything needed to connect to Supabase, set up auth, and migrate localStorage progress. The database schema is run manually in the Supabase dashboard - no CLI or migrations folder needed.
 
+> **Payment provider note (2026-07):** billing has migrated from Stripe to
+> **Paddle**. The `profiles` columns `stripe_customer_id` / `stripe_payment_id`
+> are now `provider_customer_id` / `provider_transaction_id`, and the webhook is
+> `/api/paddle/webhook` (grants on `transaction.completed`/`transaction.paid`,
+> keyed by `provider_customer_id` and scoped to `NEXT_PUBLIC_PADDLE_PRICE_ID`).
+> The "Stripe webhook" and "Fallback on sign-in" code samples below are
+> **historical**; see `lib/paddle/*`, `app/api/paddle/webhook/route.ts`, and
+> `docs/superpowers/specs/2026-07-24-paddle-checkout-migration-design.md` for the
+> current implementation.
+
 ---
 
 ## Keys
@@ -259,7 +269,7 @@ await supabase.from("question_progress").upsert(
 );
 ```
 
-The `correct` field is handled at the database level with the OR logic in the upsert - once `true` it never goes back to `false`. This is enforced by the schema, not just the app code.
+The `correct` field reflects the most recent answer on upsert - last answer wins on conflict, so a later wrong answer flips a previously-correct question back to `false`. This is enforced by the schema's `upsert_question_progress` function, not just the app code.
 
 ---
 
@@ -315,7 +325,7 @@ async function migrateLocalProgress(userId: string) {
 }
 ```
 
-**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in - the upsert handles it correctly. The unique constraint prevents duplicates, and the database-level `correct OR` logic means a previous correct answer is never downgraded by a new wrong answer.
+**Returning user edge case:** if a user had a previous account, logged out, answered some questions as a guest again, then logged back in - the sign-in sync handles it correctly. The unique constraint prevents duplicates, and the sync layer (`progressToUpload` + `mergeProgress` in `lib/utils/progress.ts`) only uploads a guest answer that adds information - a locally-correct answer for a question the server has wrong - so a guest's new wrong answer is never pushed over an existing correct server row. (The `upsert_question_progress` rpc itself is last-answer-wins on conflict; the no-downgrade guarantee here comes from the merge layer, not the rpc.)
 
 **After migration:** the hook switches from reading localStorage to reading from Supabase. The rest of the app does not need to know migration happened - it just reads from the hook as normal.
 

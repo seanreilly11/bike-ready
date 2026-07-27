@@ -55,7 +55,7 @@ const badges: Badge[] = [
     id:          'badge_master',
     name:        'CycleDutch',
     icon:        Trophy,
-    description: 'Completed all modules and passed the Test',
+    description: 'Passed the CycleDutch Test',
     moduleId:    null,
   },
 ]

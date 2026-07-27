@@ -4,12 +4,15 @@ import { useUIStore } from '@/stores/uiStore'
 function resetStore() {
   useUIStore.setState({
     showGate: false,
+    gateModuleId: null,
     showAuth: false,
     authReason: null,
     newBadgeId: null,
     showUpgradeToast: false,
     onboardingDone: false,
     showReturnBanner: true,
+    riderProfile: null,
+    ridingTimeline: null,
   })
 }
 
@@ -47,6 +50,23 @@ describe('uiStore', () => {
       useUIStore.getState().closeGate()
       expect(useUIStore.getState().showGate).toBe(false)
     })
+
+    it('openGate stores the module context', () => {
+      useUIStore.getState().openGate('priority')
+      expect(useUIStore.getState().gateModuleId).toBe('priority')
+    })
+
+    it('openGate without a module clears the context', () => {
+      useUIStore.getState().openGate('priority')
+      useUIStore.getState().openGate()
+      expect(useUIStore.getState().gateModuleId).toBeNull()
+    })
+
+    it('closeGate clears the module context', () => {
+      useUIStore.getState().openGate('priority')
+      useUIStore.getState().closeGate()
+      expect(useUIStore.getState().gateModuleId).toBeNull()
+    })
   })
 
   describe('badge', () => {
@@ -68,11 +88,38 @@ describe('uiStore', () => {
       expect(useUIStore.getState().onboardingDone).toBe(true)
     })
 
+    it('completeOnboarding persists to localStorage', () => {
+      localStorage.clear()
+      useUIStore.getState().completeOnboarding()
+      expect(localStorage.getItem('onboarding_done')).toBe('true')
+    })
+
     it('dismissReturnBanner sets showReturnBanner false', () => {
       useUIStore.getState().dismissReturnBanner()
       expect(useUIStore.getState().showReturnBanner).toBe(false)
     })
   })
+
+  describe("completeOnboarding choices", () => {
+    it("stores and persists profile + timeline when choices are given", () => {
+      localStorage.clear();
+      useUIStore
+        .getState()
+        .completeOnboarding({ profile: "commuter", timeline: "this_week" });
+      expect(useUIStore.getState().onboardingDone).toBe(true);
+      expect(useUIStore.getState().riderProfile).toBe("commuter");
+      expect(useUIStore.getState().ridingTimeline).toBe("this_week");
+      expect(localStorage.getItem("rider_profile")).toBe("commuter");
+      expect(localStorage.getItem("riding_timeline")).toBe("this_week");
+    });
+
+    it("leaves profile + timeline null when no choices are given", () => {
+      useUIStore.getState().completeOnboarding();
+      expect(useUIStore.getState().onboardingDone).toBe(true);
+      expect(useUIStore.getState().riderProfile).toBeNull();
+      expect(useUIStore.getState().ridingTimeline).toBeNull();
+    });
+  });
 
   describe('upgradeToast', () => {
     it('setUpgradeToast(true) shows toast', () => {

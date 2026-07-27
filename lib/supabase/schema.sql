@@ -7,13 +7,20 @@
 -- ---------------------------------------------------------------------------
 
 create table if not exists profiles (
-  id                  uuid        primary key references auth.users(id) on delete cascade,
-  is_premium          boolean     not null default false,
-  premium_since       timestamptz,
-  stripe_customer_id  text,
-  stripe_payment_id   text,
-  created_at          timestamptz not null default now()
+  id                      uuid        primary key references auth.users(id) on delete cascade,
+  is_premium              boolean     not null default false,
+  premium_since           timestamptz,
+  provider_customer_id    text,
+  provider_transaction_id text,
+  created_at              timestamptz not null default now()
 );
+
+-- A Paddle customer maps to at most one profile, so the grant/reconcile paths
+-- can resolve the account with .single() on provider_customer_id. Partial: free
+-- users have a null id.
+create unique index if not exists profiles_provider_customer_id_key
+  on profiles (provider_customer_id)
+  where provider_customer_id is not null;
 
 alter table profiles enable row level security;
 
@@ -21,8 +28,8 @@ create policy "Users can read their own profile"
   on profiles for select
   using (auth.uid() = id);
 
--- No user-facing update policy: is_premium / stripe_* are written only by
--- the service-role client (Stripe webhook + premium verify). A client-side
+-- No user-facing update policy: is_premium / provider_* are written only by
+-- the service-role client (Paddle webhook + premium verify). A client-side
 -- update policy would let users set is_premium themselves.
 
 -- Auto-create profile on user sign-up
@@ -69,7 +76,8 @@ create policy "Users can update their own progress"
   on question_progress for update
   using (auth.uid() = user_id);
 
--- Upsert helper: correct is OR'd - never reverts once true.
+-- Upsert helper: last answer wins - missing a previously-correct question
+-- puts it back in the review queue.
 -- User identity comes from auth.uid(); callers cannot write other users' rows.
 create or replace function public.upsert_question_progress(
   p_question_id text,
@@ -82,7 +90,7 @@ begin
   insert into question_progress (user_id, question_id, seen, correct, attempts, last_answered_at)
   values (auth.uid(), p_question_id, true, p_correct, 1, now())
   on conflict (user_id, question_id) do update set
-    correct          = question_progress.correct or excluded.correct,
+    correct          = excluded.correct,
     attempts         = question_progress.attempts + 1,
     seen             = true,
     last_answered_at = now();

@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
-import { APP_PRICE } from "@/data/constants";
+import { APP_PRICE, SOCIAL_PROOF, RED_LIGHT_FINE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useModalFocus } from "@/hooks/useModalFocus";
 
 interface GateModalProps {
-  moduleId: ModuleId;
-  moduleName: string;
+  moduleId: ModuleId | null;
+  moduleName: string | null;
   nextModule: Module | null;
   onUnlock: () => void;
   onNextModule: (id: string) => void;
@@ -20,7 +20,7 @@ interface GateModalProps {
 const features = [
   "All questions in every module",
   "Shrinking Review queue",
-  "Timed Test with results breakdown",
+  "Final Test with results breakdown",
   "Module completion badges",
   "Progress saved across devices",
 ];
@@ -34,14 +34,10 @@ export default function GateModal({
   onDismiss,
 }: GateModalProps) {
   const { track } = useAnalytics();
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { track('gate_dismissed', { module: moduleId }); onDismiss(); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [moduleId, onDismiss, track]);
+  const { dialogRef, trapFocus } = useModalFocus(() => {
+    track("gate_dismissed", { module: moduleId });
+    onDismiss();
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
@@ -54,20 +50,23 @@ export default function GateModal({
 
       {/* Modal */}
       <div
+        ref={dialogRef}
+        tabIndex={-1}
+        onKeyDown={trapFocus}
         role="dialog"
         aria-modal="true"
         aria-labelledby="gate-modal-title"
-        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up"
+        className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up focus-visible:outline-none"
       >
         {/* Social proof */}
         <div className="flex justify-center mb-4">
           <span className="font-mono text-xs uppercase tracking-wide bg-orange-light text-orange border border-orange-mid rounded-full px-3 py-1">
-            2,400+ expats ready to ride
+            {SOCIAL_PROOF}
           </span>
         </div>
 
         <h2 id="gate-modal-title" className="font-display font-extrabold text-2xl text-stone-900 text-center mb-2">
-          Want to finish {moduleName}?
+          {moduleName ? `Want to finish ${moduleName}?` : "Want the full course?"}
         </h2>
         <p className="text-stone-600 text-sm text-center mb-5">
           Unlock the full course once and keep it forever.
@@ -113,7 +112,8 @@ export default function GateModal({
           Unlock for {APP_PRICE}
         </Button>
         <p className="text-center text-xs text-stone-400 mt-2">
-          Less than the fine for running a red light
+          Less than a red-light fine ({RED_LIGHT_FINE}). Pay once, keep it
+          forever.
         </p>
 
         <div className="flex justify-center mt-4">

@@ -22,9 +22,12 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SECRET_KEY=
 NEXT_PUBLIC_SUPABASE_REDIRECT_URL=http://localhost:3000
 
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PRICE_ID=
+PADDLE_ENV=sandbox
+PADDLE_API_KEY=
+PADDLE_WEBHOOK_SECRET=
+NEXT_PUBLIC_PADDLE_PRICE_ID=
+NEXT_PUBLIC_PADDLE_ENV=sandbox
+NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=
 
 NEXT_PUBLIC_POSTHOG_KEY=
 NEXT_PUBLIC_POSTHOG_HOST=
@@ -37,7 +40,7 @@ SENTRY_AUTH_TOKEN=
 NEXT_PUBLIC_SITE_URL=https://cycledutch.com
 ```
 
-Stripe, PostHog and Sentry vars are required on production builds (enforced by `lib/validateEnv.ts`); local dev runs without them.
+PostHog and Sentry vars are required on production builds; the Paddle vars are required when premium is enabled on production (all enforced by `lib/validateEnv.ts`). Local dev runs without them. `PADDLE_ENV` and `NEXT_PUBLIC_PADDLE_ENV` must match.
 
 ### 3. Set up the database
 
@@ -69,4 +72,4 @@ npm run test:run   # Run the test suite once
 
 The app is built for Vercel. Push to `main` triggers a production deploy; pull requests get preview deployments. CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests and a build on every push and must pass before merge.
 
-Set all production environment variables in the Vercel project settings (the Sentry/Stripe/PostHog vars above are required there). Configure the Stripe webhook endpoint to `https://<your-domain>/api/stripe/webhook` and add the signing secret as `STRIPE_WEBHOOK_SECRET`. `/api/health` returns `200` for uptime monitoring.
+Set all production environment variables in the Vercel project settings (the Sentry/Paddle/PostHog vars above are required there when premium is enabled). In the Paddle dashboard, create a Notifications destination pointing at `https://<your-domain>/api/paddle/webhook` (subscribed to `transaction.completed` and `transaction.paid`) and add its signing secret as `PADDLE_WEBHOOK_SECRET`; also approve the production domain under Checkout → Website approval. `/api/health` returns `200` for uptime monitoring.

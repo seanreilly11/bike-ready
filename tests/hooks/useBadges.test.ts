@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
+import type { User } from "@supabase/supabase-js";
 import { useBadges } from "@/hooks/useBadges";
 import { useAppStore } from "@/stores/appStore";
 import { useUIStore } from "@/stores/uiStore";
@@ -100,6 +101,62 @@ describe("useBadges", () => {
       });
       const earned = useAppStore.getState().earned;
       expect(earned.filter((id) => id === "badge_priority")).toHaveLength(1);
+    });
+  });
+
+  describe("awardBadge", () => {
+    it("awards a non-module badge like badge_master", async () => {
+      const { result } = renderHook(() => useBadges());
+      await act(async () => {
+        await result.current.awardBadge("badge_master");
+      });
+      expect(useAppStore.getState().earned).toContain("badge_master");
+      expect(useUIStore.getState().newBadgeId).toBe("badge_master");
+    });
+
+    it("is idempotent - a second award does nothing", async () => {
+      const { result } = renderHook(() => useBadges());
+      await act(async () => {
+        await result.current.awardBadge("badge_master");
+      });
+      useUIStore.getState().clearBadge();
+      await act(async () => {
+        await result.current.awardBadge("badge_master");
+      });
+      expect(
+        useAppStore.getState().earned.filter((id) => id === "badge_master"),
+      ).toHaveLength(1);
+      expect(useUIStore.getState().newBadgeId).toBeNull();
+    });
+
+    it("persists via POST /api/badges when authenticated", async () => {
+      const fetchMock = vi.fn(async () => Response.json({ ok: true }));
+      vi.stubGlobal("fetch", fetchMock);
+      useAppStore.getState().setUser({ id: "u1" } as unknown as User);
+
+      const { result } = renderHook(() => useBadges());
+      await act(async () => {
+        await result.current.awardBadge("badge_master");
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/badges",
+        expect.objectContaining({ method: "POST" }),
+      );
+      vi.unstubAllGlobals();
+    });
+
+    it("does not call the API when anonymous", async () => {
+      const fetchMock = vi.fn(async () => Response.json({ ok: true }));
+      vi.stubGlobal("fetch", fetchMock);
+
+      const { result } = renderHook(() => useBadges());
+      await act(async () => {
+        await result.current.awardBadge("badge_master");
+      });
+
+      expect(fetchMock).not.toHaveBeenCalled();
+      vi.unstubAllGlobals();
     });
   });
 

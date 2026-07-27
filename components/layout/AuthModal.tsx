@@ -5,6 +5,7 @@ import { X, MailCheck } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useModalFocus } from "@/hooks/useModalFocus";
 import type { AuthModalReason } from "@/stores/uiStore";
 
 interface AuthModalProps {
@@ -35,18 +36,11 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
   const { sendMagicLink } = useAuth();
   const { track } = useAnalytics();
   const { title, body, note } = copy[reason];
+  const { dialogRef, trapFocus } = useModalFocus(onClose);
 
   useEffect(() => {
     track("auth_modal_opened", { reason, source: reason });
   }, [reason, track]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,10 +68,13 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
 
       {/* Modal */}
       <div
+        ref={dialogRef}
+        tabIndex={-1}
+        onKeyDown={trapFocus}
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
-        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-fade-up"
+        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-fade-up focus-visible:outline-none"
       >
         <button
           onClick={onClose}
