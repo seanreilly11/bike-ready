@@ -5,7 +5,6 @@ const BASE_VARS: Record<string, string> = {
   NEXT_PUBLIC_SUPABASE_URL: "https://x.supabase.co",
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "pk",
   SUPABASE_SECRET_KEY: "sk",
-  NEXT_PUBLIC_SUPABASE_REDIRECT_URL: "http://localhost:3000",
   NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
   NEXT_PUBLIC_POSTHOG_KEY: "ph",
   NEXT_PUBLIC_SENTRY_DSN: "dsn",

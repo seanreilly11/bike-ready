@@ -20,7 +20,6 @@ Copy `.env.local.example` to `.env.local` and fill in your values.
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SECRET_KEY=
-NEXT_PUBLIC_SUPABASE_REDIRECT_URL=http://localhost:3000
 
 PADDLE_ENV=sandbox
 PADDLE_API_KEY=
