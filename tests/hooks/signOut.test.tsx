@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 
 const signOutMock = vi.fn();
 const refresh = vi.fn();
@@ -42,7 +42,6 @@ describe("signOut", () => {
 
   it("ends only this session, not every device", async () => {
     const { result } = renderHook(() => useAuth());
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     await act(async () => {
       await result.current.signOut();
@@ -59,14 +58,12 @@ describe("signOut", () => {
     // is what made the button look like it did nothing.
     signOutMock.mockResolvedValue({ error: new Error("network down") });
     const { result } = renderHook(() => useAuth());
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     await expect(result.current.signOut()).rejects.toThrow();
   });
 
   it("refreshes server-rendered state after signing out", async () => {
     const { result } = renderHook(() => useAuth());
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     await act(async () => {
       await result.current.signOut();

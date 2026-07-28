@@ -10,9 +10,12 @@ interface AppState {
   earned: string[]
   user: User | null
   isPremium: boolean
+  // Owned by useAuthBootstrap; every screen gates its first render on this.
+  authLoading: boolean
 
   setUser: (user: User | null) => void
   setPremium: (isPremium: boolean) => void
+  setAuthLoading: (authLoading: boolean) => void
   hydrateProgress: (progress: LocalProgress) => void
   resetProgress: () => void
   answerQuestion: (id: string, isCorrect: boolean) => void
@@ -26,8 +29,10 @@ export const useAppStore = create<AppState>()(
       earned: [],
       user: null,
       isPremium: !PREMIUM_ENABLED ? true : false,
+      authLoading: true,
 
       setUser: (user) => set({ user }),
+      setAuthLoading: (authLoading) => set({ authLoading }),
       setPremium: (isPremium) => {
         if (!PREMIUM_ENABLED) return
         set({ isPremium })
