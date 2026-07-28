@@ -82,7 +82,7 @@ export default function UserMenu({ user, isPremium, onUnlock, onSignOut }: UserM
               ) : (
                 <button
                   onClick={() => { onUnlock(); setIsOpen(false); }}
-                  className="w-full text-left px-3 py-2.5 text-sm font-display font-medium text-orange hover:bg-stone-50 transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-display font-medium text-orange hover:bg-stone-50 transition-colors cursor-pointer"
                 >
                   Go Premium <ArrowRight size={14} aria-hidden="true" />
                 </button>
