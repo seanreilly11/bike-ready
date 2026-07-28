@@ -23,6 +23,15 @@ export async function GET(request: NextRequest) {
       // once the session is active.
       return NextResponse.redirect(new URL("/learn?checkout=1", request.url));
     }
+
+    return NextResponse.redirect(new URL(next, request.url));
+  }
+
+  // No code: an expired or already-used link (Supabase returns ?error=...).
+  // /checkout is a hand-off marker, not a real route, so it must never be a
+  // redirect target here - it would 404 the user mid-purchase.
+  if (next === "/checkout") {
+    return NextResponse.redirect(new URL("/learn?auth_error=1", request.url));
   }
 
   return NextResponse.redirect(new URL(next, request.url));
