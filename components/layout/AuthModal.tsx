@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { X, MailCheck } from "lucide-react";
 import Button from "@/components/ui/Button";
+import GoogleMark from "@/components/ui/GoogleMark";
 import { useAuth } from "@/hooks/useAuth";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useModalFocus } from "@/hooks/useModalFocus";
@@ -19,11 +20,11 @@ const copy: Record<
 > = {
   save_progress: {
     title: "Save your progress",
-    body: "Enter your email and we'll send a magic link. No password needed.",
+    body: "Sign in so your answers follow you to any device. No password needed.",
   },
   upgrade: {
     title: "Create a free account to unlock",
-    body: "We need your email to complete your purchase. Takes 30 seconds.",
+    body: "Your purchase needs an account to unlock against. Takes 30 seconds.",
     note: "Use the same email you've been using on this device.",
   },
 };
@@ -32,8 +33,9 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { sendMagicLink } = useAuth();
+  const { sendMagicLink, signInWithGoogle } = useAuth();
   const { track } = useAnalytics();
   const { title, body, note } = copy[reason];
   const { dialogRef, trapFocus } = useModalFocus(onClose);
@@ -54,6 +56,21 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  // No success state to render: signInWithOAuth navigates away. The loading
+  // flag only has to survive until the redirect commits, and is reset on
+  // failure so the modal stays usable.
+  async function handleGoogle() {
+    setGoogleLoading(true);
+    setError(null);
+    try {
+      track("oauth_started", { provider: "google", reason });
+      await signInWithGoogle(reason);
+    } catch {
+      setError("Couldn't sign in with Google. Please try again.");
+      setGoogleLoading(false);
     }
   }
 
@@ -101,6 +118,26 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
               {title}
             </h2>
             <p className="text-stone-600 text-sm mb-5">{body}</p>
+
+            <Button
+              type="button"
+              variant="secondary"
+              full
+              onClick={handleGoogle}
+              loading={googleLoading}
+              disabled={googleLoading || loading}
+            >
+              <GoogleMark />
+              {googleLoading ? "Redirecting…" : "Continue with Google"}
+            </Button>
+
+            <div className="flex items-center gap-3 my-4">
+              <span className="h-px flex-1 bg-stone-200" />
+              <span className="font-mono text-xs uppercase tracking-wide text-stone-400">
+                or
+              </span>
+              <span className="h-px flex-1 bg-stone-200" />
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-3">
               <input

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
+import { logError } from "@/lib/logger";
 import { useAppStore } from "@/stores/appStore";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { getStoredVariant, HERO_COPY_TEST } from "@/lib/abTest";
@@ -93,15 +95,24 @@ function loadLegacyProgress(): LocalProgress {
   }
 }
 
+// Where both sign-in methods land. "upgrade" routes through the /checkout
+// marker so the callback can hand off to the Paddle overlay.
+function callbackUrl(reason: "save_progress" | "upgrade"): string {
+  const next = reason === "upgrade" ? "/checkout" : "/learn";
+  return `${window.location.origin}/auth/callback?next=${next}`;
+}
+
 export function useAuth(): {
   user: User | null;
   isPremium: boolean;
   isLoading: boolean;
   sendMagicLink: (email: string, reason: "save_progress" | "upgrade") => Promise<void>;
+  signInWithGoogle: (reason: "save_progress" | "upgrade") => Promise<void>;
   signOut: () => Promise<void>;
   refreshPremiumStatus: () => Promise<void>;
 } {
   const supabase = createClient();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const { track, identify } = useAnalytics();
 
@@ -123,22 +134,34 @@ export function useAuth(): {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!mounted) return;
-      const sessionUser = session?.user ?? null;
-      const premium = sessionUser ? await fetchProfile(sessionUser.id) : false;
-      useAppStore.getState().setUser(sessionUser);
-      useAppStore.getState().setPremium(premium);
-      if (sessionUser) {
+    // try/finally + .catch: clearing isLoading is what unblocks every screen,
+    // so no failure on this path may leave the app on its loading state.
+    supabase.auth
+      .getSession()
+      .then(async ({ data: { session } }) => {
+        if (!mounted) return;
         try {
-          await syncProgressWithServer();
-          await syncBadgesWithServer();
-        } catch {
-          // Non-fatal: store keeps whatever is in localStorage
+          const sessionUser = session?.user ?? null;
+          const premium = sessionUser
+            ? await fetchProfile(sessionUser.id)
+            : false;
+          useAppStore.getState().setUser(sessionUser);
+          useAppStore.getState().setPremium(premium);
+          if (sessionUser) {
+            try {
+              await syncProgressWithServer();
+              await syncBadgesWithServer();
+            } catch {
+              // Non-fatal: store keeps whatever is in localStorage
+            }
+          }
+        } finally {
+          if (mounted) setIsLoading(false);
         }
-      }
-      if (mounted) setIsLoading(false);
-    });
+      })
+      .catch(() => {
+        if (mounted) setIsLoading(false);
+      });
 
     const {
       data: { subscription },
@@ -147,52 +170,80 @@ export function useAuth(): {
       const sessionUser = session?.user ?? null;
 
       if (event === "SIGNED_IN" && sessionUser) {
-        const premium = await fetchProfile(sessionUser.id);
-        useAppStore.getState().setUser(sessionUser);
-        useAppStore.getState().setPremium(premium);
-
-        // Link the anonymous PostHog person to the authenticated user so
-        // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
-        identify(sessionUser.id);
-
-        // Fire once on first-ever sign-in so the hero variant → account funnel
-        // has a clean conversion event. localStorage guards against repeat fires.
-        if (
-          isFreshSignup(sessionUser) &&
-          localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
-        ) {
-          localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
-          track("account_created", {
-            hero_variant: getStoredVariant(HERO_COPY_TEST),
-          });
-        }
-
-        // Migrate legacy localStorage progress to Supabase
-        const legacy = loadLegacyProgress();
-        const legacyEntries = Object.entries(legacy);
-        if (legacyEntries.length > 0) {
-          await Promise.all(
-            legacyEntries.map(([questionId, { correct }]) =>
-              updateProgress(questionId, correct),
-            ),
-          );
-          localStorage.removeItem(LEGACY_STORAGE_KEY);
-          track('progress_migrated', { questions_count: legacyEntries.length });
-        }
-
-        // Upload pre-signup progress and badges, then hydrate from the server
+        // Everything below runs under try/finally: this handler resolving is
+        // what clears isLoading, and every screen gates on that. Any throw in
+        // here (blocked localStorage in private browsing, a failed upload)
+        // would otherwise leave the whole app stuck on its loading state.
         try {
-          const uploaded = await syncProgressWithServer();
-          if (uploaded > 0) {
-            track("progress_migrated", { questions_count: uploaded });
-          }
-          await syncBadgesWithServer();
-        } catch {
-          // Non-fatal
-        }
+          const premium = await fetchProfile(sessionUser.id);
+          useAppStore.getState().setUser(sessionUser);
+          useAppStore.getState().setPremium(premium);
 
-        if (!premium) verifyPremiumStatus();
-        if (mounted) setIsLoading(false);
+          // Link the anonymous PostHog person to the authenticated user so
+          // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
+          identify(sessionUser.id);
+
+          // Fire once on first-ever sign-in so the hero variant → account funnel
+          // has a clean conversion event. localStorage guards against repeat
+          // fires; the try guards storage being unavailable, since analytics
+          // must never block sign-in.
+          try {
+            if (
+              isFreshSignup(sessionUser) &&
+              localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
+            ) {
+              localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
+              track("account_created", {
+                hero_variant: getStoredVariant(HERO_COPY_TEST),
+              });
+            }
+          } catch {
+            // Storage blocked - skip the once-only guard, don't fail sign-in
+          }
+
+          // Migrate legacy localStorage progress to Supabase. allSettled, not
+          // all: a single failed upload must not reject this handler - that
+          // would skip the sync below. The legacy key is cleared only when
+          // every row landed, so a partial failure is retried on the next
+          // sign-in rather than silently dropped.
+          const legacy = loadLegacyProgress();
+          const legacyEntries = Object.entries(legacy);
+          if (legacyEntries.length > 0) {
+            const results = await Promise.allSettled(
+              legacyEntries.map(([questionId, { correct }]) =>
+                updateProgress(questionId, correct),
+              ),
+            );
+            const uploaded = results.filter(
+              (r) => r.status === "fulfilled",
+            ).length;
+            if (uploaded === legacyEntries.length) {
+              try {
+                localStorage.removeItem(LEGACY_STORAGE_KEY);
+              } catch {
+                // Storage blocked - re-migrating is idempotent (upsert by id)
+              }
+            }
+            if (uploaded > 0) {
+              track("progress_migrated", { questions_count: uploaded });
+            }
+          }
+
+          // Upload pre-signup progress and badges, then hydrate from the server
+          try {
+            const uploaded = await syncProgressWithServer();
+            if (uploaded > 0) {
+              track("progress_migrated", { questions_count: uploaded });
+            }
+            await syncBadgesWithServer();
+          } catch {
+            // Non-fatal
+          }
+
+          if (!premium) verifyPremiumStatus();
+        } finally {
+          if (mounted) setIsLoading(false);
+        }
       } else if (event === "SIGNED_OUT") {
         useAppStore.getState().setUser(null);
         useAppStore.getState().setPremium(false);
@@ -221,12 +272,23 @@ export function useAuth(): {
 
   const sendMagicLink = useCallback(
     async (email: string, reason: "save_progress" | "upgrade") => {
-      const next = reason === "upgrade" ? "/checkout" : "/learn";
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}`,
-        },
+        options: { emailRedirectTo: callbackUrl(reason) },
+      });
+      if (error) throw error;
+    },
+    [supabase.auth],
+  );
+
+  // Same callback target as the magic link, so the upgrade hand-off
+  // (/checkout -> /learn?checkout=1) behaves identically for both methods.
+  // OAuth uses the same PKCE code exchange, so /auth/callback needs no changes.
+  const signInWithGoogle = useCallback(
+    async (reason: "save_progress" | "upgrade") => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: callbackUrl(reason) },
       });
       if (error) throw error;
     },
@@ -234,8 +296,30 @@ export function useAuth(): {
   );
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut();
-  }, [supabase.auth]);
+    // scope: "local" ends THIS session. The default, "global", revokes the
+    // refresh token on every device the user is signed in on - not what a
+    // sign-out button means, and it makes success depend on a round-trip.
+    const { error } = await supabase.auth.signOut({ scope: "local" });
+    if (error) {
+      // auth-js returns early WITHOUT clearing the local session for any error
+      // that isn't 401/403/404, so the user is still signed in and no
+      // SIGNED_OUT event fires. Swallowing this made the button look like it
+      // did nothing; the caller needs to be able to tell the user.
+      logError("signOut", error);
+      throw error;
+    }
+    // Server components read the session from cookies, so they keep rendering
+    // the authenticated view until the router re-fetches them.
+    router.refresh();
+  }, [supabase.auth, router]);
 
-  return { user, isPremium, isLoading, sendMagicLink, signOut, refreshPremiumStatus };
+  return {
+    user,
+    isPremium,
+    isLoading,
+    sendMagicLink,
+    signInWithGoogle,
+    signOut,
+    refreshPremiumStatus,
+  };
 }

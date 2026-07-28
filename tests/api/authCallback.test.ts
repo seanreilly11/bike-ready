@@ -45,6 +45,19 @@ describe("GET /auth/callback", () => {
     expect(res.headers.get("location")).toBe("http://localhost:3000/learn");
   });
 
+  it("never lands on the virtual /checkout path when the link carries no code", async () => {
+    // An expired/already-used magic link comes back as ?error=access_denied
+    // with no code. /checkout is a hand-off marker, not a route - redirecting
+    // to it would 404 the highest-intent user in the funnel.
+    const req = new NextRequest(
+      "http://localhost:3000/auth/callback?error=access_denied&error_code=otp_expired&next=/checkout",
+    );
+    const res = await GET(req);
+    expect(res.headers.get("location")).toBe(
+      "http://localhost:3000/learn?auth_error=1",
+    );
+  });
+
   it("redirects to /learn?auth_error=1 when the code exchange fails", async () => {
     exchangeCodeForSession.mockResolvedValue({ error: { message: "bad code" } });
     const req = new NextRequest(

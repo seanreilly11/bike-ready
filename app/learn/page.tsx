@@ -241,17 +241,33 @@ export default function LearnIndexPage() {
     ? Math.round((answeredCount / allQuestions.length) * 100)
     : 0;
 
+  // Both URL handlers must mount on EVERY branch below. The user returning from
+  // the Paddle overlay (?upgraded=true) or from an upgrade magic link
+  // (?checkout=1) is precisely the user sitting at the preview-complete wall —
+  // that screen is where the CTA lives — and the webhook has usually not landed
+  // yet, so isPremium is still false and this branch is still taken. Mounting
+  // them only on the default tree left that user on the upsell screen with no
+  // reconcile and no overlay.
+  const urlHandlers = (
+    <Suspense>
+      <UpgradeHandler />
+      <PostAuthCheckout />
+    </Suspense>
+  );
+
   // Don't show preview-complete screen while auth is still resolving
   if (!isAuthLoading && progress.isPreviewComplete(isPremium)) {
-    return <PreviewCompleteScreen onUnlock={handleUnlock} />;
+    return (
+      <>
+        {urlHandlers}
+        <PreviewCompleteScreen onUnlock={handleUnlock} />
+      </>
+    );
   }
 
   return (
     <AppShell wrongCount={progress.getReviewQueue().length}>
-      <Suspense>
-        <UpgradeHandler />
-        <PostAuthCheckout />
-      </Suspense>
+      {urlHandlers}
       {/* Upgrade success toast */}
       {showUpgradeToast && (
         <div className="bg-green-light border-b border-green text-green-dark animate-fade-up">
