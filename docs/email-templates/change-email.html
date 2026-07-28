@@ -1,0 +1,148 @@
+<!--
+  CycleDutch - Change email address
+  Paste into: Supabase Dashboard -> Authentication -> Emails -> Change Email Address
+
+  Template variables: {{ .ConfirmationURL }}, {{ .Email }} (old), {{ .NewEmail }}
+  This is the one auth email where echoing the addresses is worth it: seeing
+  the target address is how a user spots an unauthorised change. Go templates
+  HTML-escape by default, so the interpolation is safe.
+
+  Shell notes: see magic-link.html.
+-->
+<!doctype html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Confirm your new CycleDutch email</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap');
+  body { margin:0 !important; padding:0 !important; width:100% !important; }
+  table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+  a { text-decoration:none; }
+  @media only screen and (max-width:600px) {
+    .sm-px { padding-left:24px !important; padding-right:24px !important; }
+    .sm-h1 { font-size:26px !important; line-height:32px !important; }
+    .sm-btn { width:100% !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; width:100%; background-color:#FAFAF8;">
+
+<div style="display:none; font-size:1px; color:#FAFAF8; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+  Confirm the new address on your CycleDutch account.
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#FAFAF8;">
+<tr>
+<td align="center" style="padding:40px 12px;">
+
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+    <tr>
+      <td class="sm-px" style="padding:0 40px 20px 40px;">
+        <span style="font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:20px; font-weight:800; letter-spacing:-0.4px; color:#1C1915;">CycleDutch</span>
+      </td>
+    </tr>
+
+    <tr>
+    <td>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#FFFFFF; border:1px solid #E8E4DC; border-radius:16px;">
+
+        <tr><td style="height:4px; line-height:4px; font-size:0; background-color:#E8500A; border-radius:16px 16px 0 0;">&nbsp;</td></tr>
+
+        <tr>
+          <td class="sm-px" style="padding:36px 40px 40px 40px;">
+
+            <p style="margin:0 0 14px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
+              Account change
+            </p>
+
+            <h1 class="sm-h1" style="margin:0 0 14px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:30px; line-height:36px; font-weight:800; letter-spacing:-0.7px; color:#1C1915;">
+              Confirm your new email
+            </h1>
+
+            <p style="margin:0 0 24px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:25px; color:#6B6055;">
+              You asked to move your CycleDutch account to a new address. Confirm it below and your progress comes with you.
+            </p>
+
+            <!-- Address change, stated explicitly so an unauthorised change is obvious -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#FDF0E8; border:1px solid #FAD5B8; border-radius:12px; margin:0 0 32px 0;">
+              <tr>
+                <td style="padding:16px 20px;">
+                  <p style="margin:0 0 4px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:10px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">From</p>
+                  <p style="margin:0 0 12px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:13px; line-height:18px; color:#6B6055; word-break:break-all;">{{ .Email }}</p>
+                  <p style="margin:0 0 4px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:10px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">To</p>
+                  <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:13px; line-height:18px; font-weight:500; color:#1C1915; word-break:break-all;">{{ .NewEmail }}</p>
+                </td>
+              </tr>
+            </table>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td>
+              <!--[if mso]>
+              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                href="{{ .ConfirmationURL }}" style="height:52px; v-text-anchor:middle; width:250px;"
+                arcsize="24%" stroke="f" fillcolor="#E8500A">
+                <w:anchorlock/>
+                <center style="color:#FFFFFF; font-family:Helvetica,Arial,sans-serif; font-size:16px; font-weight:bold;">
+                  Confirm new email
+                </center>
+              </v:roundrect>
+              <![endif]-->
+              <!--[if !mso]><!-- -->
+              <a class="sm-btn" href="{{ .ConfirmationURL }}"
+                 style="display:inline-block; background-color:#E8500A; color:#FFFFFF; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; line-height:20px; padding:16px 32px; border-radius:12px; text-align:center;">
+                Confirm new email
+              </a>
+              <!--<![endif]-->
+            </td></tr>
+            </table>
+
+            <p style="margin:28px 0 0 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
+              This link expires in one hour and can only be used once.
+            </p>
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
+              <tr><td style="height:1px; line-height:1px; font-size:0; background-color:#E8E4DC;">&nbsp;</td></tr>
+            </table>
+
+            <p style="margin:0 0 8px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
+              Or paste this into your browser
+            </p>
+            <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:12px; line-height:20px; color:#6B6055; word-break:break-all;">
+              <a href="{{ .ConfirmationURL }}" style="color:#E8500A; text-decoration:underline;">{{ .ConfirmationURL }}</a>
+            </p>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+    </tr>
+
+    <tr>
+      <td class="sm-px" style="padding:24px 40px 0 40px;">
+        <p style="margin:0 0 6px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#A89D8C;">
+          Didn't request this? Ignore this email and your address stays exactly as it is.
+        </p>
+        <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; letter-spacing:0.4px; color:#A89D8C;">
+          CycleDutch · Learn to cycle safely in the Netherlands
+        </p>
+      </td>
+    </tr>
+
+  </table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
