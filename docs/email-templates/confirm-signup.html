@@ -8,7 +8,8 @@
   forks depending on whether the account already existed.
 
   Template variables: {{ .Token }} and {{ .ConfirmationURL }}. Code leads,
-  link is the fallback - see magic-link.html for why.
+  link is the fallback - see magic-link.html for why, and for the subject-line
+  convention ("Your CycleDutch sign-up code: {{ .Token }}").
   Shell notes: see magic-link.html - tables only, inlined critical CSS, no
   images, VML button for Outlook, light colour-scheme pinned.
 -->
@@ -83,7 +84,7 @@
             </table>
 
             <p style="margin:0 0 28px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
-              This code expires in one hour and can only be used once.
+              This code expires in one hour and can only be used once. CycleDutch will never ask you for it — don't share it with anyone.
             </p>
 
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px 0;">

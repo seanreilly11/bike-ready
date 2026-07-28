@@ -144,7 +144,7 @@ export default function EmailCodeForm({
         disabled={resending || verifying}
         className="mt-4 text-xs text-stone-400 underline hover:text-stone-600 disabled:no-underline disabled:opacity-60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
       >
-        {resending ? "Sending…" : "Send a new code"}
+        {resending ? "Sending…" : "Didn't get it? Send a new code"}
       </button>
 
       <p className="text-xs text-stone-400 mt-3">

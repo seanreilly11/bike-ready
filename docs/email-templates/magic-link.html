@@ -9,6 +9,11 @@
   a fallback for anyone who taps it out of habit - /auth/callback still works.
   Do NOT hand-build a /auth/v1/verify URL - let Supabase render this one.
 
+  Subject line lives in the dashboard field, not this file. Set it to
+  "Your CycleDutch sign-in code: {{ .Token }}" - repeating the code in the
+  subject is the convention (Slack, Notion, Stripe) because it can be read
+  straight from the notification without opening anything.
+
   Email-client constraints this file deliberately respects:
     - Tables for layout. No flex, no grid, no position.
     - All critical CSS inlined. <style> is progressive enhancement only.
@@ -101,7 +106,7 @@
 
             <!-- Expiry / single-use, stated plainly. -->
             <p style="margin:0 0 28px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
-              This code expires in one hour and can only be used once.
+              This code expires in one hour and can only be used once. CycleDutch will never ask you for it — don't share it with anyone.
             </p>
 
             <!-- Divider -->
