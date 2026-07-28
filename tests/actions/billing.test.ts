@@ -23,7 +23,7 @@ describe("startCheckoutAction", () => {
     isUserPremium.mockReset();
     getOrCreateProviderCustomer.mockReset();
     isRateLimited.mockReset().mockReturnValue(false);
-    process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
+    process.env.PADDLE_PRICE_ID = "pri_test";
   });
 
   it("throws Unauthorized when there is no user", async () => {
@@ -49,7 +49,7 @@ describe("startCheckoutAction", () => {
   });
 
   it("throws when the price id env is missing", async () => {
-    delete process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+    delete process.env.PADDLE_PRICE_ID;
     getUser.mockResolvedValue({ data: { user: { id: "u1", email: "a@b.com" } } });
     isUserPremium.mockResolvedValue(false);
     await expect(startCheckoutAction()).rejects.toThrow(/not configured/i);

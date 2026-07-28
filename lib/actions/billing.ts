@@ -29,7 +29,7 @@ export async function startCheckoutAction(): Promise<
 
   if (await isUserPremium(user.id)) return { alreadyPremium: true };
 
-  const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+  const priceId = process.env.PADDLE_PRICE_ID;
   if (!priceId) throw new Error("Billing is not configured");
 
   const customerId = await getOrCreateProviderCustomer(user.id, user.email ?? "");

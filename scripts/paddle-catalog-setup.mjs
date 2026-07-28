@@ -2,7 +2,7 @@
 // account via the Node SDK (the Paddle MCP may fail with an auth-format error).
 // Run: node scripts/paddle-catalog-setup.mjs   (reads PADDLE_* from .env.local)
 //
-// Prints the price id to put in NEXT_PUBLIC_PADDLE_PRICE_ID. Safe to re-run only
+// Prints the price id to put in PADDLE_PRICE_ID. Safe to re-run only
 // if you want ANOTHER product/price - it always creates new ones, so run once.
 import fs from "node:fs";
 import path from "node:path";
@@ -42,4 +42,4 @@ const price = await paddle.prices.create({
   // one-time purchase - no recurring billing cycle
   billingCycle: null,
 });
-console.log("NEXT_PUBLIC_PADDLE_PRICE_ID:", price.id);
+console.log("PADDLE_PRICE_ID:", price.id);

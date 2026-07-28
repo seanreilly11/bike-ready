@@ -44,7 +44,7 @@ describe("POST /api/paddle/webhook", () => {
     captureServerEvent.mockReset();
     headersGet.mockReset().mockReturnValue("ts=1;h1=abc");
     process.env.PADDLE_WEBHOOK_SECRET = "whsec";
-    process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
+    process.env.PADDLE_PRICE_ID = "pri_test";
   });
 
   it("returns 400 when the signature header is missing", async () => {

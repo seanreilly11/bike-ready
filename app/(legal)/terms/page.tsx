@@ -82,30 +82,25 @@ export default function TermsPage() {
         </p>
       </section>
 
-      {/* Refunds and right of withdrawal */}
+      {/* Refunds */}
       <section className="mb-8">
         <h2 className="font-display font-bold text-lg text-stone-900 mb-3">
-          Refunds and right of withdrawal
+          Refunds
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          Under EU consumer law (Directive 2011/83/EU) you have a 14-day right
-          of withdrawal from digital purchases. However, this right is waived
-          once you have accessed the digital content, provided you gave explicit
-          consent to immediate access and acknowledged the waiver before
-          purchase.
+          CycleDutch Premium is sold through Paddle, our Merchant of Record.
+          Paddle is the seller for your purchase, so Paddle&apos;s terms of sale
+          apply alongside these terms. Any statutory consumer rights you have —
+          including the right of withdrawal for digital content under EU law —
+          are handled by Paddle as part of its checkout, and nothing in these
+          terms limits those rights.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          At checkout, we ask you to confirm: &quot;I want immediate access to
-          the digital content and understand that I lose my right of withdrawal
-          once I start using it.&quot; By checking this box and completing your
-          purchase, you waive your 14-day withdrawal right for content you have
-          accessed.
-        </p>
-        <p className="text-sm text-stone-600 leading-relaxed mb-4">
-          If you have not accessed any premium content, you may request a full
-          refund within 14 days of purchase by emailing dovedaledev@gmail.com
-          with your purchase confirmation. Refunds are processed within 10
-          business days.
+          On top of that, we offer our own refund policy. If you have not
+          accessed any premium content, email dovedaledev@gmail.com within 14
+          days of purchase with your purchase confirmation and we will refund
+          you in full. Refunds are issued through Paddle and usually reach you
+          within 10 business days.
         </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           If you have accessed premium content and believe there is a genuine

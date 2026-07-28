@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
   // Scope to THIS app's price: the Paddle account is shared with other apps and
   // a customer's transactions are account-wide, so an unscoped match would grant
   // premium for a sibling app's purchase. Fail closed if the price id is unset.
-  const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+  const priceId = process.env.PADDLE_PRICE_ID;
   if (!priceId) {
     return NextResponse.json({ is_premium: false });
   }
