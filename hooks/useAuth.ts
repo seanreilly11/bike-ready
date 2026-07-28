@@ -123,22 +123,34 @@ export function useAuth(): {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!mounted) return;
-      const sessionUser = session?.user ?? null;
-      const premium = sessionUser ? await fetchProfile(sessionUser.id) : false;
-      useAppStore.getState().setUser(sessionUser);
-      useAppStore.getState().setPremium(premium);
-      if (sessionUser) {
+    // try/finally + .catch: clearing isLoading is what unblocks every screen,
+    // so no failure on this path may leave the app on its loading state.
+    supabase.auth
+      .getSession()
+      .then(async ({ data: { session } }) => {
+        if (!mounted) return;
         try {
-          await syncProgressWithServer();
-          await syncBadgesWithServer();
-        } catch {
-          // Non-fatal: store keeps whatever is in localStorage
+          const sessionUser = session?.user ?? null;
+          const premium = sessionUser
+            ? await fetchProfile(sessionUser.id)
+            : false;
+          useAppStore.getState().setUser(sessionUser);
+          useAppStore.getState().setPremium(premium);
+          if (sessionUser) {
+            try {
+              await syncProgressWithServer();
+              await syncBadgesWithServer();
+            } catch {
+              // Non-fatal: store keeps whatever is in localStorage
+            }
+          }
+        } finally {
+          if (mounted) setIsLoading(false);
         }
-      }
-      if (mounted) setIsLoading(false);
-    });
+      })
+      .catch(() => {
+        if (mounted) setIsLoading(false);
+      });
 
     const {
       data: { subscription },
@@ -147,52 +159,80 @@ export function useAuth(): {
       const sessionUser = session?.user ?? null;
 
       if (event === "SIGNED_IN" && sessionUser) {
-        const premium = await fetchProfile(sessionUser.id);
-        useAppStore.getState().setUser(sessionUser);
-        useAppStore.getState().setPremium(premium);
-
-        // Link the anonymous PostHog person to the authenticated user so
-        // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
-        identify(sessionUser.id);
-
-        // Fire once on first-ever sign-in so the hero variant → account funnel
-        // has a clean conversion event. localStorage guards against repeat fires.
-        if (
-          isFreshSignup(sessionUser) &&
-          localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
-        ) {
-          localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
-          track("account_created", {
-            hero_variant: getStoredVariant(HERO_COPY_TEST),
-          });
-        }
-
-        // Migrate legacy localStorage progress to Supabase
-        const legacy = loadLegacyProgress();
-        const legacyEntries = Object.entries(legacy);
-        if (legacyEntries.length > 0) {
-          await Promise.all(
-            legacyEntries.map(([questionId, { correct }]) =>
-              updateProgress(questionId, correct),
-            ),
-          );
-          localStorage.removeItem(LEGACY_STORAGE_KEY);
-          track('progress_migrated', { questions_count: legacyEntries.length });
-        }
-
-        // Upload pre-signup progress and badges, then hydrate from the server
+        // Everything below runs under try/finally: this handler resolving is
+        // what clears isLoading, and every screen gates on that. Any throw in
+        // here (blocked localStorage in private browsing, a failed upload)
+        // would otherwise leave the whole app stuck on its loading state.
         try {
-          const uploaded = await syncProgressWithServer();
-          if (uploaded > 0) {
-            track("progress_migrated", { questions_count: uploaded });
-          }
-          await syncBadgesWithServer();
-        } catch {
-          // Non-fatal
-        }
+          const premium = await fetchProfile(sessionUser.id);
+          useAppStore.getState().setUser(sessionUser);
+          useAppStore.getState().setPremium(premium);
 
-        if (!premium) verifyPremiumStatus();
-        if (mounted) setIsLoading(false);
+          // Link the anonymous PostHog person to the authenticated user so
+          // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
+          identify(sessionUser.id);
+
+          // Fire once on first-ever sign-in so the hero variant → account funnel
+          // has a clean conversion event. localStorage guards against repeat
+          // fires; the try guards storage being unavailable, since analytics
+          // must never block sign-in.
+          try {
+            if (
+              isFreshSignup(sessionUser) &&
+              localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
+            ) {
+              localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
+              track("account_created", {
+                hero_variant: getStoredVariant(HERO_COPY_TEST),
+              });
+            }
+          } catch {
+            // Storage blocked - skip the once-only guard, don't fail sign-in
+          }
+
+          // Migrate legacy localStorage progress to Supabase. allSettled, not
+          // all: a single failed upload must not reject this handler - that
+          // would skip the sync below. The legacy key is cleared only when
+          // every row landed, so a partial failure is retried on the next
+          // sign-in rather than silently dropped.
+          const legacy = loadLegacyProgress();
+          const legacyEntries = Object.entries(legacy);
+          if (legacyEntries.length > 0) {
+            const results = await Promise.allSettled(
+              legacyEntries.map(([questionId, { correct }]) =>
+                updateProgress(questionId, correct),
+              ),
+            );
+            const uploaded = results.filter(
+              (r) => r.status === "fulfilled",
+            ).length;
+            if (uploaded === legacyEntries.length) {
+              try {
+                localStorage.removeItem(LEGACY_STORAGE_KEY);
+              } catch {
+                // Storage blocked - re-migrating is idempotent (upsert by id)
+              }
+            }
+            if (uploaded > 0) {
+              track("progress_migrated", { questions_count: uploaded });
+            }
+          }
+
+          // Upload pre-signup progress and badges, then hydrate from the server
+          try {
+            const uploaded = await syncProgressWithServer();
+            if (uploaded > 0) {
+              track("progress_migrated", { questions_count: uploaded });
+            }
+            await syncBadgesWithServer();
+          } catch {
+            // Non-fatal
+          }
+
+          if (!premium) verifyPremiumStatus();
+        } finally {
+          if (mounted) setIsLoading(false);
+        }
       } else if (event === "SIGNED_OUT") {
         useAppStore.getState().setUser(null);
         useAppStore.getState().setPremium(false);
