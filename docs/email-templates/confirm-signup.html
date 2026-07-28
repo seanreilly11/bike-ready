@@ -7,11 +7,11 @@
   Magic Link template. Keep the two visually identical or the experience
   forks depending on whether the account already existed.
 
-  Template variables: {{ .Token }} and {{ .ConfirmationURL }}. Code leads,
-  link is the fallback - see magic-link.html for why, and for the subject-line
-  convention ("Your CycleDutch sign-up code: {{ .Token }}").
+  Template variable: {{ .Token }}. Code only, no magic link - see
+  magic-link.html for why, and for the subject-line convention
+  ("Your CycleDutch sign-up code: {{ .Token }}").
   Shell notes: see magic-link.html - tables only, inlined critical CSS, no
-  images, VML button for Outlook, light colour-scheme pinned.
+  images, no webfont request, light colour-scheme pinned.
 -->
 <!doctype html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -26,7 +26,6 @@
 <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
 <![endif]-->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap');
   body { margin:0 !important; padding:0 !important; width:100% !important; }
   table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
   a { text-decoration:none; }
@@ -87,42 +86,6 @@
               This code expires in one hour and can only be used once. CycleDutch will never ask you for it — don't share it with anyone.
             </p>
 
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px 0;">
-              <tr><td style="height:1px; line-height:1px; font-size:0; background-color:#E8E4DC;">&nbsp;</td></tr>
-            </table>
-
-            <p style="margin:0 0 20px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
-              Or confirm with one tap
-            </p>
-
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-            <tr><td>
-              <!--[if mso]>
-              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
-                href="{{ .ConfirmationURL }}" style="height:52px; v-text-anchor:middle; width:250px;"
-                arcsize="24%" stroke="f" fillcolor="#E8500A">
-                <w:anchorlock/>
-                <center style="color:#FFFFFF; font-family:Helvetica,Arial,sans-serif; font-size:16px; font-weight:bold;">
-                  Confirm and start
-                </center>
-              </v:roundrect>
-              <![endif]-->
-              <!--[if !mso]><!-- -->
-              <a class="sm-btn" href="{{ .ConfirmationURL }}"
-                 style="display:inline-block; background-color:#E8500A; color:#FFFFFF; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; line-height:20px; padding:16px 32px; border-radius:12px; text-align:center;">
-                Confirm and start
-              </a>
-              <!--<![endif]-->
-            </td></tr>
-            </table>
-
-            <p style="margin:28px 0 8px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
-              Or paste this into your browser
-            </p>
-            <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:12px; line-height:20px; color:#6B6055; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" style="color:#E8500A; text-decoration:underline;">{{ .ConfirmationURL }}</a>
-            </p>
-
           </td>
         </tr>
       </table>
@@ -132,7 +95,7 @@
     <tr>
       <td class="sm-px" style="padding:24px 40px 0 40px;">
         <p style="margin:0 0 6px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#A89D8C;">
-          Didn't sign up? You can safely ignore this — no account is created until the code or link is used.
+          Didn't sign up? You can safely ignore this — no account is created until the code is used.
         </p>
         <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; letter-spacing:0.4px; color:#A89D8C;">
           CycleDutch · Learn to cycle safely in the Netherlands

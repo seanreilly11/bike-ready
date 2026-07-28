@@ -148,7 +148,7 @@ export default function EmailCodeForm({
       </button>
 
       <p className="text-xs text-stone-400 mt-3">
-        The email has a sign-in link too, if you prefer.
+        Check your spam folder if it hasn&apos;t arrived.
       </p>
     </div>
   );

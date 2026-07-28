@@ -324,10 +324,12 @@ Email (one-time code) and Google OAuth via Supabase. No passwords.
 3. If not yet premium → Paddle overlay checkout → webhook sets `is_premium = true`
 4. On first authenticated load → migrate localStorage progress to Supabase
 
-The same email also carries the magic link, and `/auth/callback` still handles
-it - the code is just the path that doesn't strand the user in a second tab.
-Both email templates (Magic Link **and** Confirm signup, which is what
-first-time addresses receive) must render `{{ .Token }}`. Code length is a
+The emails are code-only: the magic link is deliberately not rendered (it
+strands the user in a second tab, and its `*.supabase.co` URL is a foreign
+link domain in mail sent from cycledutch.com). `/auth/callback` still exists
+and still serves Google OAuth. Both email templates (Magic Link **and**
+Confirm signup, which is what first-time addresses receive) must render
+`{{ .Token }}`. Code length is a
 project setting (Auth → Sign In / Providers → Email → Email OTP Length, 6-10);
 `EmailCodeForm` accepts the whole range, so changing it needs no code change.
 

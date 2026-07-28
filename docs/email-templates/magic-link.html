@@ -2,12 +2,14 @@
   CycleDutch - Magic Link email
   Paste into: Supabase Dashboard -> Authentication -> Emails -> Magic Link
 
-  Template variables: {{ .Token }} and {{ .ConfirmationURL }} (Supabase Go
-  template). One signInWithOtp call mints both; the app leads with the code
-  because no email client can be told to open its links in the tab that asked
-  for them, and the code keeps the user where they started. The link stays as
-  a fallback for anyone who taps it out of habit - /auth/callback still works.
-  Do NOT hand-build a /auth/v1/verify URL - let Supabase render this one.
+  Template variable: {{ .Token }} (Supabase Go template).
+
+  Code only - the magic link is deliberately NOT rendered. Two reasons: no
+  email client can be told to open a link in the tab that asked for it, so the
+  link strands the user in a second tab; and {{ .ConfirmationURL }} points at
+  *.supabase.co, a domain unrelated to the From address, which is a link the
+  spam filters have no reason to trust. /auth/callback still exists and still
+  works (Google OAuth uses it), so re-adding the link is a template edit away.
 
   Subject line lives in the dashboard field, not this file. Set it to
   "Your CycleDutch sign-in code: {{ .Token }}" - repeating the code in the
@@ -19,9 +21,8 @@
     - All critical CSS inlined. <style> is progressive enhancement only.
     - No images at all, so nothing breaks when images are blocked and there
       is no tracking pixel on a security email.
-    - Bricolage Grotesque / DM Mono render in Apple Mail; everywhere else the
-      fallback stack carries the design. Nothing depends on the webfont.
-    - Outlook (Word engine) gets a VML button; everyone else gets the <a>.
+    - No webfont request. The fallback stack carries the design; a remote
+      @import is one more thing for a filter to hold against the message.
     - No user-supplied data is interpolated, per Supabase's guidance on
       keeping auth mail out of spam folders.
 -->
@@ -39,7 +40,6 @@
 <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
 <![endif]-->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap');
   /* Client resets */
   body { margin:0 !important; padding:0 !important; width:100% !important; }
   table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
@@ -107,45 +107,6 @@
             <!-- Expiry / single-use, stated plainly. -->
             <p style="margin:0 0 28px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
               This code expires in one hour and can only be used once. CycleDutch will never ask you for it — don't share it with anyone.
-            </p>
-
-            <!-- Divider -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px 0;">
-              <tr><td style="height:1px; line-height:1px; font-size:0; background-color:#E8E4DC;">&nbsp;</td></tr>
-            </table>
-
-            <p style="margin:0 0 20px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
-              Or sign in with one tap
-            </p>
-
-            <!-- Bulletproof button -->
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-            <tr><td>
-              <!--[if mso]>
-              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
-                href="{{ .ConfirmationURL }}" style="height:52px; v-text-anchor:middle; width:260px;"
-                arcsize="24%" stroke="f" fillcolor="#E8500A">
-                <w:anchorlock/>
-                <center style="color:#FFFFFF; font-family:Helvetica,Arial,sans-serif; font-size:16px; font-weight:bold;">
-                  Sign in to CycleDutch
-                </center>
-              </v:roundrect>
-              <![endif]-->
-              <!--[if !mso]><!-- -->
-              <a class="sm-btn" href="{{ .ConfirmationURL }}"
-                 style="display:inline-block; background-color:#E8500A; color:#FFFFFF; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; line-height:20px; padding:16px 32px; border-radius:12px; text-align:center;">
-                Sign in to CycleDutch
-              </a>
-              <!--<![endif]-->
-            </td></tr>
-            </table>
-
-            <!-- Copy-paste fallback: mandatory when the button is stripped. -->
-            <p style="margin:28px 0 8px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
-              Or paste this into your browser
-            </p>
-            <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:12px; line-height:20px; color:#6B6055; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" style="color:#E8500A; text-decoration:underline;">{{ .ConfirmationURL }}</a>
             </p>
 
           </td>
