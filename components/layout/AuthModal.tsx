@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, MailCheck } from "lucide-react";
+import { X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import GoogleMark from "@/components/ui/GoogleMark";
+import EmailCodeForm from "@/components/layout/EmailCodeForm";
 import { useAuth } from "@/hooks/useAuth";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useModalFocus } from "@/hooks/useModalFocus";
@@ -102,16 +103,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
         </button>
 
         {sent ? (
-          <div className="text-center py-4">
-            <div className="mb-3 flex justify-center"><MailCheck size={40} className="text-orange" aria-hidden="true" /></div>
-            <h2 id="auth-modal-title" className="font-display font-extrabold text-xl text-stone-900 mb-2">
-              Check your email
-            </h2>
-            <p className="text-stone-600 text-sm">
-              We sent a magic link to <strong>{email}</strong>. Click it to sign
-              in.
-            </p>
-          </div>
+          <EmailCodeForm email={email} reason={reason} onDone={onClose} />
         ) : (
           <>
             <h2 id="auth-modal-title" className="font-display font-extrabold text-xl text-stone-900 mb-1">
@@ -161,12 +153,12 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
                 loading={loading}
                 disabled={loading || !email}
               >
-                {loading ? "Sending…" : "Send magic link"}
+                {loading ? "Sending…" : "Email me a code"}
               </Button>
             </form>
 
             <p className="text-center text-xs text-stone-400 mt-4">
-              No password. One click to sign in.
+              No password. We email you a one-time code.
             </p>
             <p className="text-center text-xs text-stone-400 mt-2">
               By continuing you agree to our{" "}

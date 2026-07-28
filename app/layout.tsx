@@ -19,6 +19,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CookieConsentBanner } from "@/components/layout/CookieConsentBanner";
 import { Footer } from "@/components/layout/Footer";
 import { PHProvider } from "./providers";
+import AuthBootstrap from "@/components/layout/AuthBootstrap";
 import { Suspense } from "react";
 import { PostHogPageView } from "@/components/PostHogPageView";
 
@@ -84,6 +85,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <PHProvider>
+          <AuthBootstrap />
           <Suspense>
             <PostHogPageView />
           </Suspense>

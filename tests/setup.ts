@@ -4,7 +4,7 @@ import { cleanup } from "@testing-library/react";
 
 // Mock next/navigation - used by hooks that call useRouter/useParams
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), refresh: vi.fn() }),
   useParams: () => ({}),
   usePathname: () => "/",
   useSearchParams: () => new URLSearchParams(),
@@ -19,6 +19,7 @@ vi.mock("@/lib/supabase", () => ({
         .fn()
         .mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
       signInWithOtp: vi.fn().mockResolvedValue({ error: null }),
+      verifyOtp: vi.fn().mockResolvedValue({ data: {}, error: null }),
       signInWithOAuth: vi.fn().mockResolvedValue({ error: null }),
       signOut: vi.fn().mockResolvedValue({ error: null }),
     },

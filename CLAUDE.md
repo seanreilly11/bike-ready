@@ -46,7 +46,7 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 - All design tokens in `lib/tokens.ts`. Never hardcode hex values or font strings in components.
 - Shared UI primitives in `components/ui/`. Build these first and use them everywhere.
 - `data/questions.json` and `data/lessons.json` are the single source of truth for all content. Never duplicate or inline content elsewhere.
-- Auth and premium status via `useAuth` hook only. Never read Supabase auth directly in a component.
+- Auth and premium status via `useAuth` hook only. Never read Supabase auth directly in a component. `useAuth` is a reader with no effects - auth side effects belong in `useAuthBootstrap`, which is mounted exactly once.
 - Progress state via `useProgress` hook only. Never write to `question_progress` directly from a component.
 - Analytics events via `useAnalytics` hook only. Never call Posthog directly from a component.
 
@@ -75,6 +75,7 @@ components/
     BadgeToast.tsx
   layout/
     Nav.tsx
+    AuthBootstrap.tsx    # Renders nothing; mounts useAuthBootstrap in the root layout
     GateModal.tsx
     AuthModal.tsx
     OnboardingOverlay.tsx
@@ -114,7 +115,8 @@ CycleDutch/
 │   ├── signs.tsx                 # SVG sign components + SIGN_REGISTRY
 │   └── badges.ts                 # Badge definitions
 ├── hooks/
-│   ├── useAuth.ts                # Auth state, magic link, premium status
+│   ├── useAuth.ts                # Auth state reader + sign-in/out actions (no effects)
+│   ├── useAuthBootstrap.ts       # The single auth listener + sign-in sync (mounted once)
 │   ├── useProgress.ts            # Question progress read/write + localStorage fallback
 │   ├── useBadges.ts              # Badge state + trigger logic
 │   ├── useQuestions.ts           # Active question bank + test-set builder
@@ -261,7 +263,7 @@ User answers 3 questions in all 6 gated modules (18 total, not premium)
   → Shows: dark hero + progress bar + 6 incomplete module cards + unlock CTA
 
 GateModal (opened from upgrade CTA or nav Unlock button)
-  → Social proof: "2,400+ expats have unlocked this"
+  → Trust line: "Based on Dutch traffic law (RVV 1990)" (never a user-count claim)
   → Feature list (questions, Test, badges, progress saving)
   → €4.99 button
   → Subtext: "Less than the fine for running a red light"
@@ -315,12 +317,21 @@ Ground-truth revenue is captured **server-side** in the Paddle webhook via `lib/
 
 ## Auth
 
-Magic link only via Supabase. No passwords.
+Email (one-time code) and Google OAuth via Supabase. No passwords.
 
-1. User enters email in AuthModal → Supabase sends magic link
-2. User clicks link → session created
+1. User enters email in AuthModal → `signInWithOtp` → Supabase emails a code
+2. User types the code into `EmailCodeForm` → `verifyOtp` → session created **in the same tab**
 3. If not yet premium → Paddle overlay checkout → webhook sets `is_premium = true`
 4. On first authenticated load → migrate localStorage progress to Supabase
+
+The emails are code-only: the magic link is deliberately not rendered (it
+strands the user in a second tab, and its `*.supabase.co` URL is a foreign
+link domain in mail sent from cycledutch.com). `/auth/callback` still exists
+and still serves Google OAuth. Both email templates (Magic Link **and**
+Confirm signup, which is what first-time addresses receive) must render
+`{{ .Token }}`. Code length is a
+project setting (Auth → Sign In / Providers → Email → Email OTP Length, 6-10);
+`EmailCodeForm` accepts the whole range, so changing it needs no code change.
 
 Session length: 30 days. Cookie-based via `@supabase/ssr`.
 
