@@ -164,95 +164,114 @@ export function useAuth(): {
         if (mounted) setIsLoading(false);
       });
 
+    // Post-sign-in work. Runs under try/finally: this resolving is what clears
+    // isLoading, and every screen gates on that. Any throw in here (blocked
+    // localStorage in private browsing, a failed upload) would otherwise leave
+    // the whole app stuck on its loading state.
+    const handleSignedIn = async (sessionUser: User) => {
+      try {
+        const premium = await fetchProfile(sessionUser.id);
+        useAppStore.getState().setUser(sessionUser);
+        useAppStore.getState().setPremium(premium);
+
+        // Link the anonymous PostHog person to the authenticated user so
+        // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
+        identify(sessionUser.id);
+
+        // Fire once on first-ever sign-in so the hero variant → account funnel
+        // has a clean conversion event. localStorage guards against repeat
+        // fires; the try guards storage being unavailable, since analytics
+        // must never block sign-in.
+        try {
+          if (
+            isFreshSignup(sessionUser) &&
+            localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
+          ) {
+            localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
+            track("account_created", {
+              hero_variant: getStoredVariant(HERO_COPY_TEST),
+            });
+          }
+        } catch {
+          // Storage blocked - skip the once-only guard, don't fail sign-in
+        }
+
+        // Migrate legacy localStorage progress to Supabase. allSettled, not
+        // all: a single failed upload must not reject this handler - that
+        // would skip the sync below. The legacy key is cleared only when
+        // every row landed, so a partial failure is retried on the next
+        // sign-in rather than silently dropped.
+        const legacy = loadLegacyProgress();
+        const legacyEntries = Object.entries(legacy);
+        if (legacyEntries.length > 0) {
+          const results = await Promise.allSettled(
+            legacyEntries.map(([questionId, { correct }]) =>
+              updateProgress(questionId, correct),
+            ),
+          );
+          const uploaded = results.filter(
+            (r) => r.status === "fulfilled",
+          ).length;
+          if (uploaded === legacyEntries.length) {
+            try {
+              localStorage.removeItem(LEGACY_STORAGE_KEY);
+            } catch {
+              // Storage blocked - re-migrating is idempotent (upsert by id)
+            }
+          }
+          if (uploaded > 0) {
+            track("progress_migrated", { questions_count: uploaded });
+          }
+        }
+
+        // Upload pre-signup progress and badges, then hydrate from the server
+        try {
+          const uploaded = await syncProgressWithServer();
+          if (uploaded > 0) {
+            track("progress_migrated", { questions_count: uploaded });
+          }
+          await syncBadgesWithServer();
+        } catch {
+          // Non-fatal
+        }
+
+        if (!premium) verifyPremiumStatus();
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    };
+
+    // auth-js runs subscribers INSIDE its auth lock and awaits them before
+    // releasing it, while every supabase-js data call awaits that same lock
+    // (PostgREST resolves its token through auth.getSession()). Awaiting a
+    // Supabase call from in here therefore deadlocks the client for the life
+    // of the page: on a reload with an existing session, _recoverAndRefresh
+    // emits SIGNED_IN from inside the initialize lock, this handler waits on
+    // a query, and that query waits on the lock this handler is holding. Every
+    // later auth call queues behind it - which is why sign-out hung forever
+    // with no error (queued calls never reach the 5s lock-acquire timeout).
+    // So: stay synchronous, and hand the work to a task that runs once the
+    // lock is free.
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       const sessionUser = session?.user ?? null;
 
       if (event === "SIGNED_IN" && sessionUser) {
-        // Everything below runs under try/finally: this handler resolving is
-        // what clears isLoading, and every screen gates on that. Any throw in
-        // here (blocked localStorage in private browsing, a failed upload)
-        // would otherwise leave the whole app stuck on its loading state.
-        try {
-          const premium = await fetchProfile(sessionUser.id);
-          useAppStore.getState().setUser(sessionUser);
-          useAppStore.getState().setPremium(premium);
-
-          // Link the anonymous PostHog person to the authenticated user so
-          // pre-signup events (cta_clicked, ab_variant_assigned) join the account.
-          identify(sessionUser.id);
-
-          // Fire once on first-ever sign-in so the hero variant → account funnel
-          // has a clean conversion event. localStorage guards against repeat
-          // fires; the try guards storage being unavailable, since analytics
-          // must never block sign-in.
-          try {
-            if (
-              isFreshSignup(sessionUser) &&
-              localStorage.getItem(SIGNUP_TRACKED_KEY) !== "true"
-            ) {
-              localStorage.setItem(SIGNUP_TRACKED_KEY, "true");
-              track("account_created", {
-                hero_variant: getStoredVariant(HERO_COPY_TEST),
-              });
-            }
-          } catch {
-            // Storage blocked - skip the once-only guard, don't fail sign-in
-          }
-
-          // Migrate legacy localStorage progress to Supabase. allSettled, not
-          // all: a single failed upload must not reject this handler - that
-          // would skip the sync below. The legacy key is cleared only when
-          // every row landed, so a partial failure is retried on the next
-          // sign-in rather than silently dropped.
-          const legacy = loadLegacyProgress();
-          const legacyEntries = Object.entries(legacy);
-          if (legacyEntries.length > 0) {
-            const results = await Promise.allSettled(
-              legacyEntries.map(([questionId, { correct }]) =>
-                updateProgress(questionId, correct),
-              ),
-            );
-            const uploaded = results.filter(
-              (r) => r.status === "fulfilled",
-            ).length;
-            if (uploaded === legacyEntries.length) {
-              try {
-                localStorage.removeItem(LEGACY_STORAGE_KEY);
-              } catch {
-                // Storage blocked - re-migrating is idempotent (upsert by id)
-              }
-            }
-            if (uploaded > 0) {
-              track("progress_migrated", { questions_count: uploaded });
-            }
-          }
-
-          // Upload pre-signup progress and badges, then hydrate from the server
-          try {
-            const uploaded = await syncProgressWithServer();
-            if (uploaded > 0) {
-              track("progress_migrated", { questions_count: uploaded });
-            }
-            await syncBadgesWithServer();
-          } catch {
-            // Non-fatal
-          }
-
-          if (!premium) verifyPremiumStatus();
-        } finally {
-          if (mounted) setIsLoading(false);
-        }
+        setTimeout(() => {
+          if (!mounted) return;
+          void handleSignedIn(sessionUser);
+        }, 0);
       } else if (event === "SIGNED_OUT") {
+        // Local-only work: safe to run inline, nothing here touches Supabase.
         useAppStore.getState().setUser(null);
         useAppStore.getState().setPremium(false);
         useAppStore.getState().resetProgress();
         track('user_signed_out', {});
-        if (mounted) setIsLoading(false);
+        setIsLoading(false);
       } else if (event === "INITIAL_SESSION") {
-        if (mounted) setIsLoading(false);
+        setIsLoading(false);
       }
     });
 
