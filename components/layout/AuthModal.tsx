@@ -119,21 +119,17 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
             </h2>
             <p className="text-stone-600 text-sm mb-5">{body}</p>
 
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              full
               onClick={handleGoogle}
+              loading={googleLoading}
               disabled={googleLoading || loading}
-              className={[
-                "w-full flex items-center justify-center gap-3 rounded-xl border px-4 py-3",
-                "border-stone-200 bg-white text-sm font-display font-bold text-stone-900",
-                "hover:bg-stone-50 transition-colors duration-150",
-                "disabled:opacity-60 disabled:cursor-not-allowed",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange",
-              ].join(" ")}
             >
               <GoogleMark />
               {googleLoading ? "Redirecting…" : "Continue with Google"}
-            </button>
+            </Button>
 
             <div className="flex items-center gap-3 my-4">
               <span className="h-px flex-1 bg-stone-200" />
