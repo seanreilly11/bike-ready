@@ -93,8 +93,7 @@ export default function EmailCodeForm({
         Check your email
       </h2>
       <p className="text-stone-600 text-sm mb-5">
-        We sent a code to <strong>{email}</strong>. Enter it below to stay right
-        here.
+        We sent a code to <strong>{email}</strong>. Enter it below to sign in.
       </p>
 
       <form onSubmit={handleVerify} className="space-y-3">
@@ -149,7 +148,7 @@ export default function EmailCodeForm({
       </button>
 
       <p className="text-xs text-stone-400 mt-3">
-        The email also has a sign-in link if you&apos;d rather tap that.
+        The email has a sign-in link too, if you prefer.
       </p>
     </div>
   );
