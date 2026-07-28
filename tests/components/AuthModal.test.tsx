@@ -61,27 +61,38 @@ describe("AuthModal sign-in methods", () => {
   it("asks for the emailed code instead of waiting on a link click", async () => {
     render(<AuthModal reason="save_progress" onClose={vi.fn()} />);
     await sendCodeTo("rider@example.com");
-    expect(screen.getByLabelText(/6-digit code/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/sign-in code/i)).toBeInTheDocument();
   });
 
   it("signs in with the typed code", async () => {
     const onClose = vi.fn();
     render(<AuthModal reason="save_progress" onClose={onClose} />);
     await sendCodeTo("rider@example.com");
-    await userEvent.type(screen.getByLabelText(/6-digit code/i), "123456");
+    await userEvent.type(screen.getByLabelText(/sign-in code/i), "123456");
     await userEvent.click(screen.getByRole("button", { name: /^sign in$/i }));
     expect(verifyEmailOtp).toHaveBeenCalledWith("rider@example.com", "123456");
     expect(onClose).toHaveBeenCalled();
+  });
+
+  // Supabase's Email OTP Length is a per-project setting (6-10 digits), so the
+  // input must not assume the 6-digit default - truncating an 8-digit code
+  // silently made every sign-in fail.
+  it("accepts a code longer than six digits", async () => {
+    render(<AuthModal reason="save_progress" onClose={vi.fn()} />);
+    await sendCodeTo("rider@example.com");
+    await userEvent.type(screen.getByLabelText(/sign-in code/i), "04916802");
+    await userEvent.click(screen.getByRole("button", { name: /^sign in$/i }));
+    expect(verifyEmailOtp).toHaveBeenCalledWith("rider@example.com", "04916802");
   });
 
   it("keeps the code step usable after a rejected code", async () => {
     verifyEmailOtp.mockRejectedValueOnce(new Error("expired"));
     render(<AuthModal reason="save_progress" onClose={vi.fn()} />);
     await sendCodeTo("rider@example.com");
-    await userEvent.type(screen.getByLabelText(/6-digit code/i), "000000");
+    await userEvent.type(screen.getByLabelText(/sign-in code/i), "000000");
     await userEvent.click(screen.getByRole("button", { name: /^sign in$/i }));
     expect(await screen.findByText(/didn't work/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/6-digit code/i)).toBeEnabled();
+    expect(screen.getByLabelText(/sign-in code/i)).toBeEnabled();
   });
 
   it("resends a fresh code on request", async () => {

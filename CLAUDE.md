@@ -315,7 +315,7 @@ Ground-truth revenue is captured **server-side** in the Paddle webhook via `lib/
 
 ## Auth
 
-Email (6-digit code) and Google OAuth via Supabase. No passwords.
+Email (one-time code) and Google OAuth via Supabase. No passwords.
 
 1. User enters email in AuthModal → `signInWithOtp` → Supabase emails a code
 2. User types the code into `EmailCodeForm` → `verifyOtp` → session created **in the same tab**
@@ -325,7 +325,9 @@ Email (6-digit code) and Google OAuth via Supabase. No passwords.
 The same email also carries the magic link, and `/auth/callback` still handles
 it - the code is just the path that doesn't strand the user in a second tab.
 Both email templates (Magic Link **and** Confirm signup, which is what
-first-time addresses receive) must render `{{ .Token }}`.
+first-time addresses receive) must render `{{ .Token }}`. Code length is a
+project setting (Auth → Sign In / Providers → Email → Email OTP Length, 6-10);
+`EmailCodeForm` accepts the whole range, so changing it needs no code change.
 
 Session length: 30 days. Cookie-based via `@supabase/ssr`.
 

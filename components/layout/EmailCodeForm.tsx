@@ -8,7 +8,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import type { AuthModalReason } from "@/stores/uiStore";
 
-const CODE_LENGTH = 6;
+// Supabase's Email OTP Length is a per-project setting (Auth -> Sign In /
+// Providers -> Email), any value from 6 to 10. Accept the whole range rather
+// than hardcoding the 6-digit default: a maxLength that is too short truncates
+// the pasted code and every sign-in fails with "code didn't work".
+const CODE_MIN_LENGTH = 6;
+const CODE_MAX_LENGTH = 10;
 
 interface EmailCodeFormProps {
   email: string;
@@ -17,7 +22,7 @@ interface EmailCodeFormProps {
 }
 
 /**
- * Second step of email sign-in: the user types the 6-digit code from the email
+ * Second step of email sign-in: the user types the one-time code from the email
  * so the session lands in THIS tab. The emailed link still works as a fallback
  * for anyone who taps it out of habit.
  */
@@ -88,13 +93,13 @@ export default function EmailCodeForm({
         Check your email
       </h2>
       <p className="text-stone-600 text-sm mb-5">
-        We sent a {CODE_LENGTH}-digit code to <strong>{email}</strong>. Enter it
-        below to stay right here.
+        We sent a code to <strong>{email}</strong>. Enter it below to stay right
+        here.
       </p>
 
       <form onSubmit={handleVerify} className="space-y-3">
         <label htmlFor="login-code" className="sr-only">
-          {CODE_LENGTH}-digit code
+          Sign-in code
         </label>
         <input
           id="login-code"
@@ -104,16 +109,16 @@ export default function EmailCodeForm({
           autoComplete="one-time-code"
           autoFocus
           required
-          maxLength={CODE_LENGTH}
+          maxLength={CODE_MAX_LENGTH}
           value={code}
           onChange={(e) =>
-            setCode(e.target.value.replace(/\D/g, "").slice(0, CODE_LENGTH))
+            setCode(e.target.value.replace(/\D/g, "").slice(0, CODE_MAX_LENGTH))
           }
-          placeholder="000000"
+          placeholder="Code from email"
           className={[
             "w-full rounded-xl border px-4 py-3",
-            "font-mono text-center text-2xl tracking-[0.4em] text-stone-900",
-            "placeholder:text-stone-300 placeholder:tracking-[0.4em]",
+            "font-mono text-center text-2xl tracking-[0.3em] text-stone-900",
+            "placeholder:text-stone-300 placeholder:text-base placeholder:tracking-normal",
             "border-stone-200 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/30",
             "transition-colors duration-150",
           ].join(" ")}
@@ -128,7 +133,7 @@ export default function EmailCodeForm({
           type="submit"
           full
           loading={verifying}
-          disabled={verifying || code.length < CODE_LENGTH}
+          disabled={verifying || code.length < CODE_MIN_LENGTH}
         >
           {verifying ? "Signing in…" : "Sign in"}
         </Button>

@@ -158,7 +158,7 @@ export default function AuthModal({ reason, onClose }: AuthModalProps) {
             </form>
 
             <p className="text-center text-xs text-stone-400 mt-4">
-              No password. We email you a 6-digit code.
+              No password. We email you a one-time code.
             </p>
             <p className="text-center text-xs text-stone-400 mt-2">
               By continuing you agree to our{" "}
