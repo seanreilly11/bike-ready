@@ -44,7 +44,7 @@ describe("GET /api/premium/verify", () => {
     grant.mockReset();
     transactionsList.mockReset();
     captureServerEvent.mockReset();
-    process.env.NEXT_PUBLIC_PADDLE_PRICE_ID = "pri_test";
+    process.env.PADDLE_PRICE_ID = "pri_test";
   });
 
   it("returns 401 when unauthenticated", async () => {
