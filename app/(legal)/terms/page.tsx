@@ -76,6 +76,13 @@ export default function TermsPage() {
           processed by Paddle, our Merchant of Record. We accept major credit
           and debit cards.
         </p>
+        <p className="text-sm text-stone-600 leading-relaxed mb-4">
+          Where we describe Premium as one-time, lifetime, or yours to keep
+          forever, we mean that we place no time limit on your access and will
+          never convert it into a subscription. We cannot guarantee access
+          beyond the life of the service itself: if we discontinue CycleDutch,
+          we will tell Premium users by email in advance.
+        </p>
         <p className="text-sm text-stone-600 leading-relaxed">
           By completing a purchase you confirm that you are at least 18 years
           old, or that you have obtained the consent of a parent or guardian.

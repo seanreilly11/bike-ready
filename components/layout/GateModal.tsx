@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { Check, ArrowRight } from "lucide-react";
 import type { Module, ModuleId } from "@/types";
 import Button from "@/components/ui/Button";
 import ModuleIcon from "@/components/ui/ModuleIcon";
-import { APP_PRICE, SOCIAL_PROOF, RED_LIGHT_FINE } from "@/data/constants";
+import { APP_PRICE, TRUST_LINE, RED_LIGHT_FINE } from "@/data/constants";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useModalFocus } from "@/hooks/useModalFocus";
 
@@ -58,10 +59,10 @@ export default function GateModal({
         aria-labelledby="gate-modal-title"
         className="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 pb-8 animate-fade-up focus-visible:outline-none"
       >
-        {/* Social proof */}
+        {/* Trust line */}
         <div className="flex justify-center mb-4">
           <span className="font-mono text-xs uppercase tracking-wide bg-orange-light text-orange border border-orange-mid rounded-full px-3 py-1">
-            {SOCIAL_PROOF}
+            {TRUST_LINE}
           </span>
         </div>
 
@@ -70,6 +71,7 @@ export default function GateModal({
         </h2>
         <p className="text-stone-600 text-sm text-center mb-5">
           Unlock the full course once and keep it forever.
+          <span aria-hidden="true">*</span>
         </p>
 
         {/* Feature list */}
@@ -112,8 +114,19 @@ export default function GateModal({
           Unlock for {APP_PRICE}
         </Button>
         <p className="text-center text-xs text-stone-400 mt-2">
-          Less than a red-light fine ({RED_LIGHT_FINE}). Pay once, keep it
-          forever.
+          Less than a red-light fine ({RED_LIGHT_FINE}). Pay once, no
+          subscription.
+        </p>
+        {/* Qualifies the "forever" claim above: access has no time limit, but it
+            cannot outlast the service itself. Unqualified lifetime claims are a
+            misleading-advertising risk in NL/EU. */}
+        <p className="text-center text-xs text-stone-400 mt-3">
+          * No time limit on your access, for as long as CycleDutch is
+          available. See{" "}
+          <Link href="/terms" className="underline hover:text-stone-500">
+            Terms
+          </Link>
+          .
         </p>
 
         <div className="flex justify-center mt-4">

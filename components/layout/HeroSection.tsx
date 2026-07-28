@@ -11,7 +11,7 @@ import {
   HERO_COPY_VARIANTS,
   type HeroCopyVariant,
 } from "@/lib/abTest";
-import { SOCIAL_PROOF } from "@/data/constants";
+import { TRUST_LINE } from "@/data/constants";
 
 const heroContent: Record<
   HeroCopyVariant,
@@ -25,10 +25,10 @@ const heroContent: Record<
   variant_a: {
     eyebrow: "Don't learn Dutch cycling rules the hard way",
     heading: "Know the rules before you ride. Not after.",
-    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules - and breaking them is expensive or dangerous. CycleDutch gets you fluent in 30 minutes.",
+    body: "Right-of-way. Shark teeth. Cycle path etiquette. Dutch roads have unwritten rules - and breaking them is expensive or dangerous. CycleDutch teaches you to read the road like a local.",
   },
   variant_b: {
-    eyebrow: "Join 2,400+ expats who've figured it out",
+    eyebrow: "What Dutch cyclists learned as kids",
     heading: "The Dutch cycling crash course for expats.",
     body: "Seven modules. Real scenarios. Instant feedback. Master the rules that actually matter in the Netherlands - from priority intersections to cycle path law.",
   },
@@ -69,7 +69,7 @@ export default function HeroSection({
 
           <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 mb-6">
             <span className="text-white/90 text-sm font-display">
-              {SOCIAL_PROOF}
+              {TRUST_LINE}
             </span>
           </div>
 

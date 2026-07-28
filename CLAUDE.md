@@ -261,7 +261,7 @@ User answers 3 questions in all 6 gated modules (18 total, not premium)
   → Shows: dark hero + progress bar + 6 incomplete module cards + unlock CTA
 
 GateModal (opened from upgrade CTA or nav Unlock button)
-  → Social proof: "2,400+ expats have unlocked this"
+  → Trust line: "Based on Dutch traffic law (RVV 1990)" (never a user-count claim)
   → Feature list (questions, Test, badges, progress saving)
   → €4.99 button
   → Subtext: "Less than the fine for running a red light"

@@ -237,7 +237,7 @@ URL structure:
 
 Orange hero, no nav. Structure:
 
-1. Hero: logo, audience label, h1, description, social proof pill ("2,400+ expats ready to ride"), primary CTA, "2 free questions per module" subtext
+1. Hero: logo, audience label, h1, description, trust pill (`TRUST_LINE` - a claim about the content's source, never a user count we cannot evidence), primary CTA, "3 free questions per module" subtext
 2. How it works: 3 step cards
 3. 6 module grid (2 columns)
 4. "Built for foreigners, not Dutch people" orange callout
