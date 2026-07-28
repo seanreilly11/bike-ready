@@ -15,15 +15,23 @@ validateEnv();
 // in an iframe from *.paddle.com (buy./sandbox-buy.) with API calls to
 // *.paddle.com. frame-src must be set explicitly or the iframe falls back to
 // default-src 'self' and is blocked. See developer.paddle.com/paddle-js.
+//
+// *.profitwell.com is Paddle Retain. Paddle.js pulls it in automatically
+// whenever it is initialized with a LIVE client token - sandbox tokens never
+// load it, which is why this only surfaces after going live - and there is no
+// documented way to opt out. Retain is churn tooling for subscriptions, so it
+// does nothing for a one-time purchase, but the script still has to be allowed
+// or every page logs a CSP violation. It is Paddle-owned infrastructure, same
+// trust boundary as *.paddle.com.
 const isDev = process.env.NODE_ENV !== "production";
 
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.i.posthog.com https://*.posthog.com https://*.paddle.com`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.i.posthog.com https://*.posthog.com https://*.paddle.com https://*.profitwell.com`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.paddle.com",
   "font-src 'self' https://fonts.gstatic.com https://*.paddle.com",
   "img-src 'self' data: blob: https://*.paddle.com",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.i.posthog.com https://*.posthog.com https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io https://*.paddle.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.i.posthog.com https://*.posthog.com https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io https://*.paddle.com https://*.profitwell.com",
   "frame-src 'self' https://*.paddle.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
