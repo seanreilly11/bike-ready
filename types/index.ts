@@ -233,6 +233,10 @@ export interface AnalyticsEvents {
     source: string;
   };
   magic_link_sent: { reason: "save_progress" | "upgrade" };
+  oauth_started: {
+    provider: "google";
+    reason: "save_progress" | "upgrade";
+  };
   account_created: { hero_variant: string | null };
   return_banner_clicked: Record<string, never>;
   return_banner_dismissed: Record<string, never>;

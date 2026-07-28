@@ -93,11 +93,19 @@ function loadLegacyProgress(): LocalProgress {
   }
 }
 
+// Where both sign-in methods land. "upgrade" routes through the /checkout
+// marker so the callback can hand off to the Paddle overlay.
+function callbackUrl(reason: "save_progress" | "upgrade"): string {
+  const next = reason === "upgrade" ? "/checkout" : "/learn";
+  return `${window.location.origin}/auth/callback?next=${next}`;
+}
+
 export function useAuth(): {
   user: User | null;
   isPremium: boolean;
   isLoading: boolean;
   sendMagicLink: (email: string, reason: "save_progress" | "upgrade") => Promise<void>;
+  signInWithGoogle: (reason: "save_progress" | "upgrade") => Promise<void>;
   signOut: () => Promise<void>;
   refreshPremiumStatus: () => Promise<void>;
 } {
@@ -261,12 +269,23 @@ export function useAuth(): {
 
   const sendMagicLink = useCallback(
     async (email: string, reason: "save_progress" | "upgrade") => {
-      const next = reason === "upgrade" ? "/checkout" : "/learn";
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}`,
-        },
+        options: { emailRedirectTo: callbackUrl(reason) },
+      });
+      if (error) throw error;
+    },
+    [supabase.auth],
+  );
+
+  // Same callback target as the magic link, so the upgrade hand-off
+  // (/checkout -> /learn?checkout=1) behaves identically for both methods.
+  // OAuth uses the same PKCE code exchange, so /auth/callback needs no changes.
+  const signInWithGoogle = useCallback(
+    async (reason: "save_progress" | "upgrade") => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: callbackUrl(reason) },
       });
       if (error) throw error;
     },
@@ -277,5 +296,13 @@ export function useAuth(): {
     await supabase.auth.signOut();
   }, [supabase.auth]);
 
-  return { user, isPremium, isLoading, sendMagicLink, signOut, refreshPremiumStatus };
+  return {
+    user,
+    isPremium,
+    isLoading,
+    sendMagicLink,
+    signInWithGoogle,
+    signOut,
+    refreshPremiumStatus,
+  };
 }
