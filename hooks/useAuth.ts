@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
+import { logError } from "@/lib/logger";
 import { useAppStore } from "@/stores/appStore";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { getStoredVariant, HERO_COPY_TEST } from "@/lib/abTest";
@@ -110,6 +112,7 @@ export function useAuth(): {
   refreshPremiumStatus: () => Promise<void>;
 } {
   const supabase = createClient();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const { track, identify } = useAnalytics();
 
@@ -293,8 +296,22 @@ export function useAuth(): {
   );
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut();
-  }, [supabase.auth]);
+    // scope: "local" ends THIS session. The default, "global", revokes the
+    // refresh token on every device the user is signed in on - not what a
+    // sign-out button means, and it makes success depend on a round-trip.
+    const { error } = await supabase.auth.signOut({ scope: "local" });
+    if (error) {
+      // auth-js returns early WITHOUT clearing the local session for any error
+      // that isn't 401/403/404, so the user is still signed in and no
+      // SIGNED_OUT event fires. Swallowing this made the button look like it
+      // did nothing; the caller needs to be able to tell the user.
+      logError("signOut", error);
+      throw error;
+    }
+    // Server components read the session from cookies, so they keep rendering
+    // the authenticated view until the router re-fetches them.
+    router.refresh();
+  }, [supabase.auth, router]);
 
   return {
     user,
