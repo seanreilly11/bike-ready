@@ -46,7 +46,7 @@ Read `SPEC.md` for the full product spec, `DESIGN.md` for the design system, and
 - All design tokens in `lib/tokens.ts`. Never hardcode hex values or font strings in components.
 - Shared UI primitives in `components/ui/`. Build these first and use them everywhere.
 - `data/questions.json` and `data/lessons.json` are the single source of truth for all content. Never duplicate or inline content elsewhere.
-- Auth and premium status via `useAuth` hook only. Never read Supabase auth directly in a component.
+- Auth and premium status via `useAuth` hook only. Never read Supabase auth directly in a component. `useAuth` is a reader with no effects - auth side effects belong in `useAuthBootstrap`, which is mounted exactly once.
 - Progress state via `useProgress` hook only. Never write to `question_progress` directly from a component.
 - Analytics events via `useAnalytics` hook only. Never call Posthog directly from a component.
 
@@ -75,6 +75,7 @@ components/
     BadgeToast.tsx
   layout/
     Nav.tsx
+    AuthBootstrap.tsx    # Renders nothing; mounts useAuthBootstrap in the root layout
     GateModal.tsx
     AuthModal.tsx
     OnboardingOverlay.tsx
@@ -114,7 +115,8 @@ CycleDutch/
 │   ├── signs.tsx                 # SVG sign components + SIGN_REGISTRY
 │   └── badges.ts                 # Badge definitions
 ├── hooks/
-│   ├── useAuth.ts                # Auth state, magic link, premium status
+│   ├── useAuth.ts                # Auth state reader + sign-in/out actions (no effects)
+│   ├── useAuthBootstrap.ts       # The single auth listener + sign-in sync (mounted once)
 │   ├── useProgress.ts            # Question progress read/write + localStorage fallback
 │   ├── useBadges.ts              # Badge state + trigger logic
 │   ├── useQuestions.ts           # Active question bank + test-set builder

@@ -301,9 +301,14 @@ The Zustand store is the client-side source of truth. Supabase is the server-sid
 
 **On sign-in (localStorage → Supabase):**
 
+The listener lives in `useAuthBootstrap`, mounted once by `AuthBootstrap` in
+the root layout. It must never `await` a Supabase call inline: auth-js runs
+subscribers inside its auth lock and every data call waits on that same lock,
+so awaiting one deadlocks the client. Defer the work instead (`setTimeout(…, 0)`).
+
 ```ts
-// In useAuth or a dedicated sync hook
-supabase.auth.onAuthStateChange(async (event, session) => {
+// In useAuthBootstrap - note the deferred body
+supabase.auth.onAuthStateChange((event, session) => {
   if (event === "SIGNED_IN" && session?.user) {
     const { progress } = useAppStore.getState();
 
@@ -367,7 +372,7 @@ const moduleProgress = getModuleProgress("priority", progress);
 
 This is particularly useful for:
 
-- The `onAuthStateChange` listener in `useAuth`
+- The `onAuthStateChange` listener in `useAuthBootstrap`
 - The Stripe webhook response handler
 - The localStorage migration function
 
