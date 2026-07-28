@@ -315,12 +315,17 @@ Ground-truth revenue is captured **server-side** in the Paddle webhook via `lib/
 
 ## Auth
 
-Magic link only via Supabase. No passwords.
+Email (6-digit code) and Google OAuth via Supabase. No passwords.
 
-1. User enters email in AuthModal → Supabase sends magic link
-2. User clicks link → session created
+1. User enters email in AuthModal → `signInWithOtp` → Supabase emails a code
+2. User types the code into `EmailCodeForm` → `verifyOtp` → session created **in the same tab**
 3. If not yet premium → Paddle overlay checkout → webhook sets `is_premium = true`
 4. On first authenticated load → migrate localStorage progress to Supabase
+
+The same email also carries the magic link, and `/auth/callback` still handles
+it - the code is just the path that doesn't strand the user in a second tab.
+Both email templates (Magic Link **and** Confirm signup, which is what
+first-time addresses receive) must render `{{ .Token }}`.
 
 Session length: 30 days. Cookie-based via `@supabase/ssr`.
 

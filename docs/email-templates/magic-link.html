@@ -2,7 +2,11 @@
   CycleDutch - Magic Link email
   Paste into: Supabase Dashboard -> Authentication -> Emails -> Magic Link
 
-  Template variable: {{ .ConfirmationURL }} (Supabase Go template).
+  Template variables: {{ .Token }} and {{ .ConfirmationURL }} (Supabase Go
+  template). One signInWithOtp call mints both; the app leads with the code
+  because no email client can be told to open its links in the tab that asked
+  for them, and the code keeps the user where they started. The link stays as
+  a fallback for anyone who taps it out of habit - /auth/callback still works.
   Do NOT hand-build a /auth/v1/verify URL - let Supabase render this one.
 
   Email-client constraints this file deliberately respects:
@@ -25,7 +29,7 @@
 <!-- Warm light palette; stop Gmail/Outlook auto-inverting it into mud. -->
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
-<title>Your CycleDutch sign-in link</title>
+<title>Your CycleDutch sign-in code</title>
 <!--[if mso]>
 <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
 <![endif]-->
@@ -46,7 +50,7 @@
 
 <!-- Preheader: the grey line next to the subject in the inbox list. -->
 <div style="display:none; font-size:1px; color:#FAFAF8; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
-  Your single-use link to sign in to CycleDutch. Expires in one hour.
+  Your single-use code to sign in to CycleDutch. Expires in one hour.
   &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
 </div>
 
@@ -80,11 +84,33 @@
             </p>
 
             <h1 class="sm-h1" style="margin:0 0 14px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:30px; line-height:36px; font-weight:800; letter-spacing:-0.7px; color:#1C1915;">
-              Your link is ready
+              Your code is ready
             </h1>
 
-            <p style="margin:0 0 32px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:25px; color:#6B6055;">
-              Tap the button to sign in and pick up exactly where you left off. No password to remember.
+            <p style="margin:0 0 24px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:25px; color:#6B6055;">
+              Type this code into the CycleDutch tab you already have open. No password to remember.
+            </p>
+
+            <!-- The code itself. Mono, tracked, big enough to read once and
+                 retype; selectable as plain text so it can be copied. -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px 0;">
+            <tr><td align="center" style="background-color:#FDF3EC; border:1px solid #F5C9AC; border-radius:12px; padding:20px 16px;">
+              <span style="font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:34px; line-height:40px; font-weight:500; letter-spacing:10px; color:#1C1915;">{{ .Token }}</span>
+            </td></tr>
+            </table>
+
+            <!-- Expiry / single-use, stated plainly. -->
+            <p style="margin:0 0 28px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
+              This code expires in one hour and can only be used once.
+            </p>
+
+            <!-- Divider -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px 0;">
+              <tr><td style="height:1px; line-height:1px; font-size:0; background-color:#E8E4DC;">&nbsp;</td></tr>
+            </table>
+
+            <p style="margin:0 0 20px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
+              Or sign in with one tap
             </p>
 
             <!-- Bulletproof button -->
@@ -109,18 +135,12 @@
             </td></tr>
             </table>
 
-            <!-- Expiry / single-use, stated plainly. -->
-            <p style="margin:28px 0 0 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
-              This link expires in one hour and can only be used once.
+            <p style="margin:20px 0 0 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#A89D8C;">
+              The link opens in a new tab and signs you in there instead.
             </p>
 
-            <!-- Divider -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
-              <tr><td style="height:1px; line-height:1px; font-size:0; background-color:#E8E4DC;">&nbsp;</td></tr>
-            </table>
-
             <!-- Copy-paste fallback: mandatory when the button is stripped. -->
-            <p style="margin:0 0 8px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
+            <p style="margin:24px 0 8px 0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:#A89D8C;">
               Or paste this into your browser
             </p>
             <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:12px; line-height:20px; color:#6B6055; word-break:break-all;">
@@ -137,7 +157,7 @@
     <tr>
       <td class="sm-px" style="padding:24px 40px 0 40px;">
         <p style="margin:0 0 6px 0; font-family:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#A89D8C;">
-          Didn't ask for this? You can safely ignore it — nobody can sign in without the link above.
+          Didn't ask for this? You can safely ignore it — nobody can sign in without the code above.
         </p>
         <p style="margin:0; font-family:'DM Mono','SF Mono',Consolas,'Courier New',monospace; font-size:11px; letter-spacing:0.4px; color:#A89D8C;">
           CycleDutch · Learn to cycle safely in the Netherlands

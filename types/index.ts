@@ -233,6 +233,8 @@ export interface AnalyticsEvents {
     source: string;
   };
   magic_link_sent: { reason: "save_progress" | "upgrade" };
+  login_code_verified: { reason: "save_progress" | "upgrade" };
+  login_code_failed: { reason: "save_progress" | "upgrade" };
   oauth_started: {
     provider: "google";
     reason: "save_progress" | "upgrade";

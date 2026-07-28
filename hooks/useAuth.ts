@@ -107,6 +107,7 @@ export function useAuth(): {
   isPremium: boolean;
   isLoading: boolean;
   sendMagicLink: (email: string, reason: "save_progress" | "upgrade") => Promise<void>;
+  verifyEmailOtp: (email: string, token: string) => Promise<void>;
   signInWithGoogle: (reason: "save_progress" | "upgrade") => Promise<void>;
   signOut: () => Promise<void>;
   refreshPremiumStatus: () => Promise<void>;
@@ -281,6 +282,24 @@ export function useAuth(): {
     [supabase.auth],
   );
 
+  // The same signInWithOtp call mints both a link and a 6-digit token; which of
+  // the two the user sees is decided by the email template. Verifying the token
+  // here signs the user in IN THIS TAB - the whole point of the code path, since
+  // no email client can be made to open its links in the tab that asked.
+  // type: "email" covers both first-ever sign-up and returning sign-in, matching
+  // signInWithOtp's own dual behaviour.
+  const verifyEmailOtp = useCallback(
+    async (email: string, token: string) => {
+      const { error } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: "email",
+      });
+      if (error) throw error;
+    },
+    [supabase.auth],
+  );
+
   // Same callback target as the magic link, so the upgrade hand-off
   // (/checkout -> /learn?checkout=1) behaves identically for both methods.
   // OAuth uses the same PKCE code exchange, so /auth/callback needs no changes.
@@ -318,6 +337,7 @@ export function useAuth(): {
     isPremium,
     isLoading,
     sendMagicLink,
+    verifyEmailOtp,
     signInWithGoogle,
     signOut,
     refreshPremiumStatus,

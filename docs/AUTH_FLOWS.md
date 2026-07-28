@@ -12,6 +12,17 @@ Authentication and payment flows. Three distinct user journeys, each with differ
 > `/api/paddle/webhook`. See `docs/superpowers/specs/2026-07-24-paddle-checkout-migration-design.md`
 > for the current design; treat the Stripe specifics below as historical.
 
+> **Email sign-in note (2026-07):** the email step now leads with a **6-digit
+> code**, not the link. The send call is unchanged (`signInWithOtp` mints a link
+> and a token together); the email templates surface `{{ .Token }}` first, and
+> `AuthModal` follows the send with `EmailCodeForm`, which calls
+> `verifyEmailOtp` → `supabase.auth.verifyOtp({ email, token, type: "email" })`.
+> That signs the user in **in the tab they started in** - an email client cannot
+> be told to open its links there. The emailed link and `/auth/callback` still
+> work untouched, so both journeys below remain valid; the code path is simply
+> the one most users take. After a code verify with `reason="upgrade"` the form
+> pushes `/learn?checkout=1`, the same hand-off the callback uses.
+
 ---
 
 ## Overview
