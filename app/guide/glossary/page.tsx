@@ -1,7 +1,7 @@
 import glossaryData from "@/data/glossary.json";
 import GlossaryContent from "@/components/guide/GlossaryContent";
 import JsonLd from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, definedTermSetJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, definedTermSetJsonLd, OG_DEFAULTS } from "@/lib/seo";
 
 export const metadata = {
   title: "Dutch Cycling Glossary: 74 Terms Translated with Pronunciation",
@@ -9,6 +9,7 @@ export const metadata = {
     "Complete Dutch-English glossary for cyclists. Haaientanden, voorrang verlenen, fietsstraat, uitgezonderd - every term you'll see on Dutch roads, with pronunciation and context.",
   alternates: { canonical: "/guide/glossary" },
   openGraph: {
+    ...OG_DEFAULTS,
     title: "Dutch Cycling Glossary: 74 Terms Translated",
     description:
       "Every Dutch cycling term translated, with pronunciation guides and real-world context.",

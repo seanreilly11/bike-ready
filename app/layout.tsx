@@ -22,8 +22,13 @@ import { PHProvider } from "./providers";
 import AuthBootstrap from "@/components/layout/AuthBootstrap";
 import { Suspense } from "react";
 import { PostHogPageView } from "@/components/PostHogPageView";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  OG_DEFAULTS,
+  SITE_URL,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -34,8 +39,7 @@ export const metadata: Metadata = {
   description:
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short preparation course for expats learning to cycle safely in the Netherlands.",
   openGraph: {
-    siteName: "CycleDutch",
-    locale: "en_US",
+    ...OG_DEFAULTS,
     type: "website",
   },
   twitter: {
@@ -60,30 +64,8 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${displayFont.variable} ${monoFont.variable}`}
     >
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "Organization",
-                  name: "CycleDutch",
-                  url: SITE_URL,
-                  logo: `${SITE_URL}/icon`,
-                },
-                {
-                  "@type": "WebSite",
-                  name: "CycleDutch",
-                  url: SITE_URL,
-                },
-              ],
-            }),
-          }}
-        />
-      </head>
       <body className="antialiased">
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <PHProvider>
           <AuthBootstrap />
           <Suspense>

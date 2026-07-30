@@ -5,8 +5,22 @@ import Nav from "@/components/layout/Nav";
 import LandingButton from "@/components/layout/LandingButton";
 import HeroSection from "@/components/layout/HeroSection";
 import ModuleIcon from "@/components/ui/ModuleIcon";
+import FaqSection from "@/components/ui/FaqSection";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  OG_DEFAULTS,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  productJsonLd,
+} from "@/lib/seo";
 import modules from "@/data/modules";
-import { APP_PRICE, RED_LIGHT_FINE } from "@/data/constants";
+import { LANDING_FAQS } from "@/data/faqs";
+import {
+  APP_CURRENCY,
+  APP_PRICE,
+  APP_PRICE_AMOUNT,
+  RED_LIGHT_FINE,
+} from "@/data/constants";
 import { FREE_PER_MODULE } from "@/types";
 import { PREMIUM_ENABLED } from "@/lib/config";
 import {
@@ -21,6 +35,7 @@ export const metadata: Metadata = {
     "Learn Dutch road rules, signs, and bike priority before your first ride. A short scenario-based course for expats. Know what to do before you ride.",
   alternates: { canonical: "/" },
   openGraph: {
+    ...OG_DEFAULTS,
     title: "CycleDutch - Cycle safely in the Netherlands",
     description:
       "Real scenarios, real Dutch rules. Know what to do before you ride.",
@@ -62,6 +77,25 @@ export default async function LandingPage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: "Home", path: "/" }]),
+          faqPageJsonLd(LANDING_FAQS),
+          // Only advertise a price when the course is actually buyable.
+          ...(PREMIUM_ENABLED
+            ? [
+                productJsonLd({
+                  name: "CycleDutch - Dutch cycling course",
+                  description:
+                    "A one-time preparation course covering Dutch road rules, signs, and bike priority for expats.",
+                  price: APP_PRICE_AMOUNT,
+                  currency: APP_CURRENCY,
+                  path: "/",
+                }),
+              ]
+            : []),
+        ]}
+      />
       <Nav currentRoute="/" wrongCount={0} logoOnly showStartLearning />
       <main className="min-h-dvh bg-stone-50 overflow-x-hidden">
         {/* Hero */}
@@ -147,8 +181,13 @@ export default async function LandingPage() {
           </p>
         </section>
 
+        {/* Common questions - also the source of the FAQPage JSON-LD above */}
+        <div className="px-5 max-w-5xl mx-auto">
+          <FaqSection items={LANDING_FAQS} />
+        </div>
+
         {/* Bottom CTA */}
-        <section className="px-5 pb-16 max-w-2xl mx-auto text-center">
+        <section className="px-5 pt-16 pb-16 max-w-2xl mx-auto text-center">
           <LandingButton variant="bottom" />
           {PREMIUM_ENABLED && (
             <p className="text-stone-400 text-xs mt-2 font-mono uppercase tracking-wide">

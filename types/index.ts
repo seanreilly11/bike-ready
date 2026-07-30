@@ -284,6 +284,13 @@ export interface GuideSection {
   body: string;
 }
 
+/** One question/answer pair. Rendered visibly AND emitted as FAQPage JSON-LD -
+ * Google only honours the schema when the same text is on the page. */
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface GuideEntry {
   moduleId: string;
   title: string;
@@ -294,6 +301,9 @@ export interface GuideEntry {
   h1?: string;
   /** ISO date (YYYY-MM-DD) used for Article dateModified + sitemap lastmod. */
   updatedAt?: string;
+  /** ISO date (YYYY-MM-DD) used for Article datePublished. */
+  publishedAt?: string;
+  faqs?: FaqItem[];
   sections: GuideSection[];
 }
 

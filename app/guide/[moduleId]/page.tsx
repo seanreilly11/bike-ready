@@ -3,8 +3,14 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
+import FaqSection from "@/components/ui/FaqSection";
 import JsonLd from "@/components/seo/JsonLd";
-import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/seo";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  OG_DEFAULTS,
+} from "@/lib/seo";
 import { linkifyTerms } from "@/lib/linkifyTerms";
 
 export async function generateMetadata({
@@ -23,10 +29,12 @@ export async function generateMetadata({
     description: guide.subtitle,
     alternates: { canonical: path },
     openGraph: {
+      ...OG_DEFAULTS,
       title,
       description: guide.subtitle,
       url: path,
       type: "article",
+      publishedTime: guide.publishedAt,
       modifiedTime: guide.updatedAt,
     },
   };
@@ -62,6 +70,7 @@ export default async function ModuleGuidePage({
             headline: `${guide.title} - Dutch Cycling Guide`,
             description: guide.subtitle,
             path,
+            datePublished: guide.publishedAt,
             dateModified: guide.updatedAt,
           }),
           breadcrumbJsonLd([
@@ -101,32 +110,7 @@ export default async function ModuleGuidePage({
           ))}
         </div>
 
-        {/* Frequently asked questions */}
-        {guide.faqs?.length ? (
-          <section
-            className="mt-12 pt-8 border-t border-stone-200 animate-fade-up"
-            aria-labelledby="faq-heading"
-          >
-            <h2
-              id="faq-heading"
-              className="font-display font-bold text-stone-900 text-lg mb-4"
-            >
-              Common questions
-            </h2>
-            <dl className="flex flex-col gap-5">
-              {guide.faqs.map((faq, i) => (
-                <div key={i}>
-                  <dt className="font-display font-semibold text-stone-900 text-sm mb-1">
-                    {faq.q}
-                  </dt>
-                  <dd className="text-stone-600 text-sm leading-relaxed">
-                    {faq.a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        ) : null}
+        {guide.faqs?.length ? <FaqSection items={guide.faqs} /> : null}
 
         {/* Practice CTA — send guide readers into the matching question set */}
         <section className="mt-12 pt-8 border-t border-stone-200 animate-fade-up">

@@ -12,6 +12,9 @@ export async function generateMetadata({
   return {
     title: mod.title,
     description: mod.description,
+    // Overrides the parent layout's /learn canonical, which would otherwise
+    // point every module page at the index.
+    alternates: { canonical: `/learn/${mod.id}` },
   };
 }
 

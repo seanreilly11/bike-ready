@@ -4,7 +4,7 @@ import guides from "@/data/guides.json";
 import Card from "@/components/ui/Card";
 import PageBanner from "@/components/layout/PageBanner";
 import JsonLd from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { breadcrumbJsonLd, OG_DEFAULTS, SITE_URL } from "@/lib/seo";
 
 export const metadata = {
   title: "Dutch Cycling Rules & Guides for Expats",
@@ -12,6 +12,7 @@ export const metadata = {
     "Everything you need to know about cycling in the Netherlands. 6 in-depth guides covering priority rules, trams, roundabouts, legal requirements, and Dutch vocabulary, plus a visual signs reference.",
   alternates: { canonical: "/guide" },
   openGraph: {
+    ...OG_DEFAULTS,
     title: "Dutch Cycling Rules & Guides for Expats",
     description:
       "6 guides, a glossary, and a complete signs reference. The rules Dutch cyclists follow instinctively - explained for newcomers.",

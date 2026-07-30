@@ -1,3 +1,8 @@
+// Machine-readable halves of the price, for schema.org Offer and Paddle. Keep
+// APP_PRICE (the display string) in step with them.
+export const APP_PRICE_AMOUNT = "9.99";
+export const APP_CURRENCY = "EUR";
+
 export const APP_PRICE = "€9.99";
 
 // Trust line shown in the hero and GateModal. Deliberately a claim about the
