@@ -22,10 +22,10 @@ export default function PrivacyPage() {
           Who we are
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          CycleDutch is operated by Sean Reilly, a sole proprietorship
+          CycleDutch is operated by Dovedale Development, a sole proprietorship
           (eenmanszaak) registered in the Netherlands with KvK number 42110285.
-          Our registered address is [YOUR ADDRESS]. You can contact us at
-          dovedaledev@gmail.com.
+          Our registered address is Wolbrantskerkweg 187A, 1069 CL Amsterdam,
+          Netherlands. You can contact us at dovedaledev@gmail.com.
         </p>
       </section>
 

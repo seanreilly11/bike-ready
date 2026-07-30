@@ -24,9 +24,10 @@ export default function TermsPage() {
           Parties
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          These terms govern your use of CycleDutch, operated by Sean Reilly
-          (KvK: 42110285), referred to as &quot;we&quot;, &quot;us&quot;, or
-          &quot;CycleDutch&quot;. By using CycleDutch you agree to these terms.
+          These terms govern your use of CycleDutch, operated by Dovedale
+          Development (KvK: 42110285), referred to as &quot;we&quot;,
+          &quot;us&quot;, or &quot;CycleDutch&quot;. By using CycleDutch you
+          agree to these terms.
         </p>
       </section>
 
@@ -135,9 +136,10 @@ export default function TermsPage() {
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
           All content on CycleDutch - including question text, feedback,
-          illustrations, and interface design - is owned by Sean Reilly and
-          protected by copyright. You may not copy, reproduce, distribute, or
-          create derivative works from our content without written permission.
+          illustrations, and interface design - is owned by Dovedale Development
+          and protected by copyright. You may not copy, reproduce, distribute,
+          or create derivative works from our content without written
+          permission.
         </p>
       </section>
 

@@ -19,10 +19,10 @@ export default function ImprintPage() {
           Operator
         </h2>
         <address className="not-italic text-sm text-stone-600 leading-relaxed space-y-0.5">
-          <p>Sean Reilly</p>
+          <p>Dovedale Development</p>
           <p>Eenmanszaak (sole proprietorship)</p>
-          <p>[STREET ADDRESS]</p>
-          <p>[POSTCODE CITY]</p>
+          <p>Wolbrantskerkweg 187A</p>
+          <p>1069 CL Amsterdam</p>
           <p>Netherlands</p>
         </address>
       </section>
@@ -82,7 +82,7 @@ export default function ImprintPage() {
           Responsible for content
         </h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          Sean Reilly (address as above)
+          Dovedale Development (address as above)
         </p>
       </section>
 
@@ -130,8 +130,8 @@ export default function ImprintPage() {
         <p className="text-sm text-stone-600 leading-relaxed">
           All content published on CycleDutch is subject to Dutch and
           international copyright law. Any use, reproduction, or distribution of
-          content without the express written permission of Sean Reilly is
-          prohibited.
+          content without the express written permission of Dovedale Development
+          is prohibited.
         </p>
       </section>
     </>
