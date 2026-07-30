@@ -97,7 +97,7 @@ export default async function LandingPage() {
           <h2 className="font-display font-bold text-xl text-stone-900 mb-4 lg:text-2xl">
             {modules.length} modules
           </h2>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {modules.map((mod) => (
               <Link
                 key={mod.id}
