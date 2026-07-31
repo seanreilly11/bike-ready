@@ -142,7 +142,7 @@
     "skill": "Legal",
     "difficulty": "medium",
     "type": "multiple_choice",
-    "prompt": "You want to carry a passenger on your bicycle. Under what condition is this allowed?",
+    "prompt": "You want to give someone a lift on your bike. When is that allowed?",
     "options": [
       {
         "id": "a",
@@ -175,7 +175,7 @@
     "skill": "Legal",
     "difficulty": "hard",
     "type": "multiple_choice",
-    "prompt": "You approach a red cyclist light on an empty junction at 2am. No cars or pedestrians anywhere. What is the legal position if you ride through?",
+    "prompt": "It's 2am and you stop at a red cyclist light. The junction is empty - no cars, no pedestrians. Is it legal to ride through?",
     "options": [
       {
         "id": "a",
@@ -270,30 +270,30 @@
     "skill": "Legal",
     "difficulty": "hard",
     "type": "scenario_decision",
-    "prompt": "You are 22 years old and have held your cycling licence for 2 years. You’ve had a drink. What blood alcohol limit applies to you?",
+    "prompt": "You've had too much to drink to ride safely, so you push your bike home along the pavement instead. Are you breaking the alcohol law?",
     "options": [
       {
         "id": "a",
-        "label": "0.5‰ - the standard Dutch limit for all road users"
+        "label": "Yes - the limit applies whether you ride the bike or push it"
       },
       {
         "id": "b",
-        "label": "0.8‰ - the limit only tightens for drivers, not cyclists"
+        "label": "No - pushing a bike makes you a pedestrian, not a rider"
       },
       {
         "id": "c",
-        "label": "0.2‰ - a lower limit applies to cyclists under 24 with fewer than 5 years of experience"
+        "label": "Yes - but only if you are over 1.3‰"
       },
       {
         "id": "d",
-        "label": "0.0‰ - zero tolerance for anyone under 24"
+        "label": "Only if you push it on the road rather than the pavement"
       }
     ],
-    "correct": "c",
+    "correct": "b",
     "feedback": {
-      "body": "In the Netherlands, cyclists under 24 who have held their licence for fewer than 5 years are subject to a 0.2‰ limit rather than the standard 0.5‰. The standard 0.5‰ limit applies to experienced adult cyclists.",
-      "rule": "WVW Art. 8 - 0.2‰ for cyclists under 24 with fewer than 5 years experience. 0.5‰ for all others.",
-      "tip": "Under 24 and relatively new? Your limit is 0.2‰. Less than one standard drink."
+      "body": "The 0.5‰ limit applies to a bestuurder - someone riding a vehicle. Walk your bike and Dutch law treats you as a pedestrian, so the limit no longer applies. This is the reliable way home after a night out: get off and push.",
+      "rule": "WVW Art. 8 - the 0.5‰ limit applies to riders. RVV 1990 - someone walking a bicycle counts as a pedestrian.",
+      "tip": "Too drunk to ride? Push. On foot with the bike, you are a pedestrian."
     },
     "status": "active"
   },
@@ -600,7 +600,7 @@
     "skill": "Dutch Words",
     "difficulty": "medium",
     "type": "scenario_decision",
-    "prompt": "You're cycling on a red road surface with 'FIETSSTRAAT' painted on it. A car behind you wants to pass. You're cycling at a comfortable pace. What applies?",
+    "prompt": "You're riding at a comfortable pace on a red road surface with 'FIETSSTRAAT' painted on it. A car behind you wants to get past. What should you do?",
     "options": [
       {
         "id": "a",
@@ -836,7 +836,7 @@
     "skill": "Pedestrians",
     "difficulty": "medium",
     "type": "multiple_choice",
-    "prompt": "You're cycling through a busy market street. Pedestrians are walking in the road alongside market stalls. There's no cycle path. What is your obligation?",
+    "prompt": "You're cycling through a busy market street. There's no cycle path, and people are walking in the road between the stalls. What should you do?",
     "options": [
       {
         "id": "a",
@@ -1358,7 +1358,7 @@
     "skill": "Right Before Left",
     "difficulty": "hard",
     "type": "scenario_decision",
-    "prompt": "You and another cyclist approach an unmarked crossing from exactly diagonal directions - neither is directly to the right of the other. What applies?",
+    "prompt": "You and another cyclist reach an unmarked crossing on diagonal paths - neither of you is straight to the other's right. What's the rule here?",
     "options": [
       {
         "id": "a",
@@ -1624,7 +1624,7 @@
     "difficulty": "easy",
     "type": "multiple_choice",
     "sign": "mandatory_cycle",
-    "prompt": "You see this sign fixed to a post beside a path. What does it mean?",
+    "prompt": "You see this sign on a post beside a path. What does it mean?",
     "options": [
       {
         "id": "a",
@@ -1710,7 +1710,7 @@
     "difficulty": "medium",
     "type": "scenario_decision",
     "sign": "fietsstraat",
-    "prompt": "You are cycling on a road marked FIETSSTRAAT. A car behind you wants to overtake. What applies?",
+    "prompt": "You're cycling on a road marked FIETSSTRAAT. A car behind you wants to overtake. What's the rule here?",
     "options": [
       {
         "id": "a",
@@ -1868,7 +1868,7 @@
     "difficulty": "hard",
     "type": "scenario_decision",
     "sign": "no_cycling",
-    "prompt": "You are pushing your bicycle along a road. You reach a point where this sign is posted at the roadside. Does it apply to you?",
+    "prompt": "You're pushing your bike along a road and come to this sign at the roadside. Does it apply to you?",
     "options": [
       {
         "id": "a",
@@ -2153,7 +2153,7 @@
     "skill": "City Cycling",
     "difficulty": "medium",
     "type": "scenario_decision",
-    "prompt": "You're cycling on a quiet Dutch road with no cycle path. You want to ride facing oncoming traffic so you can see cars coming. Is this permitted?",
+    "prompt": "You're on a quiet Dutch road with no cycle path. You'd rather ride facing the traffic so you can see cars coming. Is that allowed?",
     "options": [
       {
         "id": "a",
@@ -3347,7 +3347,7 @@
     "skill": "Fundamentals",
     "difficulty": "medium",
     "type": "scenario_decision",
-    "prompt": "You're cycling home after dark. Your front light has run out of battery. You still have a working rear light. Are you legal to continue riding?",
+    "prompt": "You're cycling home after dark. Your front light has run out of battery, but your rear light still works. Can you legally ride home like this?",
     "options": [
       {
         "id": "a",
@@ -3476,7 +3476,7 @@
     "skill": "Signs",
     "difficulty": "medium",
     "type": "true_false",
-    "prompt": "You see this sign on a street. You want to lock your bicycle to a lamp post here for a few hours. The no-parking sign does not apply to bicycles - only to cars.",
+    "prompt": "You want to lock your bike to a lamp post under this sign for a few hours. The no-parking sign only covers cars, not bicycles.",
     "sign": "no_parking",
     "options": [
       { "id": "a", "label": "True" },
@@ -3496,7 +3496,7 @@
     "skill": "Signs",
     "difficulty": "medium",
     "type": "multiple_choice",
-    "prompt": "You are about to cross a cycle path. This sub-sign is fixed below the sign at the junction. What is it telling you?",
+    "prompt": "You're about to cross a cycle path. This sub-sign sits below the sign at the junction. What is it telling you?",
     "sign": "both_directions",
     "options": [
       {
@@ -3608,7 +3608,7 @@
     "skill": "Legal",
     "difficulty": "hard",
     "type": "multiple_choice",
-    "prompt": "You want to wear your front light on your body rather than fix it to the bike. Where does Dutch law permit this?",
+    "prompt": "You'd rather wear your front light on your body than clip it to the bike. Where does Dutch law allow it?",
     "options": [
       {
         "id": "a",
